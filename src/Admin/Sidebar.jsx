@@ -102,6 +102,65 @@ const Sidebar = () => {
                 <p>User Registration</p>
               </Link>
             </li>
+            <li className="nav-item">
+              <Link
+                to="/admin/vendercreation"
+                className={`nav-link ${
+                  location.pathname === "/admin/vendercreation"
+                    ? "bg-white"
+                    : ""
+                }`}
+              >
+                <i className="nav-icon fas fa-columns" />
+                <p>New Vendor Creation</p>
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link
+                to="/admin/licencetable"
+                className={`nav-link ${
+                  location.pathname === "/admin/licencetable" ? "bg-white" : ""
+                }`}
+              >
+                <i className="nav-icon fas fa-columns" />
+                <p>Licence Type</p>
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link
+                to="/admin/communicationproduct"
+                className={`nav-link ${
+                  location.pathname === "/admin/communicationproduct"
+                    ? "bg-white"
+                    : ""
+                }`}
+              >
+                <i className="nav-icon fas fa-columns" />
+                <p>Communication product</p>
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link
+                to="/admin/communication"
+                className={`nav-link ${
+                  location.pathname === "/admin/communication" ? "bg-white" : ""
+                }`}
+              >
+                <i className="nav-icon fas fa-columns" />
+                <p>Communication Type</p>
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link
+                to="/admin/state"
+                className={`nav-link ${
+                  location.pathname === "/admin/state" ? "bg-white" : ""
+                }`}
+              >
+                <i className="nav-icon fas fa-columns" />
+                <p>State</p>
+              </Link>
+            </li>
           </ul>
         </nav>
       </div>

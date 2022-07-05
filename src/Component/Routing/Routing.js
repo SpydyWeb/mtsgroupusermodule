@@ -12,6 +12,11 @@ import ViewAccessRole from "../../Admin/ViewAccessRole";
 import AllUser from "../../Admin/AllUser";
 import App from "../../App";
 import StepperForm from "../Vendor/StepperForm";
+import LicenceType from "../../Admin/LicenceType";
+import LicenceTable from "../../Admin/LicenceTable";
+import CommunicationProduct from "../../Admin/CommunicationProduct";
+import Communication from "../../Admin/Communication";
+import State from "../../Admin/State";
 const Routing = () => {
   return (
     <Routes>
@@ -33,6 +38,15 @@ const Routing = () => {
       <Route path="/admin/viewaccessrole" element={<ViewAccessRole />} exact />
       <Route path="/admin/getalluser" element={<AllUser />} exact />
       <Route path="/vendorprofile" element={<StepperForm />} exact />
+      <Route path="admin/licencetable" element={<LicenceTable />} exact />
+      <Route path="admin/licencetype" element={<LicenceType />} exact />
+      <Route
+        path="/admin/communicationproduct"
+        element={<CommunicationProduct />}
+        exact
+      />
+      <Route path="/admin/communication" element={<Communication />} exact />
+      <Route path="/admin/state" element={<State />} exact />
     </Routes>
   );
 };

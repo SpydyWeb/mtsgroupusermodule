@@ -1,5 +1,12 @@
 import React from "react";
-import { TextField, Autocomplete } from "@mui/material";
+import {
+  TextField,
+  Autocomplete,
+  Select,
+  MenuItem,
+  InputLabel,
+  FormControl,
+} from "@mui/material";
 const VendorProfileForm = () => {
   const top100Films = [
     { title: "The Shawshank Redemption", year: 1994 },
@@ -40,13 +47,22 @@ const VendorProfileForm = () => {
           />
         </div>
         <div>
-          <TextField id="State" label="State" variant="outlined" size="small" />
+          <TextField id="Suite" label="Suite" variant="outlined" size="small" />
         </div>
         <div>
           <TextField id="City" label="City" variant="outlined" size="small" />
         </div>
         <div>
-          <TextField id="Id" label="ID" variant="outlined" size="small" />
+          <FormControl className="w-40" size="small">
+            <InputLabel>State</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              label="Age"
+            >
+              <MenuItem value={10}>Select..</MenuItem>
+            </Select>
+          </FormControl>
         </div>
         <div>
           <TextField id="Zip" label="Zip" variant="outlined" size="small" />
@@ -74,13 +90,22 @@ const VendorProfileForm = () => {
           />
         </div>
         <div>
-          <TextField id="State" label="State" variant="outlined" size="small" />
+          <TextField id="Suite" label="Suite" variant="outlined" size="small" />
         </div>
         <div>
           <TextField id="City" label="City" variant="outlined" size="small" />
         </div>
         <div>
-          <TextField id="Id" label="ID" variant="outlined" size="small" />
+          <FormControl className="w-40" size="small">
+            <InputLabel>State</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              label="Age"
+            >
+              <MenuItem value={10}>Select..</MenuItem>
+            </Select>
+          </FormControl>
         </div>
         <div>
           <TextField id="Zip" label="Zip" variant="outlined" size="small" />
