@@ -32,8 +32,10 @@ Use a more readable tab size (opinionated).
 */
 
 html {
-  line-height: 1.15; /* 1 */
-  -webkit-text-size-adjust: 100%; /* 2 */
+  line-height: 1.15;
+  /* 1 */
+  -webkit-text-size-adjust: 100%;
+  /* 2 */
 }
 
 /*
@@ -55,7 +57,8 @@ Improve consistency of default fonts in all browsers. (https://github.com/sindre
 
 body {
   font-family: system-ui, -apple-system,
-    /* Firefox supports this but not yet `system-ui` */ "Segoe UI", Roboto,
+    /* Firefox supports this but not yet `system-ui` */
+    "Segoe UI", Roboto,
     Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
 }
 
@@ -70,8 +73,10 @@ Grouping content
 */
 
 hr {
-  height: 0; /* 1 */
-  color: inherit; /* 2 */
+  height: 0;
+  /* 1 */
+  color: inherit;
+  /* 2 */
 }
 
 /*
@@ -107,8 +112,10 @@ kbd,
 samp,
 pre {
   font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", Menlo,
-    monospace; /* 1 */
-  font-size: 1em; /* 2 */
+    monospace;
+  /* 1 */
+  font-size: 1em;
+  /* 2 */
 }
 
 /**
@@ -150,8 +157,10 @@ Tabular data
 */
 
 table {
-  text-indent: 0; /* 1 */
-  border-color: inherit; /* 2 */
+  text-indent: 0;
+  /* 1 */
+  border-color: inherit;
+  /* 2 */
 }
 
 /*
@@ -169,10 +178,14 @@ input,
 optgroup,
 select,
 textarea {
-  font-family: inherit; /* 1 */
-  font-size: 100%; /* 1 */
-  line-height: 1.15; /* 1 */
-  margin: 0; /* 2 */
+  font-family: inherit;
+  /* 1 */
+  font-size: 100%;
+  /* 1 */
+  line-height: 1.15;
+  /* 1 */
+  margin: 0;
+  /* 2 */
 }
 
 /**
@@ -236,8 +249,10 @@ Correct the cursor style of increment and decrement buttons in Safari.
 */
 
 [type="search"] {
-  -webkit-appearance: textfield; /* 1 */
-  outline-offset: -2px; /* 2 */
+  -webkit-appearance: textfield;
+  /* 1 */
+  outline-offset: -2px;
+  /* 2 */
 }
 
 /**
@@ -329,8 +344,10 @@ ul {
 html {
   font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
     "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; /* 1 */
-  line-height: 1.5; /* 2 */
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  /* 1 */
+  line-height: 1.5;
+  /* 2 */
 }
 
 /**
@@ -372,10 +389,14 @@ body {
 *,
 ::before,
 ::after {
-  box-sizing: border-box; /* 1 */
-  border-width: 0; /* 2 */
-  border-style: solid; /* 2 */
-  border-color: #e4e4e7; /* 2 */
+  box-sizing: border-box;
+  /* 1 */
+  border-width: 0;
+  /* 2 */
+  border-style: solid;
+  /* 2 */
+  border-color: #e4e4e7;
+  /* 2 */
 }
 
 /*
@@ -563,14 +584,15 @@ textarea:focus,
 select:focus {
   outline: 2px solid transparent;
   outline-offset: 2px;
-  --tw-ring-inset: var(--tw-empty, /*!*/ /*!*/);
+  --tw-ring-inset: var(--tw-empty,
+      /*!*/
+      /*!*/
+    );
   --tw-ring-offset-width: 0px;
   --tw-ring-offset-color: #fff;
   --tw-ring-color: #2563eb;
-  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0
-    var(--tw-ring-offset-width) var(--tw-ring-offset-color);
-  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0
-    calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);
   /* box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), */
   /* var(--tw-shadow, 0 0 #0000); */
   /* border-color: #2563eb; */
@@ -649,14 +671,15 @@ select {
 [type="radio"]:focus {
   outline: 2px solid transparent;
   outline-offset: 2px;
-  --tw-ring-inset: var(--tw-empty, /*!*/ /*!*/);
+  --tw-ring-inset: var(--tw-empty,
+      /*!*/
+      /*!*/
+    );
   --tw-ring-offset-width: 2px;
   --tw-ring-offset-color: #fff;
   --tw-ring-color: #2563eb;
-  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0
-    var(--tw-ring-offset-width) var(--tw-ring-offset-color);
-  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0
-    calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);
   box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow),
     var(--tw-shadow, 0 0 #0000);
 }
@@ -1113,57 +1136,57 @@ select {
   }
 }
 
-.space-x-4 > :not([hidden]) ~ :not([hidden]) {
+.space-x-4> :not([hidden])~ :not([hidden]) {
   --tw-space-x-reverse: 0;
   margin-right: calc(1rem * var(--tw-space-x-reverse));
   margin-left: calc(1rem * calc(1 - var(--tw-space-x-reverse)));
 }
 
-.space-y-reverse > :not([hidden]) ~ :not([hidden]) {
+.space-y-reverse> :not([hidden])~ :not([hidden]) {
   --tw-space-y-reverse: 1;
 }
 
-.space-x-reverse > :not([hidden]) ~ :not([hidden]) {
+.space-x-reverse> :not([hidden])~ :not([hidden]) {
   --tw-space-x-reverse: 1;
 }
 
-.divide-y > :not([hidden]) ~ :not([hidden]) {
+.divide-y> :not([hidden])~ :not([hidden]) {
   --tw-divide-y-reverse: 0;
   border-top-width: calc(1px * calc(1 - var(--tw-divide-y-reverse)));
   border-bottom-width: calc(1px * var(--tw-divide-y-reverse));
 }
 
-.divide-x > :not([hidden]) ~ :not([hidden]) {
+.divide-x> :not([hidden])~ :not([hidden]) {
   --tw-divide-x-reverse: 0;
   border-right-width: calc(1px * var(--tw-divide-x-reverse));
   border-left-width: calc(1px * calc(1 - var(--tw-divide-x-reverse)));
 }
 
-.divide-y-reverse > :not([hidden]) ~ :not([hidden]) {
+.divide-y-reverse> :not([hidden])~ :not([hidden]) {
   --tw-divide-y-reverse: 1;
 }
 
-.divide-x-reverse > :not([hidden]) ~ :not([hidden]) {
+.divide-x-reverse> :not([hidden])~ :not([hidden]) {
   --tw-divide-x-reverse: 1;
 }
 
-.divide-solid > :not([hidden]) ~ :not([hidden]) {
+.divide-solid> :not([hidden])~ :not([hidden]) {
   border-style: solid;
 }
 
-.divide-dashed > :not([hidden]) ~ :not([hidden]) {
+.divide-dashed> :not([hidden])~ :not([hidden]) {
   border-style: dashed;
 }
 
-.divide-dotted > :not([hidden]) ~ :not([hidden]) {
+.divide-dotted> :not([hidden])~ :not([hidden]) {
   border-style: dotted;
 }
 
-.divide-double > :not([hidden]) ~ :not([hidden]) {
+.divide-double> :not([hidden])~ :not([hidden]) {
   border-style: double;
 }
 
-.divide-none > :not([hidden]) ~ :not([hidden]) {
+.divide-none> :not([hidden])~ :not([hidden]) {
   border-style: none;
 }
 
@@ -3108,7 +3131,10 @@ select {
 }
 
 * {
-  --tw-ring-inset: var(--tw-empty, /*!*/ /*!*/);
+  --tw-ring-inset: var(--tw-empty,
+      /*!*/
+      /*!*/
+    );
   --tw-ring-offset-width: 0px;
   --tw-ring-offset-color: #fff;
   --tw-ring-color: rgba(59, 130, 246, 0.5);
@@ -3117,10 +3143,8 @@ select {
 }
 
 .ring {
-  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0
-    var(--tw-ring-offset-width) var(--tw-ring-offset-color);
-  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0
-    calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color);
   box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow),
     var(--tw-shadow, 0 0 #0000);
 }
@@ -3130,28 +3154,22 @@ select {
 }
 
 .focus\:ring-0:focus {
-  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0
-    var(--tw-ring-offset-width) var(--tw-ring-offset-color);
-  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0
-    calc(0px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(0px + var(--tw-ring-offset-width)) var(--tw-ring-color);
   box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow),
     var(--tw-shadow, 0 0 #0000);
 }
 
 .focus\:ring-1:focus {
-  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0
-    var(--tw-ring-offset-width) var(--tw-ring-offset-color);
-  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0
-    calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);
   box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow),
     var(--tw-shadow, 0 0 #0000);
 }
 
 .focus\:ring:focus {
-  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0
-    var(--tw-ring-offset-width) var(--tw-ring-offset-color);
-  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0
-    calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color);
   box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow),
     var(--tw-shadow, 0 0 #0000);
 }
@@ -3335,6 +3353,7 @@ select {
   --tw-text-opacity: 1;
   color: rgba(203, 213, 225, var(--tw-text-opacity)) !important;
 }
+
 .hover\:text-blueGray-500:hover {
   --tw-text-opacity: 1;
   color: rgba(100, 116, 139, var(--tw-text-opacity)) !important;
@@ -3422,14 +3441,27 @@ select {
 .tabular-nums,
 .diagonal-fractions,
 .stacked-fractions {
-  --tw-ordinal: var(--tw-empty, /*!*/ /*!*/);
-  --tw-slashed-zero: var(--tw-empty, /*!*/ /*!*/);
-  --tw-numeric-figure: var(--tw-empty, /*!*/ /*!*/);
-  --tw-numeric-spacing: var(--tw-empty, /*!*/ /*!*/);
-  --tw-numeric-fraction: var(--tw-empty, /*!*/ /*!*/);
-  font-variant-numeric: var(--tw-ordinal) var(--tw-slashed-zero)
-    var(--tw-numeric-figure) var(--tw-numeric-spacing)
-    var(--tw-numeric-fraction);
+  --tw-ordinal: var(--tw-empty,
+      /*!*/
+      /*!*/
+    );
+  --tw-slashed-zero: var(--tw-empty,
+      /*!*/
+      /*!*/
+    );
+  --tw-numeric-figure: var(--tw-empty,
+      /*!*/
+      /*!*/
+    );
+  --tw-numeric-spacing: var(--tw-empty,
+      /*!*/
+      /*!*/
+    );
+  --tw-numeric-fraction: var(--tw-empty,
+      /*!*/
+      /*!*/
+    );
+  font-variant-numeric: var(--tw-ordinal) var(--tw-slashed-zero) var(--tw-numeric-figure) var(--tw-numeric-spacing) var(--tw-numeric-fraction);
 }
 
 .normal-nums {
@@ -3660,13 +3692,8 @@ select {
   --tw-skew-y: 0;
   --tw-scale-x: 1;
   --tw-scale-y: 1;
-  -webkit-transform: translateX(var(--tw-translate-x))
-    translateY(var(--tw-translate-y)) rotate(var(--tw-rotate))
-    skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x))
-    scaleY(var(--tw-scale-y));
-  transform: translateX(var(--tw-translate-x)) translateY(var(--tw-translate-y))
-    rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y))
-    scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  -webkit-transform: translateX(var(--tw-translate-x)) translateY(var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  transform: translateX(var(--tw-translate-x)) translateY(var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
 .transform-gpu {
@@ -3677,16 +3704,10 @@ select {
   --tw-skew-y: 0;
   --tw-scale-x: 1;
   --tw-scale-y: 1;
-  -webkit-transform: translate3d(
-      var(--tw-translate-x),
+  -webkit-transform: translate3d(var(--tw-translate-x),
       var(--tw-translate-y),
-      0
-    )
-    rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y))
-    scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-  transform: translate3d(var(--tw-translate-x), var(--tw-translate-y), 0)
-    rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y))
-    scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+      0) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  transform: translate3d(var(--tw-translate-x), var(--tw-translate-y), 0) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
 .transform-none {
@@ -3754,6 +3775,7 @@ select {
 }
 
 @-webkit-keyframes ping {
+
   75%,
   100% {
     -webkit-transform: scale(2);
@@ -3763,6 +3785,7 @@ select {
 }
 
 @keyframes ping {
+
   75%,
   100% {
     -webkit-transform: scale(2);
@@ -3784,6 +3807,7 @@ select {
 }
 
 @-webkit-keyframes bounce {
+
   0%,
   100% {
     -webkit-transform: translateY(-25%);
@@ -3801,6 +3825,7 @@ select {
 }
 
 @keyframes bounce {
+
   0%,
   100% {
     -webkit-transform: translateY(-25%);
@@ -4220,8 +4245,7 @@ select {
   }
 }
 
-@media (min-width: 1536px) {
-}
+@media (min-width: 1536px) {}
 
 .react-responsive-modal-modal {
   max-width: 500px !important;
@@ -4243,17 +4267,16 @@ select {
 }
 
 .Btn_Gradient {
-  background: #00d2ff; /* fallback for old browsers */
-  background: -webkit-linear-gradient(
-    to right,
-    #928dab,
-    #00d2ff
-  ); /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(
-    to right,
-    #928dab,
-    #00d2ff
-  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: #00d2ff;
+  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right,
+      #928dab,
+      #00d2ff);
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right,
+      #928dab,
+      #00d2ff);
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
   animation: BG 2s linear infinite alternate;
 }
@@ -4280,6 +4303,7 @@ select {
   border: none !important;
   box-shadow: none !important;
 }
+
 .btn-close {
   opacity: 1 !important;
   /* right: 26px !important;
@@ -4349,12 +4373,10 @@ select {
   --btn-bg-1: hsla(194 100% 69% / 1);
   --btn-bg-2: hsla(217 100% 56% / 1);
   /* background-color: bisque; */
-  background-image: linear-gradient(
-    325deg,
-    var(--btn-bg-2) 0%,
-    var(--btn-bg-1) 55%,
-    var(--btn-bg-2) 90%
-  );
+  background-image: linear-gradient(325deg,
+      var(--btn-bg-2) 0%,
+      var(--btn-bg-1) 55%,
+      var(--btn-bg-2) 90%);
 }
 
 /* 
@@ -4401,4 +4423,23 @@ body:not(.layout-fixed) .main-sidebar {
   padding: 3px 6px;
   border-radius: 4px;
   box-shadow: 0 10px 15px -3px rgb(0 0 0 / 10%), 0 4px 6px -2px rgb(0 0 0 / 5%);
+}
+
+.bg-Gradiunt {
+  background: -webkit-gradient(linear,
+      left top,
+      left bottom,
+      color-stop(0.05, #005fbf),
+      color-stop(1, #003f7f));
+  background-color: #005fbf;
+}
+
+.legend {
+  padding: 3px 10px;
+  border-radius: 8px;
+  color: #fff;
+  z-index: 999;
+  position: absolute;
+  /* left: 10px; */
+  margin: -19px 15px;
 }

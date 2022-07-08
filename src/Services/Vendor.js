@@ -15,7 +15,32 @@ export const AddLicenceType = async (userData) => {
   }).then((data) => data);
 };
 
-//  GET LicenceTypeList
+// UpdateLicenceType
+export const UpdateLicenceType = async (userData, id) => {
+  return await fetch(`${Url}UpdateLicenceType/${id}`, {
+    method: "PUT",
+    body: JSON.stringify(userData),
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      "Access-Control-Allow-Origin": "*",
+    },
+  }).then((data) => data);
+};
+
+//DeleteLicenceType
+export const DeleteLicenceType = async (id) => {
+  return await fetch(`${Url}DeleteLicenceType/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      "Access-Control-Allow-Origin": "*",
+    },
+  }).then((data) => data);
+};
+
+//GET LicenceTypeList
 export const GetLicenceType = async () => {
   return await fetch(`${Url}LicenceTypeList`, {
     method: "GET",
@@ -27,12 +52,48 @@ export const GetLicenceType = async () => {
   }).then((data) => data.json());
 };
 
-//Communication product
+//AddCommunication product
 
 export const AddCommunicationProduct = async (data) => {
   return await fetch(`${Url}AddCommunicationProductType`, {
     method: "POST",
     body: JSON.stringify(data),
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      "Access-Control-Allow-Origin": "*",
+    },
+  }).then((data) => data);
+};
+
+//  GET CommunicationProductType
+export const GetCommunicationProductType = async () => {
+  return await fetch(`${Url}CommunicationProductType`, {
+    method: "GET",
+    header: {
+      "content-Type": "application/json",
+      Accept: "application/json",
+      "Acces-Control-Allow-Origin": "*",
+    },
+  }).then((data) => data.json());
+};
+
+export const UpdateCommuncationProductType = async (userData, id) => {
+  return await fetch(`${Url}UpdateCommuncationProductType/${id}`, {
+    method: "PUT",
+    body: JSON.stringify(userData),
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      "Access-Control-Allow-Origin": "*",
+    },
+  }).then((data) => data);
+};
+
+//DeleteCommuncationProductType
+export const DeleteCommuncationProductType = async (id) => {
+  return await fetch(`${Url}DeleteCommuncationProductType/${id}`, {
+    method: "DELETE",
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",
@@ -55,10 +116,105 @@ export const AddCommunication = async (data) => {
   }).then((data) => data);
 };
 
+// GETCommunicationTypeList;
+export const GetCommunicationTypeList = async () => {
+  return await fetch(`${Url}CommunicationTypeList`, {
+    method: "GET",
+    header: {
+      "content-Type": "application/json",
+      Accept: "application/json",
+      "Acces-Control-Allow-Origin": "*",
+    },
+  }).then((data) => data.json());
+};
+
+export const UpdateCommuncationType = async (userData, id) => {
+  return await fetch(`${Url}UpdateCommuncationType/${id}`, {
+    method: "PUT",
+    body: JSON.stringify(userData),
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      "Access-Control-Allow-Origin": "*",
+    },
+  }).then((data) => data);
+};
+
+//DeleteCommuncationProductType
+export const DeleteCommuncationType = async (id) => {
+  return await fetch(`${Url}DeleteCommuncationType/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      "Access-Control-Allow-Origin": "*",
+    },
+  }).then((data) => data);
+};
+
 //State
 
 export const AddState = async (data) => {
   return await fetch(`${Url}AddState`, {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      "Access-Control-Allow-Origin": "*",
+    },
+  }).then((data) => data);
+};
+
+// GET StateList;
+export const GetStateList = async () => {
+  return await fetch(`${Url}StateList`, {
+    method: "GET",
+    header: {
+      "content-Type": "application/json",
+      Accept: "application/json",
+      "Acces-Control-Allow-Origin": "*",
+    },
+  }).then((data) => data.json());
+};
+
+export const UpdateState = async (userData, id) => {
+  return await fetch(`${Url}UpdateState/${id}`, {
+    method: "PUT",
+    body: JSON.stringify(userData),
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      "Access-Control-Allow-Origin": "*",
+    },
+  }).then((data) => data);
+};
+
+//DeleteCommuncationProductType
+export const DeleteState = async (id) => {
+  return await fetch(`${Url}DeleteState/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      "Access-Control-Allow-Origin": "*",
+    },
+  }).then((data) => data);
+};
+
+export const GetVendorProduct = async () => {
+  return await fetch(`${Url}ProductList`, {
+    method: "GET",
+    header: {
+      "content-Type": "application/json",
+      Accept: "application/json",
+      "Acces-Control-Allow-Origin": "*",
+    },
+  }).then((data) => data.json());
+};
+
+export const AddVendorProductList = async (data) => {
+  return await fetch(`${Url}AddProductList`, {
     method: "POST",
     body: JSON.stringify(data),
     headers: {

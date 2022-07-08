@@ -4,9 +4,10 @@ import Header from "./Header";
 import Sidebar from "./Sidebar";
 import Footer from "./Footer";
 import { useNavigate } from "react-router-dom";
-import { GetLicenceType } from "../Services/Vendor";
+import { GetLicenceType, DeleteLicenceType } from "../Services/Vendor";
 import { AiFillEdit } from "react-icons/ai";
 import { FaTrash } from "react-icons/fa";
+import toast from "react-hot-toast";
 
 const LicenceTable = () => {
   const Navigate = useNavigate();
@@ -18,8 +19,8 @@ const LicenceTable = () => {
         return data.push({
           id: ele.id,
           name: ele.name,
-          createdDate: ele.createdDate,
-          updateDate: ele.updateDate,
+          createdDate: ele.createdDate.substring(0, 10),
+          updateDate: ele.updateDate.substring(0, 10),
         });
       });
       setRowData(data);
@@ -35,21 +36,23 @@ const LicenceTable = () => {
       field: "Action",
       headerName: "Action",
       renderCell: (params) => {
-        console.log(params.row.name);
+        console.log(params.row.id, "id");
         return (
           <div className="gap-3 d-flex">
             <AiFillEdit
               title="Edit"
               className="iconStyle"
-              //   onClick={() => {
-              //     Navigate(`/admin/rolemaster/${params.row.subrole}`);
-              //   }}
+              onClick={() => {
+                Navigate(
+                  `/admin/licencetype/${params.row.id},${params.row.name}`
+                );
+              }}
             />
             <FaTrash
               title="Delete"
               className="iconStyle text-danger"
               style={{ padding: "6px" }}
-              //   onClick={() => DeleteRole(params.row.subrole)}
+              onClick={() => DeleteRole(params.row.id)}
             />
           </div>
         );
@@ -57,6 +60,21 @@ const LicenceTable = () => {
       flex: 1,
     },
   ];
+
+  const DeleteRole = (id) => {
+    if (window.confirm("Do you want to delete this licence type?")) {
+      DeleteLicenceType(id).then((res) => {
+        if (res.status === 200) {
+          toast.success("Deleted Successfully");
+          setInterval(() => {
+            window.location.reload();
+          }, 1000);
+        } else {
+          toast.error("Technical Issue");
+        }
+      });
+    }
+  };
   return (
     <div>
       <Header />
@@ -72,7 +90,7 @@ const LicenceTable = () => {
           </button>
         </div>
 
-        <div style={{ display: "flex", height: "300px" }} className="mt-4">
+        <div style={{ display: "flex", height: "500px" }} className="mt-4">
           <DataGrid
             rows={rowdata}
             components={{ Toolbar: GridToolbar }}

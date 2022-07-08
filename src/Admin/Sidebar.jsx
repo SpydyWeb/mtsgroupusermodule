@@ -115,7 +115,7 @@ const Sidebar = () => {
                 <p>New Vendor Creation</p>
               </Link>
             </li>
-            <li className="nav-item">
+              <li className="nav-item">
               <Link
                 to="/admin/licencetable"
                 className={`nav-link ${
@@ -128,9 +128,9 @@ const Sidebar = () => {
             </li>
             <li className="nav-item">
               <Link
-                to="/admin/communicationproduct"
+                to="/admin/communicationproducttable"
                 className={`nav-link ${
-                  location.pathname === "/admin/communicationproduct"
+                  location.pathname === "/admin/communicationproducttable"
                     ? "bg-white"
                     : ""
                 }`}
@@ -141,9 +141,11 @@ const Sidebar = () => {
             </li>
             <li className="nav-item">
               <Link
-                to="/admin/communication"
+                to="/admin/communicationtable"
                 className={`nav-link ${
-                  location.pathname === "/admin/communication" ? "bg-white" : ""
+                  location.pathname === "/admin/communicationtable"
+                    ? "bg-white"
+                    : ""
                 }`}
               >
                 <i className="nav-icon fas fa-columns" />
@@ -152,13 +154,24 @@ const Sidebar = () => {
             </li>
             <li className="nav-item">
               <Link
-                to="/admin/state"
+                to="/admin/statetable"
                 className={`nav-link ${
-                  location.pathname === "/admin/state" ? "bg-white" : ""
+                  location.pathname === "/admin/statetable" ? "bg-white" : ""
                 }`}
               >
                 <i className="nav-icon fas fa-columns" />
                 <p>State</p>
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link
+                to="/admin/vendorproduct"
+                className={`nav-link ${
+                  location.pathname === "/admin/vendorproduct" ? "bg-white" : ""
+                }`}
+              >
+                <i className="nav-icon fas fa-columns" />
+                <p>Vendor Product</p>
               </Link>
             </li>
           </ul>

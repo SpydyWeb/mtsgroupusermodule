@@ -1,29 +1,43 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import Footer from "./Footer";
 import { TextField } from "@mui/material";
-import { AddLicenceType } from "../Services/Vendor";
+import { AddLicenceType, UpdateLicenceType } from "../Services/Vendor";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const LicenceType = () => {
+  const { id, name } = useParams();
   const Navigate = useNavigate();
   const [LicName, setLicName] = useState({ name: "" });
-
+  useEffect(() => {
+    if (id !== undefined) setLicName({ name: name });
+  }, []);
   const SubmitHandler = (e) => {
     e.preventDefault();
     if (LicName.name === "" || LicName.name === undefined) {
       toast.error("Please enter all mandatory fields");
     } else {
-      AddLicenceType(LicName).then((res) => {
-        if (res.status === 200) {
-          toast.success("Licence Created Succsessfully");
-          Navigate("/admin/licencetable");
-        } else {
-          toast.error("Technical Issue");
-        }
-      });
+      if (id === undefined) {
+        AddLicenceType(LicName).then((res) => {
+          if (res.status === 200) {
+            toast.success("Licence Created Succsessfully");
+            Navigate("/admin/licencetable");
+          } else {
+            toast.error("Technical Issue");
+          }
+        });
+      } else {
+        UpdateLicenceType(LicName, id).then((res) => {
+          if (res.status === 200) {
+            toast.success("Updated Successfully");
+            Navigate("/admin/licencetable");
+          } else {
+            toast.error("Technical Issue");
+          }
+        });
+      }
     }
   };
 
@@ -46,7 +60,7 @@ const LicenceType = () => {
           <div className="flex lg:justify-center">
             <div className="flex flex-col overflow-hidden  rounded-md shadow-lg max md:flex-row md:flex-1 lg:max-w-xs w-full">
               <div className="p-3 px-5 bg-white  ">
-                <h3 className="mb-4 text-2xl font-semibold text-gray-700 ">
+                <h3 className="mb-4 text-2xl font-semibold text-gray-700 text-center">
                   Licence Type
                 </h3>
                 <form className="flex flex-col space-y-2">

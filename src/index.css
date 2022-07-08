@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 @import url("https://fonts.googleapis.com/css2?family=Varela+Round&display=swap");
+
 body {
   margin: 0;
   font-family: "Varela Round", sans-serif;
@@ -11,6 +12,7 @@ body {
   .md\:w-1\/2 {
     width: 50% !important;
   }
+
   .md\:block {
     display: block !important;
   }
@@ -18,18 +20,38 @@ body {
   .md\:w-1\/3 {
     width: 33.333333% !important;
   }
+
   .md\:w-\[30\%\] {
     width: 30% !important;
   }
+
   .md\:flex-row {
     flex-direction: row !important;
   }
 }
 
 @media (max-width: 768px) {
+
+  .css-1u3bzj6-MuiFormControl-root-MuiTextField-root {
+    width: 100% !important;
+  }
+
+  .css-m5vj9m-MuiStepper-root {
+    flex-wrap: wrap !important;
+  }
+
+  .css-1bw0nnu-MuiStep-root {
+    padding: 8px !important;
+  }
+
+  .css-1nrlq1o-MuiFormControl-root {
+    width: 100% !important;
+  }
+
   .inputFull {
     width: 100% !important;
   }
+
   .input-group-text {
     height: 100%;
     position: absolute;

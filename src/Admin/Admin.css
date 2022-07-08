@@ -2,23 +2,100 @@
   background: whitesmoke !important;
 }
 
-[class*="sidebar-dark-"] .sidebar a {
-  color: #1f2d3d !important;
+.bg-Gradiunt {
+  background: -webkit-gradient(
+    linear,
+    left top,
+    left bottom,
+    color-stop(0.05, #005fbf),
+    color-stop(1, #003f7f)
+  );
+  background-color: #005fbf;
 }
 
-[class*="sidebar-dark-"] .nav-sidebar > .nav-item.menu-open > .nav-link,
-[class*="sidebar-dark-"] .nav-sidebar > .nav-item:hover > .nav-link,
-[class*="sidebar-dark-"] .nav-sidebar > .nav-item > .nav-link:focus {
-  background-color: rgb(183 185 187) !important;
-  color: #212529 !important;
+.legend {
+  padding: 3px 10px;
+  border-radius: 8px;
+  color: #fff;
+  z-index: 999;
+  position: absolute;
+  /* left: 10px; */
+  margin: -19px 15px;
 }
 
-[class*="sidebar-dark"] .brand-link {
-  border-bottom: none !important;
-  color: rgb(0 0 0 / 80%) !important;
-  text-decoration: none !important;
+.select {
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  position: relative;
+  width: 350px;
 }
 
-.navbar-light .navbar-nav .nav-link {
-  color: rgba(0, 0, 0, 0.55) !important;
+.select-text {
+  position: relative;
+  font-family: inherit;
+  background-color: transparent;
+  width: 350px;
+  padding: 10px 10px 10px 10px;
+  font-size: 18px;
+  border-radius: 4px;
+  border: 2px solid rgba(0, 0, 0, 0.12);
+}
+
+/* Remove focus */
+.select-text:focus {
+  outline: none;
+  border: 2px solid orange;
+}
+
+/* Use custom arrow */
+.select .select-text {
+  appearance: none;
+  -webkit-appearance: none;
+  color: gray;
+}
+
+.select:after {
+  position: absolute;
+  top: 18px;
+  right: 10px;
+  /* Styling the down arrow */
+  width: 0;
+  height: 0;
+  padding: 0;
+  content: "";
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid rgba(0, 0, 0, 0.12);
+
+  pointer-events: none;
+}
+
+/* LABEL ======================================= */
+.select-label {
+  color: rgba(0, 0, 0, 0.26);
+  background: white;
+  font-size: 18px;
+  font-weight: normal;
+  position: absolute;
+  pointer-events: none;
+  padding: 0 5px;
+  left: 10px;
+  top: 12px;
+  transition: 0.2s ease all;
+}
+
+/* active state */
+.select-text:focus ~ .select-label,
+.select-text:valid ~ .select-label {
+  color: orange;
+  top: -8px;
+  transition: 0.2s ease all;
+  font-size: 14px;
+}
+
+.select-text:valid:not(focus) ~ .select-label {
+  color: rgba(0, 0, 0, 0.26);
+  background: red;
+}
+.select-text:valid:focus ~ .select-label {
+  color: orange;
 }

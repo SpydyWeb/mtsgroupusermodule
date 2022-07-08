@@ -12,11 +12,16 @@ import ViewAccessRole from "../../Admin/ViewAccessRole";
 import AllUser from "../../Admin/AllUser";
 import App from "../../App";
 import StepperForm from "../Vendor/StepperForm";
+import VenderCreation from "../../Admin/VenderCreation";
 import LicenceType from "../../Admin/LicenceType";
 import LicenceTable from "../../Admin/LicenceTable";
 import CommunicationProduct from "../../Admin/CommunicationProduct";
 import Communication from "../../Admin/Communication";
 import State from "../../Admin/State";
+import CommunicationProductTable from "../../Admin/CommunicationProductTable";
+import CommunicationTable from "../../Admin/CommunicationTable";
+import StateTable from "../../Admin/StateTable";
+import AddVendorProduct from "../Vendor/VendorProduct/AddVendorProduct";
 const Routing = () => {
   return (
     <Routes>
@@ -38,15 +43,67 @@ const Routing = () => {
       <Route path="/admin/viewaccessrole" element={<ViewAccessRole />} exact />
       <Route path="/admin/getalluser" element={<AllUser />} exact />
       <Route path="/vendorprofile" element={<StepperForm />} exact />
-      <Route path="admin/licencetable" element={<LicenceTable />} exact />
-      <Route path="admin/licencetype" element={<LicenceType />} exact />
+      <Route path="/admin/vendercreation" element={<VenderCreation />} exact />
+      <Route path="/admin/licencetable" element={<LicenceTable />} exact />
+      <Route path="/admin/licencetype" element={<LicenceType />} exact />
+      <Route
+        path="/admin/communicationproducttable"
+        element={<CommunicationProductTable />}
+        exact
+      />
       <Route
         path="/admin/communicationproduct"
         element={<CommunicationProduct />}
         exact
       />
+
+      <Route
+        path="/admin/communicationtable"
+        element={<CommunicationTable />}
+        exact
+      />
       <Route path="/admin/communication" element={<Communication />} exact />
       <Route path="/admin/state" element={<State />} exact />
+      <Route path="/admin/statetable" element={<StateTable />} exact />
+      <Route path="/admin/vendorproduct" element={<AddVendorProduct />} exact />
+
+      <Route path="/admin/licencetable" element={<LicenceTable />} exact />
+      <Route path="/admin/licencetype" element={<LicenceType />} exact />
+      <Route
+        path="/admin/licencetype/:id,:name"
+        element={<LicenceType />}
+        exact
+      />
+      <Route
+        path="/admin/communicationproducttable"
+        element={<CommunicationProductTable />}
+        exact
+      />
+      <Route
+        path="/admin/communicationproduct"
+        element={<CommunicationProduct />}
+        exact
+      />
+      <Route
+        path="/admin/communicationproduct/:id,:name"
+        element={<CommunicationProduct />}
+        exact
+      />
+
+      <Route
+        path="/admin/communicationtable"
+        element={<CommunicationTable />}
+        exact
+      />
+      <Route path="/admin/communication" element={<Communication />} exact />
+      <Route
+        path="/admin/communication/:id,:name"
+        element={<Communication />}
+        exact
+      />
+      <Route path="/admin/state" element={<State />} exact />
+      <Route path="/admin/state/:id,:name" element={<State />} exact />
+      <Route path="/admin/statetable" element={<StateTable />} exact />
     </Routes>
   );
 };
