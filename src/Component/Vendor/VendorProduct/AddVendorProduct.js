@@ -5,16 +5,11 @@ import {
   GetVendorProduct,
   AddVendorProductList,
 } from "../../../Services/Vendor";
-import {
-  TextField,
-  Autocomplete,
-  Select,
-  MenuItem,
-  InputLabel,
-  FormControl,
-} from "@mui/material";
+import { TextField, Autocomplete } from "@mui/material";
 import toast from "react-hot-toast";
+import { useNavigate, useParams } from "react-router-dom";
 const AddVendorProduct = () => {
+  const Navigate = useNavigate();
   const [CategoryProduct, setCategoryProduct] = useState([]);
   const [inputval, setinputval] = useState("");
   const [productData, setproductData] = useState({
@@ -23,7 +18,6 @@ const AddVendorProduct = () => {
   });
   useEffect(() => {
     GetVendorProduct().then((res) => {
-      console.log(res);
       if (res && res.length > 0) {
         let data = [];
         res.map((ele) => {
@@ -44,6 +38,7 @@ const AddVendorProduct = () => {
             productid: "",
           });
           setinputval("");
+          Navigate("/admin/viewvendorproduct");
         } else {
           res.json().then((val) => toast.error(val));
         }
@@ -55,7 +50,16 @@ const AddVendorProduct = () => {
       {" "}
       <Header />
       <Sidebar />
-      <div className="content-wrapper flex  justify-center ">
+      <div className="content-wrapper  ">
+        <div className="d-flex justify-end p-3">
+          <button
+            type="button"
+            class="Btn_VA btn-success"
+            onClick={() => Navigate("/admin/viewvendorproduct")}
+          >
+            View
+          </button>
+        </div>
         <div classname="container">
           <div classname="container flex  justify-center items-center ">
             <div className="flex lg:justify-center">

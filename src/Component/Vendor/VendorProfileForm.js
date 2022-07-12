@@ -6,16 +6,38 @@ import {
   MenuItem,
   InputLabel,
   FormControl,
+  Box,
+  Button,
 } from "@mui/material";
+import toast from "react-hot-toast";
 const VendorProfileForm = (props) => {
-  const top100Films = [
-    { label: "The Shawshank Redemption", year: 1994 },
-    { label: "The Godfather", year: 1972 },
-    { label: "The Godfather: Part II", year: 1974 },
-    { label: "The Dark Knight", year: 2008 },
-    { label: "12 Angry Men", year: 1957 },
-  ];
-  console.log(props);
+  const top100Films = [{ label: "", year: 1994 }];
+  const handleNext = () => {
+    if (
+      props.Vendordata.vendorId === "" ||
+      props.Vendordata.name === "" ||
+      props.Vendordata.primery_Address.address === "" ||
+      props.Vendordata.primery_Address.suite === "" ||
+      props.Vendordata.primery_Address.city === "" ||
+      props.Vendordata.primery_Address.state === "" ||
+      props.Vendordata.primery_Address.pincode === "" ||
+      props.Vendordata.secondary_Address.address === "" ||
+      props.Vendordata.secondary_Address.suite === "" ||
+      props.Vendordata.secondary_Address.city === "" ||
+      props.Vendordata.secondary_Address.state === "" ||
+      props.Vendordata.secondary_Address.pincode === "" ||
+      props.Vendordata.primery_Contact.firstName === "" ||
+      props.Vendordata.primery_Contact.middleName === "" ||
+      props.Vendordata.primery_Contact.lastName === "" ||
+      props.Vendordata.primery_Contact.phone === "" ||
+      props.Vendordata.primery_Contact.ext === "" ||
+      props.Vendordata.primery_Contact.email === "" ||
+      props.Vendordata.primery_Contact.cellPhone === "" ||
+      props.Vendordata.assignmentNote === ""
+    )
+      toast.error("Please fill all the mandatory fields");
+    else props.setActiveStep((prev) => prev + 1);
+  };
   return (
     <div className="mt-5">
       <span className="legend Btn_Gradient">Profile Details</span>
@@ -23,7 +45,11 @@ const VendorProfileForm = (props) => {
         <div>
           <TextField
             id="Id"
-            label="ID"
+            label={
+              <>
+                ID <span className="text-red-600">*</span>
+              </>
+            }
             value={
               props.Vendordata && props.Vendordata.vendorId
                 ? props.Vendordata.vendorId
@@ -42,7 +68,11 @@ const VendorProfileForm = (props) => {
         </div>
         <div>
           <TextField
-            id="Name"
+            label={
+              <>
+                Name <span className="text-red-600">*</span>
+              </>
+            }
             value={
               props.Vendordata && props.Vendordata.name
                 ? props.Vendordata.name
@@ -55,7 +85,6 @@ const VendorProfileForm = (props) => {
                 [e.target.name]: e.target.value,
               });
             }}
-            label="Name"
             variant="outlined"
             size="small"
           />
@@ -99,7 +128,11 @@ const VendorProfileForm = (props) => {
             renderInput={(params) => (
               <TextField
                 {...params}
-                label="Address"
+                label={
+                  <>
+                    Address <span className="text-red-600">*</span>
+                  </>
+                }
                 InputProps={{
                   ...params.InputProps,
                   type: "text",
@@ -112,7 +145,11 @@ const VendorProfileForm = (props) => {
         <div>
           <TextField
             id="Suite"
-            label="Suite"
+            label={
+              <>
+                Suite <span className="text-red-600">*</span>
+              </>
+            }
             variant="outlined"
             size="small"
             value={
@@ -137,7 +174,11 @@ const VendorProfileForm = (props) => {
         <div>
           <TextField
             id="City"
-            label="City"
+            label={
+              <>
+                City <span className="text-red-600">*</span>
+              </>
+            }
             variant="outlined"
             size="small"
             value={
@@ -161,7 +202,9 @@ const VendorProfileForm = (props) => {
         </div>
         <div>
           <FormControl className="w-40" size="small">
-            <InputLabel>State</InputLabel>
+            <InputLabel>
+              State <span className="text-red-600">*</span>
+            </InputLabel>
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
@@ -184,14 +227,20 @@ const VendorProfileForm = (props) => {
                 });
               }}
             >
-              <MenuItem value={10}>Select..</MenuItem>
+              {props.allstate.map((ele, indx) => {
+                return <MenuItem value={ele.name}>{ele.name}</MenuItem>;
+              })}
             </Select>
           </FormControl>
         </div>
         <div>
           <TextField
             id="Zip"
-            label="Zip"
+            label={
+              <>
+                Zip <span className="text-red-600">*</span>
+              </>
+            }
             variant="outlined"
             size="small"
             value={
@@ -252,7 +301,11 @@ const VendorProfileForm = (props) => {
             renderInput={(params) => (
               <TextField
                 {...params}
-                label="Address"
+                label={
+                  <>
+                    Address <span className="text-red-600">*</span>
+                  </>
+                }
                 InputProps={{
                   ...params.InputProps,
                   type: "text",
@@ -265,7 +318,11 @@ const VendorProfileForm = (props) => {
         <div>
           <TextField
             id="Suite"
-            label="Suite"
+            label={
+              <>
+                Suite <span className="text-red-600">*</span>
+              </>
+            }
             variant="outlined"
             size="small"
             value={
@@ -290,7 +347,11 @@ const VendorProfileForm = (props) => {
         <div>
           <TextField
             id="City"
-            label="City"
+            label={
+              <>
+                City <span className="text-red-600">*</span>
+              </>
+            }
             variant="outlined"
             size="small"
             value={
@@ -314,7 +375,9 @@ const VendorProfileForm = (props) => {
         </div>
         <div>
           <FormControl className="w-40" size="small">
-            <InputLabel>State</InputLabel>
+            <InputLabel>
+              State <span className="text-red-600">*</span>
+            </InputLabel>
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
@@ -337,14 +400,20 @@ const VendorProfileForm = (props) => {
                 });
               }}
             >
-              <MenuItem value={10}>Select..</MenuItem>
+              {props.allstate.map((ele, indx) => {
+                return <MenuItem value={ele.name}>{ele.name}</MenuItem>;
+              })}
             </Select>
           </FormControl>
         </div>
         <div>
           <TextField
             id="Zip"
-            label="Zip"
+            label={
+              <>
+                Zip <span className="text-red-600">*</span>
+              </>
+            }
             variant="outlined"
             size="small"
             value={
@@ -372,7 +441,11 @@ const VendorProfileForm = (props) => {
         <div>
           <TextField
             id="firstname"
-            label="First Name"
+            label={
+              <>
+                First Name <span className="text-red-600">*</span>
+              </>
+            }
             variant="outlined"
             size="small"
             value={
@@ -397,7 +470,11 @@ const VendorProfileForm = (props) => {
         <div>
           <TextField
             id="middleName"
-            label="Middle Name"
+            label={
+              <>
+                Middle Name <span className="text-red-600">*</span>
+              </>
+            }
             variant="outlined"
             size="small"
             value={
@@ -422,7 +499,11 @@ const VendorProfileForm = (props) => {
         <div>
           <TextField
             id="lastname"
-            label="Last Name"
+            label={
+              <>
+                Last Name <span className="text-red-600">*</span>
+              </>
+            }
             variant="outlined"
             size="small"
             value={
@@ -447,7 +528,11 @@ const VendorProfileForm = (props) => {
         <div>
           <TextField
             id="phone"
-            label="Phone"
+            label={
+              <>
+                Phone<span className="text-red-600">*</span>
+              </>
+            }
             variant="outlined"
             size="small"
             value={
@@ -472,7 +557,11 @@ const VendorProfileForm = (props) => {
         <div>
           <TextField
             id="ext"
-            label="Ext"
+            label={
+              <>
+                Ext <span className="text-red-600">*</span>
+              </>
+            }
             variant="outlined"
             size="small"
             value={
@@ -497,7 +586,11 @@ const VendorProfileForm = (props) => {
         <div>
           <TextField
             id="email"
-            label="Email"
+            label={
+              <>
+                Email <span className="text-red-600">*</span>
+              </>
+            }
             variant="outlined"
             size="small"
             value={
@@ -522,7 +615,11 @@ const VendorProfileForm = (props) => {
         <div>
           <TextField
             id="cellphone"
-            label="Cell Phone"
+            label={
+              <>
+                Cell Phone <span className="text-red-600">*</span>
+              </>
+            }
             variant="outlined"
             size="small"
             value={
@@ -728,7 +825,11 @@ const VendorProfileForm = (props) => {
         <div className=" w-full">
           <TextField
             id="assignment"
-            label="Assignment Note"
+            label={
+              <>
+                Assignment Note <span className="text-red-600">*</span>
+              </>
+            }
             variant="outlined"
             size="small"
             multiline
@@ -750,6 +851,22 @@ const VendorProfileForm = (props) => {
           />
         </div>
       </div>
+      <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+        <Button
+          color="inherit"
+          disabled={props.activeStep === 0}
+          onClick={() => props.setActiveStep((prev) => prev - 1)}
+          variant="contained"
+          sx={{ m: 1 }}
+        >
+          Back
+        </Button>
+        <Box sx={{ flex: "1 1 auto" }} />
+
+        <Button onClick={handleNext} variant="contained" sx={{ m: 1 }}>
+          Next
+        </Button>
+      </Box>
     </div>
   );
 };

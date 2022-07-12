@@ -6,211 +6,319 @@ import {
   MenuItem,
   InputLabel,
   FormControl,
+  Box,
+  Button,
 } from "@mui/material";
+
 import { IoMdAddCircle } from "react-icons/io";
 import { MdDelete } from "react-icons/md";
-const VendorLicense = () => {
-  const top100Films = [
-    { title: "The Shawshank Redemption", year: 1994 },
-    { title: "The Godfather", year: 1972 },
-    { title: "The Godfather: Part II", year: 1974 },
-    { title: "The Dark Knight", year: 2008 },
-    { title: "12 Angry Men", year: 1957 },
-  ];
-  const [inputList, setInputList] = useState([
-    {
-      firstName: "",
-      lastName: "",
-      licenceNo: "",
-      licenceType: "",
-      status: "",
-      address: "",
-      expiry_Date: "",
-      issueDate: "",
-      disciplinaryAction: "",
-      note: "",
-    },
-  ]);
-  const handleRemoveClick = (index) => {
-    const list = [...inputList];
-    list.splice(index, 1);
-    setInputList(list);
-  };
+import toast from "react-hot-toast";
+const VendorLicense = (props) => {
+  const top100Films = [{ title: "", year: 1994 }];
 
+  const handleRemoveClick = (index) => {
+    const list = [...props.licences];
+    list.splice(index, 1);
+
+    props.setVendordata({ ...props.Vendordata, ["licences"]: list });
+  };
+  const handleNext = () => {
+    let status = false;
+    props.Vendordata.licences.map((ele) => {
+      if (
+        ele.firstName === "" ||
+        ele.lastName === "" ||
+        ele.licenceNo === "" ||
+        ele.licenceType === "" ||
+        ele.address === "" ||
+        ele.expiry_Date === "" ||
+        ele.issueDate === "" ||
+        ele.disciplinaryAction === "" ||
+        ele.note === ""
+      ) {
+        status = true;
+      }
+    });
+    if (status) toast.error("Please fill all the mandatory fields");
+    else props.setActiveStep((prev) => prev + 1);
+  };
   const handleAddClick = () => {
-    setInputList([
-      ...inputList,
-      {
-        firstName: "",
-        lastName: "",
-        licenceNo: "",
-        licenceType: "",
-        status: "",
-        address: "",
-        expiry_Date: "",
-        issueDate: "",
-        disciplinaryAction: "",
-        note: "",
-      },
-    ]);
+    let status = false;
+    props.Vendordata.licences.map((ele) => {
+      if (
+        ele.firstName === "" ||
+        ele.lastName === "" ||
+        ele.licenceNo === "" ||
+        ele.licenceType === "" ||
+        ele.address === "" ||
+        ele.expiry_Date === "" ||
+        ele.issueDate === "" ||
+        ele.disciplinaryAction === "" ||
+        ele.note === ""
+      ) {
+        status = true;
+      }
+    });
+    if (status) toast.error("Please fill all the mandatory fields");
+    else
+      props.setVendordata({
+        ...props.Vendordata,
+        ["licences"]: [
+          ...props.Vendordata.licences,
+          {
+            firstName: "",
+            lastName: "",
+            licenceNo: "",
+            licenceType: "",
+            status: "",
+            address: "",
+            expiry_Date: "",
+            issueDate: "",
+            disciplinaryAction: "",
+            note: "",
+          },
+        ],
+      });
+  };
+  const handlechangeLicense = (e, i) => {
+    const { name, value } = e.target;
+    const data = [...props.licences];
+
+    data[i][name] = value;
+    props.setVendordata({ ...props.Vendordata, ["licences"]: data });
   };
   return (
-    <div className=" border-2 py-3 mb-3 border-sky-500 p-3 rounded-xl">
-      {inputList.map((x, i) => {
-        return (
-          <>
-            <div className="flex flex-col">
-              <div className="flex gap-6 flex-col md:flex-row  py-3 mb-3">
-                <div>
-                  <TextField
-                    name="firstName"
-                    label="First Name"
-                    variant="outlined"
-                    size="small"
-                  />
+    <>
+      <div className=" border-2 py-3 mb-3 border-sky-500 p-3 rounded-xl">
+        {props.licences.map((x, i) => {
+          return (
+            <>
+              <div className="flex flex-col">
+                <div className="flex gap-6 flex-col md:flex-row  py-3 mb-3">
+                  <div>
+                    <TextField
+                      name="firstName"
+                      label={
+                        <>
+                          First Name <span className="text-red-600">*</span>
+                        </>
+                      }
+                      variant="outlined"
+                      size="small"
+                      value={x.firstName}
+                      onChange={(e) => handlechangeLicense(e, i)}
+                    />
+                  </div>
+                  <div>
+                    <TextField
+                      name="lastName"
+                      label={
+                        <>
+                          Last Name <span className="text-red-600">*</span>
+                        </>
+                      }
+                      variant="outlined"
+                      size="small"
+                      value={x.lastName}
+                      onChange={(e) => handlechangeLicense(e, i)}
+                    />
+                  </div>
+                  <div>
+                    <TextField
+                      name="licenceNo"
+                      label={
+                        <>
+                          Licence No. <span className="text-red-600">*</span>
+                        </>
+                      }
+                      variant="outlined"
+                      size="small"
+                      value={x.licenceNo}
+                      onChange={(e) => handlechangeLicense(e, i)}
+                    />
+                  </div>
+                  <div>
+                    <FormControl className="w-40" size="small">
+                      <InputLabel>
+                        License Type <span className="text-red-600">*</span>
+                      </InputLabel>
+                      <Select
+                        labelId="License_Type"
+                        name="licenceType"
+                        label="License Type"
+                        value={x.licenceType}
+                        onChange={(e) => handlechangeLicense(e, i)}
+                      >
+                        {props.licenceType.map((ele, indx) => {
+                          return (
+                            <MenuItem value={ele.name} key={indx}>
+                              {ele.name}
+                            </MenuItem>
+                          );
+                        })}
+                      </Select>
+                    </FormControl>
+                  </div>
+                  <div>
+                    <TextField
+                      name="status"
+                      label={
+                        <>
+                          Status <span className="text-red-600">*</span>
+                        </>
+                      }
+                      variant="outlined"
+                      size="small"
+                      value={x.status}
+                      onChange={(e) => handlechangeLicense(e, i)}
+                    />
+                  </div>
                 </div>
-                <div>
-                  <TextField
-                    name="lastName"
-                    label="Last Name"
-                    variant="outlined"
-                    size="small"
-                  />
-                </div>
-                <div>
-                  <TextField
-                    name="licenceNo"
-                    label="Licence No."
-                    variant="outlined"
-                    size="small"
-                  />
-                </div>
-                <div>
-                  <FormControl className="w-40" size="small">
-                    <InputLabel>License Type</InputLabel>
-                    <Select
-                      labelId="License_Type"
-                      name="licenceType"
-                      label="License Type"
-                    >
-                      <MenuItem value={10}>Select..</MenuItem>
-                    </Select>
-                  </FormControl>
-                </div>
-                <div>
-                  <TextField
-                    name="status"
-                    label="Status"
-                    variant="outlined"
-                    size="small"
-                  />
-                </div>
-              </div>
 
-              <div className="flex flex-col md:flex-row gap-6  py-3 mb-3">
-                <div>
-                  <Autocomplete
-                    freeSolo
-                    style={{ minWidth: "300px" }}
-                    disableClearable
-                    options={top100Films.map((option) => option.title)}
-                    inputValue={inputList.address}
-                    onInputChange={(event, newInputValue) => {
-                      setInputList([
-                        {
-                          ...inputList,
-                          name: newInputValue,
-                        },
-                      ]);
-                    }}
-                    name="address"
-                    onChange={(e) => {
-                      setInputList([
-                        {
-                          ...inputList,
-                          name: e.target.value,
-                        },
-                      ]);
-                    }}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label="Address"
-                        InputProps={{
-                          ...params.InputProps,
-                          type: "text",
-                        }}
-                        size="small"
-                      />
-                    )}
-                  />
+                <div className="flex flex-col md:flex-row gap-6  py-3 mb-3">
+                  <div>
+                    <Autocomplete
+                      freeSolo
+                      style={{ minWidth: "300px" }}
+                      disableClearable
+                      options={top100Films.map((option) => option.title)}
+                      inputValue={props.Vendordata.address}
+                      onInputChange={(event, newInputValue) => {
+                        const data = [...props.licences];
+
+                        data[i]["address"] = newInputValue;
+                        props.setVendordata({
+                          ...props.Vendordata,
+                          ["licences"]: data,
+                        });
+                      }}
+                      name="address"
+                      onChange={(e) => handlechangeLicense(e, i)}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label={
+                            <>
+                              Address <span className="text-red-600">*</span>
+                            </>
+                          }
+                          InputProps={{
+                            ...params.InputProps,
+                            type: "text",
+                          }}
+                          size="small"
+                        />
+                      )}
+                    />
+                  </div>
+                  <div>
+                    <TextField
+                      label={
+                        <>
+                          Expiry Date <span className="text-red-600">*</span>
+                        </>
+                      }
+                      name="expiry_Date"
+                      type="date"
+                      variant="outlined"
+                      size="small"
+                      value={x.expiry_Date}
+                      onChange={(e) => handlechangeLicense(e, i)}
+                    />
+                  </div>
+                  <div>
+                    <TextField
+                      label={
+                        <>
+                          Issue Date <span className="text-red-600">*</span>
+                        </>
+                      }
+                      name="issueDate"
+                      type="date"
+                      variant="outlined"
+                      size="small"
+                      value={x.issueDate}
+                      onChange={(e) => handlechangeLicense(e, i)}
+                    />
+                  </div>
                 </div>
-                <div>
-                  <TextField
-                    label="Expiry Date"
-                    name="expiry_Date"
-                    type="date"
-                    variant="outlined"
-                    size="small"
-                  />
+                <div className="flex flex-col md:flex-row gap-6 py-3 mb-3">
+                  <div className=" w-full">
+                    <TextField
+                      name="disciplinaryAction"
+                      label={
+                        <>
+                          Disciplinary/ Other Actions{" "}
+                          <span className="text-red-600">*</span>
+                        </>
+                      }
+                      variant="outlined"
+                      size="small"
+                      multiline
+                      rows={4}
+                      fullWidth
+                      value={x.disciplinaryAction}
+                      onChange={(e) => handlechangeLicense(e, i)}
+                    />
+                  </div>
+                  <div className=" w-full">
+                    <TextField
+                      name="note"
+                      label={
+                        <>
+                          Note <span className="text-red-600">*</span>
+                        </>
+                      }
+                      variant="outlined"
+                      size="small"
+                      multiline
+                      rows={4}
+                      fullWidth
+                      value={x.assignnotement}
+                      onChange={(e) => handlechangeLicense(e, i)}
+                    />
+                  </div>
                 </div>
-                <div>
-                  <TextField
-                    label="Issue Date"
-                    name="issueDate"
-                    type="date"
-                    variant="outlined"
-                    size="small"
-                  />
+                <div className="flex">
+                  {props.licences.length !== 1 && (
+                    <MdDelete
+                      onClick={() => handleRemoveClick(i)}
+                      color="red"
+                      size={25}
+                      style={{ cursor: "pointer" }}
+                    />
+                  )}
+                  {props.licences.length - 1 === i && (
+                    <IoMdAddCircle
+                      onClick={handleAddClick}
+                      color="green"
+                      size={25}
+                      style={{ cursor: "pointer" }}
+                    />
+                  )}
                 </div>
               </div>
-              <div className="flex flex-col md:flex-row gap-6 py-3 mb-3">
-                <div className=" w-full">
-                  <TextField
-                    name="disciplinaryAction"
-                    label="Disciplinary/ Other Actions"
-                    variant="outlined"
-                    size="small"
-                    multiline
-                    rows={4}
-                    fullWidth
-                  />
-                </div>
-                <div className=" w-full">
-                  <TextField
-                    name="assignnotement"
-                    label="Note"
-                    variant="outlined"
-                    size="small"
-                    multiline
-                    rows={4}
-                    fullWidth
-                  />
-                </div>
-              </div>
-              <div className="flex">
-                {inputList.length !== 1 && (
-                  <MdDelete
-                    onClick={() => handleRemoveClick(i)}
-                    color="red"
-                    size={25}
-                    style={{ cursor: "pointer" }}
-                  />
-                )}
-                {inputList.length - 1 === i && (
-                  <IoMdAddCircle
-                    onClick={handleAddClick}
-                    color="green"
-                    size={25}
-                    style={{ cursor: "pointer" }}
-                  />
-                )}
-              </div>
-            </div>
-          </>
-        );
-      })}
-    </div>
+            </>
+          );
+        })}
+      </div>
+      <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+        <Button
+          color="inherit"
+          disabled={props.activeStep === 0}
+          onClick={() => props.setActiveStep((prev) => prev - 1)}
+          variant="contained"
+          sx={{ m: 1 }}
+        >
+          Back
+        </Button>
+        <Box sx={{ flex: "1 1 auto" }} />
+
+        <Button onClick={handleNext} variant="contained" sx={{ m: 1 }}>
+          Next
+        </Button>
+      </Box>
+    </>
   );
 };
 

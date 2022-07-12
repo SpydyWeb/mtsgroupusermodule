@@ -22,6 +22,7 @@ import CommunicationProductTable from "../../Admin/CommunicationProductTable";
 import CommunicationTable from "../../Admin/CommunicationTable";
 import StateTable from "../../Admin/StateTable";
 import AddVendorProduct from "../Vendor/VendorProduct/AddVendorProduct";
+import ViewVendorProduct from "../Vendor/VendorProduct/ViewVendorProduct";
 const Routing = () => {
   return (
     <Routes>
@@ -104,6 +105,11 @@ const Routing = () => {
       <Route path="/admin/state" element={<State />} exact />
       <Route path="/admin/state/:id,:name" element={<State />} exact />
       <Route path="/admin/statetable" element={<StateTable />} exact />
+      <Route
+        path="/admin/viewvendorproduct"
+        element={<ViewVendorProduct />}
+        exact
+      />
     </Routes>
   );
 };

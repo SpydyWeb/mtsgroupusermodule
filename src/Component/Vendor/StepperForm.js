@@ -9,7 +9,12 @@ import VendorProfileForm from "./VendorProfileForm";
 import VendorProduct from "./VendorProduct";
 import VendorLicense from "./VendorLicense";
 import Com_notification from "./Com_notification";
-import { GetVendorProduct } from "../../Services/Vendor";
+import {
+  GetVendorProduct,
+  GetStateList,
+  GetCommunicationTypeList,
+  GetLicenceType,
+} from "../../Services/Vendor";
 const steps = [
   "Basic Vendor Details",
   "Vendor License",
@@ -18,8 +23,12 @@ const steps = [
 ];
 
 const StepperForm = () => {
-  const [activeStep, setActiveStep] = useState(3);
-  const [product, setProduct] = useState([]);
+  const [activeStep, setActiveStep] = useState(0);
+  const [productdata, setProductdata] = useState([]);
+  const [allstate, setAllState] = useState([]);
+  const [communicationType, setCommunicaionType] = useState([]);
+  const [licenceType, setLicenceType] = useState([]);
+  const [productD, setProductD] = useState([]);
   const [Vendordata, setVendordata] = useState({
     id: 0,
     vendorId: "",
@@ -63,56 +72,57 @@ const StepperForm = () => {
     profileReminder: true,
     licences: [
       {
-        id: 0,
-        updateDate: "2022-07-06T18:45:05.462Z",
-        createdDate: "2022-07-06T18:45:05.462Z",
-        isDeleted: true,
-        firstName: "string",
-        lastName: "string",
-        licenceNo: "string",
-        licenceType: "string",
-        status: "string",
-        address: "string",
-        expiry_Date: "2022-07-06T18:45:05.462Z",
-        issueDate: "2022-07-06T18:45:05.462Z",
-        disciplinaryAction: "string",
-        note: "string",
+        firstName: "",
+        lastName: "",
+        licenceNo: "",
+        licenceType: "",
+        status: "",
+        address: "",
+        expiry_Date: "",
+        issueDate: "",
+        disciplinaryAction: "",
+        note: "",
       },
     ],
     communication: [
       {
-        id: 0,
-        updateDate: "2022-07-06T18:45:05.462Z",
-        createdDate: "2022-07-06T18:45:05.462Z",
-        isDeleted: true,
-        vendorId: 0,
-        type: "string",
-        detail: "string",
-        product: "string",
+        type: "",
+        detail: "",
+        product_id: 0,
       },
     ],
     product: [
-      {
-        id: 0,
-        name: "string",
-        price: 0,
-        productId: 0,
-        subCategory: [null],
-      },
+      { id: "", name: "string", price: 0, productId: 0, selected: false },
     ],
   });
   useEffect(() => {
     GetVendorProduct().then((res) => {
-      setProduct(res);
+      setProductdata(res);
+      let data = [];
+      res.map((ele) => {
+        ele.subCategory.map((val) => {
+          data.push({
+            name: val.name,
+            price: 0,
+            productId: ele.id,
+            selected: false,
+            id: val.id,
+          });
+        });
+      });
+
+      setProductD(data);
+    });
+    GetStateList().then((res) => {
+      setAllState(res);
+    });
+    GetCommunicationTypeList().then((res) => {
+      setCommunicaionType(res);
+    });
+    GetLicenceType().then((res) => {
+      setLicenceType(res);
     });
   }, []);
-  const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
-
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
 
   const handleReset = () => {
     setActiveStep(0);
@@ -131,6 +141,9 @@ const StepperForm = () => {
           );
         })}
       </Stepper>
+      <div className="flex text-red-600 justify-end">
+        (*) fields are mandatory
+      </div>
       {activeStep === steps.length ? (
         <React.Fragment>
           <Typography sx={{ mt: 2, mb: 1 }}>
@@ -148,41 +161,43 @@ const StepperForm = () => {
               <VendorProfileForm
                 Vendordata={Vendordata}
                 setVendordata={setVendordata}
+                allstate={allstate}
+                setActiveStep={setActiveStep}
+                activeStep={activeStep}
               />
             ) : activeStep === 1 ? (
               <VendorLicense
                 Vendordata={Vendordata}
                 setVendordata={setVendordata}
+                activeStep={activeStep}
+                licences={Vendordata.licences}
+                setActiveStep={setActiveStep}
+                licenceType={licenceType}
               />
             ) : activeStep === 2 ? (
               <VendorProduct
                 Vendordata={Vendordata}
                 setVendordata={setVendordata}
-                product={product}
+                product={Vendordata.product}
+                setActiveStep={setActiveStep}
+                activeStep={activeStep}
+                productdata={productdata}
+                productD={productD}
+                setProductD={setProductD}
+                setProductdata={setProductdata}
               />
             ) : (
               <Com_notification
                 Vendordata={Vendordata}
                 setVendordata={setVendordata}
+                setActiveStep={setActiveStep}
+                activeStep={activeStep}
+                productD={productD}
+                communicationType={communicationType}
+                communication={Vendordata.communication}
               />
             )}
           </Typography>
-          <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-            <Button
-              color="inherit"
-              disabled={activeStep === 0}
-              onClick={handleBack}
-              variant="contained"
-              sx={{ m: 1 }}
-            >
-              Back
-            </Button>
-            <Box sx={{ flex: "1 1 auto" }} />
-
-            <Button onClick={handleNext} variant="contained" sx={{ m: 1 }}>
-              {activeStep === steps.length - 1 ? "Finish" : "Next"}
-            </Button>
-          </Box>
         </React.Fragment>
       )}
     </Box>

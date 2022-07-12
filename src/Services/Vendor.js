@@ -214,7 +214,21 @@ export const GetVendorProduct = async () => {
 };
 
 export const AddVendorProductList = async (data) => {
-  return await fetch(`${Url}AddProductList`, {
+  return await fetch(
+    `${Url}AddProductList?name=${data.name}&productid=${data.productid}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+    }
+  ).then((data) => data);
+};
+
+export const AddVendor = async (data) => {
+  return await fetch(`${Url}Addvendor`, {
     method: "POST",
     body: JSON.stringify(data),
     headers: {

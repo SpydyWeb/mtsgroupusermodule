@@ -115,7 +115,7 @@ const Sidebar = () => {
                 <p>New Vendor Creation</p>
               </Link>
             </li>
-              <li className="nav-item">
+            <li className="nav-item">
               <Link
                 to="/admin/licencetable"
                 className={`nav-link ${
@@ -165,9 +165,11 @@ const Sidebar = () => {
             </li>
             <li className="nav-item">
               <Link
-                to="/admin/vendorproduct"
+                to="/admin/viewvendorproduct"
                 className={`nav-link ${
-                  location.pathname === "/admin/vendorproduct" ? "bg-white" : ""
+                  location.pathname === "/admin/viewvendorproduct"
+                    ? "bg-white"
+                    : ""
                 }`}
               >
                 <i className="nav-icon fas fa-columns" />
