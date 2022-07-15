@@ -32,6 +32,7 @@ const LicenceType = () => {
         });
       } else {
         UpdateLicenceType(LicName, id).then((res) => {
+          console.log(res, "res");
           if (res.status === 200) {
             toast.success("Updated Successfully");
             Navigate("/admin/licencetable");
@@ -77,20 +78,20 @@ const LicenceType = () => {
                       onChange={(e) => setLicName({ name: e.target.value })}
                     />
                   </div>
-                  <div className="flex gap-x-5">
+                  <div className="flex gap-x-5 justify-end mt-2">
                     <button
-                      className="btn-donate w-full mb-4"
-                      onClick={SubmitHandler}
-                    >
-                      Submit
-                    </button>
-
-                    <button
-                      className="btn-donate w-full mb-4"
-                      style={{ backgroundColor: "#d20000" }}
+                      className="btn-donate  mb-2"
+                      style={{
+                        backgroundColor: "transparent",
+                        color: "rgb(34 166 179)",
+                      }}
                       onClick={() => Navigate("/admin/licencetable")}
                     >
                       Cancel
+                    </button>
+
+                    <button className="btn-donate mb-2" onClick={SubmitHandler}>
+                      Submit
                     </button>
                   </div>
                 </form>
