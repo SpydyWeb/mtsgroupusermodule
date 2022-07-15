@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import Header from "../../../Admin/Header";
-import Sidebar from "../../../Admin/Sidebar";
+// import Header from "../../../Admin/Header";
+// import Sidebar from "../../../Admin/Sidebar";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import Footer from "../../../Admin/Footer";
 import { useNavigate } from "react-router-dom";
@@ -46,8 +46,8 @@ const ViewVendorProduct = () => {
   }, []);
   return (
     <>
-      <Header />
-      <Sidebar />
+      {/* <Header />
+      <Sidebar /> */}
       <div className="content-wrapper px-4">
         <div className="d-flex justify-end mt-2">
           <button
