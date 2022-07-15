@@ -91,7 +91,7 @@ const VendorProfileForm = (props) => {
             variant="outlined"
             size="small"
           />
-          {tooltip.isshow ? (
+          {tooltip.isshow && props.Vendordata.vendorId !== "" ? (
             <ToolTipValidation
               isValid={tooltip.valid}
               validMessage="Correct"

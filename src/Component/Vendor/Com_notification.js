@@ -13,7 +13,7 @@ import {
 import Android12Switch from "./Android12Switch";
 import { IoMdAddCircle } from "react-icons/io";
 import { MdDelete } from "react-icons/md";
-import { AddVendor } from "../../Services/Vendor";
+
 import toast from "react-hot-toast";
 const Com_notification = (props) => {
   const handleRemoveClick = (index) => {
@@ -36,86 +36,7 @@ const Com_notification = (props) => {
 
     if (status) toast.error("Please fill all the mandatory fields");
     else {
-      AddVendor(props.Vendordata).then((res) => {
-        if (res.status === 200) {
-          toast.success("Vendor has been create successfully");
-          props.setActiveStep(0);
-          props.setVendordata({
-            id: 0,
-            vendorId: "",
-            name: "",
-            primery_Address: {
-              address: "",
-              city: "",
-              suite: "",
-              state: "",
-              pincode: "",
-            },
-            secondary_Address: {
-              address: "",
-              city: "",
-              suite: "",
-              state: "",
-              pincode: "",
-            },
-            primery_Contact: {
-              firstName: "",
-              middleName: "",
-              lastName: "",
-              phone: "",
-              email: "",
-              ext: "",
-              cellPhone: "",
-            },
-            secondary_contact: {
-              firstName: "",
-              middleName: "",
-              lastName: "",
-              phone: "",
-              email: "",
-              ext: "",
-              cellPhone: "",
-            },
-            assignmentNote: "",
-            new_Assignment: true,
-            qcRejection: true,
-            dailyReminder: true,
-            profileReminder: true,
-            licences: [
-              {
-                firstName: "",
-                lastName: "",
-                licenceNo: "",
-                licenceType: "",
-                status: "",
-                address: "",
-                expiry_Date: "",
-                issueDate: "",
-                disciplinaryAction: "",
-                note: "",
-              },
-            ],
-            communication: [
-              {
-                type: "",
-                detail: "",
-                product_id: 0,
-              },
-            ],
-            product: [
-              {
-                id: "",
-                name: "string",
-                price: 0,
-                productId: 0,
-                selected: false,
-              },
-            ],
-          });
-        } else {
-          res.json().then((val) => toast.error(val));
-        }
-      });
+      props.setActiveStep((prev) => prev + 1);
     }
   };
 
@@ -339,7 +260,7 @@ const Com_notification = (props) => {
           Back
         </Button>
         <Button onClick={handleSubmit} variant="contained" sx={{ m: 1 }}>
-          Submit
+          Next
         </Button>
       </Box>
     </>

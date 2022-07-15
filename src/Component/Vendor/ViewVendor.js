@@ -18,7 +18,7 @@ import {
   AiOutlinePlus,
   AiOutlineClose,
 } from "react-icons/ai";
-import { FiMinusSquare } from "react-icons/fi";
+import { AiFillEye } from "react-icons/ai";
 import { FcInfo } from "react-icons/fc";
 import Header from "../../Admin/Header";
 import Footer from "../../Admin/Footer";
@@ -284,14 +284,25 @@ function Row(props) {
   return (
     <React.Fragment>
       <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
-        <TableCell component="th" scope="row">
+        <TableCell component="th" scope="row" align="center">
+          {row.username}
+        </TableCell>
+        <TableCell component="th" scope="row" align="center">
           {row.name}
         </TableCell>
-        <TableCell>{row.emailId}</TableCell>
-        <TableCell>{row.department}</TableCell>
-        <TableCell>{row.userType}</TableCell>
+        <TableCell align="center">{row.emailId}</TableCell>
+        <TableCell sx={{ display: "flex", justifyContent: "center" }}>
+          {row.allowTextMsg ? (
+            <BsCheckCircleFill color="green" />
+          ) : (
+            <AiFillCloseCircle color="red" />
+          )}
+        </TableCell>
         <TableCell>
-          <FcInfo
+          <AiFillEye
+            className="hover:cursor-pointer"
+            size={20}
+            style={{ color: "#03a5e7" }}
             onClick={() => {
               GetmoreData(row.id);
             }}
@@ -481,10 +492,11 @@ const ViewVendor = () => {
           <Table aria-label="collapsible table">
             <TableHead sx={{ background: "#e1edef" }}>
               <TableRow className="font-extrabold">
-                <TableCell>Name</TableCell>
-                <TableCell>Email</TableCell>
-                <TableCell>Department</TableCell>
-                <TableCell>User Type</TableCell>
+                <TableCell align="center">User Name</TableCell>
+                <TableCell align="center">Name</TableCell>
+                <TableCell align="center">Email</TableCell>
+                <TableCell align="center">Allow txt. msg.</TableCell>
+
                 <TableCell />
               </TableRow>
             </TableHead>

@@ -9,6 +9,7 @@ import VendorProfileForm from "./VendorProfileForm";
 import VendorProduct from "./VendorProduct";
 import VendorLicense from "./VendorLicense";
 import Com_notification from "./Com_notification";
+import Userregister from "./Userregister";
 import {
   GetVendorProduct,
   GetStateList,
@@ -20,6 +21,7 @@ const steps = [
   "Vendor License",
   "Product/ Service",
   "Communication/ Notification",
+  "User Registration",
 ];
 
 const StepperForm = () => {
@@ -91,6 +93,15 @@ const StepperForm = () => {
         product_id: 0,
       },
     ],
+    userregistration: {
+      firstName: "",
+      lastName: "",
+      emailId: "",
+      logId: "",
+      password: "",
+
+      allowTextMsg: true,
+    },
     product: [
       { id: "", name: "string", price: 0, productId: 0, selected: false },
     ],
@@ -185,6 +196,14 @@ const StepperForm = () => {
                 productD={productD}
                 setProductD={setProductD}
                 setProductdata={setProductdata}
+              />
+            ) : activeStep === 4 ? (
+              <Userregister
+                Vendordata={Vendordata}
+                setVendordata={setVendordata}
+                setActiveStep={setActiveStep}
+                activeStep={activeStep}
+                Userregister={Vendordata.userregistration}
               />
             ) : (
               <Com_notification

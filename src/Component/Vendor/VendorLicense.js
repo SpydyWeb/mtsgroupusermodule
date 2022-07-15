@@ -92,9 +92,6 @@ const VendorLicense = (props) => {
       } else {
         toast.error("Issue date should be less than from today");
       }
-    } else if (name === "expiry_Date") {
-      if (new Date(value) > new Date(data[i].issueDate)) data[i][name] = value;
-      else toast.error("Expiry date should be greater than issue date");
     } else data[i][name] = value;
     props.setVendordata({ ...props.Vendordata, ["licences"]: data });
   };
@@ -193,7 +190,7 @@ const VendorLicense = (props) => {
                       style={{ minWidth: "300px" }}
                       disableClearable
                       options={top100Films.map((option) => option.title)}
-                      inputValue={props.Vendordata.address}
+                      inputValue={x.address}
                       onInputChange={(event, newInputValue) => {
                         const data = [...props.licences];
 
@@ -254,6 +251,23 @@ const VendorLicense = (props) => {
                       value={x.expiry_Date}
                       onChange={(e) => handlechangeLicense(e, i)}
                       focused
+                      onBlur={(e) => {
+                        const data = [...props.licences];
+                        if (
+                          new Date(e.target.value) > new Date(data[i].issueDate)
+                        ) {
+                          data[i][e.target.name] = e.target.value;
+                        } else {
+                          toast.error(
+                            "Expiry date should be greater than issue date"
+                          );
+                          data[i][e.target.name] = "";
+                        }
+                        props.setVendordata({
+                          ...props.Vendordata,
+                          ["licences"]: data,
+                        });
+                      }}
                     />
                   </div>
                 </div>
@@ -289,7 +303,7 @@ const VendorLicense = (props) => {
                       multiline
                       rows={2}
                       fullWidth
-                      value={x.assignnotement}
+                      value={x.note}
                       onChange={(e) => handlechangeLicense(e, i)}
                     />
                   </div>
