@@ -72,19 +72,22 @@ const State = () => {
                       onChange={(e) => setData({ name: e.target.value })}
                     />
                   </div>
-                  <div className="flex gap-x-5">
+                  <div className="flex gap-x-5 justify-end">
                     <button
-                      className="btn-donate w-full mb-4"
-                      onClick={SubmitHandler}
-                    >
-                      Submit
-                    </button>
-                    <button
-                      className="btn-donate w-full mb-4"
-                      style={{ backgroundColor: "#d20000" }}
+                      className="btn-donate mb-2"
+                      style={{
+                        backgroundColor: "transparent",
+                        color: "rgb(34 166 179)",
+                      }}
                       onClick={() => Navigate("/admin/statetable")}
                     >
                       Cancel
+                    </button>
+                    <button
+                      className="btn-donate  mb-2"
+                      onClick={SubmitHandler}
+                    >
+                      Submit
                     </button>
                   </div>
                 </form>
