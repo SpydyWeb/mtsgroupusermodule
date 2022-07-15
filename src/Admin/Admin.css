@@ -3,13 +3,11 @@
 }
 
 .bg-Gradiunt {
-  background: -webkit-gradient(
-    linear,
-    left top,
-    left bottom,
-    color-stop(0.05, #005fbf),
-    color-stop(1, #003f7f)
-  );
+  background: -webkit-gradient(linear,
+      left top,
+      left bottom,
+      color-stop(0.05, #005fbf),
+      color-stop(1, #003f7f)) !;
   background-color: #005fbf;
 }
 
@@ -84,18 +82,19 @@
 }
 
 /* active state */
-.select-text:focus ~ .select-label,
-.select-text:valid ~ .select-label {
+.select-text:focus~.select-label,
+.select-text:valid~.select-label {
   color: orange;
   top: -8px;
   transition: 0.2s ease all;
   font-size: 14px;
 }
 
-.select-text:valid:not(focus) ~ .select-label {
+.select-text:valid:not(focus)~.select-label {
   color: rgba(0, 0, 0, 0.26);
   background: red;
 }
-.select-text:valid:focus ~ .select-label {
+
+.select-text:valid:focus~.select-label {
   color: orange;
 }

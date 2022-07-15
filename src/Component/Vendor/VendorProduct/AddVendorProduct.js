@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import Header from "../../../Admin/Header";
-import Sidebar from "../../../Admin/Sidebar";
+// import Header from "../../../Admin/Header";
+// import Sidebar from "../../../Admin/Sidebar";
 import {
   GetVendorProduct,
   AddVendorProductList,
@@ -48,8 +48,8 @@ const AddVendorProduct = () => {
   return (
     <div>
       {" "}
-      <Header />
-      <Sidebar />
+      {/* <Header />
+      <Sidebar /> */}
       <div className="content-wrapper  ">
         <div className="d-flex justify-end p-3">
           <button

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
-import Collapse from "@mui/material/Collapse";
-import IconButton from "@mui/material/IconButton";
+
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -20,9 +19,9 @@ import {
 } from "react-icons/ai";
 import { AiFillEye } from "react-icons/ai";
 import { FcInfo } from "react-icons/fc";
-import Header from "../../Admin/Header";
+// import Header from "../../Admin/Header";
 import Footer from "../../Admin/Footer";
-import Sidebar from "../../Admin/Sidebar";
+// import Sidebar from "../../Admin/Sidebar";
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
@@ -46,7 +45,7 @@ const ProductRow = (props) => {
       <Table size="small" aria-label="purchases">
         <TableHead>
           <TableRow>
-            <TableCell>Sr no.</TableCell>
+            <TableCell>Sr No.</TableCell>
             <TableCell>Product Name</TableCell>
             <TableCell align="right">Amount</TableCell>
           </TableRow>
@@ -77,7 +76,7 @@ const CommunicationRow = (props) => {
       <Table size="small" aria-label="purchases">
         <TableHead>
           <TableRow>
-            <TableCell>Sr no.</TableCell>
+            <TableCell>Sr No.</TableCell>
             <TableCell>Type</TableCell>
             <TableCell>Detail</TableCell>
             <TableCell>Product</TableCell>
@@ -109,7 +108,7 @@ const LicenceRow = (props) => {
       <Table size="small" aria-label="purchases">
         <TableHead>
           <TableRow>
-            <TableCell>Sr no.</TableCell>
+            <TableCell>Sr No.</TableCell>
             <TableCell>Name</TableCell>
             <TableCell>Licence No</TableCell>
             <TableCell>Licence Type</TableCell>
@@ -322,6 +321,7 @@ function Row(props) {
             onChange={handleChange("panel1")}
           >
             <AccordionSummary
+              className="Btn_Gradient"
               expandIcon={
                 expanded === "panel1" ? <AiOutlineClose /> : <AiOutlinePlus />
               }
@@ -333,7 +333,7 @@ function Row(props) {
                 Product
               </Typography>
             </AccordionSummary>
-            <AccordionDetails>
+            <AccordionDetails className="overflow-auto">
               <Typography>
                 <ProductRow
                   product={vendorDetail ? vendorDetail.product : ""}
@@ -346,7 +346,7 @@ function Row(props) {
             onChange={handleChange("panel2")}
           >
             <AccordionSummary
-              sx={{ background: "#e1edef" }}
+              className="Btn_Gradient"
               expandIcon={
                 expanded === "panel2" ? <AiOutlineClose /> : <AiOutlinePlus />
               }
@@ -357,7 +357,7 @@ function Row(props) {
                 Communication
               </Typography>
             </AccordionSummary>
-            <AccordionDetails>
+            <AccordionDetails className="overflow-auto">
               <Typography>
                 <CommunicationRow
                   communication={vendorDetail ? vendorDetail.communication : ""}
@@ -370,7 +370,7 @@ function Row(props) {
             onChange={handleChange("panel3")}
           >
             <AccordionSummary
-              sx={{ background: "#e1edef" }}
+              className="Btn_Gradient"
               expandIcon={
                 expanded === "panel3" ? <AiOutlineClose /> : <AiOutlinePlus />
               }
@@ -381,7 +381,7 @@ function Row(props) {
                 Licence
               </Typography>
             </AccordionSummary>
-            <AccordionDetails>
+            <AccordionDetails className="overflow-auto">
               <Typography>
                 <LicenceRow
                   licences={vendorDetail ? vendorDetail.licences : ""}
@@ -394,7 +394,7 @@ function Row(props) {
             onChange={handleChange("panel4")}
           >
             <AccordionSummary
-              sx={{ background: "#e1edef" }}
+              className="Btn_Gradient"
               expandIcon={
                 expanded === "panel4" ? <AiOutlineClose /> : <AiOutlinePlus />
               }
@@ -405,7 +405,7 @@ function Row(props) {
                 Address
               </Typography>
             </AccordionSummary>
-            <AccordionDetails>
+            <AccordionDetails className="overflow-auto">
               <Typography>
                 <AddressRow
                   primary={vendorDetail ? vendorDetail.primery_Address : ""}
@@ -420,7 +420,7 @@ function Row(props) {
             onChange={handleChange("panel5")}
           >
             <AccordionSummary
-              sx={{ background: "#e1edef" }}
+              className="Btn_Gradient"
               expandIcon={
                 expanded === "panel5" ? <AiOutlineClose /> : <AiOutlinePlus />
               }
@@ -431,7 +431,7 @@ function Row(props) {
                 Contact
               </Typography>
             </AccordionSummary>
-            <AccordionDetails>
+            <AccordionDetails className="overflow-auto">
               <Typography>
                 <ContactRow
                   primary={vendorDetail ? vendorDetail.primery_Contact : ""}
@@ -445,7 +445,7 @@ function Row(props) {
             onChange={handleChange("panel6")}
           >
             <AccordionSummary
-              sx={{ background: "#e1edef" }}
+              className="Btn_Gradient"
               expandIcon={
                 expanded === "panel6" ? <AiOutlineClose /> : <AiOutlinePlus />
               }
@@ -456,7 +456,7 @@ function Row(props) {
                 Additional
               </Typography>
             </AccordionSummary>
-            <AccordionDetails>
+            <AccordionDetails className="overflow-auto">
               <Typography>
                 <AdditionalRow
                   profileReminder={
@@ -485,8 +485,8 @@ const ViewVendor = () => {
   }, []);
   return (
     <>
-      <Header />
-      <Sidebar />
+      {/* <Header />
+      <Sidebar /> */}
       <div className="content-wrapper px-4 pt-5">
         <TableContainer component={Paper}>
           <Table aria-label="collapsible table">
