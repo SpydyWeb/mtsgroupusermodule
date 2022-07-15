@@ -4,7 +4,8 @@ import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+
+import { MdOutlineExpandMore } from "react-icons/md";
 let parsedObj;
 
 const Sidebar = () => {
@@ -98,7 +99,7 @@ const Sidebar = () => {
             <AccordionSummary
               onClick={() => SideBarOpen()}
               expandIcon={
-                <ExpandMoreIcon style={{ color: "rgb(194, 199, 208)" }} />
+                <MdOutlineExpandMore style={{ color: "rgb(194, 199, 208)" }} />
               }
               aria-controls="panel1a-content"
               id="panel1a-header"
@@ -172,7 +173,7 @@ const Sidebar = () => {
             <AccordionSummary
               onClick={() => SideBarOpenSec()}
               expandIcon={
-                <ExpandMoreIcon style={{ color: "rgb(194, 199, 208)" }} />
+                <MdOutlineExpandMore style={{ color: "rgb(194, 199, 208)" }} />
               }
               aria-controls="panel2a-content"
               id="panel2a-header"
@@ -189,7 +190,7 @@ const Sidebar = () => {
                   <Accordion className="sidebarAccord">
                     <AccordionSummary
                       expandIcon={
-                        <ExpandMoreIcon
+                        <MdOutlineExpandMore
                           style={{
                             color: "rgb(194, 199, 208)",
                           }}
