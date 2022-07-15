@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   TextField,
   Autocomplete,
@@ -10,8 +10,11 @@ import {
   Button,
 } from "@mui/material";
 import toast from "react-hot-toast";
+import { Checkexistingid } from "../../Services/Vendor";
+import ToolTipValidation from "../Validation/ToolTipValidation";
 const VendorProfileForm = (props) => {
   const top100Films = [{ label: "", year: 1994 }];
+  const [tooltip, setTooltip] = useState({ isshow: false, valid: false });
   const handleNext = () => {
     if (
       props.Vendordata.vendorId === "" ||
@@ -38,8 +41,23 @@ const VendorProfileForm = (props) => {
       toast.error("Please fill all the mandatory fields");
     else props.setActiveStep((prev) => prev + 1);
   };
+  const checkUserId = (id) => {
+    Checkexistingid(id).then((res) => {
+      if (res.status === 200) {
+        setTooltip({
+          isshow: true,
+          valid: true,
+        });
+      } else {
+        setTooltip({
+          isshow: true,
+          valid: false,
+        });
+      }
+    });
+  };
   return (
-    <div className="mt-5">
+    <div className="mt-3">
       <span className="legend Btn_Gradient">Profile Details</span>
       <div className="flex flex-col md:flex-row gap-6 border-2 p-3  mb-10 rounded-xl bg-white relative border-sky-500">
         <div>
@@ -57,14 +75,31 @@ const VendorProfileForm = (props) => {
             }
             name="vendorId"
             onChange={(e) => {
+              checkUserId(e.target.value);
               props.setVendordata({
                 ...(props.Vendordata ? props.Vendordata : ""),
                 [e.target.name]: e.target.value,
               });
             }}
+            onBlur={() => {
+              if (tooltip.valid)
+                setTooltip({
+                  isshow: false,
+                  valid: true,
+                });
+            }}
             variant="outlined"
             size="small"
           />
+          {tooltip.isshow ? (
+            <ToolTipValidation
+              isValid={tooltip.valid}
+              validMessage="Correct"
+              invalidMessage={"Vendor Id already exist"}
+            />
+          ) : (
+            <></>
+          )}
         </div>
         <div>
           <TextField
@@ -821,7 +856,7 @@ const VendorProfileForm = (props) => {
         </div>
       </div>
 
-      <div className="flex gap-6 border-2 p-3  mb-10 rounded-xl bg-white relative border-sky-500">
+      <div className="flex gap-6 border-2 p-3  mb-2 rounded-xl bg-white relative border-sky-500">
         <div className=" w-full">
           <TextField
             id="assignment"
@@ -833,7 +868,7 @@ const VendorProfileForm = (props) => {
             variant="outlined"
             size="small"
             multiline
-            rows={4}
+            rows={2}
             fullWidth
             value={
               props.Vendordata && props.Vendordata.assignmentNote
@@ -851,7 +886,14 @@ const VendorProfileForm = (props) => {
           />
         </div>
       </div>
-      <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          pt: 2,
+          justifyContent: "end",
+        }}
+      >
         <Button
           color="inherit"
           disabled={props.activeStep === 0}
@@ -861,7 +903,6 @@ const VendorProfileForm = (props) => {
         >
           Back
         </Button>
-        <Box sx={{ flex: "1 1 auto" }} />
 
         <Button onClick={handleNext} variant="contained" sx={{ m: 1 }}>
           Next

@@ -150,18 +150,26 @@ const Com_notification = (props) => {
     const data = [...props.communication];
 
     data[i][name] = value;
-    props.setVendordata({ ...props.Vendordata, ["communication"]: data });
+    let status = false;
+    let count = 0;
+    if (name === "product_id")
+      props.communication.map((ele) => {
+        if (ele.product_id === value) count++;
+      });
+    if (count > 1) status = true;
+    if (status) toast.error("Product name cannott be same");
+    else props.setVendordata({ ...props.Vendordata, ["communication"]: data });
     // setInputList(data);
   };
   return (
     <>
-      <div className="py-3 mb-3 ">
+      <div className="py-1 mb-3">
         <span className="legend Btn_Gradient">Communication</span>
-        <div className="  border-2 p-3  mb-10 rounded-xl bg-white relative border-sky-500">
+        <div className="  border-2 p-3  mb-2 rounded-xl bg-white relative border-sky-500">
           {props.communication.map((x, i) => {
             return (
               <>
-                <div className="flex  flex-col md:flex-row gap-6 border-2 p-3  mb-1 rounded-xl ">
+                <div className="flex  flex-col md:flex-row gap-6 border-2 p-3  mb-1 rounded-xl items-center ">
                   <div>{i === 0 ? "Default" : "Additional"}</div>
                   <div>
                     <FormControl className="w-40" size="small">
@@ -253,7 +261,7 @@ const Com_notification = (props) => {
         </div>
       </div>
       <span className="legend Btn_Gradient">Additional Notification</span>
-      <div className="flex  flex-col md:flex-row gap-6 border-2 p-3  mb-10 rounded-xl bg-white relative border-sky-500">
+      <div className="flex  flex-col md:flex-row gap-6 border-2 p-3  mb-2 rounded-xl bg-white relative border-sky-500">
         <div>
           <FormGroup>
             <FormControlLabel
@@ -313,7 +321,14 @@ const Com_notification = (props) => {
           </FormGroup>
         </div>
       </div>
-      <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          pt: 2,
+          justifyContent: "end",
+        }}
+      >
         <Button
           color="inherit"
           disabled={props.activeStep === 0}
@@ -323,8 +338,6 @@ const Com_notification = (props) => {
         >
           Back
         </Button>
-        <Box sx={{ flex: "1 1 auto" }} />
-
         <Button onClick={handleSubmit} variant="contained" sx={{ m: 1 }}>
           Submit
         </Button>

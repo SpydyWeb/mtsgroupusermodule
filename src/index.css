@@ -31,7 +31,6 @@ body {
 }
 
 @media (max-width: 768px) {
-
   .css-1u3bzj6-MuiFormControl-root-MuiTextField-root {
     width: 100% !important;
   }
@@ -56,6 +55,14 @@ body {
     height: 100%;
     position: absolute;
     right: 0;
+  }
+
+  .ml-auto-style-end {
+    margin-left: 0 !important;
+  }
+
+  .main-header-end {
+    justify-content: flex-end;
   }
 }
 
@@ -82,4 +89,89 @@ body {
     rgb(0 0 0 / 7%) 0px 4px 6px, rgb(0 0 0 / 9%) 0px 12px 13px,
     rgb(0 0 0 / 10%) 0px -3px 5px;
   cursor: pointer;
+}
+
+.ml-auto-style {
+  margin-left: auto;
+}
+
+[class*="sidebar-dark-"] .nav-treeview > .nav-item > .nav-link-sub {
+  color: #c2c7d0 !important;
+  display: flex;
+}
+
+[class*="sidebar-dark-"] .nav-treeview > .nav-item > .nav-link-sub:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.css-h0uqyz-MuiButtonBase-root-MuiButton-root.Mui-disabled {
+  color: #fff !important;
+  box-shadow: none;
+  background-color: rgb(210, 0, 0) !important;
+}
+
+.css-9rt2td-MuiButtonBase-root-MuiButton-root.Mui-disabled {
+  color: #fff !important;
+  box-shadow: none;
+  background-color: rgb(210, 0, 0) !important;
+}
+
+.css-sh22l5-MuiButtonBase-root-MuiAccordionSummary-root.Mui-expanded {
+  min-height: 35px !important;
+}
+
+.css-o4b71y-MuiAccordionSummary-content.Mui-expanded {
+  margin: 5px 0 !important;
+}
+
+.css-15v22id-MuiAccordionDetails-root {
+  padding: 8px 16px 6px !important;
+}
+
+.sidebarAccord {
+  background-color: #343a40 !important;
+  color: rgb(194, 199, 208) !important;
+}
+
+.px-0 {
+  padding-left: 0 !important;
+}
+
+.nav-link {
+  padding: 0.5rem 16px;
+}
+
+.p-0 {
+  padding: 0 !important;
+}
+
+.css-18k87ye-MuiTypography-root {
+  font-size: 17px !important;
+  line-height: 1.8 !important;
+}
+
+.w-style {
+  width: 135px !important;
+  margin-left: 20px;
+}
+
+.css-1atslg0-MuiTypography-root {
+  margin-top: 0px !important;
+}
+
+.css-9rt2td-MuiButtonBase-root-MuiButton-root {
+  background-color: #1976d2 !important;
+  color: #fff !important;
+}
+
+.css-9rt2td-MuiButtonBase-root-MuiButton-root:hover {
+  background-color: #1976d2 !important;
+  color: #fff !important;
+}
+
+.css-9rt2td-MuiButtonBase-root-MuiButton-root.Mui-disabled {
+  color: #fff !important;
+  box-shadow: none;
+  background-color: #1976d2 !important;
 }

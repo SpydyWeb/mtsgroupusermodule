@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import Header from "./Header";
-import Sidebar from "./Sidebar";
+// import Header from "./Header";
+// import Sidebar from "./Sidebar";
 import { useNavigate } from "react-router-dom";
 import Footer from "./Footer";
 import { GetsubRole, DeleteroleDefunation } from "../Services/Role";
@@ -77,8 +77,8 @@ const SubAccessRoles = () => {
 
   return (
     <>
-      <Header />
-      <Sidebar />
+      {/* <Header />
+      <Sidebar /> */}
       <div className="content-wrapper px-4 mt-4">
         <div className="d-flex justify-end my-2">
           <button

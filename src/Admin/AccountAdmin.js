@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Header from "./Header";
-import Sidebar from "./Sidebar";
+// import Header from "./Header";
+// import Sidebar from "./Sidebar";
 import MyAccount from "../Components/MyAccount";
 
 const HomeAdmin = () => {
@@ -16,8 +16,8 @@ const HomeAdmin = () => {
 
   return (
     <>
-      <Header />
-      <Sidebar />
+      {/* <Header />
+      <Sidebar /> */}
       <MyAccount />
     </>
   );

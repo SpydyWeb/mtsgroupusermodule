@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import Header from "./Header";
-import Sidebar from "./Sidebar";
+// import Header from "./Header";
+// import Sidebar from "./Sidebar";
 import Footer from "./Footer";
 import { TextField } from "@mui/material";
 import { AddLicenceType, UpdateLicenceType } from "../Services/Vendor";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
+import { FaTimes } from "react-icons/fa";
 
 const LicenceType = () => {
   const { id, name } = useParams();
@@ -21,11 +22,12 @@ const LicenceType = () => {
     } else {
       if (id === undefined) {
         AddLicenceType(LicName).then((res) => {
+          console.log(res, "res");
           if (res.status === 200) {
             toast.success("Licence Created Succsessfully");
             Navigate("/admin/licencetable");
           } else {
-            toast.error("Technical Issue");
+            toast.error("Licence name already exits");
           }
         });
       } else {
@@ -43,9 +45,9 @@ const LicenceType = () => {
 
   return (
     <>
-      {" "}
+      {/* {" "}
       <Header />
-      <Sidebar />
+      <Sidebar /> */}
       <div className="content-wrapper px-4">
         <div className="d-flex justify-end mt-2">
           <button
@@ -63,6 +65,7 @@ const LicenceType = () => {
                 <h3 className="mb-4 text-2xl font-semibold text-gray-700 text-center">
                   Licence Type
                 </h3>
+
                 <form className="flex flex-col space-y-2">
                   <div>
                     <TextField
@@ -74,12 +77,20 @@ const LicenceType = () => {
                       onChange={(e) => setLicName({ name: e.target.value })}
                     />
                   </div>
-                  <div>
+                  <div className="flex gap-x-5">
                     <button
                       className="btn-donate w-full mb-4"
                       onClick={SubmitHandler}
                     >
                       Submit
+                    </button>
+
+                    <button
+                      className="btn-donate w-full mb-4"
+                      style={{ backgroundColor: "#d20000" }}
+                      onClick={() => Navigate("/admin/licencetable")}
+                    >
+                      Cancel
                     </button>
                   </div>
                 </form>

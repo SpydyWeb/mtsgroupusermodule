@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import Header from "./Header";
-import Sidebar from "./Sidebar";
+// import Header from "./Header";
+// import Sidebar from "./Sidebar";
 import DropDownBox from "../Component/InputFields/DropDownBox";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -63,8 +63,8 @@ const RoleDefination = () => {
   };
   return (
     <div>
-      <Header />
-      <Sidebar />
+      {/* <Header />
+      <Sidebar /> */}
       <div className="content-wrapper px-4 mt-4">
         <div className="d-flex justify-end mt-2">
           <button

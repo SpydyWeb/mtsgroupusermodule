@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import Header from "./Header";
-import Sidebar from "./Sidebar";
+// import Header from "./Header";
+// import Sidebar from "./Sidebar";
 import Footer from "./Footer";
 import { TextField } from "@mui/material";
 import { AddCommunication, UpdateCommuncationType } from "../Services/Vendor";
@@ -41,9 +41,9 @@ const CommunicationProduct = () => {
   };
   return (
     <>
-      {" "}
+      {/* {" "}
       <Header />
-      <Sidebar />
+      <Sidebar /> */}
       <div className="content-wrapper px-4">
         <div className="d-flex justify-end mt-2">
           <button
@@ -64,20 +64,28 @@ const CommunicationProduct = () => {
                 <form className="flex flex-col space-y-2">
                   <div>
                     <TextField
+                      style={{ width: "100%" }}
                       id="name"
+                      size="small"
                       label="Communication Type Name"
                       variant="outlined"
-                      fullWidth
                       value={Data.name}
                       onChange={(e) => setData({ name: e.target.value })}
                     />
                   </div>
-                  <div>
+                  <div className="flex gap-x-5">
                     <button
                       className="btn-donate w-full mb-4"
                       onClick={SubmitHandler}
                     >
                       Submit
+                    </button>
+                    <button
+                      className="btn-donate w-full mb-4"
+                      style={{ backgroundColor: "#d20000" }}
+                      onClick={() => Navigate("/admin/communicationtable")}
+                    >
+                      Cancel
                     </button>
                   </div>
                 </form>

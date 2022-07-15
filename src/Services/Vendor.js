@@ -238,3 +238,38 @@ export const AddVendor = async (data) => {
     },
   }).then((data) => data);
 };
+
+export const Checkexistingid = async (id) => {
+  return await fetch(`${Url}Checkexistingid?id=${id}`, {
+    method: "GET",
+
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      "Access-Control-Allow-Origin": "*",
+    },
+  }).then((data) => data);
+};
+export const GetallVendor = async () => {
+  return await fetch(`${Url}GetAllVendors`, {
+    method: "GET",
+
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      "Access-Control-Allow-Origin": "*",
+    },
+  }).then((data) => data.json());
+};
+
+export const Getvendorbyid = async (id) => {
+  return await fetch(`${Url}Getvendorbyid?id=${id}`, {
+    method: "GET",
+
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      "Access-Control-Allow-Origin": "*",
+    },
+  }).then((data) => data.json());
+};

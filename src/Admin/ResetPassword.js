@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Header from "./Header";
-import Sidebar from "./Sidebar";
+// import Header from "./Header";
+// import Sidebar from "./Sidebar";
 
 import Footer from "./Footer";
 import { UserLogin, ChangePassword } from "../Services/User";
@@ -57,8 +57,8 @@ const ResetPassword = () => {
   };
   return (
     <div>
-      <Header />
-      <Sidebar />
+      {/* <Header />
+      <Sidebar /> */}
       <div className="content-wrapper flex  justify-center items-center">
         <div classname="container">
           <div className="flex   m-2 ">

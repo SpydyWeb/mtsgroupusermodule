@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import Header from "./Header";
-import Sidebar from "./Sidebar";
+// import Header from "./Header";
+// import Sidebar from "./Sidebar";
 import Footer from "./Footer";
 import { TextField } from "@mui/material";
 import { AddState, UpdateState } from "../Services/Vendor";
@@ -41,9 +41,9 @@ const State = () => {
   };
   return (
     <>
-      {" "}
+      {/* {" "}
       <Header />
-      <Sidebar />
+      <Sidebar /> */}
       <div className="content-wrapper px-4">
         <div className="d-flex justify-end mt-2">
           <button
@@ -67,17 +67,24 @@ const State = () => {
                       id="name"
                       label="State Name"
                       variant="outlined"
-                      fullWidth
+                      size="small"
                       value={Data.name}
                       onChange={(e) => setData({ name: e.target.value })}
                     />
                   </div>
-                  <div>
+                  <div className="flex gap-x-5">
                     <button
                       className="btn-donate w-full mb-4"
                       onClick={SubmitHandler}
                     >
                       Submit
+                    </button>
+                    <button
+                      className="btn-donate w-full mb-4"
+                      style={{ backgroundColor: "#d20000" }}
+                      onClick={() => Navigate("/admin/statetable")}
+                    >
+                      Cancel
                     </button>
                   </div>
                 </form>

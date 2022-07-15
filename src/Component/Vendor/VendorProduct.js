@@ -12,6 +12,8 @@ import { AccordionSummary } from "@mui/material";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import toast from "react-hot-toast";
+
+import { FcExpand } from "react-icons/fc";
 const VendorProduct = (props) => {
   const handleNext = () => {
     let status = false;
@@ -54,50 +56,71 @@ const VendorProduct = (props) => {
   };
   return (
     <>
-      {props.productdata.map((ele, indx) => {
-        if (ele.subCategory.length > 0) {
-          return (
-            <div className="mt-1" key={indx}>
-              <Accordion>
-                <AccordionSummary
-                  //expandIcon={<ExpandMoreIcon />}
-                  aria-controls="panel1a-content"
-                  id="panel1a-header"
-                >
-                  <Typography>{ele.name}</Typography>
-                </AccordionSummary>
-                {ele.subCategory.map((val, i) => {
-                  return (
-                    <AccordionDetails>
-                      <Typography>
-                        <div className="flex">
-                          <FormGroup key={i} className="flex flex-row gap-x-8">
-                            <FormControlLabel
-                              control={<Android12Switch />}
-                              label={val.name}
-                              name="selected"
-                              checked={val.selected}
-                              onChange={(e) => handlechange(e, i, indx, val.id)}
-                            />
-                            <TextField
-                              label="Price"
-                              variant="outlined"
-                              size="small"
-                              value={val.price}
-                              onChange={(e) => handlechange(e, i, indx, val.id)}
-                            />
-                          </FormGroup>
-                        </div>
-                      </Typography>
-                    </AccordionDetails>
-                  );
-                })}
-              </Accordion>
-            </div>
-          );
-        } else return <></>;
-      })}
-      <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+      <div className="flex">
+        {props.productdata.map((ele, indx) => {
+          if (ele.subCategory.length > 0) {
+            return (
+              <div className="mt-1 col-md-6" key={indx}>
+                <Accordion className="max-h-[250px] overflow-y-auto">
+                  <AccordionSummary
+                    expandIcon={<FcExpand />}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                    style={{ borderBottom: "1px solid lightgray" }}
+                  >
+                    <Typography style={{ fontWeight: "700" }}>
+                      {ele.name}
+                    </Typography>
+                  </AccordionSummary>
+                  {ele.subCategory.map((val, i) => {
+                    return (
+                      <AccordionDetails>
+                        <Typography>
+                          <div className="flex">
+                            <FormGroup
+                              key={i}
+                              className="flex flex-row gap-x-8"
+                            >
+                              <FormControlLabel
+                                style={{ minWidth: "132px" }}
+                                control={<Android12Switch />}
+                                label={val.name}
+                                name="selected"
+                                checked={val.selected}
+                                onChange={(e) =>
+                                  handlechange(e, i, indx, val.id)
+                                }
+                              />
+
+                              <TextField
+                                label="Price"
+                                variant="outlined"
+                                size="small"
+                                value={val.price}
+                                onChange={(e) =>
+                                  handlechange(e, i, indx, val.id)
+                                }
+                              />
+                            </FormGroup>
+                          </div>
+                        </Typography>
+                      </AccordionDetails>
+                    );
+                  })}
+                </Accordion>
+              </div>
+            );
+          } else return <></>;
+        })}
+      </div>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          pt: 2,
+          justifyContent: "end",
+        }}
+      >
         <Button
           color="inherit"
           disabled={props.activeStep === 0}
@@ -107,7 +130,6 @@ const VendorProduct = (props) => {
         >
           Back
         </Button>
-        <Box sx={{ flex: "1 1 auto" }} />
 
         <Button onClick={handleNext} variant="contained" sx={{ m: 1 }}>
           Next

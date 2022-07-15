@@ -83,8 +83,19 @@ const VendorLicense = (props) => {
   const handlechangeLicense = (e, i) => {
     const { name, value } = e.target;
     const data = [...props.licences];
+    var q = new Date();
+    var date = new Date(q.getFullYear(), q.getMonth(), q.getDate());
 
-    data[i][name] = value;
+    if (name === "issueDate") {
+      if (new Date(value) < date) {
+        data[i][name] = value;
+      } else {
+        toast.error("Issue date should be less than from today");
+      }
+    } else if (name === "expiry_Date") {
+      if (new Date(value) > new Date(data[i].issueDate)) data[i][name] = value;
+      else toast.error("Expiry date should be greater than issue date");
+    } else data[i][name] = value;
     props.setVendordata({ ...props.Vendordata, ["licences"]: data });
   };
   return (
@@ -93,8 +104,8 @@ const VendorLicense = (props) => {
         {props.licences.map((x, i) => {
           return (
             <>
-              <div className="flex flex-col">
-                <div className="flex gap-6 flex-col md:flex-row  py-3 mb-3">
+              <div className="flex flex-col flex-wrap  border-2 border-slate-300 p-2 mb-1 rounded-xl">
+                <div className="flex gap-6 flex-col md:flex-row  py-1 mb-1">
                   <div>
                     <TextField
                       name="firstName"
@@ -175,7 +186,7 @@ const VendorLicense = (props) => {
                   </div>
                 </div>
 
-                <div className="flex flex-col md:flex-row gap-6  py-3 mb-3">
+                <div className="flex flex-col md:flex-row gap-6  py-2 mb-1 flex-wrap">
                   <div>
                     <Autocomplete
                       freeSolo
@@ -211,21 +222,7 @@ const VendorLicense = (props) => {
                       )}
                     />
                   </div>
-                  <div>
-                    <TextField
-                      label={
-                        <>
-                          Expiry Date <span className="text-red-600">*</span>
-                        </>
-                      }
-                      name="expiry_Date"
-                      type="date"
-                      variant="outlined"
-                      size="small"
-                      value={x.expiry_Date}
-                      onChange={(e) => handlechangeLicense(e, i)}
-                    />
-                  </div>
+
                   <div>
                     <TextField
                       label={
@@ -239,11 +236,29 @@ const VendorLicense = (props) => {
                       size="small"
                       value={x.issueDate}
                       onChange={(e) => handlechangeLicense(e, i)}
+                      focused
+                    />
+                  </div>
+
+                  <div>
+                    <TextField
+                      label={
+                        <>
+                          Expiry Date <span className="text-red-600">*</span>
+                        </>
+                      }
+                      name="expiry_Date"
+                      type="date"
+                      variant="outlined"
+                      size="small"
+                      value={x.expiry_Date}
+                      onChange={(e) => handlechangeLicense(e, i)}
+                      focused
                     />
                   </div>
                 </div>
-                <div className="flex flex-col md:flex-row gap-6 py-3 mb-3">
-                  <div className=" w-full">
+                <div className="flex gap-6 py-1 mb-1">
+                  <div className="w-full md:w-1/2">
                     <TextField
                       name="disciplinaryAction"
                       label={
@@ -255,13 +270,13 @@ const VendorLicense = (props) => {
                       variant="outlined"
                       size="small"
                       multiline
-                      rows={4}
+                      rows={2}
                       fullWidth
                       value={x.disciplinaryAction}
                       onChange={(e) => handlechangeLicense(e, i)}
                     />
                   </div>
-                  <div className=" w-full">
+                  <div className="w-full md:w-1/2">
                     <TextField
                       name="note"
                       label={
@@ -272,14 +287,14 @@ const VendorLicense = (props) => {
                       variant="outlined"
                       size="small"
                       multiline
-                      rows={4}
+                      rows={2}
                       fullWidth
                       value={x.assignnotement}
                       onChange={(e) => handlechangeLicense(e, i)}
                     />
                   </div>
                 </div>
-                <div className="flex">
+                <div className="flex flex-wrap">
                   {props.licences.length !== 1 && (
                     <MdDelete
                       onClick={() => handleRemoveClick(i)}
@@ -302,9 +317,16 @@ const VendorLicense = (props) => {
           );
         })}
       </div>
-      <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          pt: 2,
+          justifyContent: "end",
+        }}
+      >
         <Button
-          color="inherit"
+          style={{ BackgroundColor: "red" }}
           disabled={props.activeStep === 0}
           onClick={() => props.setActiveStep((prev) => prev - 1)}
           variant="contained"
@@ -312,7 +334,6 @@ const VendorLicense = (props) => {
         >
           Back
         </Button>
-        <Box sx={{ flex: "1 1 auto" }} />
 
         <Button onClick={handleNext} variant="contained" sx={{ m: 1 }}>
           Next

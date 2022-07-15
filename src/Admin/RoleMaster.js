@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import Header from "./Header";
-import Sidebar from "./Sidebar";
+// import Header from "./Header";
+// import Sidebar from "./Sidebar";
 import { useNavigate, useParams } from "react-router-dom";
 
 import Footer from "./Footer";
@@ -56,8 +56,8 @@ const RoleMaster = () => {
   };
   return (
     <div>
-      <Header />
-      <Sidebar />
+      {/* <Header />
+      <Sidebar /> */}
       <div className="content-wrapper px-4">
         <div className="d-flex justify-end mt-2">
           <button

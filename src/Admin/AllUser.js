@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import Header from "./Header";
-import Sidebar from "./Sidebar";
+// import Header from "./Header";
+// import Sidebar from "./Sidebar";
 import Footer from "./Footer";
 import { useNavigate } from "react-router-dom";
 import { AiFillEdit } from "react-icons/ai";
@@ -73,8 +73,8 @@ const AllUser = () => {
 
   return (
     <div>
-      <Header />
-      <Sidebar />
+      {/* <Header />
+      <Sidebar /> */}
       <div className="content-wrapper px-4">
         <div className="d-flex justify-end mt-2">
           <button

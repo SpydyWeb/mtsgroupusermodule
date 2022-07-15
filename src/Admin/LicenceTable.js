@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-import Header from "./Header";
-import Sidebar from "./Sidebar";
+// import Header from "./Header";
+// import Sidebar from "./Sidebar";
 import Footer from "./Footer";
 import { useNavigate } from "react-router-dom";
 import { GetLicenceType, DeleteLicenceType } from "../Services/Vendor";
@@ -77,8 +77,8 @@ const LicenceTable = () => {
   };
   return (
     <div>
-      <Header />
-      <Sidebar />
+      {/* <Header />
+      <Sidebar /> */}
       <div className="content-wrapper px-4">
         <div className="d-flex justify-end mt-2">
           <button

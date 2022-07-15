@@ -6,7 +6,7 @@ const ToolTipValidation = ({ validMessage, invalidMessage, isValid }) => {
     <div
       className={`border-2 absolute p-2 ${
         isValid ? "border-green-500" : "border-red-500"
-      } mt-1 max-w-[200px] break-words z-[999] bg-white rounded-md `}
+      } mt-1 max-w-[200px] break-words z-[9999] bg-white rounded-md `}
     >
       {isValid ? (
         <div className="flex items-center gap-2">

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import Header from "./Header";
-import Sidebar from "./Sidebar";
+// import Header from "./Header";
+// import Sidebar from "./Sidebar";
 import Footer from "./Footer";
 import { GetMappingsubRole, Deletemapping } from "../Services/Role";
 import { useNavigate } from "react-router-dom";
@@ -37,8 +37,8 @@ const ViewAccessRole = () => {
 
   return (
     <div>
-      <Header />
-      <Sidebar />{" "}
+      {/* <Header />
+      <Sidebar />{" "} */}
       <div className="content-wrapper px-4">
         <div classname="container ">
           {" "}

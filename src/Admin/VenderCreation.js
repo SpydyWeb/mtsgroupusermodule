@@ -1,6 +1,6 @@
 import React from "react";
-import Header from "./Header";
-import Sidebar from "./Sidebar";
+// import Header from "./Header";
+// import Sidebar from "./Sidebar";
 import Footer from "./Footer";
 import {
   TextField,
@@ -15,9 +15,9 @@ import "./Admin.css";
 const VenderCreation = () => {
   return (
     <>
-      <Header />
-      <Sidebar />
-      <div className="content-wrapper px-4 pt-5">
+      {/* <Header />
+      <Sidebar /> */}
+      <div className="content-wrapper px-4 pt-2">
         <StepperForm />
       </div>
       <Footer />

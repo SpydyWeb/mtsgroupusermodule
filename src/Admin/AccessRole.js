@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import Header from "./Header";
-import Sidebar from "./Sidebar";
+// import Header from "./Header";
+// import Sidebar from "./Sidebar";
 import Footer from "./Footer";
 import { GetRole, GetsubRole, CreateMapping } from "../Services/Role";
 import toast from "react-hot-toast";
@@ -80,8 +80,8 @@ const AccessRole = () => {
   };
   return (
     <div>
-      <Header />
-      <Sidebar />{" "}
+      {/* <Header />
+      <Sidebar />{" "} */}
       <div className="content-wrapper px-4">
         <div classname="container">
           <div className="d-flex justify-end m-2 ">
