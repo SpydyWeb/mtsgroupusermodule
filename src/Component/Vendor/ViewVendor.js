@@ -18,10 +18,9 @@ import {
   AiOutlineClose,
 } from "react-icons/ai";
 import { AiFillEye } from "react-icons/ai";
-import { FcInfo } from "react-icons/fc";
-// import Header from "../../Admin/Header";
+
 import Footer from "../../Admin/Footer";
-// import Sidebar from "../../Admin/Sidebar";
+
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
@@ -224,181 +223,7 @@ const ContactRow = (props) => {
     </>
   );
 };
-const AccordionView = (props) => {
-  const [expanded, setExpanded] = React.useState(false);
-  const handleChange = (panel) => (event, isExpanded) => {
-    setExpanded(isExpanded ? panel : false);
-  };
-  const { vendorDetail } = props;
-  return (
-    <>
-      <Accordion
-        expanded={expanded === "panel1"}
-        onChange={handleChange("panel1")}
-      >
-        <AccordionSummary
-          className="Btn_Gradient"
-          expandIcon={
-            expanded === "panel1" ? <AiOutlineClose /> : <AiOutlinePlus />
-          }
-          aria-controls="panel1bh-content"
-          id="panel1bh-header"
-          sx={{ background: "#e1edef" }}
-        >
-          <Typography sx={{ width: "33%", flexShrink: 0 }}>Product</Typography>
-        </AccordionSummary>
-        <AccordionDetails className="overflow-auto">
-          <Typography>
-            <ProductRow
-              product={vendorDetail.product ? vendorDetail.product : ""}
-            />
-          </Typography>
-        </AccordionDetails>
-      </Accordion>
-      <Accordion
-        expanded={expanded === "panel2"}
-        onChange={handleChange("panel2")}
-      >
-        <AccordionSummary
-          className="Btn_Gradient"
-          expandIcon={
-            expanded === "panel2" ? <AiOutlineClose /> : <AiOutlinePlus />
-          }
-          aria-controls="panel2bh-content"
-          id="panel2bh-header"
-        >
-          <Typography sx={{ width: "33%", flexShrink: 0 }}>
-            Communication
-          </Typography>
-        </AccordionSummary>
-        <AccordionDetails className="overflow-auto">
-          <Typography>
-            <CommunicationRow
-              communication={
-                vendorDetail.communication ? vendorDetail.communication : ""
-              }
-            />
-          </Typography>
-        </AccordionDetails>
-      </Accordion>
-      <Accordion
-        expanded={expanded === "panel3"}
-        onChange={handleChange("panel3")}
-      >
-        <AccordionSummary
-          className="Btn_Gradient"
-          expandIcon={
-            expanded === "panel3" ? <AiOutlineClose /> : <AiOutlinePlus />
-          }
-          aria-controls="panel3bh-content"
-          id="panel3bh-header"
-        >
-          <Typography sx={{ width: "33%", flexShrink: 0 }}>Licence</Typography>
-        </AccordionSummary>
-        <AccordionDetails className="overflow-auto">
-          <Typography>
-            <LicenceRow
-              licences={vendorDetail.licences ? vendorDetail.licences : ""}
-            />
-          </Typography>
-        </AccordionDetails>
-      </Accordion>
-      <Accordion
-        expanded={expanded === "panel4"}
-        onChange={handleChange("panel4")}
-      >
-        <AccordionSummary
-          className="Btn_Gradient"
-          expandIcon={
-            expanded === "panel4" ? <AiOutlineClose /> : <AiOutlinePlus />
-          }
-          aria-controls="panel4bh-content"
-          id="panel4bh-header"
-        >
-          <Typography sx={{ width: "33%", flexShrink: 0 }}>Address</Typography>
-        </AccordionSummary>
-        <AccordionDetails className="overflow-auto">
-          <Typography>
-            <AddressRow
-              primary={
-                vendorDetail.primery_Address ? vendorDetail.primery_Address : ""
-              }
-              secondary={
-                vendorDetail.secondary_Address
-                  ? vendorDetail.secondary_Address
-                  : ""
-              }
-            />
-          </Typography>
-        </AccordionDetails>
-      </Accordion>
-      <Accordion
-        expanded={expanded === "panel5"}
-        onChange={handleChange("panel5")}
-      >
-        <AccordionSummary
-          className="Btn_Gradient"
-          expandIcon={
-            expanded === "panel5" ? <AiOutlineClose /> : <AiOutlinePlus />
-          }
-          aria-controls="panel4bh-content"
-          id="panel4bh-header"
-        >
-          <Typography sx={{ width: "33%", flexShrink: 0 }}>Contact</Typography>
-        </AccordionSummary>
-        <AccordionDetails className="overflow-auto">
-          <Typography>
-            <ContactRow
-              primary={
-                vendorDetail.primery_Contact ? vendorDetail.primery_Contact : ""
-              }
-              secondary={
-                vendorDetail.secondary_contact
-                  ? vendorDetail.secondary_contact
-                  : ""
-              }
-            />
-          </Typography>
-        </AccordionDetails>
-      </Accordion>
-      <Accordion
-        expanded={expanded === "panel6"}
-        onChange={handleChange("panel6")}
-      >
-        <AccordionSummary
-          className="Btn_Gradient"
-          expandIcon={
-            expanded === "panel6" ? <AiOutlineClose /> : <AiOutlinePlus />
-          }
-          aria-controls="panel4bh-content"
-          id="panel4bh-header"
-        >
-          <Typography sx={{ width: "33%", flexShrink: 0 }}>
-            Additional
-          </Typography>
-        </AccordionSummary>
-        <AccordionDetails className="overflow-auto">
-          <Typography>
-            <AdditionalRow
-              profileReminder={
-                vendorDetail.profileReminder ? vendorDetail.profileReminder : ""
-              }
-              dailyReminder={
-                vendorDetail.dailyReminder ? vendorDetail.dailyReminder : ""
-              }
-              qcRejection={
-                vendorDetail.qcRejection ? vendorDetail.qcRejection : ""
-              }
-              new_Assignment={
-                vendorDetail.new_Assignment ? vendorDetail.new_Assignment : ""
-              }
-            />
-          </Typography>
-        </AccordionDetails>
-      </Accordion>
-    </>
-  );
-};
+
 const AdditionalRow = (props) => {
   return (
     <>
@@ -438,16 +263,19 @@ const AdditionalRow = (props) => {
   );
 };
 function Row(props) {
-  const { row } = props;
+  const { row, vendorDetail, setVendorDetail } = props;
   const [open, setOpen] = useState(false);
-  const [vendorDetail, setVendorDetail] = useState();
+
   const GetmoreData = (id) => {
     Getvendorbyid(id).then((res) => {
+      setVendorDetail(res);
       setOpen(!open);
       props.setOpen(!props.open);
-      setVendorDetail(res);
-      console.log(res);
     });
+  };
+  const [expanded, setExpanded] = React.useState(false);
+  const handleChange = (panel) => (event, isExpanded) => {
+    setExpanded(isExpanded ? panel : false);
   };
 
   return (
@@ -462,9 +290,9 @@ function Row(props) {
         <TableCell align="center">{row.emailId}</TableCell>
         <TableCell sx={{ display: "flex", justifyContent: "center" }}>
           {row.allowTextMsg ? (
-            <BsCheckCircleFill color="green" />
+            <BsCheckCircleFill color="green" size={20} />
           ) : (
-            <AiFillCloseCircle color="red" />
+            <AiFillCloseCircle color="red" size={20} />
           )}
         </TableCell>
         <TableCell>
@@ -481,15 +309,213 @@ function Row(props) {
       <TableRow></TableRow>
       <Modal
         open={props.open}
-        onClose={() => {
-          props.setOpen(false);
-          setVendorDetail({});
-        }}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          {vendorDetail ? <AccordionView vendorDetail={vendorDetail} /> : ""}
+          <div className="flex justify-end mb-3 cursor-pointer">
+            <AiOutlineClose
+              onClick={() => {
+                props.setOpen(false);
+                setVendorDetail({});
+              }}
+              size={20}
+            />
+          </div>
+          <Accordion
+            expanded={expanded === "panel1"}
+            onChange={handleChange("panel1")}
+          >
+            <AccordionSummary
+              className="Btn_Gradient"
+              expandIcon={
+                expanded === "panel1" ? <AiOutlineClose /> : <AiOutlinePlus />
+              }
+              aria-controls="panel1bh-content"
+              id="panel1bh-header"
+              sx={{ background: "#e1edef" }}
+            >
+              <Typography sx={{ width: "33%", flexShrink: 0 }}>
+                Product
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails className="overflow-auto">
+              <Typography>
+                <ProductRow
+                  product={
+                    vendorDetail && vendorDetail.product
+                      ? vendorDetail.product
+                      : ""
+                  }
+                />
+              </Typography>
+            </AccordionDetails>
+          </Accordion>
+          <Accordion
+            expanded={expanded === "panel2"}
+            onChange={handleChange("panel2")}
+          >
+            <AccordionSummary
+              className="Btn_Gradient"
+              expandIcon={
+                expanded === "panel2" ? <AiOutlineClose /> : <AiOutlinePlus />
+              }
+              aria-controls="panel2bh-content"
+              id="panel2bh-header"
+            >
+              <Typography sx={{ width: "33%", flexShrink: 0 }}>
+                Communication
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails className="overflow-auto">
+              <Typography>
+                <CommunicationRow
+                  communication={
+                    vendorDetail && vendorDetail.communication
+                      ? vendorDetail.communication
+                      : ""
+                  }
+                />
+              </Typography>
+            </AccordionDetails>
+          </Accordion>
+          <Accordion
+            expanded={expanded === "panel3"}
+            onChange={handleChange("panel3")}
+          >
+            <AccordionSummary
+              className="Btn_Gradient"
+              expandIcon={
+                expanded === "panel3" ? <AiOutlineClose /> : <AiOutlinePlus />
+              }
+              aria-controls="panel3bh-content"
+              id="panel3bh-header"
+            >
+              <Typography sx={{ width: "33%", flexShrink: 0 }}>
+                Licence
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails className="overflow-auto">
+              <Typography>
+                <LicenceRow
+                  licences={
+                    vendorDetail && vendorDetail.licences
+                      ? vendorDetail.licences
+                      : ""
+                  }
+                />
+              </Typography>
+            </AccordionDetails>
+          </Accordion>
+          <Accordion
+            expanded={expanded === "panel4"}
+            onChange={handleChange("panel4")}
+          >
+            <AccordionSummary
+              className="Btn_Gradient"
+              expandIcon={
+                expanded === "panel4" ? <AiOutlineClose /> : <AiOutlinePlus />
+              }
+              aria-controls="panel4bh-content"
+              id="panel4bh-header"
+            >
+              <Typography sx={{ width: "33%", flexShrink: 0 }}>
+                Address
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails className="overflow-auto">
+              <Typography>
+                <AddressRow
+                  primary={
+                    vendorDetail && vendorDetail.primery_Address
+                      ? vendorDetail.primery_Address
+                      : ""
+                  }
+                  secondary={
+                    vendorDetail && vendorDetail.secondary_Address
+                      ? vendorDetail.secondary_Address
+                      : ""
+                  }
+                />
+              </Typography>
+            </AccordionDetails>
+          </Accordion>
+          <Accordion
+            expanded={expanded === "panel5"}
+            onChange={handleChange("panel5")}
+          >
+            <AccordionSummary
+              className="Btn_Gradient"
+              expandIcon={
+                expanded === "panel5" ? <AiOutlineClose /> : <AiOutlinePlus />
+              }
+              aria-controls="panel4bh-content"
+              id="panel4bh-header"
+            >
+              <Typography sx={{ width: "33%", flexShrink: 0 }}>
+                Contact
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails className="overflow-auto">
+              <Typography>
+                <ContactRow
+                  primary={
+                    vendorDetail && vendorDetail.primery_Contact
+                      ? vendorDetail.primery_Contact
+                      : ""
+                  }
+                  secondary={
+                    vendorDetail && vendorDetail.secondary_contact
+                      ? vendorDetail.secondary_contact
+                      : ""
+                  }
+                />
+              </Typography>
+            </AccordionDetails>
+          </Accordion>
+          <Accordion
+            expanded={expanded === "panel6"}
+            onChange={handleChange("panel6")}
+          >
+            <AccordionSummary
+              className="Btn_Gradient"
+              expandIcon={
+                expanded === "panel6" ? <AiOutlineClose /> : <AiOutlinePlus />
+              }
+              aria-controls="panel4bh-content"
+              id="panel4bh-header"
+            >
+              <Typography sx={{ width: "33%", flexShrink: 0 }}>
+                Additional
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails className="overflow-auto">
+              <Typography>
+                <AdditionalRow
+                  profileReminder={
+                    vendorDetail && vendorDetail.profileReminder
+                      ? vendorDetail.profileReminder
+                      : ""
+                  }
+                  dailyReminder={
+                    vendorDetail && vendorDetail.dailyReminder
+                      ? vendorDetail.dailyReminder
+                      : ""
+                  }
+                  qcRejection={
+                    vendorDetail && vendorDetail.qcRejection
+                      ? vendorDetail.qcRejection
+                      : ""
+                  }
+                  new_Assignment={
+                    vendorDetail && vendorDetail.new_Assignment
+                      ? vendorDetail.new_Assignment
+                      : ""
+                  }
+                />
+              </Typography>
+            </AccordionDetails>
+          </Accordion>
         </Box>
       </Modal>
     </React.Fragment>
@@ -499,6 +525,7 @@ function Row(props) {
 const ViewVendor = () => {
   const [basicDetail, setbasicDetail] = useState([]);
   const [open, setOpen] = React.useState(false);
+  const [vendorDetail, setVendorDetail] = useState();
   useEffect(() => {
     GetallVendor().then((res) => setbasicDetail(res));
   }, []);
@@ -514,14 +541,21 @@ const ViewVendor = () => {
                 <TableCell align="center">User Name</TableCell>
                 <TableCell align="center">Name</TableCell>
                 <TableCell align="center">Email</TableCell>
-                <TableCell align="center">Allow txt. msg.</TableCell>
+                <TableCell align="center">Allow Text</TableCell>
 
                 <TableCell />
               </TableRow>
             </TableHead>
             <TableBody>
               {basicDetail.map((row) => (
-                <Row key={row.name} row={row} setOpen={setOpen} open={open} />
+                <Row
+                  key={row.name}
+                  row={row}
+                  setOpen={setOpen}
+                  open={open}
+                  vendorDetail={vendorDetail}
+                  setVendorDetail={setVendorDetail}
+                />
               ))}
             </TableBody>
           </Table>

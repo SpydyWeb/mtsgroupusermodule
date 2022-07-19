@@ -10,13 +10,15 @@ import {
   Checkbox,
 } from "@mui/material";
 const Userregister = (props) => {
+  const [cPassword, setCpassword] = useState("");
   const Submit = (e) => {
     if (
       props.Userregister.firstName === "" ||
       props.Userregister.emailId === "" ||
       props.Userregister.lastName === "" ||
       props.Userregister.logId === "" ||
-      props.Userregister.password === ""
+      props.Userregister.password === "" ||
+      cPassword === ""
     )
       toast.error("Please fill all the mandatory fields");
     else {
@@ -205,6 +207,9 @@ const Userregister = (props) => {
                 }}
               />
             </div>
+          </div>
+
+          <div className="flex gap-6 flex-col md:flex-row  py-1 mb-1">
             <div>
               <TextField
                 name="password"
@@ -225,6 +230,27 @@ const Userregister = (props) => {
                       [e.target.name]: e.target.value,
                     },
                   });
+                }}
+              />
+            </div>
+            <div>
+              <TextField
+                name="Confirm password"
+                label={
+                  <>
+                    Confirm Password <span className="text-red-600">*</span>
+                  </>
+                }
+                value={cPassword}
+                variant="outlined"
+                size="small"
+                onChange={(e) => setCpassword(e.target.value)}
+                type="password"
+                onBlur={() => {
+                  if (props.Userregister.password !== cPassword) {
+                    toast.error("Confirm password should be same as password");
+                    setCpassword("");
+                  }
                 }}
               />
             </div>

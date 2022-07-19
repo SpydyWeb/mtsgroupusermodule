@@ -233,6 +233,19 @@ const VendorLicense = (props) => {
                       size="small"
                       value={x.issueDate}
                       onChange={(e) => handlechangeLicense(e, i)}
+                      onBlur={(e) => {
+                        const data = [...props.licences];
+                        if (new Date(e.target.value) < new Date("01-01-3000")) {
+                          data[i][e.target.name] = e.target.value;
+                        } else {
+                          toast.error("Enter valid date");
+                          data[i][e.target.name] = "";
+                        }
+                        props.setVendordata({
+                          ...props.Vendordata,
+                          ["licences"]: data,
+                        });
+                      }}
                       focused
                     />
                   </div>
@@ -254,7 +267,9 @@ const VendorLicense = (props) => {
                       onBlur={(e) => {
                         const data = [...props.licences];
                         if (
-                          new Date(e.target.value) > new Date(data[i].issueDate)
+                          new Date(e.target.value) >
+                            new Date(data[i].issueDate) &&
+                          new Date(e.target.value) < new Date("01-01-3000")
                         ) {
                           data[i][e.target.name] = e.target.value;
                         } else {
