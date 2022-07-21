@@ -21,7 +21,7 @@ const CommunicationProduct = () => {
       if (id === undefined) {
         AddCommunication(Data).then((res) => {
           if (res.status === 200) {
-            toast.success("Communication Type Created Succsessfully");
+            toast.success("Communication Created Succsessfully");
             Navigate("/admin/communicationtable");
           } else {
             res.json().then((res) => toast.error(res));

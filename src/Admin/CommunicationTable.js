@@ -25,7 +25,7 @@ const CommunicationTable = () => {
           com_id: ele.id,
           name: ele.name,
           createdDate: ele.createdDate.substring(0, 10),
-          updateDate: ele.updateDate.substring(0, 10),
+          updateDate: ele.updateDate.substring(0, 10)==='0001-01-01'?'Not updated':ele.updateDate.substring(0, 10),
         });
       });
       setRowData(data);
