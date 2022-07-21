@@ -213,7 +213,7 @@ const Sidebar = () => {
                           >
                             <Link
                               to="/admin/licencetable"
-                              className={`nav-link flex items-center  ml-4 ${
+                              className={`nav-link flex items-center  ml-3 ${
                                 location.pathname === "/admin/licencetable"
                                   ? "bg-white"
                                   : ""
