@@ -214,7 +214,7 @@ const Userregister = (props) => {
                 name="logId"
                 label={
                   <>
-                    Login id <span className="text-red-600">*</span>
+                    Login ID <span className="text-red-600">*</span>
                   </>
                 }
                 value={props.Userregister.logId}
