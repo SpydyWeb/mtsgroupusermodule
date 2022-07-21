@@ -579,13 +579,14 @@ const VendorProfileForm = (props) => {
             }
             name="phone"
             onChange={(e) => {
-              props.setVendordata({
-                ...(props.Vendordata ? props.Vendordata : ""),
-                ["primery_Contact"]: {
-                  ...props.Vendordata.primery_Contact,
-                  [e.target.name]: e.target.value,
-                },
-              });
+              if (!isNaN(e.target.value))
+                props.setVendordata({
+                  ...(props.Vendordata ? props.Vendordata : ""),
+                  ["primery_Contact"]: {
+                    ...props.Vendordata.primery_Contact,
+                    [e.target.name]: e.target.value,
+                  },
+                });
             }}
           />
         </div>
@@ -666,13 +667,14 @@ const VendorProfileForm = (props) => {
             }
             name="cellPhone"
             onChange={(e) => {
-              props.setVendordata({
-                ...(props.Vendordata ? props.Vendordata : ""),
-                ["primery_Contact"]: {
-                  ...props.Vendordata.primery_Contact,
-                  [e.target.name]: e.target.value,
-                },
-              });
+              if (!isNaN(e.target.value))
+                props.setVendordata({
+                  ...(props.Vendordata ? props.Vendordata : ""),
+                  ["primery_Contact"]: {
+                    ...props.Vendordata.primery_Contact,
+                    [e.target.name]: e.target.value,
+                  },
+                });
             }}
           />
         </div>
@@ -769,13 +771,14 @@ const VendorProfileForm = (props) => {
             }
             name="phone"
             onChange={(e) => {
-              props.setVendordata({
-                ...(props.Vendordata ? props.Vendordata : ""),
-                ["secondary_contact"]: {
-                  ...props.Vendordata.secondary_contact,
-                  [e.target.name]: e.target.value,
-                },
-              });
+              if (!isNaN(e.target.value))
+                props.setVendordata({
+                  ...(props.Vendordata ? props.Vendordata : ""),
+                  ["secondary_contact"]: {
+                    ...props.Vendordata.secondary_contact,
+                    [e.target.name]: e.target.value,
+                  },
+                });
             }}
           />
         </div>
@@ -844,13 +847,14 @@ const VendorProfileForm = (props) => {
             }
             name="cellPhone"
             onChange={(e) => {
-              props.setVendordata({
-                ...(props.Vendordata ? props.Vendordata : ""),
-                ["secondary_contact"]: {
-                  ...props.Vendordata.secondary_contact,
-                  [e.target.name]: e.target.value,
-                },
-              });
+              if (!isNaN(e.target.value))
+                props.setVendordata({
+                  ...(props.Vendordata ? props.Vendordata : ""),
+                  ["secondary_contact"]: {
+                    ...props.Vendordata.secondary_contact,
+                    [e.target.name]: e.target.value,
+                  },
+                });
             }}
           />
         </div>

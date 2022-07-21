@@ -324,7 +324,6 @@ const Userregister = (props) => {
         }}
       >
         <Button
-          color="inherit"
           disabled={props.activeStep === 0}
           onClick={() => props.setActiveStep((prev) => prev - 1)}
           variant="contained"

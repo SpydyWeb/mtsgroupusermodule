@@ -30,6 +30,17 @@ body {
   }
 }
 
+
+@media (max-width: 960px) {
+  .main-header-end {
+    justify-content: flex-end;
+  }
+
+  .ml-auto-style-end {
+    margin-left: 0 !important;
+  }
+}
+
 @media (max-width: 768px) {
   .css-1u3bzj6-MuiFormControl-root-MuiTextField-root {
     width: 100% !important;
@@ -105,17 +116,17 @@ body {
   color: #fff;
 }
 
-.css-h0uqyz-MuiButtonBase-root-MuiButton-root.Mui-disabled {
+/* .css-h0uqyz-MuiButtonBase-root-MuiButton-root.Mui-disabled {
   color: #fff !important;
   box-shadow: none;
   background-color: rgb(210, 0, 0) !important;
-}
+} */
 
-.css-9rt2td-MuiButtonBase-root-MuiButton-root.Mui-disabled {
+/* .css-9rt2td-MuiButtonBase-root-MuiButton-root.Mui-disabled {
   color: #fff !important;
   box-shadow: none;
   background-color: rgb(210, 0, 0) !important;
-}
+} */
 
 .css-sh22l5-MuiButtonBase-root-MuiAccordionSummary-root.Mui-expanded {
   min-height: 35px !important;
@@ -132,6 +143,7 @@ body {
 .sidebarAccord {
   background-color: #343a40 !important;
   color: rgb(194, 199, 208) !important;
+  box-shadow: 2px 2px 1px -1px rgb(0 0 0 / 23%), 0px 1px 5px 0px rgb(0 0 0 / 17%), 0px 2px 3px 0px rgb(3 4 0 / 29%) !important;
 }
 
 .px-0 {
@@ -139,7 +151,7 @@ body {
 }
 
 .nav-link {
-  padding: 0.5rem 16px;
+  padding: 0.5rem 9px;
 }
 
 .p-0 {
@@ -160,21 +172,22 @@ body {
   margin-top: 0px !important;
 }
 
-.css-9rt2td-MuiButtonBase-root-MuiButton-root {
-  background-color: #1976d2 !important;
+/* .css-9rt2td-MuiButtonBase-root-MuiButton-root { */
+/* background-color: #1976d2 !important;
   color: #fff !important;
 }
 
 .css-9rt2td-MuiButtonBase-root-MuiButton-root:hover {
   background-color: #1976d2 !important;
   color: #fff !important;
-}
+} */
 
+/* 
 .css-9rt2td-MuiButtonBase-root-MuiButton-root.Mui-disabled {
   color: #fff !important;
   box-shadow: none;
   background-color: #1976d2 !important;
-}
+} */
 
 
 .Btn_Gradient {
@@ -203,3 +216,9 @@ body {
 table {
   white-space: nowrap !important;
 }
+
+/* .css-du3cuf.Mui-disabled {
+  color: rgb(255 255 255) !important;
+  box-shadow: none;
+  background-color: rgb(25 118 210) !important;
+} */

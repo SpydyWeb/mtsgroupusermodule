@@ -355,7 +355,6 @@ const VendorLicense = (props) => {
         }}
       >
         <Button
-          style={{ BackgroundColor: "red" }}
           disabled={props.activeStep === 0}
           onClick={() => props.setActiveStep((prev) => prev - 1)}
           variant="contained"

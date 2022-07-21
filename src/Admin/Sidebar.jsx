@@ -115,7 +115,7 @@ const Sidebar = () => {
                   <li className="nav-item w-full" onClick={() => SideBar()}>
                     <Link
                       to="/admin/getallrole"
-                      className={`nav-link flex items-center ${
+                      className={`nav-link flex items-center ml-3 ${
                         location.pathname === "/admin/getallrole"
                           ? "bg-white"
                           : ""
@@ -128,7 +128,7 @@ const Sidebar = () => {
                   <li className="nav-item w-full">
                     <Link
                       to="/admin/subaccessrole"
-                      className={`nav-link flex items-center ${
+                      className={`nav-link flex items-center  ml-3 ${
                         location.pathname === "/admin/subaccessrole"
                           ? "bg-white"
                           : ""
@@ -142,7 +142,7 @@ const Sidebar = () => {
                   <li className="nav-item w-full">
                     <Link
                       to="/admin/viewaccessrole"
-                      className={`nav-link flex items-center ${
+                      className={`nav-link flex items-center  ml-3 ${
                         location.pathname === "/admin/viewaccessrole"
                           ? "bg-white"
                           : ""
@@ -155,7 +155,7 @@ const Sidebar = () => {
                   <li className="nav-item w-full">
                     <Link
                       to="/admin/getalluser"
-                      className={`nav-link flex items-center ${
+                      className={`nav-link flex items-center  ml-3 ${
                         location.pathname === "/admin/getalluser"
                           ? "bg-white"
                           : ""
@@ -187,7 +187,7 @@ const Sidebar = () => {
             <AccordionDetails className="p-0">
               <Typography className="p-0">
                 <ul className="nav nav-treeview">
-                  <Accordion className="sidebarAccord">
+                  <Accordion className="sidebarAccord ml-3">
                     <AccordionSummary
                       expandIcon={
                         <MdOutlineExpandMore
@@ -213,7 +213,7 @@ const Sidebar = () => {
                           >
                             <Link
                               to="/admin/licencetable"
-                              className={`nav-link flex items-center ${
+                              className={`nav-link flex items-center  ml-4 ${
                                 location.pathname === "/admin/licencetable"
                                   ? "bg-white"
                                   : ""
@@ -226,7 +226,7 @@ const Sidebar = () => {
                           <li className="nav-item d-none w-full">
                             <Link
                               to="/admin/communicationproducttable"
-                              className={`nav-link flex items-center ${
+                              className={`nav-link flex items-center ml-3 ${
                                 location.pathname ===
                                 "/admin/communicationproducttable"
                                   ? "bg-white"
@@ -240,7 +240,7 @@ const Sidebar = () => {
                           <li className="nav-item w-full">
                             <Link
                               to="/admin/communicationtable"
-                              className={`nav-link flex items-center ${
+                              className={`nav-link flex items-center ml-3 ${
                                 location.pathname ===
                                 "/admin/communicationtable"
                                   ? "bg-white"
@@ -254,7 +254,7 @@ const Sidebar = () => {
                           <li className="nav-item w-full">
                             <Link
                               to="/admin/statetable"
-                              className={`nav-link flex items-center ${
+                              className={`nav-link flex items-center ml-3 ${
                                 location.pathname === "/admin/statetable"
                                   ? "bg-white"
                                   : ""
@@ -267,7 +267,7 @@ const Sidebar = () => {
                           <li className="nav-item w-full">
                             <Link
                               to="/admin/viewvendorproduct"
-                              className={`nav-link flex items-center ${
+                              className={`nav-link flex items-center ml-3 ${
                                 location.pathname === "/admin/viewvendorproduct"
                                   ? "bg-white"
                                   : ""
@@ -284,7 +284,7 @@ const Sidebar = () => {
                   <li className="nav-item w-full" onClick={() => SideBarSec()}>
                     <Link
                       to="/admin/vendercreation"
-                      className={`nav-link  flex items-center ${
+                      className={`nav-link  flex items-center ml-3 ${
                         location.pathname === "/admin/vendercreation"
                           ? "bg-white"
                           : ""
@@ -297,7 +297,7 @@ const Sidebar = () => {
                   <li className="nav-item w-full">
                     <Link
                       to="/admin/viewvendor"
-                      className={`nav-link  flex items-center ${
+                      className={`nav-link  flex items-center ml-3 ${
                         location.pathname === "/admin/viewvendor"
                           ? "bg-white"
                           : ""
