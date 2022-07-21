@@ -75,20 +75,20 @@ const CommunicationRow = (props) => {
       <Table size="small" aria-label="purchases">
         <TableHead>
           <TableRow>
-            <TableCell>Sr No.</TableCell>
-            <TableCell>Type</TableCell>
-            <TableCell>Detail</TableCell>
-            <TableCell>Product</TableCell>
+            <TableCell align="center">Sr No.</TableCell>
+            <TableCell align="center">Type</TableCell>
+            <TableCell align="center">Detail</TableCell>
+            <TableCell align="center">Product</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {communication ? (
             communication.map((historyRow, indx) => (
               <TableRow key={historyRow.id}>
-                <TableCell>{indx + 1}</TableCell>
-                <TableCell>{historyRow.type}</TableCell>
-                <TableCell align="right">{historyRow.detail}</TableCell>
-                <TableCell align="right">{historyRow.product_id}</TableCell>
+                <TableCell align="center">{indx + 1}</TableCell>
+                <TableCell align="center">{historyRow.type}</TableCell>
+                <TableCell align="center">{historyRow.detail}</TableCell>
+                <TableCell align="center">{historyRow.product_id}</TableCell>
               </TableRow>
             ))
           ) : (
@@ -226,7 +226,7 @@ const ContactRow = (props) => {
 
 const AdditionalRow = (props) => {
   return (
-    <>
+    <div className="flex gap-4">
       <h3 className="flex">
         New Assignment{" "}
         {props.new_Assignment ? (
@@ -259,7 +259,7 @@ const AdditionalRow = (props) => {
           <AiFillCloseCircle color="red" />
         )}
       </h3>
-    </>
+    </div>
   );
 };
 function Row(props) {

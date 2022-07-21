@@ -28,7 +28,7 @@ const CommunicationProduct = () => {
             toast.success("Updated Successfully");
             Navigate("/admin/communicationproducttable");
           } else {
-            toast.error("Technical Issue");
+            res.json().then((res) => toast.error(res));
           }
         });
       } else {
@@ -37,7 +37,7 @@ const CommunicationProduct = () => {
             toast.success("Communication Product Created Succsessfully");
             Navigate("/admin/communicationproducttable");
           } else {
-            toast.error("Technical Issue");
+            res.json().then((res) => toast.error(res));
           }
         });
       }

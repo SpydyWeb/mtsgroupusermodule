@@ -22,12 +22,11 @@ const LicenceType = () => {
     } else {
       if (id === undefined) {
         AddLicenceType(LicName).then((res) => {
-          console.log(res, "res");
           if (res.status === 200) {
             toast.success("Licence Created Succsessfully");
             Navigate("/admin/licencetable");
           } else {
-            toast.error("Licence name already exits");
+            res.json().then((res) => toast.error(res));
           }
         });
       } else {
@@ -37,7 +36,7 @@ const LicenceType = () => {
             toast.success("Updated Successfully");
             Navigate("/admin/licencetable");
           } else {
-            toast.error("Technical Issue");
+            res.json().then((res) => toast.error(res));
           }
         });
       }

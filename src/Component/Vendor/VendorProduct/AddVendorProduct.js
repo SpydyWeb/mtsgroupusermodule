@@ -14,7 +14,7 @@ const AddVendorProduct = () => {
   const [inputval, setinputval] = useState("");
   const [productData, setproductData] = useState({
     name: "",
-    productid: "",
+    productid: 0,
   });
   useEffect(() => {
     GetVendorProduct().then((res) => {

@@ -24,7 +24,7 @@ const State = () => {
             toast.success("State Type Created Succsessfully");
             Navigate("/admin/statetable");
           } else {
-            toast.error("Technical Issue");
+            res.json().then((res) => toast.error(res));
           }
         });
       } else {
@@ -33,7 +33,7 @@ const State = () => {
             toast.success("Updated Successfully");
             Navigate("/admin/statetable");
           } else {
-            toast.error("Technical Issue");
+            res.json().then((res) => toast.error(res));
           }
         });
       }

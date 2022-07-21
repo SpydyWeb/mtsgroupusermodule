@@ -18,9 +18,10 @@ const CommunicationTable = () => {
   useEffect(() => {
     GetCommunicationTypeList().then((res) => {
       let data = [];
-      res.map((ele) => {
+
+      res.map((ele, ind) => {
         return data.push({
-          id: ele.id,
+          id: ind + 1,
           name: ele.name,
           createdDate: ele.createdDate.substring(0, 10),
           updateDate: ele.updateDate.substring(0, 10),
