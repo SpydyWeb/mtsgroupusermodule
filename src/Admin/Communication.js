@@ -67,7 +67,7 @@ const CommunicationProduct = () => {
                       style={{ width: "100%" }}
                       id="name"
                       size="small"
-                      label="Communication Type Name"
+                      label="Communication Type"
                       variant="outlined"
                       value={Data.name}
                       onChange={(e) => setData({ name: e.target.value })}
