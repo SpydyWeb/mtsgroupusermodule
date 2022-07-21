@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-// import Header from "./Header";
-// import Sidebar from "./Sidebar";
 import Footer from "./Footer";
 import { TextField } from "@mui/material";
 import { AddLicenceType, UpdateLicenceType } from "../Services/Vendor";
@@ -10,6 +8,7 @@ import { FaTimes } from "react-icons/fa";
 
 const LicenceType = () => {
   const { id, name } = useParams();
+
   const Navigate = useNavigate();
   const [LicName, setLicName] = useState({ name: "" });
   useEffect(() => {
@@ -31,7 +30,6 @@ const LicenceType = () => {
         });
       } else {
         UpdateLicenceType(LicName, id).then((res) => {
-          console.log(res, "res");
           if (res.status === 200) {
             toast.success("Updated Successfully");
             Navigate("/admin/licencetable");

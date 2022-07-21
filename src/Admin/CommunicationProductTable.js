@@ -21,6 +21,7 @@ const CommunicationProductTable = () => {
       res.map((ele, indx) => {
         return data.push({
           id: indx + 1,
+          com_id: ele.id,
           name: ele.name,
           createdDate: ele.createdDate.substring(0, 10),
           updateDate: ele.updateDate.substring(0, 10),
@@ -31,10 +32,10 @@ const CommunicationProductTable = () => {
   }, []);
   const [rowdata, setRowData] = useState([]);
   const columnname = [
-    { field: "id", headerName: "S.no", flex: 1 },
+    { field: "id", headerName: "S. No.", flex: 1 },
     { field: "name", headerName: "Name", flex: 1 },
     { field: "createdDate", headerName: "Created Date", flex: 1 },
-    { field: "updateDate", headerName: "Update Date", flex: 1 },
+    { field: "updateDate", headerName: "Updated Date", flex: 1 },
     {
       field: "Action",
       headerName: "Action",
@@ -47,7 +48,7 @@ const CommunicationProductTable = () => {
               className="iconStyle"
               onClick={() => {
                 Navigate(
-                  `/admin/communicationproduct/${params.row.id},${params.row.name}`
+                  `/admin/communicationproduct/${params.row.com_id},${params.row.name}`
                 );
               }}
             />
@@ -55,7 +56,7 @@ const CommunicationProductTable = () => {
               title="Delete"
               className="iconStyle text-danger"
               style={{ padding: "6px" }}
-              onClick={() => DeleteRole(params.row.id)}
+              onClick={() => DeleteRole(params.row.com_id)}
             />
           </div>
         );

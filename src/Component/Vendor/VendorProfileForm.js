@@ -95,7 +95,7 @@ const VendorProfileForm = (props) => {
             <ToolTipValidation
               isValid={tooltip.valid}
               validMessage="Correct"
-              invalidMessage={"Vendor Id already exist"}
+              invalidMessage={"Vendor ID already exist"}
             />
           ) : (
             <></>

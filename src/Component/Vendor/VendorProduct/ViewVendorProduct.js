@@ -12,7 +12,7 @@ const ViewVendorProduct = () => {
   const Navigate = useNavigate();
   const [rowdata, setRowData] = useState([]);
   const columnname = [
-    { field: "id", headerName: "S.no", flex: 1 },
+    { field: "id", headerName: "S. No.", flex: 1 },
     { field: "Categoryname", headerName: "Category Name", flex: 1 },
     { field: "Productname", headerName: "Product Name", flex: 1 },
   ];

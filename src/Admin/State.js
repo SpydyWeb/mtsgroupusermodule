@@ -16,12 +16,12 @@ const State = () => {
 
   const SubmitHandler = () => {
     if (Data.name === "" || Data.name === undefined) {
-      toast.error("Enter State Type name");
+      toast.error("Enter State name");
     } else {
       if (id === undefined) {
         AddState(Data).then((res) => {
           if (res.status === 200) {
-            toast.success("State Type Created Succsessfully");
+            toast.success("State Created Succsessfully");
             Navigate("/admin/statetable");
           } else {
             res.json().then((res) => toast.error(res));

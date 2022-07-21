@@ -222,7 +222,6 @@ const Registration = () => {
                 isMandatory={true}
                 onBlur={() => setTooltip({ ...tooltip, isShow: false })}
                 onFocus={(evt) => {
-                  console.log("hit");
                   setTooltip({
                     Valid: CheckvalidEmail(evt.target.value),
                     isShow: true,

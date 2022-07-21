@@ -9,8 +9,20 @@ import {
   FormControlLabel,
   Checkbox,
 } from "@mui/material";
+import PasswordValidateMessage from "../Headers/PasswordValidateMessage";
+import {
+  CheckvalidatePassword,
+  CheckvalidEmail,
+} from "../Headers/PasswordValid";
 const Userregister = (props) => {
   const [cPassword, setCpassword] = useState("");
+  const [passwordValid, setPasswordValid] = useState({
+    length: false,
+    uppercase: false,
+    number: false,
+    specailchar: false,
+  });
+  const [ispasswordmessage, setisPasswordMessage] = useState(true);
   const Submit = (e) => {
     if (
       props.Userregister.firstName === "" ||
@@ -112,6 +124,18 @@ const Userregister = (props) => {
       });
     }
   };
+  const isPasswordMview = () => {
+    if (
+      passwordValid.length &&
+      passwordValid.number &&
+      passwordValid.specailchar &&
+      passwordValid.uppercase
+    ) {
+      setisPasswordMessage(true);
+    } else {
+      setisPasswordMessage(false);
+    }
+  };
 
   return (
     <>
@@ -190,7 +214,7 @@ const Userregister = (props) => {
                 name="logId"
                 label={
                   <>
-                    Log id <span className="text-red-600">*</span>
+                    Login id <span className="text-red-600">*</span>
                   </>
                 }
                 value={props.Userregister.logId}
@@ -218,11 +242,16 @@ const Userregister = (props) => {
                     Password <span className="text-red-600">*</span>
                   </>
                 }
+                onFocus={isPasswordMview}
+                onBlur={isPasswordMview}
                 value={props.Userregister.password}
                 variant="outlined"
                 size="small"
                 type="password"
                 onChange={(e) => {
+                  setPasswordValid(
+                    CheckvalidatePassword(e.target.value, passwordValid)
+                  );
                   props.setVendordata({
                     ...(props.Vendordata ? props.Vendordata : ""),
                     ["userregistration"]: {
@@ -273,10 +302,16 @@ const Userregister = (props) => {
                       }}
                     />
                   }
-                  label="Text Msg. Allow"
+                  label="Allow Text"
                 />
               </FormGroup>
             </div>
+          </div>
+          <div>
+            <PasswordValidateMessage
+              isView={ispasswordmessage}
+              passwordValid={passwordValid}
+            />
           </div>
         </div>
       </div>
