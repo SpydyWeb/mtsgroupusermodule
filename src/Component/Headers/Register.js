@@ -429,7 +429,7 @@ const Registration = () => {
           onChange={(evt) => {
             setUserData({ ...UserData, allowTextMsg: !UserData.allowTextMsg });
           }}
-          className="py-2 transition duration-300  shadow-xl border border-gray-300 rounded focus:border-transparent focus:outline-none focus:ring-4 focus:ring-blue-200 "
+          className="py-2 transition duration-300 shadow-2xl  border-2 border-sky-400 rounded focus:border-transparent focus:outline-none focus:ring-4 focus:ring-blue-200 "
         />
         <div className="text-sm font-semibold text-gray-500 ml-1">
           Allow Text Message
