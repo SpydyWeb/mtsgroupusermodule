@@ -30,11 +30,12 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: "80%",
+  width: "50%",
   bgcolor: "background.paper",
-
+  backgroundColor: "#e0e0e0",
   boxShadow: 24,
   p: 4,
+  outline: "none",
 };
 const ProductRow = (props) => {
   const { product } = props;
@@ -327,7 +328,7 @@ function Row(props) {
             onChange={handleChange("panel1")}
           >
             <AccordionSummary
-              className="Btn_Gradient"
+              className="Btn_Gradient_Ac"
               expandIcon={
                 expanded === "panel1" ? <AiOutlineClose /> : <AiOutlinePlus />
               }
@@ -335,7 +336,9 @@ function Row(props) {
               id="panel1bh-header"
               sx={{ background: "#e1edef" }}
             >
-              <Typography sx={{ width: "33%", flexShrink: 0 }}>
+              <Typography
+                sx={{ width: "33%", flexShrink: 0, fontWeight: "700" }}
+              >
                 Product
               </Typography>
             </AccordionSummary>
@@ -356,14 +359,16 @@ function Row(props) {
             onChange={handleChange("panel2")}
           >
             <AccordionSummary
-              className="Btn_Gradient"
+              className="Btn_Gradient_Ac"
               expandIcon={
                 expanded === "panel2" ? <AiOutlineClose /> : <AiOutlinePlus />
               }
               aria-controls="panel2bh-content"
               id="panel2bh-header"
             >
-              <Typography sx={{ width: "33%", flexShrink: 0 }}>
+              <Typography
+                sx={{ width: "33%", flexShrink: 0, fontWeight: "700" }}
+              >
                 Communication
               </Typography>
             </AccordionSummary>
@@ -384,14 +389,16 @@ function Row(props) {
             onChange={handleChange("panel3")}
           >
             <AccordionSummary
-              className="Btn_Gradient"
+              className="Btn_Gradient_Ac"
               expandIcon={
                 expanded === "panel3" ? <AiOutlineClose /> : <AiOutlinePlus />
               }
               aria-controls="panel3bh-content"
               id="panel3bh-header"
             >
-              <Typography sx={{ width: "33%", flexShrink: 0 }}>
+              <Typography
+                sx={{ width: "33%", flexShrink: 0, fontWeight: "700" }}
+              >
                 Licence
               </Typography>
             </AccordionSummary>
@@ -412,14 +419,16 @@ function Row(props) {
             onChange={handleChange("panel4")}
           >
             <AccordionSummary
-              className="Btn_Gradient"
+              className="Btn_Gradient_Ac"
               expandIcon={
                 expanded === "panel4" ? <AiOutlineClose /> : <AiOutlinePlus />
               }
               aria-controls="panel4bh-content"
               id="panel4bh-header"
             >
-              <Typography sx={{ width: "33%", flexShrink: 0 }}>
+              <Typography
+                sx={{ width: "33%", flexShrink: 0, fontWeight: "700" }}
+              >
                 Address
               </Typography>
             </AccordionSummary>
@@ -445,7 +454,7 @@ function Row(props) {
             onChange={handleChange("panel5")}
           >
             <AccordionSummary
-              className="Btn_Gradient"
+              className="Btn_Gradient_Ac"
               expandIcon={
                 expanded === "panel5" ? <AiOutlineClose /> : <AiOutlinePlus />
               }
@@ -478,14 +487,16 @@ function Row(props) {
             onChange={handleChange("panel6")}
           >
             <AccordionSummary
-              className="Btn_Gradient"
+              className="Btn_Gradient_Ac"
               expandIcon={
                 expanded === "panel6" ? <AiOutlineClose /> : <AiOutlinePlus />
               }
               aria-controls="panel4bh-content"
               id="panel4bh-header"
             >
-              <Typography sx={{ width: "33%", flexShrink: 0 }}>
+              <Typography
+                sx={{ width: "33%", flexShrink: 0, fontWeight: "700" }}
+              >
                 Additional
               </Typography>
             </AccordionSummary>
