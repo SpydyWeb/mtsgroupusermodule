@@ -89,7 +89,7 @@ const CommunicationRow = (props) => {
                 <TableCell align="center">{indx + 1}</TableCell>
                 <TableCell align="center">{historyRow.type}</TableCell>
                 <TableCell align="center">{historyRow.detail}</TableCell>
-                <TableCell align="center">{historyRow.product_id}</TableCell>
+                <TableCell align="center">{historyRow.productname}</TableCell>
               </TableRow>
             ))
           ) : (
