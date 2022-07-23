@@ -461,7 +461,9 @@ function Row(props) {
               aria-controls="panel4bh-content"
               id="panel4bh-header"
             >
-              <Typography sx={{ width: "33%", flexShrink: 0 }}>
+              <Typography
+                sx={{ width: "33%", flexShrink: 0, fontWeight: "700" }}
+              >
                 Contact
               </Typography>
             </AccordionSummary>
