@@ -25,7 +25,7 @@ const steps = [
 ];
 
 const StepperForm = () => {
-  const [activeStep, setActiveStep] = useState(0);
+  const [activeStep, setActiveStep] = useState(1);
   const [productdata, setProductdata] = useState([]);
   const [allstate, setAllState] = useState([]);
   const [communicationType, setCommunicaionType] = useState([]);

@@ -1,17 +1,10 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 const Header = () => {
-  const [Header, setHeader] = useState(false);
   return (
-    <nav
-      className={
-        Header
-          ? "main-header main-header-end navbar navbar-expand navbar-white navbar-light"
-          : "main-header navbar navbar-expand navbar-white navbar-light"
-      }
-    >
+    <nav className="main-header navbar navbar-expand navbar-white navbar-light">
       <ul className="navbar-nav flex items-center">
-        <li className="nav-item" onClick={() => setHeader(!Header)}>
+        <li className="nav-item">
           <a className="nav-link" data-widget="pushmenu" href="#" role="button">
             <i className="fas fa-bars" />
           </a>
@@ -23,13 +16,7 @@ const Header = () => {
         </li>
       </ul>
 
-      <ul
-        className={
-          Header
-            ? "navbar-nav ml-auto-style ml-auto-style-end"
-            : "navbar-nav ml-auto-style"
-        }
-      >
+      <ul className="navbar-nav ml-auto-style">
         <li className="nav-item dropdown">
           <a className="nav-link" data-toggle="dropdown">
             <i class="fas fa-user-circle" style={{ fontSize: "25px" }}></i>

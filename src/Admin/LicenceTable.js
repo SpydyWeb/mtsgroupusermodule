@@ -21,7 +21,10 @@ const LicenceTable = () => {
           Licence_id: ele.id,
           name: ele.name,
           createdDate: ele.createdDate.substring(0, 10),
-          updateDate: ele.updateDate.substring(0, 10)==='0001-01-01'?'Not updated':ele.updateDate.substring(0, 10),
+          updateDate:
+            ele.updateDate.substring(0, 10) === "0001-01-01"
+              ? "Not updated"
+              : ele.updateDate.substring(0, 10),
         });
       });
       setRowData(data);
@@ -29,10 +32,15 @@ const LicenceTable = () => {
   }, []);
   const [rowdata, setRowData] = useState([]);
   const columnname = [
-    { field: "id", headerName: "S. No.", flex: 1 },
-    { field: "name", headerName: "Name", flex: 1 },
-    { field: "createdDate", headerName: "Created Date", flex: 1 },
-    { field: "updateDate", headerName: "Updated Date", flex: 1 },
+    { field: "id", headerName: "S. No.", minWidth: 100, flex: 1 },
+    { field: "name", headerName: "Name", minWidth: 100, flex: 1 },
+    {
+      field: "createdDate",
+      headerName: "Created Date",
+      minWidth: 100,
+      flex: 1,
+    },
+    { field: "updateDate", headerName: "Updated Date", minWidth: 100, flex: 1 },
     {
       field: "Action",
       headerName: "Action",
@@ -58,6 +66,7 @@ const LicenceTable = () => {
         );
       },
       flex: 1,
+      minWidth: 100,
     },
   ];
 
@@ -75,6 +84,7 @@ const LicenceTable = () => {
       });
     }
   };
+
   return (
     <div>
       {/* <Header />
@@ -90,12 +100,28 @@ const LicenceTable = () => {
           </button>
         </div>
 
-        <div style={{ display: "flex", height: "500px" }} className="mt-4">
+        {/* <div
+          style={{
+            display: "flex",
+            height: "500px",
+            width: "100%",
+            overflowX: "auto",
+          }}
+          className="mt-4"
+        >
           <DataGrid
             rows={rowdata}
             components={{ Toolbar: GridToolbar }}
             columns={columnname}
           />
+        </div> */}
+
+        <div style={{ height: 400, width: "100%" }}>
+          <div style={{ display: "flex", height: "100%" }}>
+            <div style={{ flexGrow: 1 }}>
+              <DataGrid rows={rowdata} columns={columnname} />
+            </div>
+          </div>
         </div>
       </div>
       <Footer />
