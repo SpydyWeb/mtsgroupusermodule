@@ -41,14 +41,14 @@ const SubAccessRoles = () => {
               title="Edit"
               className="iconStyle"
               onClick={() => {
-                Navigate(`/admin/rolemaster/${params.row.subrole}`);
+                Navigate(`/admin/roleDefination/${params.row.name}`);
               }}
             />
             <FaTrash
               title="Delete"
               className="iconStyle text-danger"
               style={{ padding: "6px" }}
-              onClick={() => DeleteRole(params.row.subrole)}
+              onClick={() => DeleteRole(params.row.name)}
             />
           </div>
         );

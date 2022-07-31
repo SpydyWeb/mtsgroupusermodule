@@ -89,7 +89,7 @@ const CommunicationRow = (props) => {
                 <TableCell align="center">{indx + 1}</TableCell>
                 <TableCell align="center">{historyRow.type}</TableCell>
                 <TableCell align="center">{historyRow.detail}</TableCell>
-                <TableCell align="center">{historyRow.product_id}</TableCell>
+                <TableCell align="center">{historyRow.productname}</TableCell>
               </TableRow>
             ))
           ) : (
@@ -461,7 +461,9 @@ function Row(props) {
               aria-controls="panel4bh-content"
               id="panel4bh-header"
             >
-              <Typography sx={{ width: "33%", flexShrink: 0 }}>
+              <Typography
+                sx={{ width: "33%", flexShrink: 0, fontWeight: "700" }}
+              >
                 Contact
               </Typography>
             </AccordionSummary>
