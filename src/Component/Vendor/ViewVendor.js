@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
-import Box from "@mui/material/Box";
-
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Typography from "@mui/material/Typography";
-import Paper from "@mui/material/Paper";
-import Modal from "@mui/material/Modal";
+import {
+  Modal,
+  Box,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+  Paper,
+} from "@mui/material";
 import { GetallVendor, Getvendorbyid } from "../../Services/Vendor";
 import { BsCheckCircleFill } from "react-icons/bs";
 import {
@@ -37,9 +38,10 @@ const style = {
   p: 4,
   outline: "none",
 };
+
 const ProductRow = (props) => {
   const { product } = props;
-  console.log(product);
+
   return (
     <>
       <Table size="small" aria-label="purchases">
@@ -539,14 +541,13 @@ const ViewVendor = () => {
   const [basicDetail, setbasicDetail] = useState([]);
   const [open, setOpen] = React.useState(false);
   const [vendorDetail, setVendorDetail] = useState();
+
   useEffect(() => {
     GetallVendor().then((res) => setbasicDetail(res));
   }, []);
   return (
     <>
-      {/* <Header />
-      <Sidebar /> */}
-      <div className="content-wrapper px-4 pt-5">
+      {basicDetail && basicDetail.length > 0 ? (
         <TableContainer component={Paper}>
           <Table aria-label="collapsible table">
             <TableHead sx={{ background: "#e1edef" }}>
@@ -573,8 +574,14 @@ const ViewVendor = () => {
             </TableBody>
           </Table>
         </TableContainer>
-      </div>
-      <Footer />
+      ) : (
+        <h1
+          className="flex justify-center
+        "
+        >
+          Loading...
+        </h1>
+      )}
     </>
   );
 };

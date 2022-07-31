@@ -281,19 +281,7 @@ const Sidebar = () => {
                       </Typography>
                     </AccordionDetails>
                   </Accordion>
-                  <li className="nav-item w-full" onClick={() => SideBarSec()}>
-                    <Link
-                      to="/admin/vendercreation"
-                      className={`nav-link  flex items-center ml-3 ${
-                        location.pathname === "/admin/vendercreation"
-                          ? "bg-white"
-                          : ""
-                      }`}
-                    >
-                      <i className="mr-2 fas fa-columns" />
-                      <p>Vendor Creation</p>
-                    </Link>
-                  </li>
+
                   <li className="nav-item w-full">
                     <Link
                       to="/admin/viewvendor"

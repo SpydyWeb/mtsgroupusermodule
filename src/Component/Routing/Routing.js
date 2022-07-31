@@ -12,7 +12,7 @@ import ViewAccessRole from "../../Admin/ViewAccessRole";
 import AllUser from "../../Admin/AllUser";
 import App from "../../App";
 import StepperForm from "../Vendor/StepperForm";
-import VenderCreation from "../../Admin/VenderCreation";
+
 import LicenceType from "../../Admin/LicenceType";
 import LicenceTable from "../../Admin/LicenceTable";
 import CommunicationProduct from "../../Admin/CommunicationProduct";
@@ -23,10 +23,10 @@ import CommunicationTable from "../../Admin/CommunicationTable";
 import StateTable from "../../Admin/StateTable";
 import AddVendorProduct from "../Vendor/VendorProduct/AddVendorProduct";
 import ViewVendorProduct from "../Vendor/VendorProduct/ViewVendorProduct";
-import ViewVendor from "../Vendor/ViewVendor";
+
 import Header from "../../Admin/Header";
 import Sidebar from "../../Admin/Sidebar";
-
+import ViewTabs from "../../Component/Vendor/ViewTabs";
 const Routing = () => {
   const location = useLocation();
 
@@ -77,11 +77,7 @@ const Routing = () => {
           />
           <Route path="/admin/getalluser" element={<AllUser />} exact />
           <Route path="/vendorprofile" element={<StepperForm />} exact />
-          <Route
-            path="/admin/vendercreation"
-            element={<VenderCreation />}
-            exact
-          />
+
           <Route path="/admin/licencetable" element={<LicenceTable />} exact />
           <Route path="/admin/licencetype" element={<LicenceType />} exact />
           <Route
@@ -159,7 +155,7 @@ const Routing = () => {
             element={<ViewVendorProduct />}
             exact
           />
-          <Route path="/admin/viewvendor" element={<ViewVendor />} exact />
+          <Route path="/admin/viewvendor" element={<ViewTabs />} exact />
         </Routes>
       </>
     );
