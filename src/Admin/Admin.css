@@ -98,3 +98,27 @@
 .select-text:valid:focus~.select-label {
   color: orange;
 }
+
+
+/* .css-imf0nl-MuiDataGrid-root .MuiDataGrid-columnHeader--sortable {
+  width: fit-content !important;
+  min-width: fit-content !important;
+  max-width: fit-content !important;
+  cursor: pointer;
+}
+
+.css-imf0nl-MuiDataGrid-root .MuiDataGrid-row:not(.MuiDataGrid-row--dynamicHeight)>.MuiDataGrid-cell {
+  width: fit-content !important;
+  min-width: fit-content !important;
+  max-width: fit-content !important;
+  overflow: auto;
+  white-space: nowrap;
+}
+
+
+.css-imf0nl-MuiDataGrid-root {
+  -webkit-flex: inherit !important;
+  -ms-flex: inherit !important;
+  flex: inherit !important;
+
+} */

@@ -24,6 +24,15 @@ const Sidebar = () => {
     setExpandedSec(false);
   };
 
+  const collapseActive = () => {
+    document.body.classList.remove("sidebar-open");
+    document.body.classList.add("sidebar-closed");
+  };
+
+  const NavClose = () => {
+    collapseActive();
+  };
+
   // an object
   const AccorState = {
     First: expanded,
@@ -114,6 +123,7 @@ const Sidebar = () => {
                 <ul className="nav nav-treeview">
                   <li className="nav-item w-full" onClick={() => SideBar()}>
                     <Link
+                      onClick={() => NavClose()}
                       to="/admin/getallrole"
                       className={`nav-link flex items-center ml-3 ${
                         location.pathname === "/admin/getallrole"
@@ -127,6 +137,7 @@ const Sidebar = () => {
                   </li>
                   <li className="nav-item w-full">
                     <Link
+                      onClick={() => NavClose()}
                       to="/admin/subaccessrole"
                       className={`nav-link flex items-center  ml-3 ${
                         location.pathname === "/admin/subaccessrole"
@@ -141,6 +152,7 @@ const Sidebar = () => {
 
                   <li className="nav-item w-full">
                     <Link
+                      onClick={() => NavClose()}
                       to="/admin/viewaccessrole"
                       className={`nav-link flex items-center  ml-3 ${
                         location.pathname === "/admin/viewaccessrole"
@@ -154,6 +166,7 @@ const Sidebar = () => {
                   </li>
                   <li className="nav-item w-full">
                     <Link
+                      onClick={() => NavClose()}
                       to="/admin/getalluser"
                       className={`nav-link flex items-center  ml-3 ${
                         location.pathname === "/admin/getalluser"
@@ -212,6 +225,7 @@ const Sidebar = () => {
                             onClick={() => SideBarSec()}
                           >
                             <Link
+                              onClick={() => NavClose()}
                               to="/admin/licencetable"
                               className={`nav-link flex items-center  ml-3 ${
                                 location.pathname === "/admin/licencetable"
@@ -225,6 +239,7 @@ const Sidebar = () => {
                           </li>
                           <li className="nav-item d-none w-full">
                             <Link
+                              onClick={() => NavClose()}
                               to="/admin/communicationproducttable"
                               className={`nav-link flex items-center ml-3 ${
                                 location.pathname ===
@@ -239,6 +254,7 @@ const Sidebar = () => {
                           </li>
                           <li className="nav-item w-full">
                             <Link
+                              onClick={() => NavClose()}
                               to="/admin/communicationtable"
                               className={`nav-link flex items-center ml-3 ${
                                 location.pathname ===
@@ -253,6 +269,7 @@ const Sidebar = () => {
                           </li>
                           <li className="nav-item w-full">
                             <Link
+                              onClick={() => NavClose()}
                               to="/admin/statetable"
                               className={`nav-link flex items-center ml-3 ${
                                 location.pathname === "/admin/statetable"
@@ -266,6 +283,7 @@ const Sidebar = () => {
                           </li>
                           <li className="nav-item w-full">
                             <Link
+                              onClick={() => NavClose()}
                               to="/admin/viewvendorproduct"
                               className={`nav-link flex items-center ml-3 ${
                                 location.pathname === "/admin/viewvendorproduct"
@@ -281,9 +299,9 @@ const Sidebar = () => {
                       </Typography>
                     </AccordionDetails>
                   </Accordion>
-
                   <li className="nav-item w-full">
                     <Link
+                      onClick={() => NavClose()}
                       to="/admin/viewvendor"
                       className={`nav-link  flex items-center ml-3 ${
                         location.pathname === "/admin/viewvendor"

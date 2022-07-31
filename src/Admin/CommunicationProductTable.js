@@ -24,7 +24,10 @@ const CommunicationProductTable = () => {
           com_id: ele.id,
           name: ele.name,
           createdDate: ele.createdDate.substring(0, 10),
-          updateDate: ele.updateDate.substring(0, 10)==='0001-01-01'?'Not updated':ele.updateDate.substring(0, 10),
+          updateDate:
+            ele.updateDate.substring(0, 10) === "0001-01-01"
+              ? "Not updated"
+              : ele.updateDate.substring(0, 10),
         });
       });
       setRowData(data);
@@ -32,10 +35,15 @@ const CommunicationProductTable = () => {
   }, []);
   const [rowdata, setRowData] = useState([]);
   const columnname = [
-    { field: "id", headerName: "S. No.", flex: 1 },
-    { field: "name", headerName: "Name", flex: 1 },
-    { field: "createdDate", headerName: "Created Date", flex: 1 },
-    { field: "updateDate", headerName: "Updated Date", flex: 1 },
+    { field: "id", headerName: "S. No.", flex: 1, minWidth: 100 },
+    { field: "name", headerName: "Name", flex: 1, minWidth: 100 },
+    {
+      field: "createdDate",
+      headerName: "Created Date",
+      flex: 1,
+      minWidth: 100,
+    },
+    { field: "updateDate", headerName: "Updated Date", flex: 1, minWidth: 100 },
     {
       field: "Action",
       headerName: "Action",
@@ -62,6 +70,7 @@ const CommunicationProductTable = () => {
         );
       },
       flex: 1,
+      minWidth: 100,
     },
   ];
   const DeleteRole = (id) => {

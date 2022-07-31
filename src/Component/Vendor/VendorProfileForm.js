@@ -75,11 +75,14 @@ const VendorProfileForm = (props) => {
             }
             name="vendorId"
             onChange={(e) => {
-              checkUserId(e.target.value);
-              props.setVendordata({
-                ...(props.Vendordata ? props.Vendordata : ""),
-                [e.target.name]: e.target.value,
-              });
+              if (e.target.value.length > 3) {
+              } else {
+                checkUserId(e.target.value);
+                props.setVendordata({
+                  ...(props.Vendordata ? props.Vendordata : ""),
+                  [e.target.name]: e.target.value,
+                });
+              }
             }}
             onBlur={(e) => {
               if (tooltip.valid && e.target.value.length > 3)
