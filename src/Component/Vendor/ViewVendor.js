@@ -10,17 +10,27 @@ import {
   TableRow,
   Typography,
   Paper,
+  TextField,
+  Button,
+  IconButton,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@mui/material";
-import { GetallVendor, Getvendorbyid } from "../../Services/Vendor";
+import {
+  GetallVendor,
+  Getvendorbyid,
+  GetStateList,
+} from "../../Services/Vendor";
 import { BsCheckCircleFill } from "react-icons/bs";
 import {
   AiFillCloseCircle,
   AiOutlinePlus,
   AiOutlineClose,
+  AiFillFilter,
 } from "react-icons/ai";
-import { AiFillEye } from "react-icons/ai";
-
-import Footer from "../../Admin/Footer";
+import { AiFillEye, AiOutlineSearch, AiOutlineFilter } from "react-icons/ai";
 
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
@@ -541,39 +551,178 @@ const ViewVendor = () => {
   const [basicDetail, setbasicDetail] = useState([]);
   const [open, setOpen] = React.useState(false);
   const [vendorDetail, setVendorDetail] = useState();
-
+  const [allFilter, setAllFilter] = useState(false);
+  const [allstate, setAllState] = useState([]);
+  const [filterdata, setFilterdata] = useState({
+    Id: "",
+    Email: "",
+    Name: "",
+    Status: "",
+    Contact: "",
+    Licence: "",
+    State: "",
+    Product: "",
+  });
   useEffect(() => {
     GetallVendor().then((res) => setbasicDetail(res));
+    GetStateList().then((res) => {
+      setAllState(res);
+    });
   }, []);
+  const handleFilterChange = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    setFilterdata({ ...filterdata, [name]: value });
+  };
   return (
     <>
       {basicDetail && basicDetail.length > 0 ? (
-        <TableContainer component={Paper}>
-          <Table aria-label="collapsible table">
-            <TableHead sx={{ background: "#e1edef" }}>
-              <TableRow className="font-extrabold">
-                <TableCell align="center">User Name</TableCell>
-                <TableCell align="center">Name</TableCell>
-                <TableCell align="center">Email</TableCell>
-                <TableCell align="center">Allow Text</TableCell>
-
-                <TableCell />
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {basicDetail.map((row) => (
-                <Row
-                  key={row.name}
-                  row={row}
-                  setOpen={setOpen}
-                  open={open}
-                  vendorDetail={vendorDetail}
-                  setVendorDetail={setVendorDetail}
+        <>
+          {" "}
+          <div className="flex justify-end mb-2">
+            <div>
+              <TextField
+                id="Search"
+                label="Search"
+                name="vendorId"
+                variant="outlined"
+                size="small"
+              />
+            </div>
+            <IconButton
+              aria-label="filter"
+              onClick={() => setAllFilter((prev) => !prev)}
+            >
+              {allFilter ? (
+                <AiFillFilter style={{ color: "#03a5e7" }} />
+              ) : (
+                <AiOutlineFilter style={{ color: "#03a5e7" }} />
+              )}
+            </IconButton>
+          </div>
+          {allFilter ? (
+            <div className="grid lg:grid-cols-5 gap-2  md:grid-cols-3 sm:grid-cols-1  border-2 p-3  mb-10 rounded-xl bg-white relative border-sky-500">
+              <div>
+                <TextField
+                  id="Id"
+                  label={<>ID</>}
+                  name="Id"
+                  value={filterdata.Id}
+                  variant="outlined"
+                  size="small"
+                  onChange={(e) => handleFilterChange(e)}
                 />
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+              </div>
+              <div>
+                <TextField
+                  label={<>Email</>}
+                  name="Email"
+                  value={filterdata.Email}
+                  variant="outlined"
+                  size="small"
+                  onChange={(e) => handleFilterChange(e)}
+                />
+              </div>
+              <div>
+                <TextField
+                  label={<>Name</>}
+                  name="Name"
+                  variant="outlined"
+                  size="small"
+                  onChange={(e) => handleFilterChange(e)}
+                  value={filterdata.Name}
+                />
+              </div>
+              <div>
+                <FormControl className="w-52" size="small">
+                  <InputLabel>State</InputLabel>
+                  <Select
+                    value={filterdata.State}
+                    name="State"
+                    onChange={(e) => handleFilterChange(e)}
+                  >
+                    {allstate.map((ele, indx) => {
+                      return <MenuItem value={ele.name}>{ele.name}</MenuItem>;
+                    })}
+                  </Select>
+                </FormControl>
+              </div>
+              <div>
+                <TextField
+                  label={<>Contact</>}
+                  name="Contact"
+                  variant="outlined"
+                  size="small"
+                  onChange={(e) => handleFilterChange(e)}
+                  value={filterdata.Contact}
+                />
+              </div>
+              <div>
+                <TextField
+                  label={<>Licence</>}
+                  name="Licence"
+                  variant="outlined"
+                  size="small"
+                  onChange={(e) => handleFilterChange(e)}
+                  value={filterdata.Licence}
+                />
+              </div>
+              <div>
+                <TextField
+                  label={<>Status</>}
+                  name="Status"
+                  variant="outlined"
+                  size="small"
+                  onChange={(e) => handleFilterChange(e)}
+                  value={filterdata.Status}
+                />
+              </div>
+              <div>
+                <TextField
+                  label={<>Product</>}
+                  name="Product"
+                  variant="outlined"
+                  size="small"
+                  onChange={(e) => handleFilterChange(e)}
+                  value={filterdata.Product}
+                />
+              </div>
+              <div>
+                <Button variant="contained">
+                  <AiOutlineSearch size={18} /> &nbsp; Search
+                </Button>
+              </div>
+            </div>
+          ) : (
+            <></>
+          )}
+          <TableContainer component={Paper}>
+            <Table aria-label="collapsible table">
+              <TableHead sx={{ background: "#e1edef" }}>
+                <TableRow className="font-extrabold">
+                  <TableCell align="center">User Name</TableCell>
+                  <TableCell align="center">Name</TableCell>
+                  <TableCell align="center">Email</TableCell>
+                  <TableCell align="center">Allow Text</TableCell>
+
+                  <TableCell />
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {basicDetail.map((row) => (
+                  <Row
+                    key={row.name}
+                    row={row}
+                    setOpen={setOpen}
+                    open={open}
+                    vendorDetail={vendorDetail}
+                    setVendorDetail={setVendorDetail}
+                  />
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </>
       ) : (
         <h1
           className="flex justify-center
