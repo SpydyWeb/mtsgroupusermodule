@@ -261,6 +261,17 @@ export const GetallVendor = async () => {
     },
   }).then((data) => data.json());
 };
+export const GetallVendorBySearch = async (data) => {
+  return await fetch(`${Url}Vendorsearch`, {
+    method: "POST",
+body:JSON.stringify(data),
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      "Access-Control-Allow-Origin": "*",
+    },
+  }).then((data) => data.json());
+};
 
 export const Getvendorbyid = async (id) => {
   return await fetch(`${Url}Getvendorbyid?id=${id}`, {
