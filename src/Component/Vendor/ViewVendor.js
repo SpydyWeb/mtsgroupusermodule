@@ -518,7 +518,7 @@ function Row(props) {
 const ViewVendor = () => {
  const [open, setOpen] = React.useState(false);
   const [vendorDetail, setVendorDetail] = useState();
-
+const[isLoading,setIsLoading]=useState(false)
   const [allstate, setAllState] = useState([]);
   const [allstatedata, setAllStatedata] = useState([]);
 
@@ -526,7 +526,7 @@ const ViewVendor = () => {
     Id: "",
     Email: "",
     Name: "",
-    Status: '',
+    Status: 'All',
     Contact: "",
     Licence: "",
     State: "",
@@ -534,6 +534,7 @@ const ViewVendor = () => {
   });
 
   const GetmoreData = (id) => {
+    
     Getvendorbyid(id).then((res) => {
       setVendorDetail(res);
 
@@ -542,13 +543,18 @@ const ViewVendor = () => {
   };
 
   const columns = [
-    { headerName: "ID", field: "vendorid", minWidth: 100, flex: 1 },
-    { headerName: "Name", field: "name", minWidth: 100, flex: 1 },
-    { headerName: "Email", field: "email", minWidth: 100, flex: 1 },
-    { headerName: "State", field: "state", minWidth: 100, flex: 1 },
-    { headerName: "Contact", field: "contact", minWidth: 100, flex: 1 },
-    { headerName: "Licence", field: "licenceType", minWidth: 100, flex: 1 },
-    { headerName: "Product", field: "product", minWidth: 100, flex: 1 },
+    { headerName: "Status", field: "status",  renderCell: (params) => {
+      return (
+        params.status?<span className="border-2 border-green-400 p-[2px] rounded-sm text-green-400">Active</span>:<span className="border-2 border-red-400 p-[2px] rounded-sm text-red-400">InActive</span>
+      );
+    },},
+    { headerName: "ID", field: "vendorid", minWidth: 150, flex: 1 },
+    { headerName: "Name", field: "name", minWidth: 150, flex: 1 },
+    { headerName: "Email", field: "email", minWidth: 300, flex: 1 },
+    { headerName: "State", field: "state", minWidth: 150, flex: 1 },
+    { headerName: "Contact", field: "contact", minWidth: 300, flex: 1 },
+    { headerName: "Licence", field: "licenceType", minWidth: 150, flex: 1 },
+    { headerName: "Product", field: "product", minWidth: 150, flex: 1 },
     {
       field: "Action",
       headerName: "Action",
@@ -571,6 +577,7 @@ const ViewVendor = () => {
     },
   ];
   useEffect(() => {
+    setIsLoading(true)
     GetallVendorBySearch({}).then((res) => {
       let data = [];
 
@@ -587,10 +594,12 @@ const ViewVendor = () => {
               : ele.contact1.split(",")[3] + " ," + ele.contact1.split(",")[4],
           licenceType: ele.licence.licenceType,
           product: ele.product.name,
+          
         })
       );
-
+     
       setAllStatedata(data);
+      setIsLoading(false)
     });
     GetStateList().then((res) => {
       setAllState(res);
@@ -602,6 +611,7 @@ const ViewVendor = () => {
     setFilterdata({ ...filterdata, [name]: value });
   };
   const handleSearch = () => {
+    setIsLoading(true)
     let data = {};
     if (filterdata.Id !== "") data.id = filterdata.Id;
     if (filterdata.Name !== "") data.name = filterdata.Name;
@@ -611,7 +621,7 @@ const ViewVendor = () => {
     if (filterdata.Licence !== "") data.licence = filterdata.Licence;
     if (filterdata.State !== "") data.state = filterdata.State;
     if (filterdata.Product !== "") data.product = filterdata.Product;
-    if(filterdata.Status!=="ALL" &&filterdata.Status!=="")
+    if(filterdata.Status!=="All" &&filterdata.Status!=="")
     data.status=filterdata.Status
     GetallVendorBySearch(data).then((res) => {
       let data = [];
@@ -628,9 +638,10 @@ const ViewVendor = () => {
               : ele.contact1.split(",")[3] + " ," + ele.contact1.split(",")[4],
           licenceType: ele.licence.licenceType,
           product: ele.product.name,
+          status:ele.status?<span>Active</span>:<span>Deactive</span>
         })
       );
-
+      setIsLoading(false)
       setAllStatedata(data);
     });
   };
@@ -713,7 +724,7 @@ const ViewVendor = () => {
                   name="Status"
                   onChange={(e) => handleFilterChange(e)}
                 >
-                    <MenuItem value={"ALL"}>ALL</MenuItem>
+                    <MenuItem value={"All"}>ALL</MenuItem>
                   <MenuItem value={true}>Active</MenuItem>
                   <MenuItem value={false}>InActive</MenuItem>
                 </Select>
@@ -736,7 +747,7 @@ const ViewVendor = () => {
               </Button>
             </div>
           </div>
-          {allstatedata  ? (  <div style={{ height: 400, width: "100%" }}>
+          {!isLoading  ? (  <div style={{ height: 400, width: "100%" }}>
             <div style={{ display: "flex", height: "100%" }}>
               <div style={{ flexGrow: 1 }}>
                 <DataGrid
