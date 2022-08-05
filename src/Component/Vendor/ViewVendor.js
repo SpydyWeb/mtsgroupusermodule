@@ -516,8 +516,7 @@ function Row(props) {
 }
 
 const ViewVendor = () => {
-  const [basicDetail, setbasicDetail] = useState([]);
-  const [open, setOpen] = React.useState(false);
+ const [open, setOpen] = React.useState(false);
   const [vendorDetail, setVendorDetail] = useState();
 
   const [allstate, setAllState] = useState([]);
@@ -527,7 +526,7 @@ const ViewVendor = () => {
     Id: "",
     Email: "",
     Name: "",
-    Status: true,
+    Status: '',
     Contact: "",
     Licence: "",
     State: "",
@@ -612,6 +611,8 @@ const ViewVendor = () => {
     if (filterdata.Licence !== "") data.licence = filterdata.Licence;
     if (filterdata.State !== "") data.state = filterdata.State;
     if (filterdata.Product !== "") data.product = filterdata.Product;
+    if(filterdata.Status!=="ALL" &&filterdata.Status!=="")
+    data.status=filterdata.Status
     GetallVendorBySearch(data).then((res) => {
       let data = [];
       res.map((ele) =>
@@ -712,8 +713,9 @@ const ViewVendor = () => {
                   name="Status"
                   onChange={(e) => handleFilterChange(e)}
                 >
-                  <MenuItem value={true}>True</MenuItem>
-                  <MenuItem value={false}>False</MenuItem>
+                    <MenuItem value={"ALL"}>ALL</MenuItem>
+                  <MenuItem value={true}>Active</MenuItem>
+                  <MenuItem value={false}>InActive</MenuItem>
                 </Select>
               </FormControl>
             </div>
@@ -734,7 +736,7 @@ const ViewVendor = () => {
               </Button>
             </div>
           </div>
-          {allstatedata && allstatedata.length > 0 ? (  <div style={{ height: 400, width: "100%" }}>
+          {allstatedata  ? (  <div style={{ height: 400, width: "100%" }}>
             <div style={{ display: "flex", height: "100%" }}>
               <div style={{ flexGrow: 1 }}>
                 <DataGrid
