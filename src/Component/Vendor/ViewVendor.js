@@ -526,7 +526,7 @@ const[isLoading,setIsLoading]=useState(false)
     Id: "",
     Email: "",
     Name: "",
-    Status: 'All',
+    Status: true,
     Contact: "",
     Licence: "",
     State: "",
@@ -545,7 +545,7 @@ const[isLoading,setIsLoading]=useState(false)
   const columns = [
     { headerName: "Status", field: "status",  renderCell: (params) => {
       return (
-        params.status?<span className="border-2 border-green-400 p-[2px] rounded-sm text-green-400">Active</span>:<span className="border-2 border-red-400 p-[2px] rounded-sm text-red-400">InActive</span>
+        params.row.status?<span className="border-2 border-green-400 p-[2px] rounded-sm text-green-400">Active</span>:<span className="border-2 border-red-400 p-[2px] rounded-sm text-red-400">InActive</span>
       );
     },},
     { headerName: "ID", field: "vendorid", minWidth: 150, flex: 1 },
@@ -559,6 +559,7 @@ const[isLoading,setIsLoading]=useState(false)
       field: "Action",
       headerName: "Action",
       renderCell: (params) => {
+       
         return (
           <div className="gap-3 d-flex">
             <AiFillEye
@@ -578,7 +579,7 @@ const[isLoading,setIsLoading]=useState(false)
   ];
   useEffect(() => {
     setIsLoading(true)
-    GetallVendorBySearch({}).then((res) => {
+    GetallVendorBySearch({ status: true}).then((res) => {
       let data = [];
 
       res.map((ele) =>
@@ -594,7 +595,7 @@ const[isLoading,setIsLoading]=useState(false)
               : ele.contact1.split(",")[3] + " ," + ele.contact1.split(",")[4],
           licenceType: ele.licence.licenceType,
           product: ele.product.name,
-          
+          status:ele.status
         })
       );
      
@@ -621,7 +622,7 @@ const[isLoading,setIsLoading]=useState(false)
     if (filterdata.Licence !== "") data.licence = filterdata.Licence;
     if (filterdata.State !== "") data.state = filterdata.State;
     if (filterdata.Product !== "") data.product = filterdata.Product;
-    if(filterdata.Status!=="All" &&filterdata.Status!=="")
+    
     data.status=filterdata.Status
     GetallVendorBySearch(data).then((res) => {
       let data = [];
@@ -638,7 +639,7 @@ const[isLoading,setIsLoading]=useState(false)
               : ele.contact1.split(",")[3] + " ," + ele.contact1.split(",")[4],
           licenceType: ele.licence.licenceType,
           product: ele.product.name,
-          status:ele.status?<span>Active</span>:<span>Deactive</span>
+          status:ele.status
         })
       );
       setIsLoading(false)
@@ -724,7 +725,7 @@ const[isLoading,setIsLoading]=useState(false)
                   name="Status"
                   onChange={(e) => handleFilterChange(e)}
                 >
-                    <MenuItem value={"All"}>ALL</MenuItem>
+                  
                   <MenuItem value={true}>Active</MenuItem>
                   <MenuItem value={false}>InActive</MenuItem>
                 </Select>
