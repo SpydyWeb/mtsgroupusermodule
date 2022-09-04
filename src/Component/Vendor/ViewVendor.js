@@ -5,11 +5,10 @@ import {
   Table,
   TableBody,
   TableCell,
-  TableContainer,
   TableHead,
   TableRow,
   Typography,
-  Paper,
+ 
   TextField,
   Button,
   IconButton,
@@ -17,6 +16,7 @@ import {
   InputLabel,
   Select,
   MenuItem,
+
 } from "@mui/material";
 
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
@@ -31,10 +31,10 @@ import {
   AiFillCloseCircle,
   AiOutlinePlus,
   AiOutlineClose,
-  AiFillFilter,
+  AiFillEdit,
 } from "react-icons/ai";
 import { AiFillEye, AiOutlineSearch, AiOutlineFilter } from "react-icons/ai";
-
+import EditModal from "./EditModal";
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
@@ -141,7 +141,7 @@ const LicenceRow = (props) => {
               <TableRow key={historyRow.id}>
                 <TableCell>{indx + 1}</TableCell>
                 <TableCell>
-                  {historyRow.firstName + " " + historyRow.lastNme}
+                  {historyRow.firstName + " " + historyRow.lastName}
                 </TableCell>
                 <TableCell>{historyRow.licenceNo}</TableCell>
                 <TableCell>{historyRow.licenceType}</TableCell>
@@ -242,6 +242,7 @@ const ContactRow = (props) => {
 
 const AdditionalRow = (props) => {
   return (
+    <>
     <div className="flex gap-4">
       <h3 className="flex">
         New Assignment{" "}
@@ -275,17 +276,26 @@ const AdditionalRow = (props) => {
           <AiFillCloseCircle color="red" />
         )}
       </h3>
+   
     </div>
+    <div className="flex items-center">   <h2 className="font-bold py-2">Assignment Note :    </h2><p>{props.assignmentNote}</p>
+    </div>
+    </>
   );
 };
 function Row(props) {
   const { vendorDetail, setVendorDetail } = props;
-
   const [expanded, setExpanded] = React.useState(false);
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
-
+  const [editModalOpen,seteditModalOpen]=useState(false)
+const handleopenEditmodal=(event,view)=>{
+  event.stopPropagation();
+  setEditView(view);
+  seteditModalOpen(!editModalOpen)
+}
+const [editView,setEditView]=useState(0)
   return (
     <React.Fragment>
       <Modal
@@ -310,16 +320,32 @@ function Row(props) {
             <AccordionSummary
               className="Btn_Gradient_Ac"
               expandIcon={
-                expanded === "panel1" ? <AiOutlineClose /> : <AiOutlinePlus />
+                <IconButton size="small" aria-label="view">
+                  {expanded === "panel1" ? (
+                    <AiOutlineClose />
+                  ) : (
+                    <AiOutlinePlus />
+                  )}
+                </IconButton>
               }
               aria-controls="panel1bh-content"
               id="panel1bh-header"
               sx={{ background: "#e1edef" }}
             >
               <Typography
-                sx={{ width: "33%", flexShrink: 0, fontWeight: "700" }}
+                sx={{ flexShrink: 0, fontWeight: "700" }}
+                className="flex justify-between w-full"
               >
-                Product
+                <h3>Product</h3>
+                <div className="mr-2">
+                  <IconButton
+                    size="small"
+                    aria-label="edit"
+                    
+                  >
+                    <AiFillEdit onClick={(e)=>handleopenEditmodal(e,0)}/>
+                  </IconButton>
+                </div>
               </Typography>
             </AccordionSummary>
             <AccordionDetails className="overflow-auto">
@@ -341,15 +367,28 @@ function Row(props) {
             <AccordionSummary
               className="Btn_Gradient_Ac"
               expandIcon={
-                expanded === "panel2" ? <AiOutlineClose /> : <AiOutlinePlus />
+                <IconButton size="small" aria-label="view">
+                  {expanded === "panel2" ? (
+                    <AiOutlineClose />
+                  ) : (
+                    <AiOutlinePlus />
+                  )}
+                </IconButton>
               }
               aria-controls="panel2bh-content"
               id="panel2bh-header"
             >
+              {" "}
               <Typography
-                sx={{ width: "33%", flexShrink: 0, fontWeight: "700" }}
+                sx={{ flexShrink: 0, fontWeight: "700" }}
+                className="flex justify-between w-full"
               >
-                Communication
+                <h3>Communication</h3>
+                <div className="mr-2">
+                  <IconButton size="small" aria-label="view">
+                    <AiFillEdit onClick={(e)=>handleopenEditmodal(e,1)} />
+                  </IconButton>
+                </div>
               </Typography>
             </AccordionSummary>
             <AccordionDetails className="overflow-auto">
@@ -371,15 +410,28 @@ function Row(props) {
             <AccordionSummary
               className="Btn_Gradient_Ac"
               expandIcon={
-                expanded === "panel3" ? <AiOutlineClose /> : <AiOutlinePlus />
+                <IconButton size="small" aria-label="view">
+                  {expanded === "panel3" ? (
+                    <AiOutlineClose />
+                  ) : (
+                    <AiOutlinePlus />
+                  )}
+                </IconButton>
               }
               aria-controls="panel3bh-content"
               id="panel3bh-header"
             >
+              {" "}
               <Typography
-                sx={{ width: "33%", flexShrink: 0, fontWeight: "700" }}
+                sx={{ flexShrink: 0, fontWeight: "700" }}
+                className="flex justify-between w-full"
               >
-                Licence
+                <h3>Licence</h3>
+                <div className="mr-2">
+                  <IconButton size="small" aria-label="view">
+                  <AiFillEdit onClick={(e)=>handleopenEditmodal(e,2)} />
+                  </IconButton>
+                </div>
               </Typography>
             </AccordionSummary>
             <AccordionDetails className="overflow-auto">
@@ -401,15 +453,28 @@ function Row(props) {
             <AccordionSummary
               className="Btn_Gradient_Ac"
               expandIcon={
-                expanded === "panel4" ? <AiOutlineClose /> : <AiOutlinePlus />
+                <IconButton size="small" aria-label="view">
+                  {expanded === "panel4" ? (
+                    <AiOutlineClose />
+                  ) : (
+                    <AiOutlinePlus />
+                  )}
+                </IconButton>
               }
               aria-controls="panel4bh-content"
               id="panel4bh-header"
             >
+              {" "}
               <Typography
-                sx={{ width: "33%", flexShrink: 0, fontWeight: "700" }}
+                sx={{ flexShrink: 0, fontWeight: "700" }}
+                className="flex justify-between w-full"
               >
-                Address
+                <h3>Address</h3>
+                <div className="mr-2">
+                  <IconButton size="small" aria-label="view">
+                  <AiFillEdit onClick={(e)=>handleopenEditmodal(e,3)} />
+                  </IconButton>
+                </div>
               </Typography>
             </AccordionSummary>
             <AccordionDetails className="overflow-auto">
@@ -436,15 +501,28 @@ function Row(props) {
             <AccordionSummary
               className="Btn_Gradient_Ac"
               expandIcon={
-                expanded === "panel5" ? <AiOutlineClose /> : <AiOutlinePlus />
+                <IconButton size="small" aria-label="delete">
+                  {expanded === "panel5" ? (
+                    <AiOutlineClose />
+                  ) : (
+                    <AiOutlinePlus />
+                  )}
+                </IconButton>
               }
               aria-controls="panel4bh-content"
               id="panel4bh-header"
             >
+              {" "}
               <Typography
-                sx={{ width: "33%", flexShrink: 0, fontWeight: "700" }}
+                sx={{ flexShrink: 0, fontWeight: "700" }}
+                className="flex justify-between w-full"
               >
-                Contact
+                <h3>Contact</h3>
+                <div className="mr-2">
+                  <IconButton size="small" aria-label="delete">
+                  <AiFillEdit onClick={(e)=>handleopenEditmodal(e,4)} />
+                  </IconButton>
+                </div>
               </Typography>
             </AccordionSummary>
             <AccordionDetails className="overflow-auto">
@@ -471,15 +549,28 @@ function Row(props) {
             <AccordionSummary
               className="Btn_Gradient_Ac"
               expandIcon={
-                expanded === "panel6" ? <AiOutlineClose /> : <AiOutlinePlus />
+                <IconButton size="small" aria-label="delete">
+                  {expanded === "panel6" ? (
+                    <AiOutlineClose />
+                  ) : (
+                    <AiOutlinePlus />
+                  )}
+                </IconButton>
               }
               aria-controls="panel4bh-content"
               id="panel4bh-header"
             >
+              {" "}
               <Typography
-                sx={{ width: "33%", flexShrink: 0, fontWeight: "700" }}
+                sx={{ flexShrink: 0, fontWeight: "700" }}
+                className="flex justify-between w-full"
               >
-                Additional
+                <h3>Additional</h3>
+                <div className="mr-2">
+                  <IconButton size="small" aria-label="delete">
+                  <AiFillEdit onClick={(e)=>handleopenEditmodal(e,5)} />
+                  </IconButton>
+                </div>
               </Typography>
             </AccordionSummary>
             <AccordionDetails className="overflow-auto">
@@ -505,20 +596,29 @@ function Row(props) {
                       ? vendorDetail.new_Assignment
                       : ""
                   }
+                  assignmentNote={
+                    vendorDetail && vendorDetail.assignmentNote
+                    ? vendorDetail.assignmentNote
+                    : ""
+                  }
                 />
               </Typography>
             </AccordionDetails>
           </Accordion>
         </Box>
       </Modal>
+
+     { editModalOpen?<EditModal open={editModalOpen}  vendorDetail={vendorDetail} setVendorDetail={setVendorDetail} seteditModalOpen={seteditModalOpen} editView={editView} selecetedVedorId={vendorDetail&&vendorDetail.id?vendorDetail.id:0}/>:''}
     </React.Fragment>
   );
 }
 
+
+
 const ViewVendor = () => {
- const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
   const [vendorDetail, setVendorDetail] = useState();
-const[isLoading,setIsLoading]=useState(false)
+  const [isLoading, setIsLoading] = useState(false);
   const [allstate, setAllState] = useState([]);
   const [allstatedata, setAllStatedata] = useState([]);
 
@@ -534,7 +634,6 @@ const[isLoading,setIsLoading]=useState(false)
   });
 
   const GetmoreData = (id) => {
-    
     Getvendorbyid(id).then((res) => {
       setVendorDetail(res);
 
@@ -543,11 +642,21 @@ const[isLoading,setIsLoading]=useState(false)
   };
 
   const columns = [
-    { headerName: "Status", field: "status",  renderCell: (params) => {
-      return (
-        params.row.status?<span className="border-2 border-green-400 p-[2px] rounded-sm text-green-400">Active</span>:<span className="border-2 border-red-400 p-[2px] rounded-sm text-red-400">InActive</span>
-      );
-    },},
+    {
+      headerName: "Status",
+      field: "status",
+      renderCell: (params) => {
+        return params.row.status ? (
+          <span className="border-2 border-green-400 p-[2px] rounded-sm text-green-400">
+            Active
+          </span>
+        ) : (
+          <span className="border-2 border-red-400 p-[2px] rounded-sm text-red-400">
+            InActive
+          </span>
+        );
+      },
+    },
     { headerName: "ID", field: "vendorid", minWidth: 150, flex: 1 },
     { headerName: "Name", field: "name", minWidth: 150, flex: 1 },
     { headerName: "Email", field: "email", minWidth: 300, flex: 1 },
@@ -559,7 +668,6 @@ const[isLoading,setIsLoading]=useState(false)
       field: "Action",
       headerName: "Action",
       renderCell: (params) => {
-       
         return (
           <div className="gap-3 d-flex">
             <AiFillEye
@@ -573,13 +681,11 @@ const[isLoading,setIsLoading]=useState(false)
           </div>
         );
       },
-      
-   
     },
   ];
   useEffect(() => {
-    setIsLoading(true)
-    GetallVendorBySearch({ status: true}).then((res) => {
+    setIsLoading(true);
+    GetallVendorBySearch({ status: true }).then((res) => {
       let data = [];
 
       res.map((ele) =>
@@ -595,12 +701,12 @@ const[isLoading,setIsLoading]=useState(false)
               : ele.contact1.split(",")[3] + " ," + ele.contact1.split(",")[4],
           licenceType: ele.licence.licenceType,
           product: ele.product.name,
-          status:ele.status
+          status: ele.status,
         })
       );
-     
+
       setAllStatedata(data);
-      setIsLoading(false)
+      setIsLoading(false);
     });
     GetStateList().then((res) => {
       setAllState(res);
@@ -612,18 +718,18 @@ const[isLoading,setIsLoading]=useState(false)
     setFilterdata({ ...filterdata, [name]: value });
   };
   const handleSearch = () => {
-    setIsLoading(true)
+    setIsLoading(true);
     let data = {};
     if (filterdata.Id !== "") data.id = filterdata.Id;
     if (filterdata.Name !== "") data.name = filterdata.Name;
     if (filterdata.Email !== "") data.email = filterdata.Email;
-   // if (filterdata.Status !== "") data.status = filterdata.Status;
+    // if (filterdata.Status !== "") data.status = filterdata.Status;
     if (filterdata.Contact !== "") data.contact = filterdata.Contact;
     if (filterdata.Licence !== "") data.licence = filterdata.Licence;
     if (filterdata.State !== "") data.state = filterdata.State;
     if (filterdata.Product !== "") data.product = filterdata.Product;
-    
-    data.status=filterdata.Status
+
+    data.status = filterdata.Status;
     GetallVendorBySearch(data).then((res) => {
       let data = [];
       res.map((ele) =>
@@ -639,116 +745,115 @@ const[isLoading,setIsLoading]=useState(false)
               : ele.contact1.split(",")[3] + " ," + ele.contact1.split(",")[4],
           licenceType: ele.licence.licenceType,
           product: ele.product.name,
-          status:ele.status
+          status: ele.status,
         })
       );
-      setIsLoading(false)
+      setIsLoading(false);
       setAllStatedata(data);
     });
   };
   return (
     <>
-     
-        <>
-          {" "}
-          <div className="grid lg:grid-cols-5 gap-2  md:grid-cols-3 sm:grid-cols-1  border-2 p-3  mb-10 rounded-xl bg-white relative border-sky-500">
-            <div>
-              <TextField
-                id="Id"
-                label={<>ID</>}
-                name="Id"
-                value={filterdata.Id}
-                variant="outlined"
-                size="small"
-                onChange={(e) => handleFilterChange(e)}
-              />
-            </div>
-            <div>
-              <TextField
-                label={<>Email</>}
-                name="Email"
-                value={filterdata.Email}
-                variant="outlined"
-                size="small"
-                onChange={(e) => handleFilterChange(e)}
-              />
-            </div>
-            <div>
-              <TextField
-                label={<>Name</>}
-                name="Name"
-                variant="outlined"
-                size="small"
-                onChange={(e) => handleFilterChange(e)}
-                value={filterdata.Name}
-              />
-            </div>
-            <div>
-              <FormControl className="w-52" size="small">
-                <InputLabel>State</InputLabel>
-                <Select
-                  value={filterdata.State}
-                  name="State"
-                  onChange={(e) => handleFilterChange(e)}
-                >
-                  {allstate.map((ele, indx) => {
-                    return <MenuItem value={ele.name}>{ele.name}</MenuItem>;
-                  })}
-                </Select>
-              </FormControl>
-            </div>
-            <div>
-              <TextField
-                label={<>Contact</>}
-                name="Contact"
-                variant="outlined"
-                size="small"
-                onChange={(e) => handleFilterChange(e)}
-                value={filterdata.Contact}
-              />
-            </div>
-            <div>
-              <TextField
-                label={<>Licence</>}
-                name="Licence"
-                variant="outlined"
-                size="small"
-                onChange={(e) => handleFilterChange(e)}
-                value={filterdata.Licence}
-              />
-            </div>
-            <div>
-              <FormControl className="w-52" size="small">
-                <InputLabel>Status</InputLabel>
-                <Select
-                  value={filterdata.Status}
-                  name="Status"
-                  onChange={(e) => handleFilterChange(e)}
-                >
-                  
-                  <MenuItem value={true}>Active</MenuItem>
-                  <MenuItem value={false}>InActive</MenuItem>
-                </Select>
-              </FormControl>
-            </div>
-
-            <div>
-              <TextField
-                label={<>Product</>}
-                name="Product"
-                variant="outlined"
-                size="small"
-                onChange={(e) => handleFilterChange(e)}
-                value={filterdata.Product}
-              />
-            </div>
-            <div>
-              <Button variant="contained" onClick={() => handleSearch()}>
-                <AiOutlineSearch size={18} /> &nbsp; Search
-              </Button>
-            </div>
+      <>
+        {" "}
+        <div className="grid lg:grid-cols-5 gap-2  md:grid-cols-3 sm:grid-cols-1  border-2 p-3  mb-10 rounded-xl bg-white relative border-sky-500">
+          <div>
+            <TextField
+              id="Id"
+              label={<>ID</>}
+              name="Id"
+              value={filterdata.Id}
+              variant="outlined"
+              size="small"
+              onChange={(e) => handleFilterChange(e)}
+            />
           </div>
-          {!isLoading  ? (  <div style={{ height: 400, width: "100%" }}>
+          <div>
+            <TextField
+              label={<>Email</>}
+              name="Email"
+              value={filterdata.Email}
+              variant="outlined"
+              size="small"
+              onChange={(e) => handleFilterChange(e)}
+            />
+          </div>
+          <div>
+            <TextField
+              label={<>Name</>}
+              name="Name"
+              variant="outlined"
+              size="small"
+              onChange={(e) => handleFilterChange(e)}
+              value={filterdata.Name}
+            />
+          </div>
+          <div>
+            <FormControl className="w-52" size="small">
+              <InputLabel>State</InputLabel>
+              <Select
+                value={filterdata.State}
+                name="State"
+                onChange={(e) => handleFilterChange(e)}
+              >
+                {allstate.map((ele, indx) => {
+                  return <MenuItem value={ele.name}>{ele.name}</MenuItem>;
+                })}
+              </Select>
+            </FormControl>
+          </div>
+          <div>
+            <TextField
+              label={<>Contact</>}
+              name="Contact"
+              variant="outlined"
+              size="small"
+              onChange={(e) => handleFilterChange(e)}
+              value={filterdata.Contact}
+            />
+          </div>
+          <div>
+            <TextField
+              label={<>Licence</>}
+              name="Licence"
+              variant="outlined"
+              size="small"
+              onChange={(e) => handleFilterChange(e)}
+              value={filterdata.Licence}
+            />
+          </div>
+          <div>
+            <FormControl className="w-52" size="small">
+              <InputLabel>Status</InputLabel>
+              <Select
+                value={filterdata.Status}
+                name="Status"
+                onChange={(e) => handleFilterChange(e)}
+              >
+                <MenuItem value={true}>Active</MenuItem>
+                <MenuItem value={false}>InActive</MenuItem>
+              </Select>
+            </FormControl>
+          </div>
+
+          <div>
+            <TextField
+              label={<>Product</>}
+              name="Product"
+              variant="outlined"
+              size="small"
+              onChange={(e) => handleFilterChange(e)}
+              value={filterdata.Product}
+            />
+          </div>
+          <div>
+            <Button variant="contained" onClick={() => handleSearch()}>
+              <AiOutlineSearch size={18} /> &nbsp; Search
+            </Button>
+          </div>
+        </div>
+        {!isLoading ? (
+          <div style={{ height: 400, width: "100%" }}>
             <div style={{ display: "flex", height: "100%" }}>
               <div style={{ flexGrow: 1 }}>
                 <DataGrid
@@ -767,22 +872,22 @@ const[isLoading,setIsLoading]=useState(false)
                 />
               </div>
             </div>
-          </div>) : (
-        <h1
-          className="flex justify-center
+          </div>
+        ) : (
+          <h1
+            className="flex justify-center
         "
-        >
-          Loading...
-        </h1>
-      )}
-          <Row
-            setOpen={setOpen}
-            open={open}
-            vendorDetail={vendorDetail}
-            setVendorDetail={setVendorDetail}
-          />
-        </>
-      
+          >
+            Loading...
+          </h1>
+        )}
+        <Row
+          setOpen={setOpen}
+          open={open}
+          vendorDetail={vendorDetail}
+          setVendorDetail={setVendorDetail}
+        />
+      </>
     </>
   );
 };

@@ -10,7 +10,7 @@ import {
   Button,
 } from "@mui/material";
 import toast from "react-hot-toast";
-import { Checkexistingid } from "../../Services/Vendor";
+import { Checkexistingid, UpdateVendorAddress,UpdateVendorContact } from "../../Services/Vendor";
 import ToolTipValidation from "../Validation/ToolTipValidation";
 const VendorProfileForm = (props) => {
   const top100Films = [{ label: "", year: 1994 }];
@@ -56,10 +56,77 @@ const VendorProfileForm = (props) => {
       }
     });
   };
+  const handleEditSubmit = () => {
+    if (props.editType === "Address") {
+      if (
+        props.Vendordata.primery_Address.address === "" ||
+        props.Vendordata.primery_Address.suite === "" ||
+        props.Vendordata.primery_Address.city === "" ||
+        props.Vendordata.primery_Address.state === "" ||
+        props.Vendordata.primery_Address.pincode === "" ||
+        props.Vendordata.secondary_Address.address === "" ||
+        props.Vendordata.secondary_Address.suite === "" ||
+        props.Vendordata.secondary_Address.city === "" ||
+        props.Vendordata.secondary_Address.state === "" ||
+        props.Vendordata.secondary_Address.pincode === ""
+      )
+        toast.error("Please fill all the mandatory fields");
+      else {
+        let data = [];
+        data.push(props.Vendordata.primery_Address);
+        data.push(props.Vendordata.secondary_Address);
+        UpdateVendorAddress(data, props.selecetedVedorId).then((res) => {
+          if (res.status === 200) {
+            toast.success("Address Updated Succsessfully");
+            props.setVendorDetail({...props.vendorDetail,["primery_Address"]:props.Vendordata.primery_Address,["secondary_Address"]:props.Vendordata.secondary_Address})
+          
+            props.seteditModalOpen(prev=>!prev)
+          } else {
+            res.json().then((res) => toast.error(res));
+          }
+        });
+      }
+    } else if (props.editType === "Contact") {
+      if (
+        props.Vendordata.primery_Contact.firstName === "" ||
+        props.Vendordata.primery_Contact.middleName === "" ||
+        props.Vendordata.primery_Contact.lastName === "" ||
+        props.Vendordata.primery_Contact.phone === "" ||
+        props.Vendordata.primery_Contact.ext === "" ||
+        props.Vendordata.primery_Contact.email === "" ||
+        props.Vendordata.primery_Contact.cellPhone === ""
+      )
+        toast.error("Please fill all the mandatory fields");
+      else {
+        let data = [];
+        data.push(props.Vendordata.primery_Contact);
+        data.push(props.Vendordata.secondary_contact);
+        UpdateVendorContact(data, props.selecetedVedorId).then((res) => {
+          if (res.status === 200) {
+            toast.success("Contact updated succsessfully");
+            props.setVendorDetail({...props.vendorDetail,["primery_Contact"]:props.Vendordata.primery_Contact,["secondary_contact"]:props.Vendordata.secondary_contact})
+         
+            props.seteditModalOpen(prev=>!prev)
+         
+          } else {
+            res.json().then((res) => toast.error(res));
+          }
+        });
+      }
+    }
+  };
   return (
     <div className="mt-3">
       <span className="legend Btn_Gradient">Profile Details</span>
-      <div className="flex flex-col md:flex-row gap-6 border-2 p-3  mb-10 rounded-xl bg-white relative border-sky-500">
+      <div
+        className={`${
+          props.edit
+            ? props.editType && props.editType === "Profile"
+              ? "flex"
+              : "hidden"
+            : "flex"
+        } flex-col md:flex-row gap-6 border-2 p-3  mb-10 rounded-xl bg-white relative border-sky-500`}
+      >
         <div>
           <TextField
             id="Id"
@@ -75,14 +142,13 @@ const VendorProfileForm = (props) => {
             }
             name="vendorId"
             onChange={(e) => {
-              if (e.target.value.length > 3) {
-              } else {
+              if (e.target.value.length > 3 && e.target.value.length!=11) {
                 checkUserId(e.target.value);
-                props.setVendordata({
-                  ...(props.Vendordata ? props.Vendordata : ""),
-                  [e.target.name]: e.target.value,
-                });
               }
+              props.setVendordata({
+                ...(props.Vendordata ? props.Vendordata : ""),
+                [e.target.name]: e.target.value,
+              });
             }}
             onBlur={(e) => {
               if (tooltip.valid && e.target.value.length > 3)
@@ -128,8 +194,26 @@ const VendorProfileForm = (props) => {
           />
         </div>
       </div>
-      <span className="legend Btn_Gradient">Primary Address</span>
-      <div className="flex  flex-col md:flex-row gap-6 border-2 p-3  mb-10 rounded-xl bg-white relative border-sky-500">
+      <span
+        className={`${
+          props.edit
+            ? props.editType && props.editType === "Address"
+              ? "flex"
+              : "hidden"
+            : "flex"
+        } legend Btn_Gradient`}
+      >
+        Primary Address
+      </span>
+      <div
+        className={`${
+          props.edit
+            ? props.editType && props.editType === "Address"
+              ? "flex"
+              : "hidden"
+            : "flex"
+        } flex-col md:flex-row gap-6 border-2 p-3  mb-10 rounded-xl bg-white relative border-sky-500`}
+      >
         <div>
           <Autocomplete
             freeSolo
@@ -301,8 +385,26 @@ const VendorProfileForm = (props) => {
           />
         </div>
       </div>
-      <span className="legend bg-slate-400">Billing Address</span>
-      <div className="flex  flex-col md:flex-row gap-6 border-2 p-3  mb-10 rounded-xl bg-white relative border-sky-500">
+      <span
+        className={`${
+          props.edit
+            ? props.editType && props.editType === "Address"
+              ? "flex"
+              : "hidden"
+            : "flex"
+        } legend bg-slate-400`}
+      >
+        Billing Address
+      </span>
+      <div
+        className={`${
+          props.edit
+            ? props.editType && props.editType === "Address"
+              ? "flex"
+              : "hidden"
+            : "flex"
+        } flex-col md:flex-row gap-6 border-2 p-3  mb-10 rounded-xl bg-white relative border-sky-500`}
+      >
         <div>
           <Autocomplete
             freeSolo
@@ -474,8 +576,26 @@ const VendorProfileForm = (props) => {
           />
         </div>
       </div>
-      <span className="legend Btn_Gradient">Primary Contact</span>
-      <div className="flex  flex-col md:flex-row gap-6 border-2 p-3  mb-10 rounded-xl bg-white relative border-sky-500">
+      <span
+        className={`${
+          props.edit
+            ? props.editType && props.editType === "Contact"
+              ? "flex"
+              : "hidden"
+            : "flex"
+        } legend Btn_Gradient`}
+      >
+        Primary Contact
+      </span>
+      <div
+        className={`${
+          props.edit
+            ? props.editType && props.editType === "Contact"
+              ? "flex"
+              : "hidden"
+            : "flex"
+        }  flex-col md:flex-row gap-6 border-2 p-3  mb-10 rounded-xl bg-white relative border-sky-500`}
+      >
         <div>
           <TextField
             id="firstname"
@@ -682,8 +802,26 @@ const VendorProfileForm = (props) => {
           />
         </div>
       </div>
-      <span className="legend bg-slate-400">Additional Contact</span>
-      <div className="flex  flex-col md:flex-row gap-6 border-2 p-3  mb-10 rounded-xl bg-white relative border-sky-500">
+      <span
+        className={`${
+          props.edit
+            ? props.editType && props.editType === "Contact"
+              ? "flex"
+              : "hidden"
+            : "flex"
+        } legend bg-slate-400`}
+      >
+        Additional Contact
+      </span>
+      <div
+        className={`${
+          props.edit
+            ? props.editType && props.editType === "Contact"
+              ? "flex"
+              : "hidden"
+            : "flex"
+        }  flex-col md:flex-row gap-6 border-2 p-3  mb-10 rounded-xl bg-white relative border-sky-500`}
+      >
         <div>
           <TextField
             id="firstname"
@@ -862,8 +1000,15 @@ const VendorProfileForm = (props) => {
           />
         </div>
       </div>
-
-      <div className="flex gap-6 border-2 p-3  mb-2 rounded-xl bg-white relative border-sky-500">
+      <div
+        className={`${
+          props.edit
+            ? props.editType && props.editType === "Profile"
+              ? "flex"
+              : "hidden"
+            : "flex"
+        } gap-6 border-2 p-3  mb-2 rounded-xl bg-white relative border-sky-500`}
+      >
         <div className=" w-full">
           <TextField
             id="assignment"
@@ -895,7 +1040,7 @@ const VendorProfileForm = (props) => {
       </div>
       <Box
         sx={{
-          display: "flex",
+          display: props.edit ? "none" : "flex",
           flexDirection: "row",
           pt: 2,
           justifyContent: "end",
@@ -913,6 +1058,18 @@ const VendorProfileForm = (props) => {
 
         <Button onClick={handleNext} variant="contained" sx={{ m: 1 }}>
           Next
+        </Button>
+      </Box>
+      <Box
+        sx={{
+          display: props.edit ? "flex" : "none",
+          flexDirection: "row",
+          pt: 2,
+          justifyContent: "end",
+        }}
+      >
+        <Button onClick={handleEditSubmit} variant="contained" sx={{ m: 1 }}>
+          Submit
         </Button>
       </Box>
     </div>

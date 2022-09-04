@@ -12,10 +12,11 @@ import {
 
 import { IoMdAddCircle } from "react-icons/io";
 import { MdDelete } from "react-icons/md";
+import { UpdateVendorLicences } from "../../Services/Vendor";
 import toast from "react-hot-toast";
 const VendorLicense = (props) => {
   const top100Films = [{ title: "", year: 1994 }];
-
+console.log(props.licences);
   const handleRemoveClick = (index) => {
     const list = [...props.licences];
     list.splice(index, 1);
@@ -44,6 +45,23 @@ const VendorLicense = (props) => {
   };
   const handleAddClick = () => {
     let status = false;
+    if(props.edit)
+    props.licences.map((ele) => {
+      if (
+        ele.firstName === "" ||
+        ele.lastName === "" ||
+        ele.licenceNo === "" ||
+        ele.licenceType === "" ||
+        ele.address === "" ||
+        ele.expiry_Date === "" ||
+        ele.issueDate === "" ||
+        ele.disciplinaryAction === "" ||
+        ele.note === ""
+      ) {
+        status = true;
+      }
+    });
+    else
     props.Vendordata.licences.map((ele) => {
       if (
         ele.firstName === "" ||
@@ -60,6 +78,24 @@ const VendorLicense = (props) => {
       }
     });
     if (status) toast.error("Please fill all the mandatory fields");
+    else
+    if(props.edit)
+    props.setLicence( [
+        ...props.licences,
+        {
+          firstName: "",
+          lastName: "",
+          licenceNo: "",
+          licenceType: "",
+          status: "",
+          address: "",
+          expiry_Date: "",
+          issueDate: "",
+          disciplinaryAction: "",
+          note: "",
+        },
+      ],
+    );
     else
       props.setVendordata({
         ...props.Vendordata,
@@ -95,10 +131,41 @@ const VendorLicense = (props) => {
     } else data[i][name] = value;
     props.setVendordata({ ...props.Vendordata, ["licences"]: data });
   };
+  const handleEditSubmit=()=>{
+    let status = false;
+    props.licences.map((ele) => {
+      if (
+        ele.firstName === "" ||
+        ele.lastName === "" ||
+        ele.licenceNo === "" ||
+        ele.licenceType === "" ||
+        ele.address === "" ||
+        ele.expiry_Date === "" ||
+        ele.issueDate === "" ||
+        ele.disciplinaryAction === "" ||
+        ele.note === ""
+      ) {
+        status = true;
+      }
+    });
+    if (status) toast.error("Please fill all the mandatory fields");
+    else {
+      UpdateVendorLicences(props.licences,props.selecetedVedorId).
+      then((res)=>{
+        if (res.status === 200) {
+          toast.success("Licence updated succsessfully");
+          props.setVendorDetail({...props.vendorDetail,["licences"]:props.licences})
+          props.seteditModalOpen(prev=>!prev)
+        } else {
+          res.json().then((res) => toast.error(res));
+        }
+      })
+    }
+  }
   return (
     <>
       <div className=" border-2 py-3 mb-3 border-sky-500 p-3 rounded-xl">
-        {props.licences.map((x, i) => {
+        {props.licences&&props.licences.map((x, i) => {
           return (
             <>
               <div className="flex flex-col flex-wrap  border-2 border-slate-300 p-2 mb-1 rounded-xl">
@@ -195,6 +262,9 @@ const VendorLicense = (props) => {
                         const data = [...props.licences];
 
                         data[i]["address"] = newInputValue;
+                        if(props.edit)
+                        props.setLicence(data)
+                        else
                         props.setVendordata({
                           ...props.Vendordata,
                           ["licences"]: data,
@@ -231,7 +301,7 @@ const VendorLicense = (props) => {
                       type="date"
                       variant="outlined"
                       size="small"
-                      value={x.issueDate}
+                      value={props.edit?x.issueDate.slice(0,x.issueDate.indexOf("T")):x.issueDate}
                       onChange={(e) => handlechangeLicense(e, i)}
                       onBlur={(e) => {
                         const data = [...props.licences];
@@ -241,6 +311,9 @@ const VendorLicense = (props) => {
                           toast.error("Enter valid date");
                           data[i][e.target.name] = "";
                         }
+                        if(props.edit)
+                        props.setLicence(data)
+                        else
                         props.setVendordata({
                           ...props.Vendordata,
                           ["licences"]: data,
@@ -261,7 +334,7 @@ const VendorLicense = (props) => {
                       type="date"
                       variant="outlined"
                       size="small"
-                      value={x.expiry_Date}
+                      value={props.edit?x.expiry_Date.slice(0,x.expiry_Date.indexOf("T")):x.expiry_Date}
                       onChange={(e) => handlechangeLicense(e, i)}
                       focused
                       onBlur={(e) => {
@@ -278,6 +351,9 @@ const VendorLicense = (props) => {
                           );
                           data[i][e.target.name] = "";
                         }
+                        if(props.edit)
+                        props.setLicence(data)
+                        else
                         props.setVendordata({
                           ...props.Vendordata,
                           ["licences"]: data,
@@ -323,7 +399,7 @@ const VendorLicense = (props) => {
                     />
                   </div>
                 </div>
-                <div className="flex flex-wrap">
+                <div className={`${props.edit?'hidden':'flex'} flex-wrap`}>
                   {props.licences.length !== 1 && (
                     <MdDelete
                       onClick={() => handleRemoveClick(i)}
@@ -348,7 +424,7 @@ const VendorLicense = (props) => {
       </div>
       <Box
         sx={{
-          display: "flex",
+          display: props.edit ? "none" : "flex",
           flexDirection: "row",
           pt: 2,
           justifyContent: "end",
@@ -365,6 +441,18 @@ const VendorLicense = (props) => {
 
         <Button onClick={handleNext} variant="contained" sx={{ m: 1 }}>
           Next
+        </Button>
+      </Box>
+      <Box
+        sx={{
+          display: props.edit ? "flex" : "none",
+          flexDirection: "row",
+          pt: 2,
+          justifyContent: "end",
+        }}
+      >
+        <Button onClick={handleEditSubmit} variant="contained" sx={{ m: 1 }}>
+          Submit
         </Button>
       </Box>
     </>

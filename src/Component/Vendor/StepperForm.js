@@ -27,10 +27,11 @@ const steps = [
 const StepperForm = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [productdata, setProductdata] = useState([]);
+  const [productD, setProductD] = useState([]);
   const [allstate, setAllState] = useState([]);
   const [communicationType, setCommunicaionType] = useState([]);
   const [licenceType, setLicenceType] = useState([]);
-  const [productD, setProductD] = useState([]);
+  
   const [Vendordata, setVendordata] = useState({
     id: 0,
     vendorId: "",
@@ -175,6 +176,7 @@ const StepperForm = () => {
                 allstate={allstate}
                 setActiveStep={setActiveStep}
                 activeStep={activeStep}
+                edit={false}
               />
             ) : activeStep === 1 ? (
               <VendorLicense
@@ -184,6 +186,7 @@ const StepperForm = () => {
                 licences={Vendordata.licences}
                 setActiveStep={setActiveStep}
                 licenceType={licenceType}
+                edit={false}
               />
             ) : activeStep === 2 ? (
               <VendorProduct
@@ -214,6 +217,7 @@ const StepperForm = () => {
                 productD={productD}
                 communicationType={communicationType}
                 communication={Vendordata.communication}
+                edit={false}
               />
             )}
           </Typography>

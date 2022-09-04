@@ -276,11 +276,144 @@ body:JSON.stringify(data),
 export const Getvendorbyid = async (id) => {
   return await fetch(`${Url}Getvendorbyid?id=${id}`, {
     method: "GET",
-
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",
       "Access-Control-Allow-Origin": "*",
     },
   }).then((data) => data.json());
+};
+
+export const GetvendorProductbyid = async (id) => {
+  return await fetch(`${Url}GetvendorProduct?vendorid=${id}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      "Access-Control-Allow-Origin": "*",
+    },
+  }).then((data) => data.json());
+};
+
+export const GetVendorCommunicationbyid = async (id) => {
+  return await fetch(`${Url}GetVendorCommunication?vendorid=${id}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      "Access-Control-Allow-Origin": "*",
+    },
+  }).then((data) => data.json());
+};
+export const GetVendorAddressbyid = async (id) => {
+  return await fetch(`${Url}GetVendorAddress?vendorid=${id}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      "Access-Control-Allow-Origin": "*",
+    },
+  }).then((data) => data.json());
+};
+export const UpdateVendorAddress= async (data,id) => {
+  return await fetch(`${Url}UpdateVendorAddresses?vendorid=${id}`, {
+    method: "PUT",
+    body:JSON.stringify(data),
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      "Access-Control-Allow-Origin": "*",
+    },
+  }).then((data) => data);
+};
+export const GetVendorContactbyid = async (id) => {
+  return await fetch(`${Url}GetVendorContact?vendorid=${id}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      "Access-Control-Allow-Origin": "*",
+    },
+  }).then((data) => data.json());
+};
+export const GetVendorLicencebyid = async (id) => {
+  return await fetch(`${Url}GetVendorLicences?vendorid=${id}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      "Access-Control-Allow-Origin": "*",
+    },
+  }).then((data) => data.json());
+};
+export const UpdateVendorContact= async (data,id) => {
+  const token = localStorage.getItem("jwtTokenId");
+  return await fetch(`${Url}UpdateVendorContacts?vendorid=${id}`, {
+
+    method: "PUT",
+    body:JSON.stringify(data),
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      "Access-Control-Allow-Origin": "*",
+    },
+  }).then((data) => data);
+};
+
+export const UpdateVendor= async (data) => {
+  const token = localStorage.getItem("jwtTokenId");
+  return await fetch(`${Url}UpdateVendor`, {
+
+    method: "PUT",
+    body:JSON.stringify(data),
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      "Access-Control-Allow-Origin": "*",
+    },
+  }).then((data) => data);
+};
+export const UpdateVendorLicences= async (data,id) => {
+  const token = localStorage.getItem("jwtTokenId");
+  return await fetch(`${Url}UpdateVendorLicences?vendorid=${id}`, {
+
+    method: "PUT",
+    body:JSON.stringify(data),
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      "Access-Control-Allow-Origin": "*",
+    },
+  }).then((data) => data);
+};
+
+export const UpdateVendorcommunications= async (data,id) => {
+  const token = localStorage.getItem("jwtTokenId");
+  return await fetch(`${Url}UpdateVendorcommunications?vendorid=${id}`, {
+    method: "PUT",
+    body:JSON.stringify(data),
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      "Access-Control-Allow-Origin": "*",
+    },
+  }).then((data) => data);
+};
+
+export const UpdateVendorproducts= async (data,id) => {
+  const token = localStorage.getItem("jwtTokenId");
+  return await fetch(`${Url}UpdateVendorproducts?vendorid=${id}`, {
+    method: "PUT",
+    body:JSON.stringify(data),
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      "Access-Control-Allow-Origin": "*",
+    },
+  }).then((data) => data);
 };

@@ -16,6 +16,7 @@ const AddVendorProduct = () => {
     name: "",
     productid: 0,
   });
+  const [type,setType]=useState(true)
   useEffect(() => {
     GetVendorProduct().then((res) => {
       if (res && res.length > 0) {
@@ -71,7 +72,7 @@ const AddVendorProduct = () => {
                   <form className="flex flex-col space-y-2">
                     <div>
                       <TextField
-                        label="Product Name *"
+                        label={type?"Product Name *":"Category Name *"}
                         variant="outlined"
                         size="small"
                         value={productData.name}
@@ -84,7 +85,7 @@ const AddVendorProduct = () => {
                       />
                     </div>
 
-                    <div>
+                   {type? <div>
                       <Autocomplete
                         disablePortal
                         id="combo-box-demo"
@@ -105,13 +106,21 @@ const AddVendorProduct = () => {
                           <TextField {...params} label="Category Product" />
                         )}
                       />
-                    </div>
+                    </div>:<></>}
                     <div>
                       <button
-                        className="btn-donate w-full mb-4"
+                        className="btn-donate w-full mb-2"
                         onClick={HandleSubmit}
                       >
                         Submit
+                      </button>
+                      <button
+                        className="btn-donate  w-full mb-4 "
+                        onClick={()=>{
+setType((prev)=>!prev)
+                        }}
+                      >
+                        {type?"Add Category":"Back"}
                       </button>
                     </div>
                   </form>
