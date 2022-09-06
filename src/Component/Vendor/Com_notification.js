@@ -148,7 +148,7 @@ const Com_notification = (props) => {
         } py-1 mb-3`}>
         <span className="legend Btn_Gradient">Communication</span>
         <div className="  border-2 p-3  mb-2 rounded-xl bg-white relative border-sky-500">
-          {props.communication.map((x, i) => {
+          {props.communication&&props.communication.map((x, i) => {
             return (
               <>
                 <div className={`flex flex-col md:flex-row gap-6 border-2 p-3  mb-1 rounded-xl items-center `}>
