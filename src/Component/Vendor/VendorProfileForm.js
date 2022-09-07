@@ -43,11 +43,16 @@ const VendorProfileForm = (props) => {
   };
   const checkUserId = (id) => {
     Checkexistingid(id).then((res) => {
+  
       if (res.status === 200 && id.length > 3) {
-        setTooltip({
-          isshow: true,
-          valid: true,
-        });
+        res.json().then(res1=>{
+          setTooltip({
+            isshow: true,
+            valid: res1,
+          });
+
+        })
+       
       } else {
         setTooltip({
           isshow: true,

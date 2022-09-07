@@ -110,7 +110,7 @@ const VendorProduct = (props) => {
     <>
       <div className="flex flex-wrap">
         {props.productdata.map((ele, indx) => {
-          if (ele.subCategory.length > 0) {
+          if (ele.subCategory&&ele.subCategory.length > 0) {
             return (
               <div className="mt-1 col-md-6" key={indx}>
                 <Accordion className="max-h-[250px] overflow-y-auto">
