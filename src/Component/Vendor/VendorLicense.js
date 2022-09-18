@@ -24,24 +24,23 @@ console.log(props.licences);
     props.setVendordata({ ...props.Vendordata, ["licences"]: list });
   };
   const handleNext = () => {
-    let status = false;
-    props.Vendordata.licences.map((ele) => {
-      if (
-        ele.firstName === "" ||
-        ele.lastName === "" ||
-        ele.licenceNo === "" ||
-        ele.licenceType === "" ||
-        ele.address === "" ||
-        ele.expiry_Date === "" ||
-        ele.issueDate === "" ||
-        ele.disciplinaryAction === "" ||
-        ele.note === ""
-      ) {
-        status = true;
-      }
-    });
-    if (status) toast.error("Please fill all the mandatory fields");
-    else props.setActiveStep((prev) => prev + 1);
+    // let status = false;
+    // props.Vendordata.licences.map((ele) => {
+    //   if (
+    //     ele.firstName === "" ||
+    //     ele.lastName === "" ||
+    //     ele.licenceNo === "" ||
+    //     ele.licenceType === "" ||
+    //     ele.address === "" ||
+    //     ele.expiry_Date === "" ||
+    //     ele.issueDate === "" 
+    //   ) {
+    //     status = true;
+    //   }
+    // });
+    // if (status) toast.error("Please fill all the mandatory fields");
+    // else
+     props.setActiveStep((prev) => prev + 1);
   };
   const handleAddClick = () => {
     let status = false;
@@ -54,9 +53,7 @@ console.log(props.licences);
         ele.licenceType === "" ||
         ele.address === "" ||
         ele.expiry_Date === "" ||
-        ele.issueDate === "" ||
-        ele.disciplinaryAction === "" ||
-        ele.note === ""
+        ele.issueDate === "" 
       ) {
         status = true;
       }
@@ -70,9 +67,7 @@ console.log(props.licences);
         ele.licenceType === "" ||
         ele.address === "" ||
         ele.expiry_Date === "" ||
-        ele.issueDate === "" ||
-        ele.disciplinaryAction === "" ||
-        ele.note === ""
+        ele.issueDate === "" 
       ) {
         status = true;
       }
@@ -141,9 +136,8 @@ console.log(props.licences);
         ele.licenceType === "" ||
         ele.address === "" ||
         ele.expiry_Date === "" ||
-        ele.issueDate === "" ||
-        ele.disciplinaryAction === "" ||
-        ele.note === ""
+        ele.issueDate === "" 
+        
       ) {
         status = true;
       }
@@ -369,7 +363,7 @@ console.log(props.licences);
                       label={
                         <>
                           Disciplinary/ Other Actions{" "}
-                          <span className="text-red-600">*</span>
+                         
                         </>
                       }
                       variant="outlined"
@@ -386,7 +380,7 @@ console.log(props.licences);
                       name="note"
                       label={
                         <>
-                          Note <span className="text-red-600">*</span>
+                          Note 
                         </>
                       }
                       variant="outlined"

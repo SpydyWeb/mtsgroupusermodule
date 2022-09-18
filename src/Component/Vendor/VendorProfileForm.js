@@ -12,6 +12,10 @@ import {
 import toast from "react-hot-toast";
 import { Checkexistingid, UpdateVendorAddress,UpdateVendorContact } from "../../Services/Vendor";
 import ToolTipValidation from "../Validation/ToolTipValidation";
+
+import { PhonenoMask } from "../Common/renderutil";
+
+
 const VendorProfileForm = (props) => {
   const top100Films = [{ label: "", year: 1994 }];
   const [tooltip, setTooltip] = useState({ isshow: false, valid: false });
@@ -19,21 +23,17 @@ const VendorProfileForm = (props) => {
     if (
       props.Vendordata.vendorId === "" ||
       props.Vendordata.name === "" ||
-      props.Vendordata.primery_Address.address === "" ||
-      props.Vendordata.primery_Address.suite === "" ||
+      props.Vendordata.primery_Address.address === "" ||     
       props.Vendordata.primery_Address.city === "" ||
       props.Vendordata.primery_Address.state === "" ||
       props.Vendordata.primery_Address.pincode === "" ||
-      props.Vendordata.secondary_Address.address === "" ||
-      props.Vendordata.secondary_Address.suite === "" ||
+      props.Vendordata.secondary_Address.address === "" ||     
       props.Vendordata.secondary_Address.city === "" ||
       props.Vendordata.secondary_Address.state === "" ||
       props.Vendordata.secondary_Address.pincode === "" ||
       props.Vendordata.primery_Contact.firstName === "" ||
-      props.Vendordata.primery_Contact.middleName === "" ||
       props.Vendordata.primery_Contact.lastName === "" ||
       props.Vendordata.primery_Contact.phone === "" ||
-      props.Vendordata.primery_Contact.ext === "" ||
       props.Vendordata.primery_Contact.email === "" ||
       props.Vendordata.primery_Contact.cellPhone === "" ||
       props.Vendordata.assignmentNote === ""
@@ -64,13 +64,11 @@ const VendorProfileForm = (props) => {
   const handleEditSubmit = () => {
     if (props.editType === "Address") {
       if (
-        props.Vendordata.primery_Address.address === "" ||
-        props.Vendordata.primery_Address.suite === "" ||
+        props.Vendordata.primery_Address.address === "" ||      
         props.Vendordata.primery_Address.city === "" ||
         props.Vendordata.primery_Address.state === "" ||
         props.Vendordata.primery_Address.pincode === "" ||
         props.Vendordata.secondary_Address.address === "" ||
-        props.Vendordata.secondary_Address.suite === "" ||
         props.Vendordata.secondary_Address.city === "" ||
         props.Vendordata.secondary_Address.state === "" ||
         props.Vendordata.secondary_Address.pincode === ""
@@ -94,10 +92,8 @@ const VendorProfileForm = (props) => {
     } else if (props.editType === "Contact") {
       if (
         props.Vendordata.primery_Contact.firstName === "" ||
-        props.Vendordata.primery_Contact.middleName === "" ||
         props.Vendordata.primery_Contact.lastName === "" ||
         props.Vendordata.primery_Contact.phone === "" ||
-        props.Vendordata.primery_Contact.ext === "" ||
         props.Vendordata.primery_Contact.email === "" ||
         props.Vendordata.primery_Contact.cellPhone === ""
       )
@@ -274,7 +270,7 @@ const VendorProfileForm = (props) => {
             id="Suite"
             label={
               <>
-                Suite <span className="text-red-600">*</span>
+                Suite 
               </>
             }
             variant="outlined"
@@ -377,6 +373,7 @@ const VendorProfileForm = (props) => {
                 ? props.Vendordata.primery_Address.pincode
                 : ""
             }
+            inputProps={{ maxLength: 5 }}
             name="pincode"
             onChange={(e) => {
               props.setVendordata({
@@ -465,7 +462,7 @@ const VendorProfileForm = (props) => {
             id="Suite"
             label={
               <>
-                Suite <span className="text-red-600">*</span>
+                Suite 
               </>
             }
             variant="outlined"
@@ -567,7 +564,7 @@ const VendorProfileForm = (props) => {
               props.Vendordata.secondary_Address.pincode
                 ? props.Vendordata.secondary_Address.pincode
                 : ""
-            }
+            }    inputProps={{ maxLength: 5 }}
             name="pincode"
             onChange={(e) => {
               props.setVendordata({
@@ -635,7 +632,7 @@ const VendorProfileForm = (props) => {
             id="middleName"
             label={
               <>
-                Middle Name <span className="text-red-600">*</span>
+                Middle Name 
               </>
             }
             variant="outlined"
@@ -698,24 +695,24 @@ const VendorProfileForm = (props) => {
             }
             variant="outlined"
             size="small"
-            value={
-              props.Vendordata &&
+            InputProps={{
+              inputComponent: PhonenoMask,
+              value:  props.Vendordata &&
               props.Vendordata.primery_Contact &&
               props.Vendordata.primery_Contact.phone
                 ? props.Vendordata.primery_Contact.phone
-                : ""
-            }
-            name="phone"
-            onChange={(e) => {
-              if (!isNaN(e.target.value))
-                props.setVendordata({
-                  ...(props.Vendordata ? props.Vendordata : ""),
-                  ["primery_Contact"]: {
-                    ...props.Vendordata.primery_Contact,
-                    [e.target.name]: e.target.value,
-                  },
-                });
+                : "",
+              onChange: (e)=>  props.setVendordata({
+                ...(props.Vendordata ? props.Vendordata : ""),
+                ["primery_Contact"]: {
+                  ...props.Vendordata.primery_Contact,
+                  [e.target.name]: e.target.value,
+                },
+              }),
             }}
+          
+            name="phone"
+           
           />
         </div>
         <div>
@@ -723,7 +720,7 @@ const VendorProfileForm = (props) => {
             id="ext"
             label={
               <>
-                Ext <span className="text-red-600">*</span>
+                Ext 
               </>
             }
             variant="outlined"
@@ -777,6 +774,7 @@ const VendorProfileForm = (props) => {
           />
         </div>
         <div>
+
           <TextField
             id="cellphone"
             label={
@@ -784,27 +782,28 @@ const VendorProfileForm = (props) => {
                 Cell Phone <span className="text-red-600">*</span>
               </>
             }
-            variant="outlined"
-            size="small"
-            value={
-              props.Vendordata &&
+            InputProps={{
+              inputComponent: PhonenoMask,
+              value: props.Vendordata &&
               props.Vendordata.primery_Contact &&
               props.Vendordata.primery_Contact.cellPhone
                 ? props.Vendordata.primery_Contact.cellPhone
-                : ""
-            }
-            name="cellPhone"
-            onChange={(e) => {
-              if (!isNaN(e.target.value))
-                props.setVendordata({
-                  ...(props.Vendordata ? props.Vendordata : ""),
-                  ["primery_Contact"]: {
-                    ...props.Vendordata.primery_Contact,
-                    [e.target.name]: e.target.value,
-                  },
-                });
+                : "",
+              onChange: (e)=> props.setVendordata({
+                ...(props.Vendordata ? props.Vendordata : ""),
+                ["primery_Contact"]: {
+                  ...props.Vendordata.primery_Contact,
+                  [e.target.name]: e.target.value,
+                },
+              }),
             }}
-          />
+            variant="outlined"
+            size="small"
+            
+            name="cellPhone"
+           
+          >
+            </TextField>
         </div>
       </div>
       <span
@@ -908,24 +907,24 @@ const VendorProfileForm = (props) => {
             label="Phone"
             variant="outlined"
             size="small"
-            value={
-              props.Vendordata &&
+            InputProps={{
+              inputComponent: PhonenoMask,
+              value: props.Vendordata &&
               props.Vendordata.secondary_contact &&
               props.Vendordata.secondary_contact.phone
                 ? props.Vendordata.secondary_contact.phone
-                : ""
-            }
-            name="phone"
-            onChange={(e) => {
-              if (!isNaN(e.target.value))
-                props.setVendordata({
-                  ...(props.Vendordata ? props.Vendordata : ""),
-                  ["secondary_contact"]: {
-                    ...props.Vendordata.secondary_contact,
-                    [e.target.name]: e.target.value,
-                  },
-                });
+                : "",
+              onChange: (e)=>  props.setVendordata({
+                ...(props.Vendordata ? props.Vendordata : ""),
+                ["secondary_contact"]: {
+                  ...props.Vendordata.secondary_contact,
+                  [e.target.name]: e.target.value,
+                },
+              }),
             }}
+           
+            name="phone"
+           
           />
         </div>
         <div>
@@ -984,24 +983,24 @@ const VendorProfileForm = (props) => {
             label="Cell Phone"
             variant="outlined"
             size="small"
-            value={
-              props.Vendordata &&
+            InputProps={{
+              inputComponent: PhonenoMask,
+              value: props.Vendordata &&
               props.Vendordata.secondary_contact &&
               props.Vendordata.secondary_contact.cellPhone
                 ? props.Vendordata.secondary_contact.cellPhone
-                : ""
-            }
-            name="cellPhone"
-            onChange={(e) => {
-              if (!isNaN(e.target.value))
-                props.setVendordata({
-                  ...(props.Vendordata ? props.Vendordata : ""),
-                  ["secondary_contact"]: {
-                    ...props.Vendordata.secondary_contact,
-                    [e.target.name]: e.target.value,
-                  },
-                });
+                : "",
+              onChange: (e)=>  props.setVendordata({
+                ...(props.Vendordata ? props.Vendordata : ""),
+                ["secondary_contact"]: {
+                  ...props.Vendordata.secondary_contact,
+                  [e.target.name]: e.target.value,
+                },
+              }),
             }}
+           
+            name="cellPhone"
+           
           />
         </div>
       </div>
