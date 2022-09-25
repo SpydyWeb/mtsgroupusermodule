@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
-import Box from "@mui/material/Box";
-import Stepper from "@mui/material/Stepper";
-import Step from "@mui/material/Step";
-import StepLabel from "@mui/material/StepLabel";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
+import {
+  Box,
+  Stepper,
+  Step,
+  StepLabel,
+  Button,
+  Typography,
+} from "@mui/material";
 import VendorProfileForm from "./VendorProfileForm";
 import VendorProduct from "./VendorProduct";
 import VendorLicense from "./VendorLicense";
@@ -31,7 +33,6 @@ const StepperForm = () => {
   const [allstate, setAllState] = useState([]);
   const [communicationType, setCommunicaionType] = useState([]);
   const [licenceType, setLicenceType] = useState([]);
-  
   const [Vendordata, setVendordata] = useState({
     id: 0,
     vendorId: "",

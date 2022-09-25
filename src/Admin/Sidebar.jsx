@@ -317,6 +317,43 @@ const Sidebar = () => {
               </Typography>
             </AccordionDetails>
           </Accordion>
+          <Accordion className="sidebarAccord" expanded={expandedSec}>
+            <AccordionSummary
+              onClick={() => SideBarOpenSec()}
+              expandIcon={
+                <MdOutlineExpandMore style={{ color: "rgb(194, 199, 208)" }} />
+              }
+              aria-controls="panel2a-content"
+              id="panel2a-header"
+            >
+              <Typography>
+                {" "}
+                <i className="mr-2 fas fa-chart-pie" />
+                Customer Module
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails className="p-0">
+              <Typography className="p-0">
+                <ul className="nav nav-treeview">
+                 
+                  <li className="nav-item w-full">
+                    <Link
+                      onClick={() => NavClose()}
+                      to="/admin/customer"
+                      className={`nav-link  flex items-center ml-3 ${
+                        location.pathname === "/admin/customer"
+                          ? "bg-white"
+                          : ""
+                      }`}
+                    >
+                      <i className="mr-2 fas fa-columns" />
+                      <p>View customer </p>
+                    </Link>
+                  </li>
+                </ul>
+              </Typography>
+            </AccordionDetails>
+          </Accordion>
         </div>
       </div>
     </aside>

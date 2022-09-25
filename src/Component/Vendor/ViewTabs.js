@@ -3,6 +3,9 @@ import { Tabs, Tab, Box, Typography } from "@mui/material";
 import ViewVendor from "./ViewVendor";
 import StepperForm from "./StepperForm";
 import Footer from "../../Admin/Footer";
+import { StepperFormCustomer } from "../Customer/StepperFormCustomer";
+import { useLocation } from "react-router-dom";
+
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -30,8 +33,11 @@ function a11yProps(index) {
   };
 }
 const ViewTabs = () => {
+  const location = useLocation();
   const [value, setValue] = React.useState(0);
-
+  useEffect(() => {
+    setValue(0);
+  }, [location]);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -49,10 +55,16 @@ const ViewTabs = () => {
           </Tabs>
         </Box>
         <TabPanel value={value} index={0}>
-          <ViewVendor />
+          {location.pathname === "/admin/viewvendor" ? <ViewVendor /> : <></>}
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <StepperForm />
+          {location.pathname === "/admin/viewvendor" ? (
+            <StepperForm />
+          ) : (
+            <>
+              <StepperFormCustomer />
+            </>
+          )}
         </TabPanel>
       </div>
       <Footer />

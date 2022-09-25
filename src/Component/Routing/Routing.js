@@ -156,6 +156,7 @@ const Routing = () => {
             exact
           />
           <Route path="/admin/viewvendor" element={<ViewTabs />} exact />
+          <Route path="/admin/customer" element={<ViewTabs />} exact />
         </Routes>
       </>
     );

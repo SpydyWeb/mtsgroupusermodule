@@ -14,14 +14,16 @@ import Typography from "@mui/material/Typography";
 import toast from "react-hot-toast";
 import { UpdateVendorproducts } from "../../Services/Vendor";
 import { FcExpand } from "react-icons/fc";
+import { useLocation } from "react-router-dom";
 const VendorProduct = (props) => {
+  const location=useLocation();
   const handleNext = () => {
     let status = false;
     let count = 0;
     props.productD.map((ele) => {
       if (ele.selected === true) {
         count = 1;
-        if (ele.price === 0) status = true;
+        if (ele.price === 0 && location.pathname==="/admin/viewvendor") status = true;
       }
     });
     if (status || count === 0)
@@ -144,7 +146,7 @@ const VendorProduct = (props) => {
                                 }
                               />
 
-                              <TextField
+                            {location.pathname==="/admin/viewvendor"?  <TextField
                                 label="Price"
                                 variant="outlined"
                                 size="small"
@@ -152,7 +154,7 @@ const VendorProduct = (props) => {
                                 onChange={(e) =>
                                   handlechange(e, i, indx, val.id)
                                 }
-                              />
+                              />:''}
                             </FormGroup>
                           </div>
                         </Typography>

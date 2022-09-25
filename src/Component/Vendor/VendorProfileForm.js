@@ -12,11 +12,11 @@ import {
 import toast from "react-hot-toast";
 import { Checkexistingid, UpdateVendorAddress,UpdateVendorContact } from "../../Services/Vendor";
 import ToolTipValidation from "../Validation/ToolTipValidation";
-
 import { PhonenoMask } from "../Common/renderutil";
-
+import { useLocation } from "react-router-dom";
 
 const VendorProfileForm = (props) => {
+  const location=useLocation();
   const top100Films = [{ label: "", year: 1994 }];
   const [tooltip, setTooltip] = useState({ isshow: false, valid: false });
   const handleNext = () => {
@@ -36,7 +36,9 @@ const VendorProfileForm = (props) => {
       props.Vendordata.primery_Contact.phone === "" ||
       props.Vendordata.primery_Contact.email === "" ||
       props.Vendordata.primery_Contact.cellPhone === "" ||
-      props.Vendordata.assignmentNote === ""
+      (props.Vendordata.assignmentNote&&props.Vendordata.assignmentNote === ""&& location.pathname==="/admin/viewvendor")||
+      (props.Vendordata.parent&&props.Vendordata.parent === ""&& location.pathname==="/admin/customer")
+
     )
       toast.error("Please fill all the mandatory fields");
     else props.setActiveStep((prev) => prev + 1);
@@ -194,6 +196,29 @@ const VendorProfileForm = (props) => {
             size="small"
           />
         </div>
+        {location.pathname==="/admin/customer"? <div>
+          <TextField
+            label={
+              <>
+                parent <span className="text-red-600">*</span>
+              </>
+            }
+            value={
+              props.Vendordata && props.Vendordata.parent
+                ? props.Vendordata.parent
+                : ""
+            }
+            name="parent"
+            onChange={(e) => {
+              props.setVendordata({
+                ...(props.Vendordata ? props.Vendordata : ""),
+                [e.target.name]: e.target.value,
+              });
+            }}
+            variant="outlined"
+            size="small"
+          />
+        </div>:''}
       </div>
       <span
         className={`${
@@ -1004,10 +1029,10 @@ const VendorProfileForm = (props) => {
           />
         </div>
       </div>
-      <div
+      { location.pathname!=="/admin/customer"?<div
         className={`${
           props.edit
-            ? props.editType && props.editType === "Profile"
+            ? props.editType && props.editType === "Profile" 
               ? "flex"
               : "hidden"
             : "flex"
@@ -1041,7 +1066,7 @@ const VendorProfileForm = (props) => {
             }}
           />
         </div>
-      </div>
+      </div>:''}
       <Box
         sx={{
           display: props.edit ? "none" : "flex",
