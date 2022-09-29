@@ -101,11 +101,12 @@ const StepperForm = () => {
       emailId: "",
       logId: "",
       password: "",
-
       allowTextMsg: true,
     },
     product: [
-      { id: "", name: "string", price: 0, productId: 0, selected: false },
+      { id: "", name: "string",  "price1": 0,
+      "price2": 0,
+      "price3": 0, productId: 0, selected: false },
     ],
   });
   useEffect(() => {

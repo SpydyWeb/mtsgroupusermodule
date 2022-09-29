@@ -55,7 +55,7 @@ const ViewTabs = () => {
           </Tabs>
         </Box>
         <TabPanel value={value} index={0}>
-          {location.pathname === "/admin/viewvendor" ? <ViewVendor /> : <></>}
+         <ViewVendor formType={location.pathname === "/admin/viewvendor" ?"vendor":"customer"} />
         </TabPanel>
         <TabPanel value={value} index={1}>
           {location.pathname === "/admin/viewvendor" ? (

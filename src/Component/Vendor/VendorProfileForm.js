@@ -17,6 +17,7 @@ import { useLocation } from "react-router-dom";
 
 const VendorProfileForm = (props) => {
   const location=useLocation();
+  const [formType,setFormType]=useState(location.pathname==="/admin/viewvendor"?"vendor":"customer")
   const top100Films = [{ label: "", year: 1994 }];
   const [tooltip, setTooltip] = useState({ isshow: false, valid: false });
   const handleNext = () => {
@@ -36,8 +37,8 @@ const VendorProfileForm = (props) => {
       props.Vendordata.primery_Contact.phone === "" ||
       props.Vendordata.primery_Contact.email === "" ||
       props.Vendordata.primery_Contact.cellPhone === "" ||
-      (props.Vendordata.assignmentNote&&props.Vendordata.assignmentNote === ""&& location.pathname==="/admin/viewvendor")||
-      (props.Vendordata.parent&&props.Vendordata.parent === ""&& location.pathname==="/admin/customer")
+      (props.Vendordata.assignmentNote&&props.Vendordata.assignmentNote === ""&& formType==="vendor")||
+      (props.Vendordata.parent&&props.Vendordata.parent === ""&& formType==="customer")
 
     )
       toast.error("Please fill all the mandatory fields");
@@ -139,11 +140,11 @@ const VendorProfileForm = (props) => {
               </>
             }
             value={
-              props.Vendordata && props.Vendordata.vendorId
+             formType==="vendor"
                 ? props.Vendordata.vendorId
-                : ""
+                : props.Vendordata.customerId
             }
-            name="vendorId"
+            name={formType==="vendor"?"vendorId":'customerId'}
             onChange={(e) => {
               if (e.target.value.length > 3 && e.target.value.length!=11) {
                 checkUserId(e.target.value);
@@ -196,7 +197,7 @@ const VendorProfileForm = (props) => {
             size="small"
           />
         </div>
-        {location.pathname==="/admin/customer"? <div>
+        {formType==="customer"? <div>
           <TextField
             label={
               <>
@@ -1029,7 +1030,7 @@ const VendorProfileForm = (props) => {
           />
         </div>
       </div>
-      { location.pathname!=="/admin/customer"?<div
+      {formType==="vendor"?<div
         className={`${
           props.edit
             ? props.editType && props.editType === "Profile" 

@@ -13,10 +13,11 @@ import {
   GetLicenceType,
   GetCommunicationTypeList
 } from "../../Services/Vendor";
+import { GetCustomerProductDetaills } from "../../Services/Customer";
 import Com_notification from "./Com_notification";
 import { AiOutlineClose } from "react-icons/ai";
 const EditModal = (props) => {
-  const { vendorDetail, setVendorDetail } = props;
+  const { vendorDetail, setVendorDetail,formType } = props;
   const [activeStep, setActiveStep] = useState(0);
   const [Vendordata, setVendordata] = useState({
    
@@ -37,10 +38,17 @@ const EditModal = (props) => {
       setAllState(res);
     });
     if (props.editView === 0) {
+      if(formType==="vendor"){
       GetvendorProductbyid(props.selecetedVedorId).then((res) => {
         setProductdata(res);
         setProductD(res);
-      });
+      });}
+      else{
+        GetCustomerProductDetaills(props.selecetedVedorId).then((res)=>{
+          setProductdata(res.data);
+          setProductD(res.data);
+        })
+      }
     } else if (props.editView === 1) {
       setProductD(vendorDetail.product)
       GetVendorCommunicationbyid(props.selecetedVedorId).then((res)=>{

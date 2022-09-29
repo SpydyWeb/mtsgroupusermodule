@@ -15,6 +15,7 @@ import {
   import VendorProduct from "../Vendor/VendorProduct";
 import VendorProfileForm from "../Vendor/VendorProfileForm";
 import Com_notification from "../Vendor/Com_notification";
+import Userregister from '../Vendor/Userregister';
   const steps = [
     "Basic Customer Details",
     "Product/ Service",
@@ -22,7 +23,7 @@ import Com_notification from "../Vendor/Com_notification";
     "User Registration",
   ];
 export const StepperFormCustomer = () => {
-    const [activeStep, setActiveStep] = useState(2);
+    const [activeStep, setActiveStep] = useState(0);
     const [allstate, setAllState] = useState([]);
     const [productdata, setProductdata] = useState([]);
     const [productD, setProductD] = useState([]);
@@ -183,7 +184,13 @@ export const StepperFormCustomer = () => {
             edit={false}
           />
           )
-           :''}
+           :activeStep===3?<Userregister
+           Vendordata={customerData}
+           setVendordata={setCustomerData}
+           setActiveStep={setActiveStep}
+           activeStep={activeStep}
+           Userregister={customerData.userregistration}
+         />:''}
         
         </Typography>
       </React.Fragment>

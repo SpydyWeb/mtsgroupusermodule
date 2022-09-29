@@ -15,15 +15,20 @@ import toast from "react-hot-toast";
 import { UpdateVendorproducts } from "../../Services/Vendor";
 import { FcExpand } from "react-icons/fc";
 import { useLocation } from "react-router-dom";
+import { UpdateCustomerProduct } from "../../Services/Customer";
 const VendorProduct = (props) => {
-  const location=useLocation();
+  const location = useLocation();
+  const [formType, setFormType] = useState(
+    location.pathname === "/admin/viewvendor" ? "vendor" : "customer"
+  );
   const handleNext = () => {
     let status = false;
     let count = 0;
     props.productD.map((ele) => {
       if (ele.selected === true) {
         count = 1;
-        if (ele.price === 0 && location.pathname==="/admin/viewvendor") status = true;
+        // if (ele.price === 0 && formType === "vendor")
+        //   status = true;
       }
     });
     if (status || count === 0)
@@ -36,12 +41,17 @@ const VendorProduct = (props) => {
 
   const handlechange = (e, indx, mainIndx, productid) => {
     const { name, value } = e.target;
-
+    console.log(name);
     const data = [...props.productD];
     for (let index = 0; index < data.length; index++) {
       if (data[index].id === productid) {
         if (name === "selected") data[index].selected = !data[index].selected;
-        else data[index].price = isNaN(value) ? "" : parseInt(value);
+        else if (name === "price1")
+          data[index].price1 = parseInt(value);
+        else if (name === "price2")
+          data[index].price2 = parseInt(value);
+        else if (name === "price3")
+          data[index].price3 = parseInt(value);
         break;
       }
     }
@@ -50,69 +60,100 @@ const VendorProduct = (props) => {
     if (name === "selected")
       productdata[mainIndx].subCategory[indx].selected = !productdata[mainIndx]
         .subCategory[indx].selected;
-    else
-      productdata[mainIndx].subCategory[indx].price = isNaN(value)
+    else if (name === "price1")
+      productdata[mainIndx].subCategory[indx].price1 = isNaN(value)
+        ? ""
+        : parseInt(value);
+    else if (name === "price2")
+      productdata[mainIndx].subCategory[indx].price2 = isNaN(value)
+        ? ""
+        : parseInt(value);
+    else if (name === "price3")
+      productdata[mainIndx].subCategory[indx].price3 = isNaN(value)
         ? ""
         : parseInt(value);
     props.setProductdata(productdata);
   };
-  const handleEditSubmit = () => {
-    // let status = false;
-    // let count = 0;
-    // props.productD.map((ele) => {
-    //   if (ele.selected === true) {
-    //     count = 1;
-    //     if (ele.price === 0) status = true;
-    //   }
-    // });
-    // if (status || count === 0)
-    //   toast.error("Please fill all the mandatory fields");
-    // else {
-    UpdateVendorproducts(props.productdata, props.selecetedVedorId).then(
-      (res) => {
-        if (res.status === 200) {
-          toast.success("Data updated succsessfully");
-          props.seteditModalOpen((prev) => !prev);
-          for (let index = 0; index < props.productdata.length; index++) {
-            if (props.productdata[index].subCategory !== null) {
-              props.productdata[index].subCategory.forEach((element) => {
-                let status = true;
-                if(element.selected){
-                props.vendorDetail.product.forEach((val) => {
-                  if (element.id === val.id) {
-                    val.price = element.price;
-                    status = false;
-                  }
-                });
-                if (status) {
-                  props.vendorDetail.product.push({
-                    id: 2,
-                    name: element.name,
-                    price:element.price,
-                    productId: 0,
-                    selected: true,
-                    subCategory: null,
-                  });
-                }}
+  const updateProductState=()=>{
+    props.seteditModalOpen((prev) => !prev);
+    for (let index = 0; index < props.productdata.length; index++) {
+      if (props.productdata[index].subCategory !== null) {
+        props.productdata[index].subCategory.forEach((element) => {
+          let status = true;
+          if (element.selected) {
+            props.vendorDetail.product.forEach((val) => {
+              if (element.id === val.id) {
+                val.price1 = element.price1;
+                val.price2 = element.price2;
+                val.price3 = element.price3;
+                status = false;
+              }
+            });
+            if (status) {
+              props.vendorDetail.product.push({
+                id: element.id,
+                name: element.name,
+                price1: element.price1,
+                price2: element.price2,
+                price3: element.price3,
+                productId: 0,
+                selected: true,
+                subCategory: null,
               });
             }
           }
-          props.setVendorDetail({
-            ...props.vendorDetail,
-            ["communication"]: props.communication,
-          });
+        });
+      }
+    }
+    props.setVendorDetail({
+      ...props.vendorDetail,
+      ["communication"]: props.communication,
+    });
+  }
+  const handleEditSubmit = () => {
+if(formType==="vendor"){
+    UpdateVendorproducts(props.productdata, props.selecetedVedorId).then(
+      (res) => {
+        if (res.status === 200) {
+          toast.success("Data updated succsessfully");      
+          updateProductState();
         } else {
-          res.json().then((res) => toast.error(res));
+          res.json().then((res) => toast.error(res));     
         }
+
       }
     );
-    //  }
+     }
+     else{
+      let data=[] 
+      props.productdata.forEach(element => {
+        element.subCategory.forEach(element => {
+          if(element.selected)
+          data.push({
+            "price1": element.price1,
+            "price2": element.price2,
+            "price3": element.price3,
+            "customerid": props.selecetedVedorId,
+            "productid": element.id
+          })
+        });
+      });
+      UpdateCustomerProduct(data).then((res)=>{
+       if(res.status===200){
+        toast.success("Product price updated successfully")
+        updateProductState();
+       }
+      })
+      
+     }
+
+    
   };
   return (
     <>
       <div className="flex flex-wrap">
         {props.productdata.map((ele, indx) => {
-          if (ele.subCategory&&ele.subCategory.length > 0) {
+          if (ele.subCategory && ele.subCategory.length > 0) {
             return (
               <div className="mt-1 col-md-6" key={indx}>
                 <Accordion className="max-h-[250px] overflow-y-auto">
@@ -146,15 +187,49 @@ const VendorProduct = (props) => {
                                 }
                               />
 
-                            {location.pathname==="/admin/viewvendor"?  <TextField
-                                label="Price"
-                                variant="outlined"
-                                size="small"
-                                value={val.price}
-                                onChange={(e) =>
-                                  handlechange(e, i, indx, val.id)
-                                }
-                              />:''}
+                              {formType === "vendor" || props.edit===true ? (
+                                <div className="flex w-100 gap-1">
+                                  <div className="w-[20%]">
+                                    <TextField inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
+                                      label="Price"
+                                      variant="outlined"
+                                      size="small"
+                                      value={val.price1}
+                                      name="price1"
+                                      onChange={(e) =>
+                                        handlechange(e, i, indx, val.id)
+                                      }
+                                     
+                                    />
+                                  </div>
+                                  <div className="w-[20%]">
+                                    <TextField
+                                      label="Price"
+                                      variant="outlined"
+                                      size="small"
+                                      value={val.price2}
+                                      name="price2"
+                                      onChange={(e) =>
+                                        handlechange(e, i, indx, val.id)
+                                      }
+                                    />
+                                  </div>
+                                  <div className="w-[20%]">
+                                    <TextField
+                                      label="Price"
+                                      variant="outlined"
+                                      size="small"
+                                      name="price3"
+                                      value={val.price3}
+                                      onChange={(e) =>
+                                        handlechange(e, i, indx, val.id)
+                                      }
+                                    />
+                                  </div>
+                                </div>
+                              ) : (
+                                ""
+                              )}
                             </FormGroup>
                           </div>
                         </Typography>

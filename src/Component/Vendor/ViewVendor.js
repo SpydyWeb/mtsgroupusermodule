@@ -8,7 +8,6 @@ import {
   TableHead,
   TableRow,
   Typography,
- 
   TextField,
   Button,
   IconButton,
@@ -16,11 +15,9 @@ import {
   InputLabel,
   Select,
   MenuItem,
-
 } from "@mui/material";
-
+import { CustomerSearch,GetCustomerDetaills } from "../../Services/Customer";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-
 import {
   GetallVendorBySearch,
   Getvendorbyid,
@@ -33,11 +30,12 @@ import {
   AiOutlineClose,
   AiFillEdit,
 } from "react-icons/ai";
-import { AiFillEye, AiOutlineSearch, AiOutlineFilter } from "react-icons/ai";
+import { AiFillEye, AiOutlineSearch } from "react-icons/ai";
 import EditModal from "./EditModal";
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
+import { useLocation } from "react-router-dom";
 
 const style = {
   position: "absolute",
@@ -62,7 +60,9 @@ const ProductRow = (props) => {
           <TableRow>
             <TableCell>Sr No.</TableCell>
             <TableCell>Product Name</TableCell>
-            <TableCell align="right">Amount</TableCell>
+            <TableCell align="right">Amount1</TableCell>
+            <TableCell align="right">Amount2</TableCell>
+            <TableCell align="right">Amount3</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -71,7 +71,9 @@ const ProductRow = (props) => {
               <TableRow key={historyRow.id}>
                 <TableCell>{indx + 1}</TableCell>
                 <TableCell>{historyRow.name}</TableCell>
-                <TableCell align="right">{historyRow.price}</TableCell>
+                <TableCell align="right">{historyRow.price1}</TableCell>
+                <TableCell align="right">{historyRow.price2}</TableCell>
+                <TableCell align="right">{historyRow.price3}</TableCell>
               </TableRow>
             ))
           ) : (
@@ -219,11 +221,11 @@ const ContactRow = (props) => {
               <TableRow key={indx}>
                 <TableCell>{indx === 0 ? "Primary" : "Secondary"}</TableCell>
                 <TableCell>
-                  {historyRow.firstName +
+                  {historyRow.firstName?historyRow.firstName:'' +
                     " " +
-                    historyRow.middleName +
+                    historyRow.middleName?historyRow.middleName:'' +
                     " " +
-                    historyRow.lastName}
+                    historyRow.lastName?historyRow.lastName:''}
                 </TableCell>
                 <TableCell>{historyRow.phone}</TableCell>
                 <TableCell>{historyRow.email}</TableCell>
@@ -241,36 +243,40 @@ const ContactRow = (props) => {
 };
 
 const AdditionalRow = (props) => {
+  const {formType}=props
   return (
     <>
     <div className="flex gap-4">
       <h3 className="flex">
-        New Assignment{" "}
-        {props.new_Assignment ? (
+        {formType==="vendor"?"New Assignment":"Assignment"}
+        {props.new_Assignment || props.assignment ? (
           <BsCheckCircleFill color="green" />
         ) : (
           <AiFillCloseCircle color="red" />
         )}
       </h3>
       <h3 className="flex">
-        QC Rejection{" "}
-        {props.qcRejection ? (
+      {formType==="vendor"?"QC Rejection":"In QC Review"}
+       
+        {props.qcRejection || props.in_QC_Review? (
           <BsCheckCircleFill color="green" />
         ) : (
           <AiFillCloseCircle color="red" />
         )}
       </h3>
       <h3 className="flex">
-        Daily Reminder{" "}
-        {props.dailyReminder ? (
+      {formType==="vendor"?"Daily Reminder":"Inspection"}
+        {" "}
+        {props.dailyReminder|| props.inspection ? (
           <BsCheckCircleFill color="green" />
         ) : (
           <AiFillCloseCircle color="red" />
         )}
       </h3>
       <h3 className="flex">
-        Profile Reminder{" "}
-        {props.profileReminder ? (
+      {formType==="vendor"?"Profile Reminder":"Order Confirmation"}
+        {" "}
+        {props.profileReminder || props.order_Confirmation? (
           <BsCheckCircleFill color="green" />
         ) : (
           <AiFillCloseCircle color="red" />
@@ -278,13 +284,41 @@ const AdditionalRow = (props) => {
       </h3>
    
     </div>
-    <div className="flex items-center">   <h2 className="font-bold py-2">Assignment Note :    </h2><p>{props.assignmentNote}</p>
-    </div>
+   {formType==="vendor"? <div className="flex items-center">   <h2 className="font-bold py-2">Assignment Note :    </h2><p>{props.assignmentNote}</p>
+    </div>:<></>}
+    </>
+  );
+};
+
+const CustomerIntegration= (props) => {
+ const data=props.customer_Integration_details;
+  return (
+    <>
+      <Table size="small" aria-label="purchases">
+        <TableHead>
+          <TableRow>
+            <TableCell>Type</TableCell>
+            <TableCell>Details</TableCell>
+            <TableCell>Port</TableCell>
+            <TableCell>Login</TableCell>
+          
+          </TableRow>
+        </TableHead>
+        <TableBody>
+        <TableRow>
+                <TableCell>{"Main"}</TableCell>
+                <TableCell>{data.detail}</TableCell>
+                <TableCell>{data.port}</TableCell>
+                <TableCell>{data.login}</TableCell>
+              </TableRow>
+          
+        </TableBody>
+      </Table>
     </>
   );
 };
 function Row(props) {
-  const { vendorDetail, setVendorDetail } = props;
+  const { vendorDetail, setVendorDetail,formType } = props;
   const [expanded, setExpanded] = React.useState(false);
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -337,7 +371,7 @@ const [editView,setEditView]=useState(0)
                 className="flex justify-between w-full"
               >
                 <h3>Product</h3>
-                <div className="mr-2">
+               <div className="mr-2">
                   <IconButton
                     size="small"
                     aria-label="edit"
@@ -384,11 +418,11 @@ const [editView,setEditView]=useState(0)
                 className="flex justify-between w-full"
               >
                 <h3>Communication</h3>
-                <div className="mr-2">
+                {formType==="vendor"?<div className="mr-2">
                   <IconButton size="small" aria-label="view">
                     <AiFillEdit onClick={(e)=>handleopenEditmodal(e,1)} />
                   </IconButton>
-                </div>
+                </div>:<></>}
               </Typography>
             </AccordionSummary>
             <AccordionDetails className="overflow-auto">
@@ -403,7 +437,7 @@ const [editView,setEditView]=useState(0)
               </Typography>
             </AccordionDetails>
           </Accordion>
-          <Accordion
+          {formType==="vendor"?<Accordion
             expanded={expanded === "panel3"}
             onChange={handleChange("panel3")}
           >
@@ -427,11 +461,11 @@ const [editView,setEditView]=useState(0)
                 className="flex justify-between w-full"
               >
                 <h3>Licence</h3>
-                <div className="mr-2">
+                {formType==="vendor"?<div className="mr-2">
                   <IconButton size="small" aria-label="view">
                   <AiFillEdit onClick={(e)=>handleopenEditmodal(e,2)} />
                   </IconButton>
-                </div>
+                </div>:<></>}
               </Typography>
             </AccordionSummary>
             <AccordionDetails className="overflow-auto">
@@ -445,7 +479,7 @@ const [editView,setEditView]=useState(0)
                 />
               </Typography>
             </AccordionDetails>
-          </Accordion>
+          </Accordion>:<></>}
           <Accordion
             expanded={expanded === "panel4"}
             onChange={handleChange("panel4")}
@@ -470,11 +504,11 @@ const [editView,setEditView]=useState(0)
                 className="flex justify-between w-full"
               >
                 <h3>Address</h3>
-                <div className="mr-2">
+               {formType==="vendor"? <div className="mr-2">
                   <IconButton size="small" aria-label="view">
                   <AiFillEdit onClick={(e)=>handleopenEditmodal(e,3)} />
                   </IconButton>
-                </div>
+                </div>:<></>}
               </Typography>
             </AccordionSummary>
             <AccordionDetails className="overflow-auto">
@@ -518,11 +552,11 @@ const [editView,setEditView]=useState(0)
                 className="flex justify-between w-full"
               >
                 <h3>Contact</h3>
-                <div className="mr-2">
+                {formType==="vendor"?<div className="mr-2">
                   <IconButton size="small" aria-label="delete">
                   <AiFillEdit onClick={(e)=>handleopenEditmodal(e,4)} />
                   </IconButton>
-                </div>
+                </div>:<></>}
               </Typography>
             </AccordionSummary>
             <AccordionDetails className="overflow-auto">
@@ -566,16 +600,16 @@ const [editView,setEditView]=useState(0)
                 className="flex justify-between w-full"
               >
                 <h3>Additional</h3>
-                <div className="mr-2">
+                {formType==="vendor"?<div className="mr-2">
                   <IconButton size="small" aria-label="delete">
                   <AiFillEdit onClick={(e)=>handleopenEditmodal(e,5)} />
                   </IconButton>
-                </div>
+                </div>:<></>}
               </Typography>
             </AccordionSummary>
             <AccordionDetails className="overflow-auto">
               <Typography>
-                <AdditionalRow
+               {formType==="vendor"? <AdditionalRow
                   profileReminder={
                     vendorDetail && vendorDetail.profileReminder
                       ? vendorDetail.profileReminder
@@ -601,27 +635,91 @@ const [editView,setEditView]=useState(0)
                     ? vendorDetail.assignmentNote
                     : ""
                   }
-                />
+                  formType={formType}
+                />:
+                <AdditionalRow
+                assignment={
+                  vendorDetail && vendorDetail.assignment
+                    ? vendorDetail.assignment
+                    : ""
+                }
+                in_QC_Review={
+                  vendorDetail && vendorDetail.in_QC_Review
+                    ? vendorDetail.in_QC_Review
+                    : ""
+                }
+                inspection={
+                  vendorDetail && vendorDetail.inspection
+                    ? vendorDetail.inspection
+                    : ""
+                }
+                order_Confirmation={
+                  vendorDetail && vendorDetail.order_Confirmation
+                    ? vendorDetail.order_Confirmation
+                    : ""
+                }
+               
+                formType={formType}
+              />}
               </Typography>
             </AccordionDetails>
           </Accordion>
+
+         {formType==="customer"? <Accordion
+            expanded={expanded === "panel7"}
+            onChange={handleChange("panel7")}
+          >
+            <AccordionSummary
+              className="Btn_Gradient_Ac"
+              expandIcon={
+                <IconButton size="small" aria-label="view">
+                  {expanded === "panel4" ? (
+                    <AiOutlineClose />
+                  ) : (
+                    <AiOutlinePlus />
+                  )}
+                </IconButton>
+              }
+              aria-controls="panel4bh-content"
+              id="panel4bh-header"
+            >
+              {" "}
+              <Typography
+                sx={{ flexShrink: 0, fontWeight: "700" }}
+                className="flex justify-between w-full"
+              >
+                <h3>Customer Integration Details</h3>
+               
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails className="overflow-auto">
+              <Typography>
+                <CustomerIntegration  customer_Integration_details={
+                    vendorDetail && vendorDetail.customer_Integration_details
+                      ? vendorDetail.customer_Integration_details
+                      : ""
+                  }/>
+              </Typography>
+            </AccordionDetails>
+          </Accordion>:<></>}
         </Box>
       </Modal>
 
-     { editModalOpen?<EditModal open={editModalOpen}  vendorDetail={vendorDetail} setVendorDetail={setVendorDetail} seteditModalOpen={seteditModalOpen} editView={editView} selecetedVedorId={vendorDetail&&vendorDetail.id?vendorDetail.id:0}/>:''}
+     { editModalOpen?<EditModal open={editModalOpen} formType={formType}  vendorDetail={vendorDetail} setVendorDetail={setVendorDetail} seteditModalOpen={seteditModalOpen} editView={editView} selecetedVedorId={vendorDetail&&vendorDetail.id?vendorDetail.id:vendorDetail.customerId}/>:''}
     </React.Fragment>
   );
 }
 
 
 
-const ViewVendor = () => {
+const ViewVendor = (props) => {
+  const location=useLocation()
   const [open, setOpen] = React.useState(false);
   const [vendorDetail, setVendorDetail] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [allstate, setAllState] = useState([]);
   const [allstatedata, setAllStatedata] = useState([]);
-
+  const formType=props.formType
   const [filterdata, setFilterdata] = useState({
     Id: "",
     Email: "",
@@ -634,11 +732,19 @@ const ViewVendor = () => {
   });
 
   const GetmoreData = (id) => {
+    if(props.formType==="vendor")
+    {
     Getvendorbyid(id).then((res) => {
       setVendorDetail(res);
-
       setOpen(!open);
     });
+  }
+  else{
+    GetCustomerDetaills(id).then((res)=>{
+      setVendorDetail(res.data);
+      setOpen(!open);
+    })
+  }
   };
 
   const columns = [
@@ -683,11 +789,38 @@ const ViewVendor = () => {
       },
     },
   ];
+  const Customercolumns = [
+    { headerName: "ID", field: "vendorid", minWidth: 150, flex: 1 },
+    { headerName: "Name", field: "name", minWidth: 150, flex: 1 },
+    { headerName: "Email", field: "email", minWidth: 300, flex: 1 },
+    { headerName: "State", field: "state", minWidth: 150, flex: 1 },
+    { headerName: "Contact", field: "contact", minWidth: 300, flex: 1 },
+     { headerName: "Product", field: "product", minWidth: 150, flex: 1 },
+    {
+      field: "Action",
+      headerName: "Action",
+      renderCell: (params) => {
+        return (
+          <div className="gap-3 d-flex">
+            <AiFillEye
+              className="hover:cursor-pointer"
+              size={20}
+              style={{ color: "#03a5e7" }}
+              onClick={() => {
+                GetmoreData(params.id);
+              }}
+            />
+          </div>
+        );
+      },
+    },
+  ];
   useEffect(() => {
+    let data = [];
     setIsLoading(true);
-    GetallVendorBySearch({ status: true }).then((res) => {
-      let data = [];
-
+   if(props.formType==="vendor")
+   {
+    GetallVendorBySearch({status:true}).then((res) => {
       res.map((ele) =>
         data.push({
           id: ele.id,
@@ -704,14 +837,34 @@ const ViewVendor = () => {
           status: ele.status,
         })
       );
-
       setAllStatedata(data);
       setIsLoading(false);
     });
+  }
+  else{
+    CustomerSearch({}).then((res)=>{
+      res.data.map((ele) =>
+        data.push({
+          id: ele.id,
+          vendorid: ele.customerId,
+          name: ele.name,
+          email: ele.email,
+          state: ele.address.split(",")[3],
+          contact:
+            ele.contact1.split(",")[4] === ""
+              ? ele.contact1.split(",")[3]
+              : ele.contact1.split(",")[3] + " ," + ele.contact1.split(",")[4],
+          product: ele.product.name,
+        })
+      );
+      setAllStatedata(data);
+      setIsLoading(false);
+    })
+  }
     GetStateList().then((res) => {
       setAllState(res);
     });
-  }, []);
+  }, [props.formType]);
   const handleFilterChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -729,7 +882,9 @@ const ViewVendor = () => {
     if (filterdata.State !== "") data.state = filterdata.State;
     if (filterdata.Product !== "") data.product = filterdata.Product;
 
-    data.status = filterdata.Status;
+    
+    if(formType==="vendor"){
+      data.status = filterdata.Status;
     GetallVendorBySearch(data).then((res) => {
       let data = [];
       res.map((ele) =>
@@ -751,6 +906,28 @@ const ViewVendor = () => {
       setIsLoading(false);
       setAllStatedata(data);
     });
+  }
+  else{
+    CustomerSearch(data).then((res)=>{
+      let data = [];
+      res.data.map((ele) =>
+      data.push({
+        id: ele.id,
+        vendorid: ele.customerId,
+        name: ele.name,
+        email: ele.email,
+        state: ele.address.split(",")[3],
+        contact:
+          ele.contact1.split(",")[4] === ""
+            ? ele.contact1.split(",")[3]
+            : ele.contact1.split(",")[3] + " ," + ele.contact1.split(",")[4],
+        product: ele.product.name,
+      })
+    );
+    setAllStatedata(data);
+    setIsLoading(false);
+    })
+  }
   };
   return (
     <>
@@ -812,7 +989,7 @@ const ViewVendor = () => {
               value={filterdata.Contact}
             />
           </div>
-          <div>
+         {props.formType==="vendor"?<> <div>
             <TextField
               label={<>Licence</>}
               name="Licence"
@@ -835,7 +1012,7 @@ const ViewVendor = () => {
               </Select>
             </FormControl>
           </div>
-
+</>:<></>}
           <div>
             <TextField
               label={<>Product</>}
@@ -858,7 +1035,7 @@ const ViewVendor = () => {
               <div style={{ flexGrow: 1 }}>
                 <DataGrid
                   rows={allstatedata}
-                  columns={columns}
+                  columns={formType==="vendor"?columns:Customercolumns}
                   disableColumnFilter
                   disableColumnSelector
                   disableDensitySelector
@@ -886,6 +1063,7 @@ const ViewVendor = () => {
           open={open}
           vendorDetail={vendorDetail}
           setVendorDetail={setVendorDetail}
+          formType={props.formType}
         />
       </>
     </>
