@@ -144,13 +144,42 @@ if(formType==="vendor"){
         updateProductState();
        }
       })
-      
+     
      }
 
     
   };
+ const handleUploadClick=(e)=>{
+console.log(e);
+let form = new FormData();
+    for (var index = 0; index < e.target.files.length; index++) {
+        var element = e.target.files[index];
+        form.append('file', element);
+    }
+    props.setfileuploadt(
+     form,
+    );
+  }
   return (
     <>
+   {formType==="customer"?  <div
+        className={`${
+          props.edit
+            ? props.editType && props.editType === "Profile"
+              ? "flex"
+              : "hidden"
+            : "flex"
+        } flex-col md:flex-row gap-6 border-2 p-3  mb-10 rounded-xl bg-white relative border-sky-500`}
+      >
+        <div>
+         <input type="file" onChange={(e)=>handleUploadClick(e)}/>
+        
+        </div>
+        <div>
+        
+        </div>
+        
+      </div>:<></>}
       <div className="flex flex-wrap">
         {props.productdata.map((ele, indx) => {
           if (ele.subCategory && ele.subCategory.length > 0) {

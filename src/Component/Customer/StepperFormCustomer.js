@@ -28,6 +28,7 @@ export const StepperFormCustomer = () => {
     const [productdata, setProductdata] = useState([]);
     const [productD, setProductD] = useState([]);
     const [communicationType, setCommunicaionType] = useState([]);
+    const[fileupload,setfileuploadt]=useState()
     const [customerData,setCustomerData]=useState({
         "customerId": "",
         "name": "",
@@ -103,7 +104,7 @@ export const StepperFormCustomer = () => {
           "customerId": 0
         },
         "registerId": [
-          0
+          
         ]
       })
       useEffect(() => {
@@ -172,6 +173,7 @@ export const StepperFormCustomer = () => {
             productD={productD}
             setProductD={setProductD}
             setProductdata={setProductdata}
+            setfileuploadt={setfileuploadt}
           />)
           :activeStep===2?(<Com_notification
             Vendordata={customerData}
@@ -190,6 +192,8 @@ export const StepperFormCustomer = () => {
            setActiveStep={setActiveStep}
            activeStep={activeStep}
            Userregister={customerData.userregistration}
+
+           fileupload={fileupload}
          />:''}
         
         </Typography>

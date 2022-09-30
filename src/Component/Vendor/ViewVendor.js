@@ -16,7 +16,7 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
-import { CustomerSearch,GetCustomerDetaills } from "../../Services/Customer";
+import { CustomerSearch,GetCustomerDetaills,DownloadFile } from "../../Services/Customer";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import {
   GetallVendorBySearch,
@@ -36,7 +36,8 @@ import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import { useLocation } from "react-router-dom";
-
+import { MdSimCardDownload } from "react-icons/md";
+import toast from "react-hot-toast";
 const style = {
   position: "absolute",
   top: "50%",
@@ -323,11 +324,31 @@ function Row(props) {
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
+ 
   const [editModalOpen,seteditModalOpen]=useState(false)
 const handleopenEditmodal=(event,view)=>{
   event.stopPropagation();
   setEditView(view);
   seteditModalOpen(!editModalOpen)
+}
+const dowloadFile=()=>{
+  DownloadFile(vendorDetail.uploadedfile).then((res)=>{
+   console.log(res.response);
+   let data=res.response!==undefined&&res.response.status!==undefined?res.response:res.status?res:''
+  if(data.status===200)
+  {
+    const url = window.URL.createObjectURL(new Blob([data.data]));
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'file.pdf'); //or any other extension
+    document.body.appendChild(link);
+    link.click();
+    seteditModalOpen(!editModalOpen)
+  }
+  else{
+    toast.error("File not found")
+  }
+  })
 }
 const [editView,setEditView]=useState(0)
   return (
@@ -337,8 +358,10 @@ const [editView,setEditView]=useState(0)
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
+      
         <Box sx={style}>
-          <div className="flex justify-end mb-3 cursor-pointer">
+          <div className="flex justify-between mb-3 cursor-pointer gap-2">
+            <MdSimCardDownload  size={25} color="blue" onClick={()=>dowloadFile()}/>
             <AiOutlineClose
               onClick={() => {
                 props.setOpen(false);

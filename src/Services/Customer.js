@@ -39,3 +39,22 @@ export const UpdateCustomerProduct = async (data) => {
    return axios.put(`${Url}UpdateCustomerProduct`, data,config).then((data) => data);
 };
 
+export const UploadProductFile = async (data,id) => {
+   return axios.post(`${Url}Uploadfiles?Customerid=${id}`, data, {
+      headers: {'Content-Type': 'multipart/form-data'}
+}).then((data) => data);
+};
+export const DownloadFile = async (path) => {
+  return axios.post(`${Url}Downloadfiles?path=${path}`,
+        {
+            responseType: 'arraybuffer',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/pdf'
+            }
+        })
+        .then((response) => response)
+        .catch((error) => error);
+   // return axios.post(`${Url}Downloadfiles?path=${path}`, {responseType: "arraybuffer"}).then((data) => data);
+};
+

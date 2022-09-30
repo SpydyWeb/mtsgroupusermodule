@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { AddVendor } from "../../Services/Vendor";
-import { AddCustomer, DeleteCustomerUser ,UpdateCustomerUser} from "../../Services/Customer";
+import {
+  AddCustomer,
+  DeleteCustomerUser,
+  UpdateCustomerUser,
+} from "../../Services/Customer";
 import {
   TextField,
   Button,
@@ -17,7 +21,7 @@ import {
 } from "../Headers/PasswordValid";
 import { MdDelete } from "react-icons/md";
 import { AiFillEdit } from "react-icons/ai";
-import { AddCustomerUser } from "../../Services/Customer";
+import { AddCustomerUser, UploadProductFile } from "../../Services/Customer";
 import { useLocation } from "react-router-dom";
 const Userregister = (props) => {
   const location = useLocation();
@@ -141,101 +145,96 @@ const Userregister = (props) => {
         });
       }
     } else {
-      if(userlist.length>0){
-        let data=[]
-        userlist.map(ele=>{
-          data.push(ele.vendorid)
-        })
-        props.setVendordata({...props.Vendordata,registerId:data})
-      AddCustomer(props.Vendordata).then((res) => {
-        if (res.status === 200) {
-          toast.success("Customer has been create successfully");
-          props.setActiveStep(0);
-          props.setVendordata({
-            "customerId": "",
-            "name": "",
-            "parent": "",
-            "primery_Address": {
-              "address": "",
-              "city": "",
-              "suite": "",
-              "state": "",
-              "pincode": ""
-            },
-            "secondary_Address": {
-              "address": "",
-              "city": "",
-              "suite": "",
-              "state": "",
-              "pincode": ""
-            },
-            "primery_Contact": {
-              "firstName": "",
-              "middleName": "",
-              "lastName": "",
-              "phone": "",
-              "email": "",
-              "ext": "",
-              "cellPhone": ""
-            },       
-            "secondary_contact": {
-              "firstName": "",
-              "middleName": "",
-              "lastName": "",
-              "phone": "",
-              "email": "",
-              "ext": "",
-              "cellPhone": ""
-            },
-            "order_Confirmation": false,
-            "assignment": false,
-            "inspection": false,
-            "in_QC_Review": false,
-            "uploadedfile": "string",
-            "communication": [
-              {
-                "vendorId": 0,
-                "type": "",
-                "detail": "",
-                "product_id": 0,
-                "customerId": 0
-              }
-            ],
-            "product": [
-              {
-                "id": 0,
-                "name": "string",
-                "price1": 0,
-                "price2": 0,
-                "price3": 0,
-                "productId": 0,
-                "selected": true,
-                "subCategory": [
-                  null
-                ]
-              }
-            ],
-            "additionalDetail": [
-              ""
-            ],
-            "customer_Integration_details": {
-              "detail": "",
-              "port": "",
-              "login": "",
-              "password": "",
-              "customerId": 0
-            },
-            "registerId": [
-              0
-            ]
-          });
-        } else {
-          res.json().then((val) => toast.error(val));
-        }
-      });
-      }
-      else{
-        toast.error("Please enter atleast one user details")
+      if (userlist.length > 0) {
+        
+
+        AddCustomer(props.Vendordata).then((res) => {
+          if (res.status === 200) {
+            
+            UploadProductFile(props.fileupload, res.data).then((res) => {
+              console.log(res);
+
+              toast.success("Customer has been create successfully");
+              props.setActiveStep(0);
+              props.setVendordata({
+                customerId: "",
+                name: "",
+                parent: "",
+                primery_Address: {
+                  address: "",
+                  city: "",
+                  suite: "",
+                  state: "",
+                  pincode: "",
+                },
+                secondary_Address: {
+                  address: "",
+                  city: "",
+                  suite: "",
+                  state: "",
+                  pincode: "",
+                },
+                primery_Contact: {
+                  firstName: "",
+                  middleName: "",
+                  lastName: "",
+                  phone: "",
+                  email: "",
+                  ext: "",
+                  cellPhone: "",
+                },
+                secondary_contact: {
+                  firstName: "",
+                  middleName: "",
+                  lastName: "",
+                  phone: "",
+                  email: "",
+                  ext: "",
+                  cellPhone: "",
+                },
+                order_Confirmation: false,
+                assignment: false,
+                inspection: false,
+                in_QC_Review: false,
+                uploadedfile: "string",
+                communication: [
+                  {
+                    vendorId: 0,
+                    type: "",
+                    detail: "",
+                    product_id: 0,
+                    customerId: 0,
+                  },
+                ],
+                product: [
+                  {
+                    id: 0,
+                    name: "string",
+                    price1: 0,
+                    price2: 0,
+                    price3: 0,
+                    productId: 0,
+                    selected: true,
+                    subCategory: [null],
+                  },
+                ],
+                additionalDetail: [""],
+                customer_Integration_details: {
+                  detail: "",
+                  port: "",
+                  login: "",
+                  password: "",
+                  customerId: 0,
+                },
+                registerId: [0],
+              });
+            });
+          } else {
+            res.json().then((val) => toast.error(val));
+          }
+        });
+      } else {
+        toast.error("Please enter atleast one user details");
       }
     }
   };
@@ -269,6 +268,9 @@ const Userregister = (props) => {
               toast.error("User already exist");
             } else {
               toast.success("User added successfully");
+              let data = [...props.Vendordata.registerId];
+      data.push(res.data)  
+        props.setVendordata({ ...props.Vendordata, registerId: data });
               setUserList([
                 ...userlist,
                 {
@@ -294,20 +296,18 @@ const Userregister = (props) => {
             }
           }
         });
-      }
-      else{
-        UpdateCustomerUser(userregistration).then((res)=>{
-          if(res.status===200){
+      } else {
+        UpdateCustomerUser(userregistration).then((res) => {
+          if (res.status === 200) {
             toast.success("User updated successfully");
-            let data=[...userlist]
+            let data = [...userlist];
             for (let index = 0; index < data.length; index++) {
-           if(data[index].vendorid===userregistration.vendorid){
-            data[index]=userregistration
-           }
-              
+              if (data[index].vendorid === userregistration.vendorid) {
+                data[index] = userregistration;
+              }
             }
-           
-            setUserList(data)
+
+            setUserList(data);
             setUserRegistation({
               vendorid: 0,
               firstName: "",
@@ -319,7 +319,7 @@ const Userregister = (props) => {
             });
             setCpassword("");
           }
-        })
+        });
       }
     }
   };
