@@ -333,7 +333,7 @@ const handleopenEditmodal=(event,view)=>{
 }
 const dowloadFile=()=>{
   DownloadFile(vendorDetail.uploadedfile).then((res)=>{
-   console.log(res.response);
+   console.log();
    let data=res.response!==undefined&&res.response.status!==undefined?res.response:res.status?res:''
   if(data.status===200)
   {
@@ -361,7 +361,7 @@ const [editView,setEditView]=useState(0)
       
         <Box sx={style}>
           <div className="flex justify-between mb-3 cursor-pointer gap-2">
-            <MdSimCardDownload  size={25} color="blue" onClick={()=>dowloadFile()}/>
+         {formType==="customer"?   <MdSimCardDownload  size={25} color="blue" onClick={()=>dowloadFile()}/>:<></>}
             <AiOutlineClose
               onClick={() => {
                 props.setOpen(false);

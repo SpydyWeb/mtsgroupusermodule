@@ -41,7 +41,7 @@ const VendorProduct = (props) => {
 
   const handlechange = (e, indx, mainIndx, productid) => {
     const { name, value } = e.target;
-    console.log(name);
+    console.log();
     const data = [...props.productD];
     for (let index = 0; index < data.length; index++) {
       if (data[index].id === productid) {
