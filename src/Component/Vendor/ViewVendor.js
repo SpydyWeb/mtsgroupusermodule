@@ -333,10 +333,12 @@ const handleopenEditmodal=(event,view)=>{
 }
 const dowloadFile=()=>{
   DownloadFile(vendorDetail.uploadedfile).then((res)=>{
-   console.log();
+   
    let data=res.response!==undefined&&res.response.status!==undefined?res.response:res.status?res:''
+   
   if(data.status===200)
   {
+   
     const url = window.URL.createObjectURL(new Blob([data.data]));
     const link = document.createElement('a');
     link.href = url;

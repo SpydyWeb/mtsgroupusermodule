@@ -46,12 +46,12 @@ const VendorProduct = (props) => {
     for (let index = 0; index < data.length; index++) {
       if (data[index].id === productid) {
         if (name === "selected") data[index].selected = !data[index].selected;
-        else if (name === "price1")
-          data[index].price1 = parseInt(value);
+        else if (name === "price1" )
+          data[index].price1 = +value;
         else if (name === "price2")
-          data[index].price2 = parseInt(value);
+          data[index].price2 = +value;
         else if (name === "price3")
-          data[index].price3 = parseInt(value);
+          data[index].price3 = +value;
         break;
       }
     }
@@ -63,15 +63,15 @@ const VendorProduct = (props) => {
     else if (name === "price1")
       productdata[mainIndx].subCategory[indx].price1 = isNaN(value)
         ? ""
-        : parseInt(value);
+        : +value;
     else if (name === "price2")
       productdata[mainIndx].subCategory[indx].price2 = isNaN(value)
         ? ""
-        : parseInt(value);
+        : +value;
     else if (name === "price3")
       productdata[mainIndx].subCategory[indx].price3 = isNaN(value)
         ? ""
-        : parseInt(value);
+        : +value;
     props.setProductdata(productdata);
   };
   const updateProductState=()=>{
@@ -223,7 +223,7 @@ let form = new FormData();
                                       label="Price"
                                       variant="outlined"
                                       size="small"
-                                      value={val.price1}
+                                      value={val.price1||0}
                                       name="price1"
                                       onChange={(e) =>
                                         handlechange(e, i, indx, val.id)
