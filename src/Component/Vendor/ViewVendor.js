@@ -343,7 +343,7 @@ const dowloadFile=()=>{
     link.setAttribute('download', 'file.pdf'); //or any other extension
     document.body.appendChild(link);
     link.click();
-    seteditModalOpen(!editModalOpen)
+   
   }
   else{
     toast.error("File not found")
