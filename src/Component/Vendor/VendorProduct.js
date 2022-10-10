@@ -201,10 +201,12 @@ let form = new FormData();
                       <AccordionDetails>
                         <Typography>
                           <div className="flex">
+                          
                             <FormGroup
                               key={i}
                               className="flex flex-row gap-x-8"
                             >
+                            <div className="w-[30%]">
                               <FormControlLabel
                                 style={{ minWidth: "132px" }}
                                 control={<Android12Switch />}
@@ -215,10 +217,10 @@ let form = new FormData();
                                   handlechange(e, i, indx, val.id)
                                 }
                               />
-
+</div>
                               {formType === "vendor" || props.edit===true ? (
-                                <div className="flex w-100 gap-1">
-                                  <div className="w-[20%]">
+                                <div className="flex w-[60%] gap-1">
+                                  <div className="w-[30%]">
                                     <TextField inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
                                       label="Price"
                                       variant="outlined"
@@ -231,7 +233,7 @@ let form = new FormData();
                                      
                                     />
                                   </div>
-                                  <div className="w-[20%]">
+                                  <div className="w-[30%]">
                                     <TextField
                                       label="Price"
                                       variant="outlined"
@@ -243,7 +245,7 @@ let form = new FormData();
                                       }
                                     />
                                   </div>
-                                  <div className="w-[20%]">
+                                  <div className="w-[30%]">
                                     <TextField
                                       label="Price"
                                       variant="outlined"

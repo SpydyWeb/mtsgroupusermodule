@@ -647,7 +647,7 @@ const VendorProfileForm = (props) => {
                 ...(props.Vendordata ? props.Vendordata : ""),
                 ["primery_Contact"]: {
                   ...props.Vendordata.primery_Contact,
-                  [e.target.name]: e.target.value,
+                  [e.target.name]: e.target.value.replace(/[^a-z]/gi, ''),
                 },
               });
             }}
@@ -676,7 +676,7 @@ const VendorProfileForm = (props) => {
                 ...(props.Vendordata ? props.Vendordata : ""),
                 ["primery_Contact"]: {
                   ...props.Vendordata.primery_Contact,
-                  [e.target.name]: e.target.value,
+                  [e.target.name]: e.target.value.replace(/[^a-z]/gi, ''),
                 },
               });
             }}
@@ -705,7 +705,7 @@ const VendorProfileForm = (props) => {
                 ...(props.Vendordata ? props.Vendordata : ""),
                 ["primery_Contact"]: {
                   ...props.Vendordata.primery_Contact,
-                  [e.target.name]: e.target.value,
+                  [e.target.name]: e.target.value.replace(/[^a-z]/gi, ''),
                 },
               });
             }}
@@ -871,7 +871,7 @@ const VendorProfileForm = (props) => {
                 ...(props.Vendordata ? props.Vendordata : ""),
                 ["secondary_contact"]: {
                   ...props.Vendordata.secondary_contact,
-                  [e.target.name]: e.target.value,
+                  [e.target.name]: e.target.value.replace(/[^a-z]/gi, ''),
                 },
               });
             }}
@@ -896,7 +896,7 @@ const VendorProfileForm = (props) => {
                 ...(props.Vendordata ? props.Vendordata : ""),
                 ["secondary_contact"]: {
                   ...props.Vendordata.secondary_contact,
-                  [e.target.name]: e.target.value,
+                  [e.target.name]: e.target.value.replace(/[^a-z]/gi, ''),
                 },
               });
             }}
@@ -921,7 +921,7 @@ const VendorProfileForm = (props) => {
                 ...(props.Vendordata ? props.Vendordata : ""),
                 ["secondary_contact"]: {
                   ...props.Vendordata.secondary_contact,
-                  [e.target.name]: e.target.value,
+                  [e.target.name]: e.target.value.replace(/[^a-z]/gi, ''),
                 },
               });
             }}
