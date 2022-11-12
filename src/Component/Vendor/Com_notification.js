@@ -19,6 +19,7 @@ import {
 } from "../../Services/Vendor";
 import toast from "react-hot-toast";
 import { useLocation } from "react-router-dom";
+import { UpdateCustomercommunications,UpdateCustomerIntegrationDetail,Updatecustomer } from "../../Services/Customer";
 const Com_notification = (props) => {
   const location = useLocation();
   const handleRemoveClick = (index) => {
@@ -26,10 +27,11 @@ const Com_notification = (props) => {
     list.splice(index, 1);
     props.setVendordata({ ...props.Vendordata, ["communication"]: list });
   };
-
+  const [formType, setFormType] = useState(
+    location.pathname === "/admin/viewvendor" ? "vendor" : "customer"
+  );
   const handleSubmit = () => {
     let status = false;
-
     props.communication.map((ele, i) => {
       if (
         (ele.type === "" || ele.detail === "") &&
@@ -38,7 +40,6 @@ const Com_notification = (props) => {
         status = true;
       }
     });
-
     if (status) toast.error("Please fill all the mandatory fields");
     else {
       props.setActiveStep((prev) => prev + 1);
@@ -82,7 +83,6 @@ const Com_notification = (props) => {
   const handlechangeCommunication = (e, i) => {
     const { name, value } = e.target;
     const data = [...props.communication];
-
     data[i][name] = value;
     let status = false;
     let count = 0;
@@ -97,6 +97,7 @@ const Com_notification = (props) => {
   };
   const handleEditSubmit = () => {
     if (props.editType === "Additional") {
+      if(formType==="vendor"){
       if (props.Vendordata.assignmentNote === "")
         toast.error("Please fill all the mandatory fields");
       else {
@@ -116,8 +117,26 @@ const Com_notification = (props) => {
             res.json().then((res) => toast.error(res));
           }
         });
+      }}
+      else{
+        Updatecustomer(props.Vendordata).then((res) => {
+          if (res.status === 200) {
+            toast.success("Data updated succsessfully");
+            props.setVendorDetail({
+              ...props.vendorDetail,
+              assignment: props.Vendordata.assignment,
+              in_QC_Review: props.Vendordata.in_QC_Review,
+              inspection: props.Vendordata.inspection,
+              order_Confirmation: props.Vendordata.order_Confirmation,
+            });
+            props.seteditModalOpen((prev) => !prev);
+          } else {
+            res.json().then((res) => toast.error(res));
+          }
+        });
+      
       }
-    } else {
+    } else if(props.editType==="Communication") {
       let status = false;
       props.communication.map((ele, i) => {
         if (
@@ -129,6 +148,7 @@ const Com_notification = (props) => {
       });
       if (status) toast.error("Please fill all the mandatory fields");
       else {
+        if(formType==="vendor"){
         UpdateVendorcommunications(
           props.communication,
           props.selecetedVedorId
@@ -145,6 +165,38 @@ const Com_notification = (props) => {
           }
         });
       }
+      else{
+        UpdateCustomercommunications(props.communication,props.selecetedVedorId).then((res)=>{
+          if (res.status === 200) {
+            toast.success("Data updated succsessfully");
+            props.setVendorDetail({
+              ...props.vendorDetail,
+              ["communication"]: props.communication,
+            });
+            props.seteditModalOpen((prev) => !prev);
+          } else {
+            res.json().then((res) => toast.error(res));
+          }
+        })
+      }
+      }
+    }
+    else{
+      let data=props.vendorDetail.customer_Integration_details
+      data["additionalDetail"]=props.Vendordata.additionalDetail
+      UpdateCustomerIntegrationDetail(data,props.selecetedVedorId).then((res) => {
+        if (res.status === 200) {
+          toast.success("Data updated succsessfully");
+          props.setVendorDetail({
+            ...props.vendorDetail,
+            ["customer_Integration_details"]: props.Vendordata.customer_Integration_details,
+            ["additionalDetail"]:props.Vendordata.additionalDetail
+          });
+          props.seteditModalOpen((prev) => !prev);
+        } else {
+          res.json().then((res) => toast.error(res));
+        }
+      });
     }
   };
 
@@ -402,7 +454,7 @@ const Com_notification = (props) => {
           <div
             className={`${
               props.edit
-                ? props.editType && props.editType === "Additional"
+                ? props.editType && props.editType === "Additional" && formType==="vendor"
                   ? "flex"
                   : "hidden"
                 : "hidden"
@@ -439,7 +491,7 @@ const Com_notification = (props) => {
           </div>
         </div>
       </div>
-      {location.pathname === "/admin/viewvendor" ? (
+      {location.pathname === "/admin/viewvendor"||props.editType === "Additional" ? (
         ""
       ) : (
         <div>
@@ -459,12 +511,14 @@ const Com_notification = (props) => {
                     size="small"
                     name="detail"
                     value={props.Vendordata.customer_Integration_details.detail}
-                    onChange={(e) =>props.setVendordata({
+                    onChange={(e) =>{
+                      console.log(props.Vendordata, props.setVendordata);
+                      props.setVendordata({
                       ...props.Vendordata,
                       ["customer_Integration_details"]: {
-                        ...props.Vendordata.customer_Integration_details,[e.target.name]:e.target.value
+                        ...props.Vendordata.customer_Integration_details,["detail"]:e.target.value
                       },
-                    })}
+                    })}}
                   />
                 </div>
 

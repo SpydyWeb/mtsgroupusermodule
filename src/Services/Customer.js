@@ -2,12 +2,14 @@ import axios from "axios";
 import { CurrentUrl } from "./UrlApi";
 
 let Url = `${CurrentUrl}Customer/`;
-
+const token = localStorage.getItem("jwtTokenId");
 let config = {
-    headers: {
+   
+    headers: {  Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
         Accept: "application/json",
         "Access-Control-Allow-Origin": "*",
+
     }
   }
   
@@ -38,7 +40,34 @@ export const GetCustomerProductDetaills = async (id) => {
 export const UpdateCustomerProduct = async (data) => {
    return await axios.put(`${Url}UpdateCustomerProduct`, data,config).then((data) => data);
 };
-
+export const GetCustomerCommunicationbyid = async (id) => {
+   return await axios.get(`${Url}GetCustomerCommunication?Customerid=${id}`,config).then((data) => data);
+ };
+ export const GetCustomerAddressbyid = async (id) => {
+   return await axios.get(`${Url}GetCustomerAddress?Customerid=${id}`,config).then((data) => data);
+ };
+ export const GetCustomerContactbyid = async (id) => {
+   return await axios.get(`${Url}GetCustomerContact?Customerid=${id}`,config).then((data) => data);
+ };
+ export const GetCustomerIntegrationDetailbyid = async (id) => {
+   return await axios.get(`${Url}GetCustomerIntegrationDetail?customerid=${id}`,config).then((data) => data);
+ };
+ export const UpdateCustomercommunications= async (data,id) => {
+   return await axios.put(`${Url}UpdateCommunication?id=${id}`, data,config).then((data) => data);
+ };
+ export const UpdateCustomerIntegrationDetail= async (data,id) => {
+   return await axios.put(`${Url}UpdateCustomerIntegrationDetail?detailid=${id}`, data,config).then((data) => data);
+ };
+ export const Updatecustomer= async (data) => {
+  return await axios.put(`${Url}Updatecustomer`, data,config).then((data) => data);
+};
+ export const UpdateCustomerAddress= async (data,id) => {
+   return await axios.put(`${Url}UpdateCustomerAddress?addressid=${id}`, data,config).then((data) => data);
+ };
+ export const UpdateCustomerContact= async (data,id) => {
+   return await axios.put(`${Url}UpdateCustomerContact?Contactid=${id}`, data,config).then((data) => data);
+ };
+ 
 export const UploadProductFile = async (data,id) => {
    return await axios.post(`${Url}Uploadfiles?Customerid=${id}`, data, {
       headers: {'Content-Type': 'multipart/form-data'}

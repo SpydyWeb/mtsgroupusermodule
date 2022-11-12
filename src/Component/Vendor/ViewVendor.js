@@ -16,7 +16,11 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
-import { CustomerSearch,GetCustomerDetaills,DownloadFile } from "../../Services/Customer";
+import {
+  CustomerSearch,
+  GetCustomerDetaills,
+  DownloadFile,
+} from "../../Services/Customer";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import {
   GetallVendorBySearch,
@@ -222,11 +226,13 @@ const ContactRow = (props) => {
               <TableRow key={indx}>
                 <TableCell>{indx === 0 ? "Primary" : "Secondary"}</TableCell>
                 <TableCell>
-                  {historyRow.firstName?historyRow.firstName:'' +
-                    " " +
-                    historyRow.middleName?historyRow.middleName:'' +
-                    " " +
-                    historyRow.lastName?historyRow.lastName:''}
+                  {historyRow.firstName
+                    ? historyRow.firstName
+                    : "" + " " + historyRow.middleName
+                    ? historyRow.middleName
+                    : "" + " " + historyRow.lastName
+                    ? historyRow.lastName
+                    : ""}
                 </TableCell>
                 <TableCell>{historyRow.phone}</TableCell>
                 <TableCell>{historyRow.email}</TableCell>
@@ -244,55 +250,63 @@ const ContactRow = (props) => {
 };
 
 const AdditionalRow = (props) => {
-  const {formType}=props
+  const { formType } = props;
   return (
     <>
-    <div className="flex gap-4">
-      <h3 className="flex">
-        {formType==="vendor"?"New Assignment":"Assignment"}
-        {props.new_Assignment || props.assignment ? (
-          <BsCheckCircleFill color="green" />
-        ) : (
-          <AiFillCloseCircle color="red" />
-        )}
-      </h3>
-      <h3 className="flex">
-      {formType==="vendor"?"QC Rejection":"In QC Review"}
-       
-        {props.qcRejection || props.in_QC_Review? (
-          <BsCheckCircleFill color="green" />
-        ) : (
-          <AiFillCloseCircle color="red" />
-        )}
-      </h3>
-      <h3 className="flex">
-      {formType==="vendor"?"Daily Reminder":"Inspection"}
-        {" "}
-        {props.dailyReminder|| props.inspection ? (
-          <BsCheckCircleFill color="green" />
-        ) : (
-          <AiFillCloseCircle color="red" />
-        )}
-      </h3>
-      <h3 className="flex">
-      {formType==="vendor"?"Profile Reminder":"Order Confirmation"}
-        {" "}
-        {props.profileReminder || props.order_Confirmation? (
-          <BsCheckCircleFill color="green" />
-        ) : (
-          <AiFillCloseCircle color="red" />
-        )}
-      </h3>
-   
-    </div>
-   {formType==="vendor"? <div className="flex items-center">   <h2 className="font-bold py-2">Assignment Note :    </h2><p>{props.assignmentNote}</p>
-    </div>:<></>}
+      <div className="flex gap-4">
+        <div>
+        <h3 className="flex">
+          {formType === "vendor" ? "New Assignment" : "Assignment"}
+          {props.new_Assignment || props.assignment ? (
+            <BsCheckCircleFill color="green" />
+          ) : (
+            <AiFillCloseCircle color="red" />
+          )}
+        </h3>
+        </div>
+        <div>
+        <h3 className="flex">
+          {formType === "vendor" ? "QC Rejection" : "In QC Review"}
+
+          {props.qcRejection || props.in_QC_Review ? (
+            <BsCheckCircleFill color="green" />
+          ) : (
+            <AiFillCloseCircle color="red" />
+          )}
+        </h3>
+        </div>
+       <div> <h3 className="flex">
+          {formType === "vendor" ? "Daily Reminder" : "Inspection"}{" "}
+          {props.dailyReminder || props.inspection ? (
+            <BsCheckCircleFill color="green" />
+          ) : (
+            <AiFillCloseCircle color="red" />
+          )}
+        </h3></div>
+       <div> <h3 className="flex">
+          {formType === "vendor" ? "Profile Reminder" : "Order Confirmation"}{" "}
+          {props.profileReminder || props.order_Confirmation ? (
+            <BsCheckCircleFill color="green" />
+          ) : (
+            <AiFillCloseCircle color="red" />
+          )}
+        </h3></div>
+      </div>
+      {formType === "vendor" ? (
+        <div className="flex items-center">
+          {" "}
+          <h2 className="font-bold py-2">Assignment Note : </h2>
+          <p>{props.assignmentNote}</p>
+        </div>
+      ) : (
+        <></>
+      )}
     </>
   );
 };
 
-const CustomerIntegration= (props) => {
- const data=props.customer_Integration_details;
+const CustomerIntegration = (props) => {
+  const data = props.customer_Integration_details;
   return (
     <>
       <Table size="small" aria-label="purchases">
@@ -302,57 +316,55 @@ const CustomerIntegration= (props) => {
             <TableCell>Details</TableCell>
             <TableCell>Port</TableCell>
             <TableCell>Login</TableCell>
-          
           </TableRow>
         </TableHead>
         <TableBody>
-        <TableRow>
-                <TableCell>{"Main"}</TableCell>
-                <TableCell>{data.detail}</TableCell>
-                <TableCell>{data.port}</TableCell>
-                <TableCell>{data.login}</TableCell>
-              </TableRow>
-          
+          <TableRow>
+            <TableCell>{"Main"}</TableCell>
+            <TableCell>{data.detail}</TableCell>
+            <TableCell>{data.port}</TableCell>
+            <TableCell>{data.login}</TableCell>
+          </TableRow>
         </TableBody>
       </Table>
     </>
   );
 };
 function Row(props) {
-  const { vendorDetail, setVendorDetail,formType } = props;
+  const { vendorDetail, setVendorDetail, formType } = props;
   const [expanded, setExpanded] = React.useState(false);
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
+  const [editView, setEditView] = useState(0);
+  const [editModalOpen, seteditModalOpen] = useState(false);
+  const handleopenEditmodal = (event, view) => {
+    event.stopPropagation();
+    setEditView(view);
+    seteditModalOpen(!editModalOpen);
+  };
+  const dowloadFile = () => {
+    DownloadFile(vendorDetail.uploadedfile).then((res) => {
+      let data =
+        res.response !== undefined && res.response.status !== undefined
+          ? res.response
+          : res.status
+          ? res
+          : "";
+
+      if (data.status === 200) {
+        const url = window.URL.createObjectURL(new Blob([data.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", "file.pdf"); //or any other extension
+        document.body.appendChild(link);
+        link.click();
+      } else {
+        toast.error("File not found");
+      }
+    });
+  };
  
-  const [editModalOpen,seteditModalOpen]=useState(false)
-const handleopenEditmodal=(event,view)=>{
-  event.stopPropagation();
-  setEditView(view);
-  seteditModalOpen(!editModalOpen)
-}
-const dowloadFile=()=>{
-  DownloadFile(vendorDetail.uploadedfile).then((res)=>{
-   
-   let data=res.response!==undefined&&res.response.status!==undefined?res.response:res.status?res:''
-   
-  if(data.status===200)
-  {
-   
-    const url = window.URL.createObjectURL(new Blob([data.data]));
-    const link = document.createElement('a');
-    link.href = url;
-    link.setAttribute('download', 'file.pdf'); //or any other extension
-    document.body.appendChild(link);
-    link.click();
-   
-  }
-  else{
-    toast.error("File not found")
-  }
-  })
-}
-const [editView,setEditView]=useState(0)
   return (
     <React.Fragment>
       <Modal
@@ -360,10 +372,17 @@ const [editView,setEditView]=useState(0)
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-      
         <Box sx={style}>
-          <div className="flex justify-between mb-3 cursor-pointer gap-2">
-         {formType==="customer"?   <MdSimCardDownload  size={25} color="blue" onClick={()=>dowloadFile()}/>:<></>}
+          <div className={`flex ${formType === "customer"?"justify-between":"justify-end"} mb-3 cursor-pointer gap-2`}>
+            {formType === "customer" ? (
+              <MdSimCardDownload
+                size={25}
+                color="blue"
+                onClick={() => dowloadFile()}
+              />
+            ) : (
+              <></>
+            )}
             <AiOutlineClose
               onClick={() => {
                 props.setOpen(false);
@@ -396,13 +415,9 @@ const [editView,setEditView]=useState(0)
                 className="flex justify-between w-full"
               >
                 <h3>Product</h3>
-               <div className="mr-2">
-                  <IconButton
-                    size="small"
-                    aria-label="edit"
-                    
-                  >
-                    <AiFillEdit onClick={(e)=>handleopenEditmodal(e,0)}/>
+                <div className="mr-2">
+                  <IconButton size="small" aria-label="edit">
+                    <AiFillEdit onClick={(e) => handleopenEditmodal(e, 0)} />
                   </IconButton>
                 </div>
               </Typography>
@@ -443,11 +458,12 @@ const [editView,setEditView]=useState(0)
                 className="flex justify-between w-full"
               >
                 <h3>Communication</h3>
-                {formType==="vendor"?<div className="mr-2">
-                  <IconButton size="small" aria-label="view">
-                    <AiFillEdit onClick={(e)=>handleopenEditmodal(e,1)} />
-                  </IconButton>
-                </div>:<></>}
+                  <div className="mr-2">
+                    <IconButton size="small" aria-label="view">
+                      <AiFillEdit onClick={(e) => handleopenEditmodal(e, 1)} />
+                    </IconButton>
+                  </div>
+                
               </Typography>
             </AccordionSummary>
             <AccordionDetails className="overflow-auto">
@@ -462,49 +478,59 @@ const [editView,setEditView]=useState(0)
               </Typography>
             </AccordionDetails>
           </Accordion>
-          {formType==="vendor"?<Accordion
-            expanded={expanded === "panel3"}
-            onChange={handleChange("panel3")}
-          >
-            <AccordionSummary
-              className="Btn_Gradient_Ac"
-              expandIcon={
-                <IconButton size="small" aria-label="view">
-                  {expanded === "panel3" ? (
-                    <AiOutlineClose />
-                  ) : (
-                    <AiOutlinePlus />
-                  )}
-                </IconButton>
-              }
-              aria-controls="panel3bh-content"
-              id="panel3bh-header"
+          {formType === "vendor" ? (
+            <Accordion
+              expanded={expanded === "panel3"}
+              onChange={handleChange("panel3")}
             >
-              {" "}
-              <Typography
-                sx={{ flexShrink: 0, fontWeight: "700" }}
-                className="flex justify-between w-full"
-              >
-                <h3>Licence</h3>
-                {formType==="vendor"?<div className="mr-2">
+              <AccordionSummary
+                className="Btn_Gradient_Ac"
+                expandIcon={
                   <IconButton size="small" aria-label="view">
-                  <AiFillEdit onClick={(e)=>handleopenEditmodal(e,2)} />
+                    {expanded === "panel3" ? (
+                      <AiOutlineClose />
+                    ) : (
+                      <AiOutlinePlus />
+                    )}
                   </IconButton>
-                </div>:<></>}
-              </Typography>
-            </AccordionSummary>
-            <AccordionDetails className="overflow-auto">
-              <Typography>
-                <LicenceRow
-                  licences={
-                    vendorDetail && vendorDetail.licences
-                      ? vendorDetail.licences
-                      : ""
-                  }
-                />
-              </Typography>
-            </AccordionDetails>
-          </Accordion>:<></>}
+                }
+                aria-controls="panel3bh-content"
+                id="panel3bh-header"
+              >
+                {" "}
+                <Typography
+                  sx={{ flexShrink: 0, fontWeight: "700" }}
+                  className="flex justify-between w-full"
+                >
+                  <h3>Licence</h3>
+                  {formType === "vendor" ? (
+                    <div className="mr-2">
+                      <IconButton size="small" aria-label="view">
+                        <AiFillEdit
+                          onClick={(e) => handleopenEditmodal(e, 2)}
+                        />
+                      </IconButton>
+                    </div>
+                  ) : (
+                    <></>
+                  )}
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails className="overflow-auto">
+                <Typography>
+                  <LicenceRow
+                    licences={
+                      vendorDetail && vendorDetail.licences
+                        ? vendorDetail.licences
+                        : ""
+                    }
+                  />
+                </Typography>
+              </AccordionDetails>
+            </Accordion>
+          ) : (
+            <></>
+          )}
           <Accordion
             expanded={expanded === "panel4"}
             onChange={handleChange("panel4")}
@@ -529,11 +555,13 @@ const [editView,setEditView]=useState(0)
                 className="flex justify-between w-full"
               >
                 <h3>Address</h3>
-               {formType==="vendor"? <div className="mr-2">
-                  <IconButton size="small" aria-label="view">
-                  <AiFillEdit onClick={(e)=>handleopenEditmodal(e,3)} />
-                  </IconButton>
-                </div>:<></>}
+               
+                  <div className="mr-2">
+                    <IconButton size="small" aria-label="view">
+                      <AiFillEdit onClick={(e) => handleopenEditmodal(e, 3)} />
+                    </IconButton>
+                  </div>
+              
               </Typography>
             </AccordionSummary>
             <AccordionDetails className="overflow-auto">
@@ -577,11 +605,13 @@ const [editView,setEditView]=useState(0)
                 className="flex justify-between w-full"
               >
                 <h3>Contact</h3>
-                {formType==="vendor"?<div className="mr-2">
-                  <IconButton size="small" aria-label="delete">
-                  <AiFillEdit onClick={(e)=>handleopenEditmodal(e,4)} />
-                  </IconButton>
-                </div>:<></>}
+               
+                  <div className="mr-2">
+                    <IconButton size="small" aria-label="delete">
+                      <AiFillEdit onClick={(e) => handleopenEditmodal(e, 4)} />
+                    </IconButton>
+                  </div>
+               
               </Typography>
             </AccordionSummary>
             <AccordionDetails className="overflow-auto">
@@ -625,126 +655,154 @@ const [editView,setEditView]=useState(0)
                 className="flex justify-between w-full"
               >
                 <h3>Additional</h3>
-                {formType==="vendor"?<div className="mr-2">
-                  <IconButton size="small" aria-label="delete">
-                  <AiFillEdit onClick={(e)=>handleopenEditmodal(e,5)} />
-                  </IconButton>
-                </div>:<></>}
+               
+                  <div className="mr-2">
+                    <IconButton size="small" aria-label="delete">
+                      <AiFillEdit onClick={(e) => handleopenEditmodal(e, 5)} />
+                    </IconButton>
+                  </div>
+               
               </Typography>
             </AccordionSummary>
             <AccordionDetails className="overflow-auto">
               <Typography>
-               {formType==="vendor"? <AdditionalRow
-                  profileReminder={
-                    vendorDetail && vendorDetail.profileReminder
-                      ? vendorDetail.profileReminder
-                      : ""
-                  }
-                  dailyReminder={
-                    vendorDetail && vendorDetail.dailyReminder
-                      ? vendorDetail.dailyReminder
-                      : ""
-                  }
-                  qcRejection={
-                    vendorDetail && vendorDetail.qcRejection
-                      ? vendorDetail.qcRejection
-                      : ""
-                  }
-                  new_Assignment={
-                    vendorDetail && vendorDetail.new_Assignment
-                      ? vendorDetail.new_Assignment
-                      : ""
-                  }
-                  assignmentNote={
-                    vendorDetail && vendorDetail.assignmentNote
-                    ? vendorDetail.assignmentNote
-                    : ""
-                  }
-                  formType={formType}
-                />:
-                <AdditionalRow
-                assignment={
-                  vendorDetail && vendorDetail.assignment
-                    ? vendorDetail.assignment
-                    : ""
-                }
-                in_QC_Review={
-                  vendorDetail && vendorDetail.in_QC_Review
-                    ? vendorDetail.in_QC_Review
-                    : ""
-                }
-                inspection={
-                  vendorDetail && vendorDetail.inspection
-                    ? vendorDetail.inspection
-                    : ""
-                }
-                order_Confirmation={
-                  vendorDetail && vendorDetail.order_Confirmation
-                    ? vendorDetail.order_Confirmation
-                    : ""
-                }
-               
-                formType={formType}
-              />}
+                {formType === "vendor" ? (
+                  <AdditionalRow
+                    profileReminder={
+                      vendorDetail && vendorDetail.profileReminder
+                        ? vendorDetail.profileReminder
+                        : ""
+                    }
+                    dailyReminder={
+                      vendorDetail && vendorDetail.dailyReminder
+                        ? vendorDetail.dailyReminder
+                        : ""
+                    }
+                    qcRejection={
+                      vendorDetail && vendorDetail.qcRejection
+                        ? vendorDetail.qcRejection
+                        : ""
+                    }
+                    new_Assignment={
+                      vendorDetail && vendorDetail.new_Assignment
+                        ? vendorDetail.new_Assignment
+                        : ""
+                    }
+                    assignmentNote={
+                      vendorDetail && vendorDetail.assignmentNote
+                        ? vendorDetail.assignmentNote
+                        : ""
+                    }
+                    formType={formType}
+                  />
+                ) : (
+                  <AdditionalRow
+                    assignment={
+                      vendorDetail && vendorDetail.assignment
+                        ? vendorDetail.assignment
+                        : ""
+                    }
+                    in_QC_Review={
+                      vendorDetail && vendorDetail.in_QC_Review
+                        ? vendorDetail.in_QC_Review
+                        : ""
+                    }
+                    inspection={
+                      vendorDetail && vendorDetail.inspection
+                        ? vendorDetail.inspection
+                        : ""
+                    }
+                    order_Confirmation={
+                      vendorDetail && vendorDetail.order_Confirmation
+                        ? vendorDetail.order_Confirmation
+                        : ""
+                    }
+                    formType={formType}
+                  />
+                )}
               </Typography>
             </AccordionDetails>
           </Accordion>
 
-         {formType==="customer"? <Accordion
-            expanded={expanded === "panel7"}
-            onChange={handleChange("panel7")}
-          >
-            <AccordionSummary
-              className="Btn_Gradient_Ac"
-              expandIcon={
-                <IconButton size="small" aria-label="view">
-                  {expanded === "panel4" ? (
-                    <AiOutlineClose />
-                  ) : (
-                    <AiOutlinePlus />
-                  )}
-                </IconButton>
-              }
-              aria-controls="panel4bh-content"
-              id="panel4bh-header"
+          {formType === "customer" ? (
+            <Accordion
+              expanded={expanded === "panel7"}
+              onChange={handleChange("panel7")}
             >
-              {" "}
-              <Typography
-                sx={{ flexShrink: 0, fontWeight: "700" }}
-                className="flex justify-between w-full"
+              <AccordionSummary
+                className="Btn_Gradient_Ac"
+                expandIcon={
+                  <IconButton size="small" aria-label="view">
+                    {expanded === "panel4" ? (
+                      <AiOutlineClose />
+                    ) : (
+                      <AiOutlinePlus />
+                    )}
+                  </IconButton>
+                }
+                aria-controls="panel4bh-content"
+                id="panel4bh-header"
               >
-                <h3>Customer Integration Details</h3>
-               
-              </Typography>
-            </AccordionSummary>
-            <AccordionDetails className="overflow-auto">
-              <Typography>
-                <CustomerIntegration  customer_Integration_details={
-                    vendorDetail && vendorDetail.customer_Integration_details
-                      ? vendorDetail.customer_Integration_details
-                      : ""
-                  }/>
-              </Typography>
-            </AccordionDetails>
-          </Accordion>:<></>}
+                {" "}
+                <Typography
+                  sx={{ flexShrink: 0, fontWeight: "700" }}
+                  className="flex justify-between w-full"
+                >
+                  <h3>Customer Integration Details</h3>
+                  <div className="mr-2">
+                    <IconButton size="small" aria-label="delete">
+                      <AiFillEdit onClick={(e) => handleopenEditmodal(e, 6)} />
+                    </IconButton>
+                  </div>
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails className="overflow-auto">
+                <Typography>
+                  <CustomerIntegration
+                    customer_Integration_details={
+                      vendorDetail && vendorDetail.customer_Integration_details
+                        ? vendorDetail.customer_Integration_details
+                        : ""
+                    }
+                  />
+                </Typography>
+              </AccordionDetails>
+            </Accordion>
+          ) : (
+            <></>
+          )}
         </Box>
       </Modal>
 
-     { editModalOpen?<EditModal open={editModalOpen} formType={formType}  vendorDetail={vendorDetail} setVendorDetail={setVendorDetail} seteditModalOpen={seteditModalOpen} editView={editView} selecetedVedorId={vendorDetail&&vendorDetail.id?vendorDetail.id:vendorDetail.customerId}/>:''}
+      {editModalOpen ? (
+        <EditModal
+          open={editModalOpen}
+          formType={formType}
+          vendorDetail={vendorDetail}
+          setVendorDetail={setVendorDetail}
+          seteditModalOpen={seteditModalOpen}
+          editView={editView}
+          selecetedVedorId={
+            vendorDetail && vendorDetail.id
+              ? vendorDetail.id
+              : vendorDetail.customerId
+          }
+        />
+      ) : (
+        ""
+      )}
     </React.Fragment>
   );
 }
 
-
-
 const ViewVendor = (props) => {
-  const location=useLocation()
+  const location = useLocation();
   const [open, setOpen] = React.useState(false);
   const [vendorDetail, setVendorDetail] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [allstate, setAllState] = useState([]);
   const [allstatedata, setAllStatedata] = useState([]);
-  const formType=props.formType
+  const formType = props.formType;
   const [filterdata, setFilterdata] = useState({
     Id: "",
     Email: "",
@@ -757,19 +815,17 @@ const ViewVendor = (props) => {
   });
 
   const GetmoreData = (id) => {
-    if(props.formType==="vendor")
-    {
-    Getvendorbyid(id).then((res) => {
-      setVendorDetail(res);
-      setOpen(!open);
-    });
-  }
-  else{
-    GetCustomerDetaills(id).then((res)=>{
-      setVendorDetail(res.data);
-      setOpen(!open);
-    })
-  }
+    if (props.formType === "vendor") {
+      Getvendorbyid(id).then((res) => {
+        setVendorDetail(res);
+        setOpen(!open);
+      });
+    } else {
+      GetCustomerDetaills(id).then((res) => {
+        setVendorDetail(res.data);
+        setOpen(!open);
+      });
+    }
   };
 
   const columns = [
@@ -820,7 +876,7 @@ const ViewVendor = (props) => {
     { headerName: "Email", field: "email", minWidth: 300, flex: 1 },
     { headerName: "State", field: "state", minWidth: 150, flex: 1 },
     { headerName: "Contact", field: "contact", minWidth: 300, flex: 1 },
-     { headerName: "Product", field: "product", minWidth: 150, flex: 1 },
+    { headerName: "Product", field: "product", minWidth: 150, flex: 1 },
     {
       field: "Action",
       headerName: "Action",
@@ -843,49 +899,51 @@ const ViewVendor = (props) => {
   useEffect(() => {
     let data = [];
     setIsLoading(true);
-   if(props.formType==="vendor")
-   {
-    GetallVendorBySearch({status:true}).then((res) => {
-      res.map((ele) =>
-        data.push({
-          id: ele.id,
-          vendorid: ele.vendorid,
-          name: ele.name,
-          email: ele.email,
-          state: ele.address.split(",")[3],
-          contact:
-            ele.contact1.split(",")[4] === ""
-              ? ele.contact1.split(",")[3]
-              : ele.contact1.split(",")[3] + " ," + ele.contact1.split(",")[4],
-          licenceType: ele.licence.licenceType,
-          product: ele.product.name,
-          status: ele.status,
-        })
-      );
-      setAllStatedata(data);
-      setIsLoading(false);
-    });
-  }
-  else{
-    CustomerSearch({}).then((res)=>{
-      res.data.map((ele) =>
-        data.push({
-          id: ele.id,
-          vendorid: ele.customerId,
-          name: ele.name,
-          email: ele.email,
-          state: ele.address.split(",")[3],
-          contact:
-            ele.contact1.split(",")[4] === ""
-              ? ele.contact1.split(",")[3]
-              : ele.contact1.split(",")[3] + " ," + ele.contact1.split(",")[4],
-          product: ele.product.name,
-        })
-      );
-      setAllStatedata(data);
-      setIsLoading(false);
-    })
-  }
+    if (props.formType === "vendor") {
+      GetallVendorBySearch({ status: true }).then((res) => {
+        res.map((ele) =>
+          data.push({
+            id: ele.id,
+            vendorid: ele.vendorid,
+            name: ele.name,
+            email: ele.email,
+            state: ele.address.split(",")[3],
+            contact:
+              ele.contact1.split(",")[4] === ""
+                ? ele.contact1.split(",")[3]
+                : ele.contact1.split(",")[3] +
+                  " ," +
+                  ele.contact1.split(",")[4],
+            licenceType: ele.licence.licenceType,
+            product: ele.product.name,
+            status: ele.status,
+          })
+        );
+        setAllStatedata(data);
+        setIsLoading(false);
+      });
+    } else {
+      CustomerSearch({}).then((res) => {
+        res.data.map((ele) =>
+          data.push({
+            id: ele.id,
+            vendorid: ele.customerId,
+            name: ele.name,
+            email: ele.email,
+            state: ele.address.split(",")[3],
+            contact:
+              ele.contact1.split(",")[4] === ""
+                ? ele.contact1.split(",")[3]
+                : ele.contact1.split(",")[3] +
+                  " ," +
+                  ele.contact1.split(",")[4],
+            product: ele.product.name,
+          })
+        );
+        setAllStatedata(data);
+        setIsLoading(false);
+      });
+    }
     GetStateList().then((res) => {
       setAllState(res);
     });
@@ -907,52 +965,54 @@ const ViewVendor = (props) => {
     if (filterdata.State !== "") data.state = filterdata.State;
     if (filterdata.Product !== "") data.product = filterdata.Product;
 
-    
-    if(formType==="vendor"){
+    if (formType === "vendor") {
       data.status = filterdata.Status;
-    GetallVendorBySearch(data).then((res) => {
-      let data = [];
-      res.map((ele) =>
-        data.push({
-          id: ele.id,
-          vendorid: ele.vendorid,
-          name: ele.name,
-          email: ele.email,
-          state: ele.address.split(",")[3],
-          contact:
-            ele.contact1.split(",")[4] === ""
-              ? ele.contact1.split(",")[3]
-              : ele.contact1.split(",")[3] + " ," + ele.contact1.split(",")[4],
-          licenceType: ele.licence.licenceType,
-          product: ele.product.name,
-          status: ele.status,
-        })
-      );
-      setIsLoading(false);
-      setAllStatedata(data);
-    });
-  }
-  else{
-    CustomerSearch(data).then((res)=>{
-      let data = [];
-      res.data.map((ele) =>
-      data.push({
-        id: ele.id,
-        vendorid: ele.customerId,
-        name: ele.name,
-        email: ele.email,
-        state: ele.address.split(",")[3],
-        contact:
-          ele.contact1.split(",")[4] === ""
-            ? ele.contact1.split(",")[3]
-            : ele.contact1.split(",")[3] + " ," + ele.contact1.split(",")[4],
-        product: ele.product.name,
-      })
-    );
-    setAllStatedata(data);
-    setIsLoading(false);
-    })
-  }
+      GetallVendorBySearch(data).then((res) => {
+        let data = [];
+        res.map((ele) =>
+          data.push({
+            id: ele.id,
+            vendorid: ele.vendorid,
+            name: ele.name,
+            email: ele.email,
+            state: ele.address.split(",")[3],
+            contact:
+              ele.contact1.split(",")[4] === ""
+                ? ele.contact1.split(",")[3]
+                : ele.contact1.split(",")[3] +
+                  " ," +
+                  ele.contact1.split(",")[4],
+            licenceType: ele.licence.licenceType,
+            product: ele.product.name,
+            status: ele.status,
+          })
+        );
+        setIsLoading(false);
+        setAllStatedata(data);
+      });
+    } else {
+      CustomerSearch(data).then((res) => {
+        let data = [];
+        res.data.map((ele) =>
+          data.push({
+            id: ele.id,
+            vendorid: ele.customerId,
+            name: ele.name,
+            email: ele.email,
+            state: ele.address.split(",")[3],
+            contact:
+              ele.contact1.split(",")[4] === ""
+                ? ele.contact1.split(",")[3]
+                : ele.contact1.split(",")[3] +
+                  " ," +
+                  ele.contact1.split(",")[4],
+            product: ele.product.name,
+          })
+        );
+        setAllStatedata(data);
+        setIsLoading(false);
+      });
+    }
   };
   return (
     <>
@@ -1014,30 +1074,36 @@ const ViewVendor = (props) => {
               value={filterdata.Contact}
             />
           </div>
-         {props.formType==="vendor"?<> <div>
-            <TextField
-              label={<>Licence</>}
-              name="Licence"
-              variant="outlined"
-              size="small"
-              onChange={(e) => handleFilterChange(e)}
-              value={filterdata.Licence}
-            />
-          </div>
-          <div>
-            <FormControl className="w-52" size="small">
-              <InputLabel>Status</InputLabel>
-              <Select
-                value={filterdata.Status}
-                name="Status"
-                onChange={(e) => handleFilterChange(e)}
-              >
-                <MenuItem value={true}>Active</MenuItem>
-                <MenuItem value={false}>InActive</MenuItem>
-              </Select>
-            </FormControl>
-          </div>
-</>:<></>}
+          {props.formType === "vendor" ? (
+            <>
+              {" "}
+              <div>
+                <TextField
+                  label={<>Licence</>}
+                  name="Licence"
+                  variant="outlined"
+                  size="small"
+                  onChange={(e) => handleFilterChange(e)}
+                  value={filterdata.Licence}
+                />
+              </div>
+              <div>
+                <FormControl className="w-52" size="small">
+                  <InputLabel>Status</InputLabel>
+                  <Select
+                    value={filterdata.Status}
+                    name="Status"
+                    onChange={(e) => handleFilterChange(e)}
+                  >
+                    <MenuItem value={true}>Active</MenuItem>
+                    <MenuItem value={false}>InActive</MenuItem>
+                  </Select>
+                </FormControl>
+              </div>
+            </>
+          ) : (
+            <></>
+          )}
           <div>
             <TextField
               label={<>Product</>}
@@ -1060,7 +1126,7 @@ const ViewVendor = (props) => {
               <div style={{ flexGrow: 1 }}>
                 <DataGrid
                   rows={allstatedata}
-                  columns={formType==="vendor"?columns:Customercolumns}
+                  columns={formType === "vendor" ? columns : Customercolumns}
                   disableColumnFilter
                   disableColumnSelector
                   disableDensitySelector

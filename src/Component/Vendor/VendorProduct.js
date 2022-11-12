@@ -145,12 +145,9 @@ if(formType==="vendor"){
        }
       })
      
-     }
-
-    
+     } 
   };
  const handleUploadClick=(e)=>{
-console.log(e);
 let form = new FormData();
     for (var index = 0; index < e.target.files.length; index++) {
         var element = e.target.files[index];

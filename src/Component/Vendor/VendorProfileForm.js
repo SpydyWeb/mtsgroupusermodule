@@ -14,7 +14,7 @@ import { Checkexistingid, UpdateVendorAddress,UpdateVendorContact } from "../../
 import ToolTipValidation from "../Validation/ToolTipValidation";
 import { PhonenoMask } from "../Common/renderutil";
 import { useLocation } from "react-router-dom";
-
+import { UpdateCustomerAddress,UpdateCustomerContact } from "../../Services/Customer";
 const VendorProfileForm = (props) => {
   const location=useLocation();
   const [formType,setFormType]=useState(location.pathname==="/admin/viewvendor"?"vendor":"customer")
@@ -81,6 +81,7 @@ const VendorProfileForm = (props) => {
         let data = [];
         data.push(props.Vendordata.primery_Address);
         data.push(props.Vendordata.secondary_Address);
+        if(formType==="vendor"){
         UpdateVendorAddress(data, props.selecetedVedorId).then((res) => {
           if (res.status === 200) {
             toast.success("Address Updated Succsessfully");
@@ -91,6 +92,22 @@ const VendorProfileForm = (props) => {
             res.json().then((res) => toast.error(res));
           }
         });
+      }
+      else{
+        delete data[0].updateDate
+        delete data[0].createdDate
+        delete data[1].updateDate
+        delete data[1].createdDate
+        UpdateCustomerAddress(data,props.selecetedVedorId).then((res) => {
+          if (res.status === 200) {
+            toast.success("Address Updated Succsessfully");
+            props.setVendorDetail({...props.vendorDetail,["primery_Address"]:props.Vendordata.primery_Address,["secondary_Address"]:props.Vendordata.secondary_Address})
+            props.seteditModalOpen(prev=>!prev)
+          } else {
+            res.json().then((res) => toast.error(res));
+          }
+        });
+      }
       }
     } else if (props.editType === "Contact") {
       if (
@@ -105,6 +122,8 @@ const VendorProfileForm = (props) => {
         let data = [];
         data.push(props.Vendordata.primery_Contact);
         data.push(props.Vendordata.secondary_contact);
+        if(formType==="vendor"){
+        
         UpdateVendorContact(data, props.selecetedVedorId).then((res) => {
           if (res.status === 200) {
             toast.success("Contact updated succsessfully");
@@ -116,6 +135,25 @@ const VendorProfileForm = (props) => {
             res.json().then((res) => toast.error(res));
           }
         });
+      }
+      else{
+        if(data[1].firstName===""){
+          let temp=data;
+          data=[]
+          data.push(temp[0])
+                    }
+        UpdateCustomerContact(data, props.selecetedVedorId).then((res) => {
+          if (res.status === 200) {
+            toast.success("Contact updated succsessfully");
+            props.setVendorDetail({...props.vendorDetail,["primery_Contact"]:props.Vendordata.primery_Contact,["secondary_contact"]:props.Vendordata.secondary_contact})
+         
+            props.seteditModalOpen(prev=>!prev)
+         
+          } else {
+            res.json().then((res) => toast.error(res));
+          }
+        });
+      }
       }
     }
   };
