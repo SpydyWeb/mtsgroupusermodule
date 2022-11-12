@@ -491,7 +491,7 @@ const Com_notification = (props) => {
           </div>
         </div>
       </div>
-      {location.pathname === "/admin/viewvendor"||props.editType === "Additional" ? (
+      {location.pathname === "/admin/viewvendor"||props.editType === "Additional"||props.editType === "Communication" ? (
         ""
       ) : (
         <div>
@@ -512,7 +512,7 @@ const Com_notification = (props) => {
                     name="detail"
                     value={props.Vendordata.customer_Integration_details.detail}
                     onChange={(e) =>{
-                      console.log(props.Vendordata, props.setVendordata);
+              
                       props.setVendordata({
                       ...props.Vendordata,
                       ["customer_Integration_details"]: {
