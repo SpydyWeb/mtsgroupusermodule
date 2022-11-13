@@ -14,7 +14,7 @@ const CommunicationProduct = () => {
   }, []);
   const [Data, setData] = useState({ name: "" });
 
-  const SubmitHandler = () => {
+  const SubmitHandler = (e) => {
 e.preventDefault();
     if (Data.name === "" || Data.name === undefined) {
       toast.error("Enter Communication Type name");
@@ -84,7 +84,7 @@ e.preventDefault();
                     </button>
                     <button
                       className="btn-donate  mb-2"
-                      onClick={SubmitHandler}
+                      onClick={(e)=>SubmitHandler(e)}
                     >
                       Submit
                     </button>

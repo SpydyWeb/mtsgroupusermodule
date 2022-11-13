@@ -85,7 +85,7 @@ const State = () => {
                     </button>
                     <button
                       className="btn-donate  mb-2"
-                      onClick={SubmitHandler}
+                      onClick={()=>SubmitHandler()}
                     >
                       Submit
                     </button>
