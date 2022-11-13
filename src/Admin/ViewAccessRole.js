@@ -16,6 +16,7 @@ const ViewAccessRole = () => {
   const Navigate = useNavigate();
   useEffect(() => {
     GetMappingsubRole().then((res) => {
+      console.log(res);
       setAccessData(res);
     });
   }, []);
@@ -37,8 +38,6 @@ const ViewAccessRole = () => {
 
   return (
     <div>
-      {/* <Header />
-      <Sidebar />{" "} */}
       <div className="content-wrapper px-4">
         <div classname="container ">
           {" "}
@@ -52,7 +51,7 @@ const ViewAccessRole = () => {
             </button>
           </div>
           <div className="accordion" id="accordionExample">
-            {accessData.map((val) => {
+            {accessData.length>0?accessData.map((val) => {
               return (
                 <div className="accordion-item" key={val.id}>
                   <h2
@@ -100,9 +99,11 @@ const ViewAccessRole = () => {
                     data-bs-parent="#accordionExample"
                   >
                     <div className="accordion-body p-4">
-                      {val.subroles.map((subVal) => {
+                      {val.subroles.length>0?val.subroles.map((subVal) => {
                         return (
+                          <>
                           <span className="p-1 m-1 border-2 rounded-full inline-block text-xs">
+                            
                             <div className="flex items-center gap-2">
                               {" "}
                               {subVal.name}
@@ -116,13 +117,14 @@ const ViewAccessRole = () => {
                               </span>
                             </div>
                           </span>
+                          </>
                         );
-                      })}
+                      }):''}
                     </div>
                   </div>
                 </div>
               );
-            })}
+            }):""}
           </div>
         </div>
       </div>

@@ -16,6 +16,7 @@ const AccessRole = () => {
   const [subrole, setsubrole] = useState([]);
   useEffect(() => {
     GetRole().then((res) => {
+      
       setAllRole(res);
     });
     GetsubRole().then((res) => {
@@ -96,7 +97,7 @@ const AccessRole = () => {
           <div className="border-2 border-gray-200 m-5 rounded-lg">
             <div className="bg-gray-300 p-2">Access Role</div>
             <div className="flex gap-2 m-2 flex-wrap">
-              {allRole.map((ele, indx) => {
+              {allRole.length>0? allRole.map((ele, indx) => {
                 return (
                   <div key={indx}>
                     <input
@@ -108,13 +109,13 @@ const AccessRole = () => {
                     <span>{ele.name}</span>
                   </div>
                 );
-              })}
+              }):''}
             </div>
           </div>
           <div className="border-2 border-gray-200 m-5 rounded-lg">
             <div className="bg-gray-300 p-2">Access Role Defination</div>
             <div className="flex gap-3 m-2 flex-wrap">
-              {subrole.map((ele, indx) => {
+              {subrole.length>0? subrole.map((ele, indx) => {
                 return (
                   <div key={indx}>
                     <input
@@ -126,7 +127,7 @@ const AccessRole = () => {
                     <span>{ele.subrole}</span>
                   </div>
                 );
-              })}
+              }):''}
             </div>
             <div className="flex justify-end m-3">
               <button className="btn-donate " onClick={onClickhandler}>

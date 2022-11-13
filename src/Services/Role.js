@@ -26,7 +26,7 @@ export const GetRole = async () => {
       Accept: "application/json",
       "Access-Control-Allow-Origin": "*",
     },
-  }).then((data) => data);
+  }).then((data) => data.json());
 };
 export const GetsubRole = async () => {
   const token = localStorage.getItem("jwtTokenId");
