@@ -154,80 +154,81 @@ const Userregister = (props) => {
             UploadProductFile(props.fileupload, res.data).then((res) => {
               console.log(res);
 
-              toast.success("Customer has been create successfully");
-              props.setActiveStep(0);
-              props.setVendordata({
-                customerId: "",
-                name: "",
-                parent: "",
-                primery_Address: {
-                  address: "",
-                  city: "",
-                  suite: "",
-                  state: "",
-                  pincode: "",
-                },
-                secondary_Address: {
-                  address: "",
-                  city: "",
-                  suite: "",
-                  state: "",
-                  pincode: "",
-                },
-                primery_Contact: {
-                  firstName: "",
-                  middleName: "",
-                  lastName: "",
-                  phone: "",
-                  email: "",
-                  ext: "",
-                  cellPhone: "",
-                },
-                secondary_contact: {
-                  firstName: "",
-                  middleName: "",
-                  lastName: "",
-                  phone: "",
-                  email: "",
-                  ext: "",
-                  cellPhone: "",
-                },
-                order_Confirmation: false,
-                assignment: false,
-                inspection: false,
-                in_QC_Review: false,
-                uploadedfile: "string",
-                communication: [
-                  {
-                    vendorId: 0,
-                    type: "",
-                    detail: "",
-                    product_id: 0,
-                    customerId: 0,
-                  },
-                ],
-                product: [
-                  {
-                    id: 0,
-                    name: "string",
-                    price1: 0,
-                    price2: 0,
-                    price3: 0,
-                    productId: 0,
-                    selected: true,
-                    subCategory: [null],
-                  },
-                ],
-                additionalDetail: [""],
-                customer_Integration_details: {
+             
+            });
+            toast.success("Customer has been create successfully");
+            props.setActiveStep(0);
+            props.setVendordata({
+              customerId: "",
+              name: "",
+              parent: "",
+              primery_Address: {
+                address: "",
+                city: "",
+                suite: "",
+                state: "",
+                pincode: "",
+              },
+              secondary_Address: {
+                address: "",
+                city: "",
+                suite: "",
+                state: "",
+                pincode: "",
+              },
+              primery_Contact: {
+                firstName: "",
+                middleName: "",
+                lastName: "",
+                phone: "",
+                email: "",
+                ext: "",
+                cellPhone: "",
+              },
+              secondary_contact: {
+                firstName: "",
+                middleName: "",
+                lastName: "",
+                phone: "",
+                email: "",
+                ext: "",
+                cellPhone: "",
+              },
+              order_Confirmation: false,
+              assignment: false,
+              inspection: false,
+              in_QC_Review: false,
+              uploadedfile: "string",
+              communication: [
+                {
+                  vendorId: 0,
+                  type: "",
                   detail: "",
-                  port: "",
-                  login: "",
-                  password: "",
+                  product_id: 0,
                   customerId: 0,
                 },
-                registerId: [0],
-              });
+              ],
+              product: [
+                {
+                  id: 0,
+                  name: "string",
+                  price1: 0,
+                  price2: 0,
+                  price3: 0,
+                  productId: 0,
+                  selected: true,
+                  subCategory: [null],
+                },
+              ],
+              additionalDetail: [""],
+              customer_Integration_details: {
+                detail: "",
+                port: "",
+                login: "",
+                password: "",
+                customerId: 0,
+              },
+              registerId: [0],
             });
           } else {
             res.json().then((val) => toast.error(val));
