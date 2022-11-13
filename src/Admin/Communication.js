@@ -15,6 +15,7 @@ const CommunicationProduct = () => {
   const [Data, setData] = useState({ name: "" });
 
   const SubmitHandler = () => {
+e.preventDefault();
     if (Data.name === "" || Data.name === undefined) {
       toast.error("Enter Communication Type name");
     } else {
@@ -41,9 +42,6 @@ const CommunicationProduct = () => {
   };
   return (
     <>
-      {/* {" "}
-      <Header />
-      <Sidebar /> */}
       <div className="content-wrapper px-4">
         <div className="d-flex justify-end mt-2">
           <button
