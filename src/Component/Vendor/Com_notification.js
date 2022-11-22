@@ -10,6 +10,9 @@ import {
   Box,
   Button,
 } from "@mui/material";
+import {
+  AiFillEdit,
+} from "react-icons/ai";
 import Android12Switch from "./Android12Switch";
 import { IoMdAddCircle } from "react-icons/io";
 import { MdDelete } from "react-icons/md";
@@ -113,6 +116,7 @@ const Com_notification = (props) => {
               profileReminder: props.Vendordata.profileReminder,
             });
             props.seteditModalOpen((prev) => !prev);
+            props.setEditData(!props.editData)
           } else {
             res.json().then((res) => toast.error(res));
           }
@@ -130,6 +134,7 @@ const Com_notification = (props) => {
               order_Confirmation: props.Vendordata.order_Confirmation,
             });
             props.seteditModalOpen((prev) => !prev);
+            props.setEditData(!props.editData)
           } else {
             res.json().then((res) => toast.error(res));
           }
@@ -160,6 +165,7 @@ const Com_notification = (props) => {
               ["communication"]: props.communication,
             });
             props.seteditModalOpen((prev) => !prev);
+            props.setEditData(!props.editData)
           } else {
             res.json().then((res) => toast.error(res));
           }
@@ -174,6 +180,7 @@ const Com_notification = (props) => {
               ["communication"]: props.communication,
             });
             props.seteditModalOpen((prev) => !prev);
+            props.setEditData(!props.editData)
           } else {
             res.json().then((res) => toast.error(res));
           }
@@ -193,6 +200,7 @@ const Com_notification = (props) => {
             ["additionalDetail"]:props.Vendordata.additionalDetail
           });
           props.seteditModalOpen((prev) => !prev);
+          props.setEditData(!props.editData)
         } else {
           res.json().then((res) => toast.error(res));
         }
@@ -231,6 +239,7 @@ const Com_notification = (props) => {
                           id="demo-simple-select"
                           label="Type"
                           name="type"
+                          disabled={props.editData}
                           value={x.type}
                           onChange={(e) => handlechangeCommunication(e, i)}
                         >
@@ -245,6 +254,7 @@ const Com_notification = (props) => {
                     </div>
                     <div>
                       <TextField
+
                         label={
                           <>
                             Detail <span className="text-red-600">*</span>
@@ -254,6 +264,7 @@ const Com_notification = (props) => {
                         size="small"
                         name="detail"
                         value={x.detail}
+                         disabled={props.editData}
                         onChange={(e) => handlechangeCommunication(e, i)}
                       />
                     </div>
@@ -269,6 +280,7 @@ const Com_notification = (props) => {
                             label="Product"
                             name="product_id"
                             value={x.product_id}
+                            disabled={props.editData}
                             onChange={(e) => handlechangeCommunication(e, i)}
                           >
                             {props.productD.map((ele, i) => {
@@ -340,6 +352,7 @@ const Com_notification = (props) => {
         <div>
           <FormGroup>
             <FormControlLabel
+             disabled={props.editData}
               control={<Android12Switch />}
               label={
                 location.pathname === "/admin/viewvendor"
@@ -372,6 +385,7 @@ const Com_notification = (props) => {
           </FormGroup>
           <FormGroup>
             <FormControlLabel
+             disabled={props.editData}
               control={<Android12Switch />}
               label={
                 location.pathname === "/admin/viewvendor"
@@ -399,6 +413,7 @@ const Com_notification = (props) => {
           </FormGroup>
           <FormGroup>
             <FormControlLabel
+             disabled={props.editData}
               control={<Android12Switch />}
               label={
                 location.pathname === "/admin/viewvendor"
@@ -427,6 +442,7 @@ const Com_notification = (props) => {
           <FormGroup>
             <FormControlLabel
               control={<Android12Switch />}
+              disabled={props.editData}
               label={
                 location.pathname === "/admin/viewvendor"
                   ? "Profile Reminder"
@@ -462,6 +478,7 @@ const Com_notification = (props) => {
           >
             <div className=" w-full">
               <TextField
+               disabled={props.editData}
                 id="assignment"
                 label={
                   <>
@@ -508,6 +525,7 @@ const Com_notification = (props) => {
                     }
                     fullWidth={true}
                     variant="outlined"
+                    disabled={props.editData}
                     size="small"
                     name="detail"
                     value={props.Vendordata.customer_Integration_details.detail}
@@ -524,6 +542,7 @@ const Com_notification = (props) => {
 
                 <div className="col-md-2">
                   <TextField
+                   disabled={props.editData}
                     label={
                       <>
                         Port <span className="text-red-600">*</span>
@@ -552,6 +571,7 @@ const Com_notification = (props) => {
                     }
                     variant="outlined"
                     size="small"
+                    disabled={props.editData}
                     name="login"
                     fullWidth={true}
                     value={props.Vendordata.customer_Integration_details.login}
@@ -571,6 +591,7 @@ const Com_notification = (props) => {
                         Password <span className="text-red-600">*</span>
                       </>
                     }
+                    disabled={props.editData}
                     variant="outlined"
                     size="small"
                     name="password"
@@ -598,6 +619,7 @@ const Com_notification = (props) => {
                       size="small"
                       name="detail"
                       value={el}
+                      disabled={props.editData}
                        onChange={(e) => {
                         let data=[...props.Vendordata.additionalDetail]
                         data[i]=e.target.value;
@@ -642,8 +664,19 @@ const Com_notification = (props) => {
           justifyContent: "end",
         }}
       >
-        <Button onClick={handleEditSubmit} variant="contained" sx={{ m: 1 }}>
-          Submit
+               {
+          props.edit?
+          <Button onClick={()=>props.setOpenTableView(!props.openTableView)} variant="outlined" color="info" sx={{ m: 1 }}>
+         Back
+         </Button>:""
+        }
+        {
+          !props.editData? <Button onClick={()=>props.setEditData(!props.editData)} variant="contained" color="secondary" sx={{ m: 1 }}>
+         Cancel
+         </Button>:<></>
+        }
+        <Button onClick={()=>props.editData?props.setEditData(!props.editData):handleEditSubmit()} variant="contained" sx={{ m: 1 }}>
+         {props.editData?<><AiFillEdit/> Edit</>:"Submit"}
         </Button>
       </Box>
     </>

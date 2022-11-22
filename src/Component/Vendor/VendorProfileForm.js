@@ -14,6 +14,9 @@ import { Checkexistingid, UpdateVendorAddress,UpdateVendorContact } from "../../
 import ToolTipValidation from "../Validation/ToolTipValidation";
 import { PhonenoMask } from "../Common/renderutil";
 import { useLocation } from "react-router-dom";
+import {
+  AiFillEdit,
+} from "react-icons/ai";
 import { UpdateCustomerAddress,UpdateCustomerContact } from "../../Services/Customer";
 const VendorProfileForm = (props) => {
   const location=useLocation();
@@ -86,7 +89,7 @@ const VendorProfileForm = (props) => {
           if (res.status === 200) {
             toast.success("Address Updated Succsessfully");
             props.setVendorDetail({...props.vendorDetail,["primery_Address"]:props.Vendordata.primery_Address,["secondary_Address"]:props.Vendordata.secondary_Address})
-          
+            props.setEditData(!props.editData)
             props.seteditModalOpen(prev=>!prev)
           } else {
             res.json().then((res) => toast.error(res));
@@ -103,6 +106,7 @@ const VendorProfileForm = (props) => {
             toast.success("Address Updated Succsessfully");
             props.setVendorDetail({...props.vendorDetail,["primery_Address"]:props.Vendordata.primery_Address,["secondary_Address"]:props.Vendordata.secondary_Address})
             props.seteditModalOpen(prev=>!prev)
+            props.setEditData(!props.editData)
           } else {
             res.json().then((res) => toast.error(res));
           }
@@ -122,13 +126,23 @@ const VendorProfileForm = (props) => {
         let data = [];
         data.push(props.Vendordata.primery_Contact);
         data.push(props.Vendordata.secondary_contact);
+        let contactData=data
+        if(contactData[1].firstName===""){
+          contactData=new Array(contactData[0])
+        }
+        else{
+       delete contactData[1]["id"]
+       delete contactData[1]["updateDate"]
+       delete contactData[1]["createdDate"]
+       delete contactData[1]["isDeleted"]
+        }
         if(formType==="vendor"){
         
-        UpdateVendorContact(data, props.selecetedVedorId).then((res) => {
+        UpdateVendorContact(contactData, props.selecetedVedorId).then((res) => {
           if (res.status === 200) {
             toast.success("Contact updated succsessfully");
             props.setVendorDetail({...props.vendorDetail,["primery_Contact"]:props.Vendordata.primery_Contact,["secondary_contact"]:props.Vendordata.secondary_contact})
-         
+            props.setEditData(!props.editData)
             props.seteditModalOpen(prev=>!prev)
          
           } else {
@@ -137,16 +151,16 @@ const VendorProfileForm = (props) => {
         });
       }
       else{
-        if(data[1].firstName===""){
-          let temp=data;
-          data=[]
-          data.push(temp[0])
-                    }
-        UpdateCustomerContact(data, props.selecetedVedorId).then((res) => {
+        // if(data[1].firstName===""){
+        //   let temp=data;
+        //   data=[]
+        //   data.push(temp[0])
+        //             }
+        UpdateCustomerContact(contactData, props.selecetedVedorId).then((res) => {
           if (res.status === 200) {
             toast.success("Contact updated succsessfully");
             props.setVendorDetail({...props.vendorDetail,["primery_Contact"]:props.Vendordata.primery_Contact,["secondary_contact"]:props.Vendordata.secondary_contact})
-         
+            props.setEditData(!props.editData)
             props.seteditModalOpen(prev=>!prev)
          
           } else {
@@ -282,10 +296,12 @@ const VendorProfileForm = (props) => {
         <div>
           <Autocomplete
             freeSolo
+            disabled={props.editData}
             style={{ minWidth: "300px" }}
             id="free-solo-2-demo"
             disableClearable
             options={top100Films}
+
             inputValue={
               props.Vendordata &&
               props.Vendordata.primery_Address &&
@@ -325,6 +341,7 @@ const VendorProfileForm = (props) => {
                   type: "text",
                 }}
                 size="small"
+              
               />
             )}
           />
@@ -337,6 +354,7 @@ const VendorProfileForm = (props) => {
                 Suite 
               </>
             }
+            disabled={props.editData}
             variant="outlined"
             size="small"
             value={
@@ -361,6 +379,7 @@ const VendorProfileForm = (props) => {
         <div>
           <TextField
             id="City"
+            disabled={props.editData}
             label={
               <>
                 City <span className="text-red-600">*</span>
@@ -393,6 +412,7 @@ const VendorProfileForm = (props) => {
               State <span className="text-red-600">*</span>
             </InputLabel>
             <Select
+             disabled={props.editData}
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               label="Age"
@@ -423,6 +443,7 @@ const VendorProfileForm = (props) => {
         <div>
           <TextField
             id="Zip"
+            disabled={props.editData}
             label={
               <>
                 Zip <span className="text-red-600">*</span>
@@ -504,8 +525,10 @@ const VendorProfileForm = (props) => {
                 },
               });
             }}
+            disabled={props.editData}
             renderInput={(params) => (
               <TextField
+              
                 {...params}
                 label={
                   <>
@@ -529,6 +552,7 @@ const VendorProfileForm = (props) => {
                 Suite 
               </>
             }
+            disabled={props.editData}
             variant="outlined"
             size="small"
             value={
@@ -552,6 +576,7 @@ const VendorProfileForm = (props) => {
         </div>
         <div>
           <TextField
+           disabled={props.editData}
             id="City"
             label={
               <>
@@ -585,6 +610,7 @@ const VendorProfileForm = (props) => {
               State <span className="text-red-600">*</span>
             </InputLabel>
             <Select
+             disabled={props.editData}
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               label="Age"
@@ -615,6 +641,7 @@ const VendorProfileForm = (props) => {
         <div>
           <TextField
             id="Zip"
+            disabled={props.editData}
             label={
               <>
                 Zip <span className="text-red-600">*</span>
@@ -665,6 +692,7 @@ const VendorProfileForm = (props) => {
         <div>
           <TextField
             id="firstname"
+            disabled={props.editData}
             label={
               <>
                 First Name <span className="text-red-600">*</span>
@@ -694,6 +722,7 @@ const VendorProfileForm = (props) => {
         <div>
           <TextField
             id="middleName"
+            disabled={props.editData}
             label={
               <>
                 Middle Name 
@@ -723,6 +752,7 @@ const VendorProfileForm = (props) => {
         <div>
           <TextField
             id="lastname"
+            disabled={props.editData}
             label={
               <>
                 Last Name <span className="text-red-600">*</span>
@@ -752,6 +782,7 @@ const VendorProfileForm = (props) => {
         <div>
           <TextField
             id="phone"
+            disabled={props.editData}
             label={
               <>
                 Phone<span className="text-red-600">*</span>
@@ -782,6 +813,7 @@ const VendorProfileForm = (props) => {
         <div>
           <TextField
             id="ext"
+            disabled={props.editData}
             label={
               <>
                 Ext 
@@ -811,6 +843,7 @@ const VendorProfileForm = (props) => {
         <div>
           <TextField
             id="email"
+            disabled={props.editData}
             label={
               <>
                 Email <span className="text-red-600">*</span>
@@ -841,6 +874,7 @@ const VendorProfileForm = (props) => {
 
           <TextField
             id="cellphone"
+            disabled={props.editData}
             label={
               <>
                 Cell Phone <span className="text-red-600">*</span>
@@ -894,6 +928,7 @@ const VendorProfileForm = (props) => {
           <TextField
             id="firstname"
             label="First Name"
+            disabled={props.editData}
             variant="outlined"
             size="small"
             value={
@@ -919,6 +954,7 @@ const VendorProfileForm = (props) => {
           <TextField
             id="middleName"
             label="Middle Name"
+            disabled={props.editData}
             variant="outlined"
             size="small"
             value={
@@ -945,6 +981,7 @@ const VendorProfileForm = (props) => {
             id="lastname"
             label="Last Name"
             variant="outlined"
+            disabled={props.editData}
             size="small"
             value={
               props.Vendordata &&
@@ -970,6 +1007,7 @@ const VendorProfileForm = (props) => {
             id="phone"
             label="Phone"
             variant="outlined"
+            disabled={props.editData}
             size="small"
             InputProps={{
               inputComponent: PhonenoMask,
@@ -996,6 +1034,7 @@ const VendorProfileForm = (props) => {
             id="ext"
             label="Ext"
             variant="outlined"
+            disabled={props.editData}
             size="small"
             value={
               props.Vendordata &&
@@ -1020,6 +1059,7 @@ const VendorProfileForm = (props) => {
           <TextField
             id="email"
             label="Email"
+            disabled={props.editData}
             variant="outlined"
             size="small"
             value={
@@ -1046,6 +1086,7 @@ const VendorProfileForm = (props) => {
             id="cellphone"
             label="Cell Phone"
             variant="outlined"
+            disabled={props.editData}
             size="small"
             InputProps={{
               inputComponent: PhonenoMask,
@@ -1080,6 +1121,7 @@ const VendorProfileForm = (props) => {
         <div className=" w-full">
           <TextField
             id="assignment"
+            disabled={props.editData}
             label={
               <>
                 Assignment Note <span className="text-red-600">*</span>
@@ -1136,8 +1178,19 @@ const VendorProfileForm = (props) => {
           justifyContent: "end",
         }}
       >
-        <Button onClick={handleEditSubmit} variant="contained" sx={{ m: 1 }}>
-          Submit
+        {
+          props.edit?
+          <Button onClick={()=>props.setOpenTableView(!props.openTableView)} variant="outlined" color="info" sx={{ m: 1 }}>
+         Back
+         </Button>:""
+        }
+        {
+          !props.editData? <Button onClick={()=>props.setEditData(!props.editData)} variant="contained" color="secondary" sx={{ m: 1 }}>
+         Cancel
+         </Button>:<></>
+        }
+        <Button onClick={()=>props.editData?props.setEditData(!props.editData):handleEditSubmit()} variant="contained" sx={{ m: 1 }}>
+         {props.editData?<><AiFillEdit/> Edit</>:"Submit"}
         </Button>
       </Box>
     </div>

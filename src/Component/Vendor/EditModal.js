@@ -70,11 +70,7 @@ const EditModal = (props) => {
       GetCommunicationTypeList().then((res) => {
         setCommunicaionType(res);
       });
-    } else if (props.editView === 2) {
-      GetLicenceType().then((res) => {
-        setLicenceType(res);
-      });
-    } else if (props.editView === 3) {
+    }  else if (props.editView === 2) {
       if (formType === "vendor") {
         GetVendorAddressbyid(props.selecetedVedorId).then((res) => {
           const data = {
@@ -133,7 +129,7 @@ const EditModal = (props) => {
           setVendordata(data);
         });
       }
-    } else if (props.editView === 4) {
+    } else if (props.editView === 3) {
       if (formType === "vendor") {
         GetVendorContactbyid(props.selecetedVedorId).then((res) => {
           const data = {
@@ -151,17 +147,17 @@ const EditModal = (props) => {
               isDeleted: res[0].isDeleted,
             },
             secondary_contact: {
-              firstName: res[1].firstName,
-              middleName: res[1].middleName,
-              lastName: res[1].lastName,
-              phone: res[1].phone,
-              email: res[1].email,
-              ext: res[1].ext,
-              cellPhone: res[1].cellPhone,
-              id: res[1].id,
-              updateDate: res[1].updateDate,
-              createdDate: res[1].createdDate,
-              isDeleted: res[1].isDeleted,
+              firstName: res[1]!==null?res[1].firstName:'',
+              middleName: res[1]!==null?res[1].middleName:'',
+              lastName: res[1]!==null?res[1].lastName:'',
+              phone: res[1]!==null?res[1].phone:'',
+              email: res[1]!==null?res[1].email:'',
+              ext: res[1]!==null?res[1].ext:'',
+              cellPhone: res[1]!==null?res[1].cellPhone:'',
+              id: res[1]!==null?res[1].id:'',
+              updateDate: res[1]!==null?res[1].updateDate:'',
+              createdDate: res[1]!==null?res[1].createdDate:'',
+              isDeleted: res[1]!==null?res[1].isDeleted:'',
             },
           };
           setVendordata(data);
@@ -200,7 +196,7 @@ const EditModal = (props) => {
           setVendordata(data);
         });
       }
-    } else if (props.editView === 5) {
+    } else if (props.editView === 4) {
       if (formType === "vendor") {
         const data = {
           id: props.selecetedVedorId,
@@ -221,27 +217,34 @@ const EditModal = (props) => {
         };
         setVendordata(data);
       }
-    } else if (props.editView === 6) {
+    } else if (props.editView === 5) {
+      if(formType==="vendor")
+      {
+        GetLicenceType().then((res) => {
+          setLicenceType(res);
+        });
+      }else{
       let additional =
       vendorDetail.additionalDetail.length > 0
         ? vendorDetail.additionalDetail
         : [""];
         vendorDetail["additionalDetail"]=additional
+      }
     }
-  }, []);
+  }, [props.editView]);
   return (
     <div>
       {" "}
-      <Dialog
+      {/* <Dialog
         open={props.open}
         scroll={"body"}
         aria-labelledby="scroll-dialog-title"
         aria-describedby="scroll-dialog-description"
         fullWidth={true}
         maxWidth={"md"}
-      >
-        <DialogTitle>
-          <div className="flex justify-between">
+      > */}
+        {/* <DialogTitle> */}
+          {/* <div className="flex justify-between">
             {" "}
             <h3>
               {props.editView === 0
@@ -257,14 +260,14 @@ const EditModal = (props) => {
                 : props.editView === 5
                 ? "Update Additional"
                 : "Update Customer Integraion Details"}
-            </h3>
-            <IconButton onClick={() => props.seteditModalOpen(false)}>
+            </h3> */}
+            {/* <IconButton onClick={() => props.seteditModalOpen(false)}>
               {" "}
               <AiOutlineClose />
-            </IconButton>
-          </div>
-        </DialogTitle>
-        <DialogContent dividers="body" className="pt-3">
+            </IconButton> */}
+          {/* </div> */}
+        {/* </DialogTitle> */}
+        {/* <DialogContent dividers="body" className="pt-3"> */}
           {props.editView === 0 ? (
             productD.length > 0 ? (
               <VendorProduct
@@ -282,6 +285,10 @@ const EditModal = (props) => {
                 edit={true}
                 selecetedVedorId={props.selecetedVedorId}
                 seteditModalOpen={props.seteditModalOpen}
+                editData={props.editData}
+                setEditData={props.setEditData}
+                setOpenTableView={props.setOpenTableView}
+                openTableView={props.openTableView}
               />
             ) : (
               <div>Loading...</div>
@@ -302,23 +309,12 @@ const EditModal = (props) => {
               seteditModalOpen={props.seteditModalOpen}
               setVendorDetail={setVendorDetail}
               vendorDetail={vendorDetail}
+              editData={props.editData}
+              setEditData={props.setEditData}
+              setOpenTableView={props.setOpenTableView}
+              openTableView={props.openTableView}
             />
-          ) : props.editView === 2 ? (
-            <VendorLicense
-              Vendordata={Vendordata}
-              setVendordata={setVendordata}
-              activeStep={activeStep}
-              licences={licences}
-              setActiveStep={setActiveStep}
-              licenceType={licenceType}
-              edit={true}
-              seteditModalOpen={props.seteditModalOpen}
-              selecetedVedorId={props.selecetedVedorId}
-              setVendorDetail={setVendorDetail}
-              vendorDetail={vendorDetail}
-              setLicence={setLicence}
-            />
-          ) : props.editView === 3 ? (
+          )  : props.editView === 2 ? (
             <VendorProfileForm
               Vendordata={Vendordata}
               setVendordata={setVendordata}
@@ -326,13 +322,17 @@ const EditModal = (props) => {
               setActiveStep={setActiveStep}
               activeStep={activeStep}
               edit={true}
+              editData={props.editData}
+              setEditData={props.setEditData}
+              setOpenTableView={props.setOpenTableView}
+              openTableView={props.openTableView}
               editType="Address"
               selecetedVedorId={props.selecetedVedorId}
               setVendorDetail={setVendorDetail}
               vendorDetail={vendorDetail}
               seteditModalOpen={props.seteditModalOpen}
             />
-          ) : props.editView === 4 ? (
+          ) : props.editView === 3 ? (
             <VendorProfileForm
               Vendordata={Vendordata}
               setVendordata={setVendordata}
@@ -345,8 +345,12 @@ const EditModal = (props) => {
               setVendorDetail={setVendorDetail}
               vendorDetail={vendorDetail}
               seteditModalOpen={props.seteditModalOpen}
+              editData={props.editData}
+              setEditData={props.setEditData}
+              setOpenTableView={props.setOpenTableView}
+              openTableView={props.openTableView}
             />
-          ) : props.editView === 5 ? (
+          ) : props.editView === 4 ? (
             <Com_notification
               Vendordata={Vendordata}
               setVendordata={setVendordata}
@@ -357,8 +361,31 @@ const EditModal = (props) => {
               setVendorDetail={setVendorDetail}
               vendorDetail={vendorDetail}
               seteditModalOpen={props.seteditModalOpen}
+              editData={props.editData}
+              setEditData={props.setEditData}
+              setOpenTableView={props.setOpenTableView}
+              openTableView={props.openTableView}
             />
           ) : (
+            formType==="vendor"?
+            <VendorLicense
+            Vendordata={Vendordata}
+            setVendordata={setVendordata}
+            activeStep={activeStep}
+            licences={licences}
+            setActiveStep={setActiveStep}
+            licenceType={licenceType}
+            edit={true}
+            seteditModalOpen={props.seteditModalOpen}
+            selecetedVedorId={props.selecetedVedorId}
+            setVendorDetail={setVendorDetail}
+            vendorDetail={vendorDetail}
+            setLicence={setLicence}
+            editData={props.editData}
+            setEditData={props.setEditData}
+            setOpenTableView={props.setOpenTableView}
+            openTableView={props.openTableView}
+          />:
             <Com_notification
               Vendordata={vendorDetail}
               setVendordata={setVendorDetail}
@@ -370,10 +397,14 @@ const EditModal = (props) => {
               seteditModalOpen={props.seteditModalOpen}
               setVendorDetail={setVendorDetail}
               vendorDetail={vendorDetail}
+              editData={props.editData}
+              setEditData={props.setEditData}
+              setOpenTableView={props.setOpenTableView}
+              openTableView={props.openTableView}
             />
           )}
-        </DialogContent>
-      </Dialog>
+        {/* </DialogContent> */}
+      {/* </Dialog> */}
     </div>
   );
 };

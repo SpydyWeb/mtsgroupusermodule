@@ -6,6 +6,9 @@ import {
   Box,
   Button,
 } from "@mui/material";
+import {
+  AiFillEdit,
+} from "react-icons/ai";
 import Android12Switch from "./Android12Switch";
 import Accordion from "@mui/material/Accordion";
 import { AccordionSummary } from "@mui/material";
@@ -210,6 +213,7 @@ let form = new FormData();
                                 label={val.name}
                                 name="selected"
                                 checked={val.selected}
+                                disabled={props.editData}
                                 onChange={(e) =>
                                   handlechange(e, i, indx, val.id)
                                 }
@@ -221,6 +225,7 @@ let form = new FormData();
                                     <TextField inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
                                       label="Price"
                                       variant="outlined"
+                                      disabled={props.editData}
                                       size="small"
                                       value={val.price1||0}
                                       name="price1"
@@ -235,6 +240,7 @@ let form = new FormData();
                                       label="Price"
                                       variant="outlined"
                                       size="small"
+                                      disabled={props.editData}
                                       value={val.price2}
                                       name="price2"
                                       onChange={(e) =>
@@ -247,6 +253,7 @@ let form = new FormData();
                                       label="Price"
                                       variant="outlined"
                                       size="small"
+                                      disabled={props.editData}
                                       name="price3"
                                       value={val.price3}
                                       onChange={(e) =>
@@ -299,8 +306,19 @@ let form = new FormData();
           justifyContent: "end",
         }}
       >
-        <Button onClick={handleEditSubmit} variant="contained" sx={{ m: 1 }}>
-          Submit
+                {
+          props.edit?
+          <Button onClick={()=>props.setOpenTableView(!props.openTableView)} variant="outlined" color="info" sx={{ m: 1 }}>
+         Back
+         </Button>:""
+        }
+        {
+          !props.editData? <Button onClick={()=>props.setEditData(!props.editData)} variant="contained" color="secondary" sx={{ m: 1 }}>
+         Cancel
+         </Button>:<></>
+        }
+        <Button onClick={()=>props.editData?props.setEditData(!props.editData):handleEditSubmit()} variant="contained" sx={{ m: 1 }}>
+         {props.editData?<><AiFillEdit/> Edit</>:"Submit"}
         </Button>
       </Box>
     </>

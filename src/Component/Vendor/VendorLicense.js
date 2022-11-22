@@ -9,7 +9,9 @@ import {
   Box,
   Button,
 } from "@mui/material";
-
+import {
+  AiFillEdit,
+} from "react-icons/ai";
 import { IoMdAddCircle } from "react-icons/io";
 import { MdDelete } from "react-icons/md";
 import { UpdateVendorLicences } from "../../Services/Vendor";
@@ -167,6 +169,7 @@ console.log(props.licences);
                   <div>
                     <TextField
                       name="firstName"
+                      disabled={props.editData}
                       label={
                         <>
                           First Name <span className="text-red-600">*</span>
@@ -181,6 +184,7 @@ console.log(props.licences);
                   <div>
                     <TextField
                       name="lastName"
+                      disabled={props.editData}
                       label={
                         <>
                           Last Name <span className="text-red-600">*</span>
@@ -195,6 +199,7 @@ console.log(props.licences);
                   <div>
                     <TextField
                       name="licenceNo"
+                      disabled={props.editData}
                       label={
                         <>
                           Licence No. <span className="text-red-600">*</span>
@@ -212,6 +217,7 @@ console.log(props.licences);
                         License Type <span className="text-red-600">*</span>
                       </InputLabel>
                       <Select
+                       disabled={props.editData}
                         labelId="License_Type"
                         name="licenceType"
                         label="License Type"
@@ -231,6 +237,7 @@ console.log(props.licences);
                   <div>
                     <TextField
                       name="status"
+                      disabled={props.editData}
                       label={
                         <>
                           Status <span className="text-red-600">*</span>
@@ -247,6 +254,7 @@ console.log(props.licences);
                 <div className="flex flex-col md:flex-row gap-6  py-2 mb-1 flex-wrap">
                   <div>
                     <Autocomplete
+                     disabled={props.editData}
                       freeSolo
                       style={{ minWidth: "300px" }}
                       disableClearable
@@ -286,6 +294,7 @@ console.log(props.licences);
 
                   <div>
                     <TextField
+                     disabled={props.editData}
                       label={
                         <>
                           Issue Date <span className="text-red-600">*</span>
@@ -319,6 +328,7 @@ console.log(props.licences);
 
                   <div>
                     <TextField
+                     disabled={props.editData}
                       label={
                         <>
                           Expiry Date <span className="text-red-600">*</span>
@@ -359,6 +369,7 @@ console.log(props.licences);
                 <div className="flex gap-6 py-1 mb-1">
                   <div className="w-full md:w-1/2">
                     <TextField
+                     disabled={props.editData}
                       name="disciplinaryAction"
                       label={
                         <>
@@ -377,6 +388,7 @@ console.log(props.licences);
                   </div>
                   <div className="w-full md:w-1/2">
                     <TextField
+                     disabled={props.editData}
                       name="note"
                       label={
                         <>
@@ -445,8 +457,19 @@ console.log(props.licences);
           justifyContent: "end",
         }}
       >
-        <Button onClick={handleEditSubmit} variant="contained" sx={{ m: 1 }}>
-          Submit
+             {
+          props.edit?
+          <Button onClick={()=>props.setOpenTableView(!props.openTableView)} variant="outlined" color="info" sx={{ m: 1 }}>
+         Back
+         </Button>:""
+        }
+        {
+          !props.editData? <Button onClick={()=>props.setEditData(!props.editData)} variant="contained" color="secondary" sx={{ m: 1 }}>
+         Cancel
+         </Button>:<></>
+        }
+        <Button onClick={()=>props.editData?props.setEditData(!props.editData):handleEditSubmit()} variant="contained" sx={{ m: 1 }}>
+         {props.editData?<><AiFillEdit/> Edit</>:"Submit"}
         </Button>
       </Box>
     </>
