@@ -267,7 +267,7 @@ const VendorProduct = (props) => {
                     ''
                 )}
                 {!props.editData ? (
-                    <Button onClick={() => props.setEditData(!props.editData)} variant="contained" color="secondary" sx={{ m: 1 }}>
+                    <Button onClick={() => props.setEditData(!props.editData)} variant="contained" color="error" sx={{ m: 1 }}>
                         Cancel
                     </Button>
                 ) : (

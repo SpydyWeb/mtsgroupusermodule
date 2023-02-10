@@ -21,6 +21,7 @@ import {
     GetCustomerIntegrationDetailbyid
 } from '../../servicesapi/Customerapi';
 import Com_notification from './Com_notification';
+import FileUpload from './FileUpload';
 import { AiOutlineClose } from 'react-icons/ai';
 import Userregister from './Userregister';
 const EditModal = (props) => {
@@ -226,44 +227,26 @@ const EditModal = (props) => {
                 let additional = vendorDetail.additionalDetail.length > 0 ? vendorDetail.additionalDetail : [''];
                 vendorDetail['additionalDetail'] = additional;
             }
+        } else {
+            let data = [
+                {
+                    fileName: '',
+                    location: '',
+                    size: 0,
+                    file: '',
+                    type: '',
+                    remarks: '',
+                    issueDate: '',
+                    expiryDate: ''
+                }
+            ];
+
+            setVendordata({ ...Vendordata, ['productFiles']: data });
+            console.log(data);
         }
     }, [props.editView]);
     return (
         <div>
-            {' '}
-            {/* <Dialog
-        open={props.open}
-        scroll={"body"}
-        aria-labelledby="scroll-dialog-title"
-        aria-describedby="scroll-dialog-description"
-        fullWidth={true}
-        maxWidth={"md"}
-      > */}
-            {/* <DialogTitle> */}
-            {/* <div className="flex justify-between">
-            {" "}
-            <h3>
-              {props.editView === 0
-                ? "Update Product"
-                : props.editView === 1
-                ? "Update Communication"
-                : props.editView === 2
-                ? "Update Licence"
-                : props.editView === 3
-                ? "Update Address"
-                : props.editView === 4
-                ? "Update Contact"
-                : props.editView === 5
-                ? "Update Additional"
-                : "Update Customer Integraion Details"}
-            </h3> */}
-            {/* <IconButton onClick={() => props.seteditModalOpen(false)}>
-              {" "}
-              <AiOutlineClose />
-            </IconButton> */}
-            {/* </div> */}
-            {/* </DialogTitle> */}
-            {/* <DialogContent dividers="body" className="pt-3"> */}
             {props.editView === 0 ? (
                 productD.length > 0 ? (
                     <VendorProduct
@@ -345,6 +328,17 @@ const EditModal = (props) => {
                     setEditData={props.setEditData}
                     setOpenTableView={props.setOpenTableView}
                     openTableView={props.openTableView}
+                />
+            ) : props.editView === 6 ? (
+                <FileUpload
+                    Vendordata={Vendordata}
+                    setVendordata={setVendordata}
+                    setActiveStep={setActiveStep}
+                    activeStep={activeStep}
+                    productD={productD}
+                    edit={true}
+                    editData={props.editData}
+                    setEditData={props.setEditData}
                 />
             ) : props.editView === 4 ? (
                 <Com_notification

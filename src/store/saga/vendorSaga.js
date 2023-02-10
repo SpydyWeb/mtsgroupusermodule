@@ -58,7 +58,7 @@ function* addlicencetypedata(formdata) {
 }
 function* addcommunicationtypedata(formdata) {
     let res = '';
-    if (formdata.data.editid === undefined) res = yield AddCommunication(formdata.data);
+    if (formdata.data.editid === undefined) res = yield AddCommunication(formdata.data.formData);
     else res = yield UpdateCommuncationType(formdata.data.formData, formdata.data.editid);
     if (res.status === 200) {
         yield toast.success(`Communication ${formdata.data.editid === undefined ? 'Created' : 'Updated'} Succsessfully`);
@@ -97,7 +97,7 @@ function* deletestatedata(formdata) {
 }
 function* addstatedata(formdata) {
     let res = '';
-    if (formdata.data.editid === undefined) res = yield AddState(formdata.data);
+    if (formdata.data.editid === undefined) res = yield AddState(formdata.data.formData);
     else res = yield UpdateState(formdata.data.formData, formdata.data.editid);
     if (res.status === 200) {
         yield toast.success(`State ${formdata.data.editid === undefined ? 'Created' : 'Updated'} Succsessfully`);

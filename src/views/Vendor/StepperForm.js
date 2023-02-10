@@ -5,8 +5,16 @@ import VendorProduct from './VendorProduct';
 import VendorLicense from './VendorLicense';
 import Com_notification from './Com_notification';
 import Userregister from './Userregister';
+import FileUpload from './FileUpload';
 import { GetVendorProduct, GetStateList, GetCommunicationTypeList, GetLicenceType } from '../../servicesapi/Vendorapi';
-const steps = ['Basic Vendor Details', 'Vendor License', 'Product/ Service', 'Communication/ Notification', 'User Registration'];
+const steps = [
+    'Basic Vendor Details',
+    'Vendor License',
+    'Product/ Service',
+    'Upload Documents',
+    'Communication/ Notification',
+    'User Registration'
+];
 
 const StepperForm = () => {
     const [activeStep, setActiveStep] = useState(0);
@@ -85,7 +93,19 @@ const StepperForm = () => {
             password: '',
             allowTextMsg: true
         },
-        product: [{ id: '', name: 'string', price1: 0, price2: 0, price3: 0, productId: 0, selected: false }]
+        product: [{ id: '', name: 'string', price1: 0, price2: 0, price3: 0, productId: 0, selected: false }],
+        productFiles: [
+            {
+                fileName: '',
+                location: '',
+                size: 0,
+                file: '',
+                type: '',
+                remarks: '',
+                issueDate: '',
+                expiryDate: ''
+            }
+        ]
     });
     useEffect(() => {
         GetVendorProduct().then((res) => {
@@ -176,7 +196,16 @@ const StepperForm = () => {
                                 setProductD={setProductD}
                                 setProductdata={setProductdata}
                             />
-                        ) : activeStep === 4 ? (
+                        ) : activeStep === 3 ? (
+                            <FileUpload
+                                Vendordata={Vendordata}
+                                setVendordata={setVendordata}
+                                setActiveStep={setActiveStep}
+                                activeStep={activeStep}
+                                productD={productD}
+                                edit={false}
+                            />
+                        ) : activeStep === 5 ? (
                             <Userregister
                                 Vendordata={Vendordata}
                                 setVendordata={setVendordata}
@@ -184,7 +213,7 @@ const StepperForm = () => {
                                 activeStep={activeStep}
                                 Userregister={Vendordata.userregistration}
                             />
-                        ) : (
+                        ) : activeStep === 4 ? (
                             <Com_notification
                                 Vendordata={Vendordata}
                                 setVendordata={setVendordata}
@@ -195,6 +224,8 @@ const StepperForm = () => {
                                 communication={Vendordata.communication}
                                 edit={false}
                             />
+                        ) : (
+                            <></>
                         )}
                     </Typography>
                 </React.Fragment>

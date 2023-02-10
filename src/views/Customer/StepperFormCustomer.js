@@ -7,7 +7,7 @@ import Com_notification from '../Vendor/Com_notification';
 import Userregister from '../Vendor/Userregister';
 const steps = ['Basic Customer Details', 'Product/ Service', 'Communication/ Notification', 'User Registration'];
 export const StepperFormCustomer = () => {
-    const [activeStep, setActiveStep] = useState(2);
+    const [activeStep, setActiveStep] = useState(0);
     const [allstate, setAllState] = useState([]);
     const [productdata, setProductdata] = useState([]);
     const [productD, setProductD] = useState([]);

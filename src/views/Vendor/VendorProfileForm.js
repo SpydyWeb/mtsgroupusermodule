@@ -170,7 +170,7 @@ const VendorProfileForm = (props) => {
         <div className="mt-3">
             <span className="legend Btn_Gradient">Profile Details</span>
             <div
-                style={{ marginBottom: '20px' }}
+                style={{ marginBottom: '20px', paddingTop: '20px' }}
                 className={`${
                     props.edit ? (props.editType && props.editType === 'Profile' ? 'flex' : 'hidden') : 'flex'
                 } flex-col md:flex-row gap-6 border-2 p-3  mb-10 rounded-xl bg-white relative border-sky-500`}
@@ -261,7 +261,7 @@ const VendorProfileForm = (props) => {
                 Primary Address
             </span>
             <div
-                style={{ marginBottom: '20px' }}
+                style={{ marginBottom: '20px', paddingTop: '20px' }}
                 className={`${
                     props.edit ? (props.editType && props.editType === 'Address' ? 'flex' : 'hidden') : 'flex'
                 } flex-col md:flex-row gap-6 border-2 p-3  mb-10 rounded-xl bg-white relative border-sky-500`}
@@ -437,7 +437,7 @@ const VendorProfileForm = (props) => {
                 Billing Address
             </span>
             <div
-                style={{ marginBottom: '20px' }}
+                style={{ marginBottom: '20px', paddingTop: '20px' }}
                 className={`${
                     props.edit ? (props.editType && props.editType === 'Address' ? 'flex' : 'hidden') : 'flex'
                 } flex-col md:flex-row gap-6 border-2 p-3  mb-10 rounded-xl bg-white relative border-sky-500`}
@@ -613,7 +613,7 @@ const VendorProfileForm = (props) => {
                 Primary Contact
             </span>
             <div
-                style={{ marginBottom: '20px' }}
+                style={{ marginBottom: '20px', paddingTop: '20px' }}
                 className={`${
                     props.edit ? (props.editType && props.editType === 'Contact' ? 'flex' : 'hidden') : 'flex'
                 }  flex-col md:flex-row gap-6 border-2 p-3  mb-10 rounded-xl bg-white relative border-sky-500`}
@@ -817,7 +817,7 @@ const VendorProfileForm = (props) => {
                 Additional Contact
             </span>
             <div
-                style={{ marginBottom: '20px' }}
+                style={{ marginBottom: '20px', paddingTop: '20px' }}
                 className={`${
                     props.edit ? (props.editType && props.editType === 'Contact' ? 'flex' : 'hidden') : 'flex'
                 }  flex-col md:flex-row gap-6 border-2 p-3  mb-10 rounded-xl bg-white relative border-sky-500`}
@@ -995,7 +995,7 @@ const VendorProfileForm = (props) => {
             </div>
             {formType === 'vendor' ? (
                 <div
-                    style={{ marginBottom: '20px' }}
+                    style={{ marginBottom: '20px', paddingTop: '20px' }}
                     className={`${
                         props.edit ? (props.editType && props.editType === 'Profile' ? 'flex' : 'hidden') : 'flex'
                     } gap-6 border-2 p-3  mb-2 rounded-xl bg-white relative border-sky-500`}
@@ -1067,7 +1067,7 @@ const VendorProfileForm = (props) => {
                     ''
                 )}
                 {!props.editData ? (
-                    <Button onClick={() => props.setEditData(!props.editData)} variant="contained" color="secondary" sx={{ m: 1 }}>
+                    <Button onClick={() => props.setEditData(!props.editData)} variant="contained" color="error" sx={{ m: 1 }}>
                         Cancel
                     </Button>
                 ) : (

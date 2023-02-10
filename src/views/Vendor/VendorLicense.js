@@ -7,7 +7,6 @@ import { UpdateVendorLicences } from '../../servicesapi/Vendorapi';
 import toast from 'react-hot-toast';
 const VendorLicense = (props) => {
     const top100Films = [{ title: '', year: 1994 }];
-    console.log(props.licences);
     const handleRemoveClick = (index) => {
         const list = [...props.licences];
         list.splice(index, 1);
@@ -431,7 +430,7 @@ const VendorLicense = (props) => {
                     ''
                 )}
                 {!props.editData ? (
-                    <Button onClick={() => props.setEditData(!props.editData)} variant="contained" color="secondary" sx={{ m: 1 }}>
+                    <Button onClick={() => props.setEditData(!props.editData)} variant="contained" color="error" sx={{ m: 1 }}>
                         Cancel
                     </Button>
                 ) : (

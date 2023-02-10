@@ -57,7 +57,7 @@ function Row(props) {
     };
     const tabsCutomerName = ['Product', 'Communication', 'Address', 'Contact', 'Additional', 'Customer Integration Details'];
 
-    const tabsVendorName = ['Product', 'Communication', 'Address', 'Contact', 'Additional', 'Licence'];
+    const tabsVendorName = ['Product', 'Communication', 'Address', 'Contact', 'Additional', 'Licence', 'File Upload'];
     return (
         <React.Fragment>
             <Box>

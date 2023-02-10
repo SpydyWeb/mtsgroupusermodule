@@ -51,7 +51,7 @@ const PopupForm = (props) => {
                         );
                     })}
                     <Box sx={{ display: 'flex', justifyContent: 'end', marginTop: '20px', gap: '10px' }}>
-                        <Button sx={{ background: 'gray' }} variant="contained" onClick={() => dispatch(setDialogueview(''))}>
+                        <Button sx={{ background: 'gray' }} color="error" variant="contained" onClick={() => dispatch(setDialogueview(''))}>
                             Cancel
                         </Button>
                         <Button sx={{ background: '#349164' }} variant="contained" type="submit">
