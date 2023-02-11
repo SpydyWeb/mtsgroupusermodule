@@ -11,7 +11,8 @@ import {
     GetVendorContactbyid,
     GetVendorLicencebyid,
     GetLicenceType,
-    GetCommunicationTypeList
+    GetCommunicationTypeList,
+    GetVendorFileById
 } from '../../servicesapi/Vendorapi';
 import {
     GetCustomerProductDetaills,
@@ -27,6 +28,7 @@ import Userregister from './Userregister';
 const EditModal = (props) => {
     const { vendorDetail, setVendorDetail, formType } = props;
     const [activeStep, setActiveStep] = useState(0);
+    const [errmsg, seterrmsg] = useState('');
     const [Vendordata, setVendordata] = useState({});
     const [licences, setLicence] = useState(vendorDetail.licences);
     const [licenceType, setLicenceType] = useState([]);
@@ -241,8 +243,11 @@ const EditModal = (props) => {
                 }
             ];
 
-            setVendordata({ ...Vendordata, ['productFiles']: data });
-            console.log(data);
+            GetVendorFileById(props.selecetedVedorId).then((res) => {
+                setVendordata({ ...Vendordata, ['productFiles']: res });
+                if (res.length === 0) seterrmsg('Data not found');
+                else seterrmsg('');
+            });
         }
     }, [props.editView]);
     return (
@@ -339,6 +344,10 @@ const EditModal = (props) => {
                     edit={true}
                     editData={props.editData}
                     setEditData={props.setEditData}
+                    setOpenTableView={props.setOpenTableView}
+                    openTableView={props.openTableView}
+                    selecetedVedorId={props.selecetedVedorId}
+                    errmsg={errmsg}
                 />
             ) : props.editView === 4 ? (
                 <Com_notification

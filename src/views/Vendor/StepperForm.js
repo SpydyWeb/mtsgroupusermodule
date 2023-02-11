@@ -103,7 +103,8 @@ const StepperForm = () => {
                 type: '',
                 remarks: '',
                 issueDate: '',
-                expiryDate: ''
+                expiryDate: '',
+                fileid: 0
             }
         ]
     });

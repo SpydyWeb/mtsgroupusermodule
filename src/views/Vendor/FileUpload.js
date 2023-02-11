@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import axios from 'axios';
 import { FaTrash } from 'react-icons/fa';
 import { IoMdAddCircle } from 'react-icons/io';
@@ -6,8 +6,8 @@ import { Grid, Box, Button, FormControl, InputLabel, Select, TextField, IconButt
 import MainCard from 'ui-component/cards/MainCard';
 import { toast } from 'react-hot-toast';
 import { AiFillEdit } from 'react-icons/ai';
+import { Addexistingvendorfile, Addvendorfile, UpdateVendorFile } from 'servicesapi/Vendorapi';
 const FileUpload = (props) => {
-    console.log(props);
     props.Vendordata?.productFiles?.map((ele) => console.log(ele));
     const handlechangedate = (e, i) => {
         const { name, value } = e.target;
@@ -24,6 +24,47 @@ const FileUpload = (props) => {
         } else data[i][name] = value;
         props.setVendordata({ ...props.Vendordata, ['productFiles']: data });
     };
+    const handleEditSubmit = () => {
+        let status = false;
+        props.Vendordata.productFiles.map((ele) => {
+            if (ele.fileName === '' || ele.type === '' || ele.issueDate === '' || ele.expiryDate === '') {
+                status = true;
+            }
+        });
+        if (status) toast.error('Please fill all the mandatory fields');
+        else {
+            let data = props.Vendordata.productFiles;
+            data.map((ele) => {
+                console.log(ele);
+                if (ele.file === '') {
+                    console.log(ele);
+                    ele.File_id = ele.fileid;
+                    ele.new_File_id = 0;
+                    UpdateVendorFile(ele, props.selecetedVedorId).then((res) => {
+                        if (res.status === 200) {
+                            toast.success('File updated succsessfully');
+                        } else {
+                            res.json().then((res) => toast.error(res));
+                        }
+                    });
+                } else {
+                    Addvendorfile(ele.file).then((res) => {
+                        ele.File_id = ele.fileid;
+                        ele.new_File_id = res.data[0];
+                        UpdateVendorFile(ele, props.selecetedVedorId).then((res) => {
+                            if (res.status === 200) {
+                                toast.success('File updated succsessfully');
+                            } else {
+                                res.json().then((res) => toast.error(res));
+                            }
+                        });
+                    });
+                }
+            });
+            props.setVendorDetail({ ...props.vendorDetail, ['productFiles']: data });
+            props.seteditModalOpen((prev) => !prev);
+        }
+    };
     const handleNext = () => {
         let status = false;
         props.Vendordata.productFiles.map((ele) => {
@@ -38,40 +79,56 @@ const FileUpload = (props) => {
         <div>
             <Grid container style={{ justifyContent: 'center', minHeight: '400px', overflow: 'hidden' }}>
                 {/* Display the files to be uploaded */}
-                {props.Vendordata?.productFiles?.length > 0 ? (
-                    <MainCard sx={{ width: '100%' }}>
+
+                <MainCard sx={{ width: '100%' }}>
+                    {props.Vendordata?.productFiles?.length > 0 ? (
                         <ul>
                             {props.Vendordata.productFiles.map((ele, i) => (
                                 <li style={{ marginBottom: '10px' }} key={i}>
                                     <Grid container alignItems={'center'} sx={{ gap: '15px' }}>
-                                        <Grid item container alignItems={'center'} sx={{ gap: '5px' }} md={3}>
-                                            <Button variant="contained" component="label">
-                                                Upload
-                                                <input
-                                                    hidden
-                                                    accept="image/*"
-                                                    multiple
-                                                    type="file"
-                                                    name="file"
-                                                    onChange={(e) => {
-                                                        console.log(e.target.files[0]);
-                                                        let arrydata = '';
-                                                        const data = [...props.Vendordata.productFiles];
-                                                        data[i]['fileName'] = e.target.files[0].name;
-                                                        data[i]['size'] = e.target.files[0].size;
-                                                        const reader = new FileReader();
-                                                        reader.onload = () => {
-                                                            arrydata = new Uint8Array(reader.result);
-                                                            data[i]['file'] = arrydata.join('');
+                                        <Grid item container alignItems={'center'} sx={{ gap: '5px' }} md={2}>
+                                            {ele.file === '' ? (
+                                                <Button variant="contained" component="label" disabled={props.editData}>
+                                                    Upload
+                                                    <input
+                                                        hidden
+                                                        type="file"
+                                                        name="file"
+                                                        onChange={(e) => {
+                                                            const data = [...props.Vendordata.productFiles];
+                                                            data[i]['fileName'] = e.target.files[0].name;
+                                                            data[i]['size'] = e.target.files[0].size;
+                                                            data[i]['file'] = e.target.files[0];
                                                             props.setVendordata({ ...props.Vendordata, ['productFiles']: data });
-                                                        };
-                                                        reader.readAsArrayBuffer(e.target.files[0]);
+                                                        }}
+                                                    />
+                                                </Button>
+                                            ) : (
+                                                <Button
+                                                    disabled={props.editData}
+                                                    onClick={() => {
+                                                        const data = [...props.Vendordata.productFiles];
+                                                        data[i]['fileName'] = '';
+                                                        data[i]['size'] = '';
+                                                        data[i]['file'] = '';
+                                                        props.setVendordata({ ...props.Vendordata, ['productFiles']: data });
                                                     }}
-                                                />
-                                            </Button>
-                                            <Box>{ele.fileName === '' ? 'No file' : ele.fileName}</Box>
+                                                    variant="outlined"
+                                                    color="error"
+                                                    sx={{ m: 1 }}
+                                                >
+                                                    clear
+                                                </Button>
+                                            )}
+                                            <Box>
+                                                {ele.fileName === ''
+                                                    ? 'No file'
+                                                    : ele.fileName.length > 10
+                                                    ? ele.fileName.slice(0, 10) + '...'
+                                                    : ele.fileName}
+                                            </Box>
                                         </Grid>
-                                        <Grid md={1}>
+                                        <Grid md={2}>
                                             <FormControl size="small" fullWidth={true}>
                                                 <InputLabel>
                                                     <Box sx={{ display: 'flex' }}>
@@ -79,7 +136,12 @@ const FileUpload = (props) => {
                                                         <Box sx={{ color: 'red' }}>&nbsp;*</Box>
                                                     </Box>
                                                 </InputLabel>
-                                                <Select name={'type'} value={ele.type} onChange={(e) => handlechangedate(e, i)}>
+                                                <Select
+                                                    name={'type'}
+                                                    disabled={props.editData}
+                                                    value={ele.type}
+                                                    onChange={(e) => handlechangedate(e, i)}
+                                                >
                                                     {props.productD.map((ele, indx) => {
                                                         return <MenuItem value={ele.name}>{ele.name}</MenuItem>;
                                                     })}
@@ -157,7 +219,7 @@ const FileUpload = (props) => {
                                             <TextField
                                                 variant="outlined"
                                                 label="Remarks"
-                                                name={'remarks'}
+                                                name="remarks"
                                                 vlaue={ele.remarks}
                                                 size="small"
                                                 onChange={(e) => handlechangedate(e, i)}
@@ -179,34 +241,38 @@ const FileUpload = (props) => {
                                                     <FaTrash title="Delete" />
                                                 </IconButton>
                                             )}
-                                            <IconButton
-                                                sx={{ color: '#349164' }}
-                                                onClick={() => {
-                                                    let data = props.Vendordata.productFiles;
-                                                    data.push({
-                                                        fileName: '',
-                                                        location: '',
-                                                        size: 0,
-                                                        file: '',
-                                                        type: '',
-                                                        remarks: '',
-                                                        issueDate: '',
-                                                        expiryDate: ''
-                                                    });
-                                                    props.setVendordata({ ...props.Vendordata, productFiles: data });
-                                                }}
-                                            >
-                                                <IoMdAddCircle size={30} />
-                                            </IconButton>
+                                            {props.edit ? (
+                                                <></>
+                                            ) : (
+                                                <IconButton
+                                                    sx={{ color: '#349164' }}
+                                                    onClick={() => {
+                                                        let data = props.Vendordata.productFiles;
+                                                        data.push({
+                                                            fileName: '',
+                                                            location: '',
+                                                            size: 0,
+                                                            file: '',
+                                                            type: '',
+                                                            remarks: '',
+                                                            issueDate: '',
+                                                            expiryDate: ''
+                                                        });
+                                                        props.setVendordata({ ...props.Vendordata, productFiles: data });
+                                                    }}
+                                                >
+                                                    <IoMdAddCircle size={30} />
+                                                </IconButton>
+                                            )}
                                         </Grid>
                                     </Grid>
                                 </li>
                             ))}
                         </ul>
-                    </MainCard>
-                ) : (
-                    <></>
-                )}
+                    ) : (
+                        <Box>{props.errmsg}</Box>
+                    )}
+                </MainCard>
             </Grid>
             <Box
                 sx={{
@@ -252,7 +318,28 @@ const FileUpload = (props) => {
                     <></>
                 )}
                 <Button
-                    onClick={() => (props.editData ? props.setEditData(!props.editData) : handleEditSubmit())}
+                    onClick={() => {
+                        if (props.editData) {
+                            if (props.Vendordata?.productFiles?.length === 0)
+                                props.setVendordata({
+                                    ...props.Vendordata,
+                                    ['productFiles']: [
+                                        {
+                                            fileName: '',
+                                            location: '',
+                                            size: 0,
+                                            file: '',
+                                            type: '',
+                                            remarks: '',
+                                            issueDate: '',
+                                            expiryDate: '',
+                                            fileid: 0
+                                        }
+                                    ]
+                                });
+                            props.setEditData(!props.editData);
+                        } else handleEditSubmit();
+                    }}
                     variant="contained"
                     sx={{ m: 1 }}
                 >

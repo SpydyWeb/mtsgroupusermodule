@@ -426,7 +426,7 @@ const ViewVendor = (props) => {
             {!open ? (
                 <>
                     {!isLoading ? (
-                        <div style={{ height: 400, width: '100%' }}>
+                        <div style={{ height: 400, width: '100%', marginTop: '10px' }}>
                             <div style={{ display: 'flex', height: '100%' }}>
                                 <div style={{ flexGrow: 1 }}>
                                     <DataGrid

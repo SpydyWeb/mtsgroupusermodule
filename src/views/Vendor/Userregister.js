@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
-import { AddVendor } from '../../servicesapi/Vendorapi';
+import { AddVendor, Addvendorfile } from '../../servicesapi/Vendorapi';
 import { AddCustomer, DeleteCustomerUser, UpdateCustomerUser, AddCustomerUser, UploadProductFile } from '../../servicesapi/Customerapi';
 import { TextField, Button, Box, FormGroup, FormControlLabel, Checkbox } from '@mui/material';
 import PasswordValidateMessage from '../Headers/PasswordValidateMessage';
@@ -40,93 +40,114 @@ const Userregister = (props) => {
             )
                 toast.error('Please fill all the mandatory fields');
             else {
-                AddVendor(props.Vendordata).then((res) => {
-                    if (res.status === 200) {
-                        toast.success('Vendor has been create successfully');
-                        props.setActiveStep(0);
-                        props.setVendordata({
-                            id: 0,
-                            vendorId: '',
-                            name: '',
-                            primery_Address: {
-                                address: '',
-                                city: '',
-                                suite: '',
-                                state: '',
-                                pincode: ''
-                            },
-                            secondary_Address: {
-                                address: '',
-                                city: '',
-                                suite: '',
-                                state: '',
-                                pincode: ''
-                            },
-                            primery_Contact: {
-                                firstName: '',
-                                middleName: '',
-                                lastName: '',
-                                phone: '',
-                                email: '',
-                                ext: '',
-                                cellPhone: ''
-                            },
-                            secondary_contact: {
-                                firstName: '',
-                                middleName: '',
-                                lastName: '',
-                                phone: '',
-                                email: '',
-                                ext: '',
-                                cellPhone: ''
-                            },
-                            assignmentNote: '',
-                            new_Assignment: true,
-                            qcRejection: true,
-                            dailyReminder: true,
-                            profileReminder: true,
-                            licences: [
-                                {
-                                    firstName: '',
-                                    lastName: '',
-                                    licenceNo: '',
-                                    licenceType: '',
-                                    status: '',
-                                    address: '',
-                                    expiry_Date: '',
-                                    issueDate: '',
-                                    disciplinaryAction: '',
-                                    note: ''
-                                }
-                            ],
-                            communication: [
-                                {
-                                    type: '',
-                                    detail: '',
-                                    product_id: 0
-                                }
-                            ],
-                            product: [
-                                {
-                                    id: '',
-                                    name: 'string',
-                                    price: 0,
-                                    productId: 0,
-                                    selected: false
-                                }
-                            ],
-                            userregistration: {
-                                firstName: '',
-                                lastName: '',
-                                emailId: '',
-                                logId: '',
-                                password: '',
-                                allowTextMsg: true
+                let vendordata = props.Vendordata;
+                vendordata.productFiles.map((ele) => {
+                    Addvendorfile(ele.file).then((res) => {
+                        ele.fileid = res.data[0];
+                        delete ele.file;
+                        props.setVendordata(vendordata);
+                        AddVendor(props.Vendordata).then((res) => {
+                            if (res.status === 200) {
+                                toast.success('Vendor has been create successfully');
+                                props.setActiveStep(0);
+                                props.setVendordata({
+                                    id: 0,
+                                    vendorId: '',
+                                    name: '',
+                                    primery_Address: {
+                                        address: '',
+                                        city: '',
+                                        suite: '',
+                                        state: '',
+                                        pincode: ''
+                                    },
+                                    secondary_Address: {
+                                        address: '',
+                                        city: '',
+                                        suite: '',
+                                        state: '',
+                                        pincode: ''
+                                    },
+                                    primery_Contact: {
+                                        firstName: '',
+                                        middleName: '',
+                                        lastName: '',
+                                        phone: '',
+                                        email: '',
+                                        ext: '',
+                                        cellPhone: ''
+                                    },
+                                    secondary_contact: {
+                                        firstName: '',
+                                        middleName: '',
+                                        lastName: '',
+                                        phone: '',
+                                        email: '',
+                                        ext: '',
+                                        cellPhone: ''
+                                    },
+                                    assignmentNote: '',
+                                    new_Assignment: true,
+                                    qcRejection: true,
+                                    dailyReminder: true,
+                                    profileReminder: true,
+                                    licences: [
+                                        {
+                                            firstName: '',
+                                            lastName: '',
+                                            licenceNo: '',
+                                            licenceType: '',
+                                            status: '',
+                                            address: '',
+                                            expiry_Date: '',
+                                            issueDate: '',
+                                            disciplinaryAction: '',
+                                            note: ''
+                                        }
+                                    ],
+                                    communication: [
+                                        {
+                                            type: '',
+                                            detail: '',
+                                            product_id: 0
+                                        }
+                                    ],
+                                    product: [
+                                        {
+                                            id: '',
+                                            name: 'string',
+                                            price: 0,
+                                            productId: 0,
+                                            selected: false
+                                        }
+                                    ],
+                                    userregistration: {
+                                        firstName: '',
+                                        lastName: '',
+                                        emailId: '',
+                                        logId: '',
+                                        password: '',
+                                        allowTextMsg: true
+                                    },
+                                    productFiles: [
+                                        {
+                                            fileName: '',
+                                            location: '',
+                                            size: 0,
+                                            file: '',
+                                            type: '',
+                                            remarks: '',
+                                            issueDate: '',
+                                            expiryDate: '',
+                                            fileid: 0
+                                        }
+                                    ]
+                                });
+                            } else {
+                                res.json().then((val) => toast.error(val));
                             }
                         });
-                    } else {
-                        res.json().then((val) => toast.error(val));
-                    }
+                    });
                 });
             }
         } else {

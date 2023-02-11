@@ -1,5 +1,5 @@
 import { CurrentUrl } from './UrlApi';
-
+import axios from 'axios';
 let Url = `${CurrentUrl}api/Vendor/`;
 
 // AddLicenceType
@@ -235,11 +235,55 @@ export const AddVendor = async (data) => {
         }
     }).then((data) => data);
 };
+export const Addvendorfile = (data) => {
+    const formData = new FormData();
+    formData.append('Files', data);
+    return axios
+        .post(`${Url}Addfile`, formData)
+        .then((res) => res)
+        .catch((err) => console.log('File Upload Error'));
+};
+export const Addexistingvendorfile = async (data, id) => {
+    return await fetch(`${Url}AddVendorFile?vendorId=${id}`, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+            'Access-Control-Allow-Origin': '*'
+        }
+    }).then((data) => data);
+};
+export const UpdateVendorFile = async (data, id) => {
+    return axios
+        .post(`${Url}UpdateVendorFile`, data)
+        .then((res) => res)
+        .catch((err) => console.log('File Upload Error'));
+};
+export const GetVendorFileById = async (id) => {
+    return await fetch(`${Url}GetVendorFileById?vendorid=${id}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+            'Access-Control-Allow-Origin': '*'
+        }
+    }).then((data) => data.json());
+};
 
+export const GetFileById = async (id) => {
+    return await fetch(`${Url}GetFileById?Fileid=${id}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+            'Access-Control-Allow-Origin': '*'
+        }
+    }).then((data) => data);
+};
 export const Checkexistingid = async (id) => {
     return await fetch(`${Url}Checkexistingid?id=${id}`, {
         method: 'GET',
-
         headers: {
             'Content-Type': 'application/json',
             Accept: 'application/json',
