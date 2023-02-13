@@ -18,10 +18,12 @@ const VendorProduct = (props) => {
         let status = false;
         let count = 0;
         props.productD.map((ele) => {
+            console.log(ele);
             if (ele.selected === true) {
                 count = 1;
-                // if (ele.price === 0 && formType === "vendor")
-                //   status = true;
+                if (ele.price1 === 0 && formType === 'vendor') status = true;
+                if (ele.price2 === 0 && formType === 'vendor') status = true;
+                if (ele.price3 === 0 && formType === 'vendor') status = true;
             }
         });
         if (status || count === 0) toast.error('Please fill all the mandatory fields');

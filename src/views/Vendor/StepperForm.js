@@ -17,7 +17,7 @@ const steps = [
 ];
 
 const StepperForm = () => {
-    const [activeStep, setActiveStep] = useState(0);
+    const [activeStep, setActiveStep] = useState(2);
     const [productdata, setProductdata] = useState([]);
     const [productD, setProductD] = useState([]);
     const [allstate, setAllState] = useState([]);
@@ -116,7 +116,9 @@ const StepperForm = () => {
                 ele.subCategory.map((val) => {
                     data.push({
                         name: val.name,
-                        price: 0,
+                        price1: 0,
+                        price2: 0,
+                        price3: 0,
                         productId: ele.id,
                         selected: false,
                         id: val.id

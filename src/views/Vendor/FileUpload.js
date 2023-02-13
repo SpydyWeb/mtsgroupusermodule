@@ -5,8 +5,9 @@ import { IoMdAddCircle } from 'react-icons/io';
 import { Grid, Box, Button, FormControl, InputLabel, Select, TextField, IconButton, MenuItem } from '@mui/material';
 import MainCard from 'ui-component/cards/MainCard';
 import { toast } from 'react-hot-toast';
-import { AiFillEdit } from 'react-icons/ai';
+import { AiFillEdit, AiOutlineDownload, AiFillCloseCircle } from 'react-icons/ai';
 import { Addexistingvendorfile, Addvendorfile, UpdateVendorFile } from 'servicesapi/Vendorapi';
+import { CurrentUrl } from 'servicesapi/UrlApi';
 const FileUpload = (props) => {
     props.Vendordata?.productFiles?.map((ele) => console.log(ele));
     const handlechangedate = (e, i) => {
@@ -104,29 +105,61 @@ const FileUpload = (props) => {
                                                     />
                                                 </Button>
                                             ) : (
-                                                <Button
-                                                    disabled={props.editData}
-                                                    onClick={() => {
-                                                        const data = [...props.Vendordata.productFiles];
-                                                        data[i]['fileName'] = '';
-                                                        data[i]['size'] = '';
-                                                        data[i]['file'] = '';
-                                                        props.setVendordata({ ...props.Vendordata, ['productFiles']: data });
-                                                    }}
-                                                    variant="outlined"
-                                                    color="error"
-                                                    sx={{ m: 1 }}
-                                                >
-                                                    clear
-                                                </Button>
+                                                <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                                                    {' '}
+                                                    {props.editData ? (
+                                                        <IconButton
+                                                            onClick={() => {
+                                                                if (ele.location !== null) {
+                                                                    let url =
+                                                                        CurrentUrl +
+                                                                        ele.location.slice(ele.location.indexOf('UploadedVendorFiles'));
+                                                                    window.open(url, '_blank', 'noreferrer');
+                                                                } else toast('error', 'File not found');
+                                                            }}
+                                                        >
+                                                            <AiOutlineDownload style={{ color: 'blue' }} />
+                                                        </IconButton>
+                                                    ) : (
+                                                        <></>
+                                                    )}
+                                                    <Box>
+                                                        {ele.fileName === ''
+                                                            ? 'No file'
+                                                            : ele.fileName.length > 10
+                                                            ? ele.fileName.slice(0, 10) + '...'
+                                                            : ele.fileName}
+                                                    </Box>
+                                                    <IconButton
+                                                        disabled={props.editData}
+                                                        onClick={() => {
+                                                            const data = [...props.Vendordata.productFiles];
+                                                            data[i]['fileName'] = '';
+                                                            data[i]['size'] = '';
+                                                            data[i]['file'] = '';
+                                                            props.setVendordata({ ...props.Vendordata, ['productFiles']: data });
+                                                        }}
+                                                    >
+                                                        <AiFillCloseCircle style={{ color: props.editData ? 'gray' : '#b81515' }} />
+                                                    </IconButton>
+                                                    {/* <Button
+                                                        disabled={props.editData}
+                                                        onClick={() => {
+                                                            const data = [...props.Vendordata.productFiles];
+                                                            data[i]['fileName'] = '';
+                                                            data[i]['size'] = '';
+                                                            data[i]['file'] = '';
+                                                            props.setVendordata({ ...props.Vendordata, ['productFiles']: data });
+                                                        }}
+                                                        variant="outlined"
+                                                        color="error"
+                                                        sx={{ m: 1 }}
+                                                    >
+                                                        clear
+                                                    </Button> */}
+                                                </Box>
                                             )}
-                                            <Box>
-                                                {ele.fileName === ''
-                                                    ? 'No file'
-                                                    : ele.fileName.length > 10
-                                                    ? ele.fileName.slice(0, 10) + '...'
-                                                    : ele.fileName}
-                                            </Box>
+                                            editData
                                         </Grid>
                                         <Grid md={2}>
                                             <FormControl size="small" fullWidth={true}>
