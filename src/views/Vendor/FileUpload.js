@@ -159,7 +159,6 @@ const FileUpload = (props) => {
                                                     </Button> */}
                                                 </Box>
                                             )}
-                                            editData
                                         </Grid>
                                         <Grid md={2}>
                                             <FormControl size="small" fullWidth={true}>
