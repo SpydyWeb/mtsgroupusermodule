@@ -9,7 +9,6 @@ import { AiFillEdit, AiOutlineDownload, AiFillCloseCircle } from 'react-icons/ai
 import { Addexistingvendorfile, Addvendorfile, UpdateVendorFile } from 'servicesapi/Vendorapi';
 import { CurrentUrl } from 'servicesapi/UrlApi';
 const FileUpload = (props) => {
-    props.Vendordata?.productFiles?.map((ele) => console.log(ele));
     const handlechangedate = (e, i) => {
         const { name, value } = e.target;
         const data = [...props.Vendordata.productFiles];

@@ -28,6 +28,7 @@ const Userregister = (props) => {
         password: '',
         allowTextMsg: true
     });
+    const [loading, setLoading] = useState(false);
     const [ispasswordmessage, setisPasswordMessage] = useState(true);
     const Submit = (e) => {
         if (location.pathname === '/admin/viewvendor') {
@@ -41,14 +42,17 @@ const Userregister = (props) => {
             )
                 toast.error('Please fill all the mandatory fields');
             else {
+                setLoading(true);
                 let vendordata = props.Vendordata;
                 vendordata.productFiles.map((ele) => {
                     Addvendorfile(ele.file).then((res) => {
+                        setLoading(false);
                         ele.fileid = res.data[0];
                         delete ele.file;
-                        props.setVendordata(vendordata);
+                        // props.setVendordata(vendordata);
                         AddVendor(props.Vendordata).then((res) => {
                             if (res.status === 200) {
+                                setLoading(false);
                                 toast.success('Vendor has been create successfully');
                                 props.setActiveStep(0);
                                 props.setVendordata({
@@ -145,7 +149,7 @@ const Userregister = (props) => {
                                     ]
                                 });
                             } else {
-                                res.json().then((val) => toast.error(val));
+                                res.json().then((val) => toast.error('Log Id is already exists'));
                             }
                         });
                     });
@@ -612,8 +616,8 @@ const Userregister = (props) => {
                 >
                     Back
                 </Button>
-                <Button variant="contained" sx={{ m: 1 }} onClick={() => Submit()}>
-                    Submit
+                <Button variant="contained" sx={{ m: 1 }} disabled={loading} onClick={() => Submit()}>
+                    {loading ? 'Loading...' : 'Submit'}
                 </Button>
             </Box>
         </>

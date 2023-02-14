@@ -12,7 +12,8 @@ import {
     GetVendorLicencebyid,
     GetLicenceType,
     GetCommunicationTypeList,
-    GetVendorFileById
+    GetVendorFileById,
+    GetVendorProduct
 } from '../../servicesapi/Vendorapi';
 import {
     GetCustomerProductDetaills,
@@ -242,7 +243,24 @@ const EditModal = (props) => {
                     expiryDate: ''
                 }
             ];
+            GetVendorProduct().then((res) => {
+                let data = [];
+                res.map((ele) => {
+                    ele.subCategory.map((val) => {
+                        data.push({
+                            name: val.name,
+                            price1: 0,
+                            price2: 0,
+                            price3: 0,
+                            productId: ele.id,
+                            selected: false,
+                            id: val.id
+                        });
+                    });
+                });
 
+                setProductD(data);
+            });
             GetVendorFileById(props.selecetedVedorId).then((res) => {
                 setVendordata({ ...Vendordata, ['productFiles']: res });
                 if (res.length === 0) seterrmsg('Data not found');
