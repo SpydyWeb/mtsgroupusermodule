@@ -20,3 +20,8 @@ export const a11yProps = (index) => {
         'aria-controls': `simple-tabpanel-${index}`
     };
 };
+
+export const validateEmail = (email) => {
+    var re = /\S+@\S+\.\S+/;
+    return re.test(email);
+};

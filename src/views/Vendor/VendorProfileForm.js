@@ -3,11 +3,12 @@ import { TextField, Autocomplete, Select, MenuItem, InputLabel, FormControl, Box
 import toast from 'react-hot-toast';
 import { Checkexistingid, UpdateVendorAddress, UpdateVendorContact } from '../../servicesapi/Vendorapi';
 import ToolTipValidation from '../Validation/ToolTipValidation';
-import { PhonenoMask } from '../Common/renderutil';
+import { PhonenoMask, validateEmail } from '../Common/renderutil';
 import { useLocation } from 'react-router-dom';
 import { AiFillEdit } from 'react-icons/ai';
 import { UpdateCustomerAddress, UpdateCustomerContact } from '../../servicesapi/Customerapi';
 const VendorProfileForm = (props) => {
+    console.log(validateEmail('ankkitgmaill.com'));
     const location = useLocation();
     const [formType, setFormType] = useState(location.pathname === '/admin/viewvendor' ? 'vendor' : 'customer');
     const top100Films = [{ label: '', year: 1994 }];
@@ -768,6 +769,18 @@ const VendorProfileForm = (props) => {
                                 : ''
                         }
                         name="email"
+                        onBlur={(e) => {
+                            if (!validateEmail(e.target.value)) {
+                                toast.error('Please enter valid email id in primary contact');
+                                props.setVendordata({
+                                    ...(props.Vendordata ? props.Vendordata : ''),
+                                    ['primery_Contact']: {
+                                        ...props.Vendordata.primery_Contact,
+                                        [e.target.name]: ''
+                                    }
+                                });
+                            }
+                        }}
                         onChange={(e) => {
                             props.setVendordata({
                                 ...(props.Vendordata ? props.Vendordata : ''),
@@ -956,6 +969,18 @@ const VendorProfileForm = (props) => {
                                 : ''
                         }
                         name="email"
+                        onBlur={(e) => {
+                            if (!validateEmail(e.target.value)) {
+                                toast.error('Please enter valid email id in secondary contact');
+                                props.setVendordata({
+                                    ...(props.Vendordata ? props.Vendordata : ''),
+                                    ['secondary_contact']: {
+                                        ...props.Vendordata.secondary_contact,
+                                        [e.target.name]: ''
+                                    }
+                                });
+                            }
+                        }}
                         onChange={(e) => {
                             props.setVendordata({
                                 ...(props.Vendordata ? props.Vendordata : ''),

@@ -8,6 +8,7 @@ import { CheckvalidatePassword, CheckvalidEmail } from '../Headers/PasswordValid
 import { MdDelete } from 'react-icons/md';
 import { AiFillEdit } from 'react-icons/ai';
 import { useLocation } from 'react-router-dom';
+import { validateEmail } from 'views/Common/renderutil';
 const Userregister = (props) => {
     const location = useLocation();
     const [cPassword, setCpassword] = useState('');
@@ -454,6 +455,18 @@ const Userregister = (props) => {
                                             Email id <span className="text-red-600">*</span>
                                         </>
                                     }
+                                    onBlur={(e) => {
+                                        if (!validateEmail(e.target.value)) {
+                                            toast.error('Please enter valid email id');
+                                            props.setVendordata({
+                                                ...(props.Vendordata ? props.Vendordata : ''),
+                                                ['userregistration']: {
+                                                    ...props.Vendordata.userregistration,
+                                                    [e.target.name]: ''
+                                                }
+                                            });
+                                        }
+                                    }}
                                     value={
                                         location.pathname === '/admin/viewvendor' ? props.Userregister.emailId : userregistration.emailId
                                     }
