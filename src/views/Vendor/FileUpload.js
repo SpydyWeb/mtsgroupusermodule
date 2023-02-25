@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import axios from 'axios';
 import { FaTrash } from 'react-icons/fa';
 import { IoMdAddCircle } from 'react-icons/io';
@@ -9,6 +9,7 @@ import { AiFillEdit, AiOutlineDownload, AiFillCloseCircle } from 'react-icons/ai
 import { Addexistingvendorfile, Addvendorfile, UpdateVendorFile } from 'servicesapi/Vendorapi';
 import { CurrentUrl } from 'servicesapi/UrlApi';
 const FileUpload = (props) => {
+    console.log(props);
     const handlechangedate = (e, i) => {
         const { name, value } = e.target;
         const data = [...props.Vendordata.productFiles];
@@ -22,6 +23,7 @@ const FileUpload = (props) => {
                 toast.error('Issue date should be less than from today');
             }
         } else data[i][name] = value;
+        console.log(data);
         props.setVendordata({ ...props.Vendordata, ['productFiles']: data });
     };
     const handleEditSubmit = () => {
@@ -36,22 +38,39 @@ const FileUpload = (props) => {
             let data = props.Vendordata.productFiles;
             data.map((ele) => {
                 console.log(ele);
-                if (ele.file === '') {
-                    console.log(ele);
-                    ele.File_id = ele.fileid;
-                    ele.new_File_id = 0;
-                    UpdateVendorFile(ele, props.selecetedVedorId).then((res) => {
-                        if (res.status === 200) {
-                            toast.success('File updated succsessfully');
-                        } else {
-                            res.json().then((res) => toast.error(res));
-                        }
+                if (props.iseditdata === 0) {
+                    const data = new FormData();
+                    data.append('expiryDate', ele.expiryDate);
+                    data.append('issueDate', ele.issueDate);
+                    data.append('remarks', ele.remarks);
+                    data.append('size', ele.size);
+                    data.append('type', ele.type);
+                    data.append('fileName', ele.fileName);
+                    Addvendorfile(ele.file).then((resP) => {
+                        data.append('File_id', resP.data[0]);
+                        Addexistingvendorfile(data, props.selecetedVedorId).then((res) => {
+                            ele.File_id = ele.fileid;
+                            ele.new_File_id = res.data[0];
+                            delete ele.updateDate;
+                            // ele.File_id = ele.fileid;
+                            // ele.new_File_id = 0;
+
+                            if (res.status === 200) {
+                                toast.success('File updated succsessfully');
+                            } else {
+                                res.json().then((res) => toast.error(res));
+                            }
+                        });
                     });
                 } else {
+                    console.log('else hit');
                     Addvendorfile(ele.file).then((res) => {
                         ele.File_id = ele.fileid;
+                        ele.size = ele.size === null ? 0 : ele.size;
                         ele.new_File_id = res.data[0];
-                        UpdateVendorFile(ele, props.selecetedVedorId).then((res) => {
+                        // ele.id = props.selecetedVedorId;
+                        delete ele.updateDate;
+                        UpdateVendorFile(ele).then((res) => {
                             if (res.status === 200) {
                                 toast.success('File updated succsessfully');
                             } else {
@@ -75,6 +94,7 @@ const FileUpload = (props) => {
         if (status) toast.error('Please fill all the mandatory fields');
         else props.setActiveStep((prev) => prev + 1);
     };
+
     return (
         <div>
             <Grid container style={{ justifyContent: 'center', minHeight: '400px', overflow: 'hidden' }}>
@@ -141,21 +161,6 @@ const FileUpload = (props) => {
                                                     >
                                                         <AiFillCloseCircle style={{ color: props.editData ? 'gray' : '#b81515' }} />
                                                     </IconButton>
-                                                    {/* <Button
-                                                        disabled={props.editData}
-                                                        onClick={() => {
-                                                            const data = [...props.Vendordata.productFiles];
-                                                            data[i]['fileName'] = '';
-                                                            data[i]['size'] = '';
-                                                            data[i]['file'] = '';
-                                                            props.setVendordata({ ...props.Vendordata, ['productFiles']: data });
-                                                        }}
-                                                        variant="outlined"
-                                                        color="error"
-                                                        sx={{ m: 1 }}
-                                                    >
-                                                        clear
-                                                    </Button> */}
                                                 </Box>
                                             )}
                                         </Grid>
@@ -193,7 +198,7 @@ const FileUpload = (props) => {
                                                 type="date"
                                                 variant="outlined"
                                                 size="small"
-                                                value={props.edit ? ele.issueDate.slice(0, ele.issueDate.indexOf('T')) : ele.issueDate}
+                                                value={ele.issueDate.split('T')[0]}
                                                 onChange={(e) => handlechangedate(e, i)}
                                                 onBlur={(e) => {
                                                     const data = [...props.Vendordata.productFiles];
@@ -203,12 +208,12 @@ const FileUpload = (props) => {
                                                         toast.error('Enter valid date');
                                                         data[i][e.target.name] = '';
                                                     }
-                                                    if (props.edit) props.setLicence(data);
-                                                    else
-                                                        props.setVendordata({
-                                                            ...props.Vendordata,
-                                                            ['productFiles']: data
-                                                        });
+                                                    // if (props.edit) props.setLicence(data);
+                                                    // else
+                                                    props.setVendordata({
+                                                        ...props.Vendordata,
+                                                        ['productFiles']: data
+                                                    });
                                                 }}
                                                 focused
                                             />
@@ -226,7 +231,7 @@ const FileUpload = (props) => {
                                                 type="date"
                                                 variant="outlined"
                                                 size="small"
-                                                value={props.edit ? ele.expiryDate.slice(0, ele.expiryDate.indexOf('T')) : ele.expiryDate}
+                                                value={ele.expiryDate.split('T')[0]}
                                                 onChange={(e) => handlechangedate(e, i)}
                                                 onBlur={(e) => {
                                                     const data = [...props.Vendordata.productFiles];

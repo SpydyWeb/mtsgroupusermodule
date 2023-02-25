@@ -37,6 +37,7 @@ const EditModal = (props) => {
     const [allstate, setAllState] = useState([]);
     const [productdata, setProductdata] = useState([]);
     const [productD, setProductD] = useState([]);
+    const [iseditdata, setiseditdata] = useState('');
     const [communication, setCommunicaion] = useState([
         {
             type: '',
@@ -263,8 +264,13 @@ const EditModal = (props) => {
             });
             GetVendorFileById(props.selecetedVedorId).then((res) => {
                 setVendordata({ ...Vendordata, ['productFiles']: res });
-                if (res.length === 0) seterrmsg('Data not found');
-                else seterrmsg('');
+                if (res.length === 0) {
+                    setiseditdata(0);
+                    seterrmsg('Data not found');
+                } else {
+                    setiseditdata(res.length);
+                    seterrmsg('');
+                }
             });
         }
     }, [props.editView]);
@@ -366,6 +372,7 @@ const EditModal = (props) => {
                     openTableView={props.openTableView}
                     selecetedVedorId={props.selecetedVedorId}
                     errmsg={errmsg}
+                    iseditdata={iseditdata}
                 />
             ) : props.editView === 4 ? (
                 <Com_notification
