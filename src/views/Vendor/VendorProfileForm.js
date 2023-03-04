@@ -8,7 +8,6 @@ import { useLocation } from 'react-router-dom';
 import { AiFillEdit } from 'react-icons/ai';
 import { UpdateCustomerAddress, UpdateCustomerContact } from '../../servicesapi/Customerapi';
 const VendorProfileForm = (props) => {
-    console.log(validateEmail('ankkitgmaill.com'));
     const location = useLocation();
     const [formType, setFormType] = useState(location.pathname === '/admin/viewvendor' ? 'vendor' : 'customer');
     const top100Films = [{ label: '', year: 1994 }];
@@ -427,6 +426,18 @@ const VendorProfileForm = (props) => {
                                 }
                             });
                         }}
+                        onBlur={(e) => {
+                            if (e.target.value.length !== 5) {
+                                toast.error('Please enter the valid zipcode');
+                                props.setVendordata({
+                                    ...(props.Vendordata ? props.Vendordata : ''),
+                                    ['primery_Address']: {
+                                        ...props.Vendordata.primery_Address,
+                                        [e.target.name]: ''
+                                    }
+                                });
+                            }
+                        }}
                     />
                 </div>
             </div>
@@ -603,6 +614,18 @@ const VendorProfileForm = (props) => {
                                 }
                             });
                         }}
+                        onBlur={(e) => {
+                            if (e.target.value.length !== 5) {
+                                toast.error('Please enter the valid zipcode');
+                                props.setVendordata({
+                                    ...(props.Vendordata ? props.Vendordata : ''),
+                                    ['secondary_Address']: {
+                                        ...props.Vendordata.secondary_Address,
+                                        [e.target.name]: ''
+                                    }
+                                });
+                            }
+                        }}
                     />
                 </div>
             </div>
@@ -723,7 +746,19 @@ const VendorProfileForm = (props) => {
                                         ...props.Vendordata.primery_Contact,
                                         [e.target.name]: e.target.value
                                     }
-                                })
+                                }),
+                            onBlur: (e) => {
+                                if (e.target.value.replace(/\D/g, '').length !== 10) {
+                                    toast.error('Please enter valid phone no.');
+                                    props.setVendordata({
+                                        ...(props.Vendordata ? props.Vendordata : ''),
+                                        ['primery_Contact']: {
+                                            ...props.Vendordata.primery_Contact,
+                                            [e.target.name]: ''
+                                        }
+                                    });
+                                }
+                            }
                         }}
                         name="phone"
                     />
@@ -814,7 +849,19 @@ const VendorProfileForm = (props) => {
                                         ...props.Vendordata.primery_Contact,
                                         [e.target.name]: e.target.value
                                     }
-                                })
+                                }),
+                            onBlur: (e) => {
+                                if (e.target.value.replace(/\D/g, '').length !== 10) {
+                                    toast.error('Please enter valid phone no.');
+                                    props.setVendordata({
+                                        ...(props.Vendordata ? props.Vendordata : ''),
+                                        ['primery_Contact']: {
+                                            ...props.Vendordata.primery_Contact,
+                                            [e.target.name]: ''
+                                        }
+                                    });
+                                }
+                            }
                         }}
                         variant="outlined"
                         size="small"
@@ -927,7 +974,19 @@ const VendorProfileForm = (props) => {
                                         ...props.Vendordata.secondary_contact,
                                         [e.target.name]: e.target.value
                                     }
-                                })
+                                }),
+                            onBlur: (e) => {
+                                if (e.target.value.replace(/\D/g, '').length !== 10) {
+                                    toast.error('Please enter valid phone no.');
+                                    props.setVendordata({
+                                        ...(props.Vendordata ? props.Vendordata : ''),
+                                        ['secondary_contact']: {
+                                            ...props.Vendordata.primery_Contact,
+                                            [e.target.name]: ''
+                                        }
+                                    });
+                                }
+                            }
                         }}
                         name="phone"
                     />
@@ -1012,7 +1071,19 @@ const VendorProfileForm = (props) => {
                                         ...props.Vendordata.secondary_contact,
                                         [e.target.name]: e.target.value
                                     }
-                                })
+                                }),
+                            onBlur: (e) => {
+                                if (e.target.value.replace(/\D/g, '').length !== 10) {
+                                    toast.error('Please enter valid phone no.');
+                                    props.setVendordata({
+                                        ...(props.Vendordata ? props.Vendordata : ''),
+                                        ['secondary_contact']: {
+                                            ...props.Vendordata.primery_Contact,
+                                            [e.target.name]: ''
+                                        }
+                                    });
+                                }
+                            }
                         }}
                         name="cellPhone"
                     />

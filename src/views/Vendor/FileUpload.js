@@ -9,7 +9,7 @@ import { AiFillEdit, AiOutlineDownload, AiFillCloseCircle } from 'react-icons/ai
 import { Addexistingvendorfile, Addvendorfile, UpdateVendorFile } from 'servicesapi/Vendorapi';
 import { CurrentUrl } from 'servicesapi/UrlApi';
 const FileUpload = (props) => {
-    console.log(props);
+    console.log();
     const handlechangedate = (e, i) => {
         const { name, value } = e.target;
         const data = [...props.Vendordata.productFiles];
@@ -37,7 +37,7 @@ const FileUpload = (props) => {
         else {
             let data = props.Vendordata.productFiles;
             data.map((ele) => {
-                console.log(ele);
+                console.log();
                 if (props.iseditdata === 0) {
                     const data = new FormData();
                     data.append('expiryDate', ele.expiryDate);
@@ -253,10 +253,11 @@ const FileUpload = (props) => {
                                         </Grid>
                                         <Grid md={2}>
                                             <TextField
+                                                disabled={props.editData}
                                                 variant="outlined"
                                                 label="Remarks"
                                                 name="remarks"
-                                                vlaue={ele.remarks}
+                                                value={ele.remarks}
                                                 size="small"
                                                 onChange={(e) => handlechangedate(e, i)}
                                             />
@@ -281,6 +282,7 @@ const FileUpload = (props) => {
                                                 <></>
                                             ) : (
                                                 <IconButton
+                                                    disabled={props.editData}
                                                     sx={{ color: '#349164' }}
                                                     onClick={() => {
                                                         let data = props.Vendordata.productFiles;

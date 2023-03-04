@@ -288,7 +288,7 @@ const VendorLicense = (props) => {
                                                 type="date"
                                                 variant="outlined"
                                                 size="small"
-                                                value={props.edit ? x.issueDate.slice(0, x.issueDate.indexOf('T')) : x.issueDate}
+                                                value={x.issueDate.split('T')[0]}
                                                 onChange={(e) => handlechangeLicense(e, i)}
                                                 onBlur={(e) => {
                                                     const data = [...props.licences];
@@ -321,7 +321,7 @@ const VendorLicense = (props) => {
                                                 type="date"
                                                 variant="outlined"
                                                 size="small"
-                                                value={props.edit ? x.expiry_Date.slice(0, x.expiry_Date.indexOf('T')) : x.expiry_Date}
+                                                value={x.expiry_Date.split('T')[0]}
                                                 onChange={(e) => handlechangeLicense(e, i)}
                                                 focused
                                                 onBlur={(e) => {
