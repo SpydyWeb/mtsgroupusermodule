@@ -9,6 +9,7 @@ import { MdDelete } from 'react-icons/md';
 import { AiFillEdit } from 'react-icons/ai';
 import { useLocation } from 'react-router-dom';
 import { validateEmail } from 'views/Common/renderutil';
+import SubCard from 'ui-component/cards/SubCard';
 const Userregister = (props) => {
     const location = useLocation();
     const [cPassword, setCpassword] = useState('');
@@ -364,242 +365,228 @@ const Userregister = (props) => {
     return (
         <>
             {userlist.length > 0 ? (
-                <div>
-                    <span className="legend Btn_Gradient">User Details</span>
-                    <div className=" border-2 py-3 mb-3 border-sky-500 p-3 rounded-xl">
-                        <div className="flex flex-col flex-wrap  border-2 border-slate-300 p-2 mb-1 rounded-xl">
-                            <table>
-                                <tr>
-                                    <th>S. No.</th>
-                                    <th>Name</th>
-                                    <th>Email Id</th>
-                                    <th>Log Id</th>
-                                    <th>Status</th>
-                                </tr>
-                                {userlist.map((ele, i) => {
-                                    return (
-                                        <tr>
-                                            <td>{i + 1}</td>
-                                            <td>{`${ele.firstName} ${ele.lastName}`}</td>
-                                            <td>{ele.emailId}</td>
-                                            <td>{ele.logId}</td>
-                                            <td>{ele.allowTextMsg ? 'True' : 'False'}</td>
-                                            <td className="flex gap-1">
-                                                <MdDelete
-                                                    color="red"
-                                                    size={20}
-                                                    style={{ cursor: 'pointer' }}
-                                                    onClick={() => handleDleteuser(ele.vendorid)}
-                                                />
-                                                <AiFillEdit
-                                                    color="blue"
-                                                    size={20}
-                                                    style={{ cursor: 'pointer' }}
-                                                    onClick={() => handleEdituser(ele.vendorid)}
-                                                />
-                                            </td>
-                                        </tr>
-                                    );
-                                })}
-                            </table>
-                        </div>
+                <SubCard title="User Details">
+                    <div className="flex flex-col flex-wrap  border-2 border-slate-300 p-2 mb-1 rounded-xl">
+                        <table>
+                            <tr>
+                                <th>S. No.</th>
+                                <th>Name</th>
+                                <th>Email Id</th>
+                                <th>Log Id</th>
+                                <th>Status</th>
+                            </tr>
+                            {userlist.map((ele, i) => {
+                                return (
+                                    <tr>
+                                        <td>{i + 1}</td>
+                                        <td>{`${ele.firstName} ${ele.lastName}`}</td>
+                                        <td>{ele.emailId}</td>
+                                        <td>{ele.logId}</td>
+                                        <td>{ele.allowTextMsg ? 'True' : 'False'}</td>
+                                        <td className="flex gap-1">
+                                            <MdDelete
+                                                color="red"
+                                                size={20}
+                                                style={{ cursor: 'pointer' }}
+                                                onClick={() => handleDleteuser(ele.vendorid)}
+                                            />
+                                            <AiFillEdit
+                                                color="blue"
+                                                size={20}
+                                                style={{ cursor: 'pointer' }}
+                                                onClick={() => handleEdituser(ele.vendorid)}
+                                            />
+                                        </td>
+                                    </tr>
+                                );
+                            })}
+                        </table>
                     </div>
-                </div>
+                </SubCard>
             ) : (
                 <></>
             )}
-            <div>
-                <span className="legend Btn_Gradient">User Details</span>
-                <div className=" border-2 py-3 mb-3 border-sky-500 p-3 rounded-xl">
-                    <div className="flex flex-col flex-wrap  border-2 border-slate-300 p-2 mb-1 rounded-xl">
-                        <div className="flex gap-6 flex-col md:flex-row  py-1 mb-1">
-                            <div>
-                                <TextField
-                                    name="firstName"
-                                    label={
-                                        <>
-                                            First Name <span className="text-red-600">*</span>
-                                        </>
-                                    }
-                                    value={
-                                        location.pathname === '/admin/viewvendor'
-                                            ? props.Userregister.firstName
-                                            : userregistration.firstName
-                                    }
-                                    variant="outlined"
-                                    size="small"
-                                    onChange={(e) => {
-                                        handleChange(e);
-                                    }}
-                                />
-                            </div>
-                            <div>
-                                <TextField
-                                    name="lastName"
-                                    label={
-                                        <>
-                                            Last Name <span className="text-red-600">*</span>
-                                        </>
-                                    }
-                                    value={
-                                        location.pathname === '/admin/viewvendor' ? props.Userregister.lastName : userregistration.lastName
-                                    }
-                                    variant="outlined"
-                                    size="small"
-                                    onChange={(e) => {
-                                        handleChange(e);
-                                    }}
-                                />
-                            </div>
-                            <div>
-                                <TextField
-                                    name="emailId"
-                                    label={
-                                        <>
-                                            Email id <span className="text-red-600">*</span>
-                                        </>
-                                    }
-                                    onBlur={(e) => {
-                                        if (!validateEmail(e.target.value)) {
-                                            toast.error('Please enter valid email id');
-                                            props.setVendordata({
-                                                ...(props.Vendordata ? props.Vendordata : ''),
-                                                ['userregistration']: {
-                                                    ...props.Vendordata.userregistration,
-                                                    [e.target.name]: ''
-                                                }
-                                            });
-                                        }
-                                    }}
-                                    value={
-                                        location.pathname === '/admin/viewvendor' ? props.Userregister.emailId : userregistration.emailId
-                                    }
-                                    variant="outlined"
-                                    size="small"
-                                    onChange={(e) => {
-                                        handleChange(e);
-                                    }}
-                                />
-                            </div>
-
-                            <div>
-                                <TextField
-                                    name="logId"
-                                    label={
-                                        <>
-                                            Login ID <span className="text-red-600">*</span>
-                                        </>
-                                    }
-                                    value={location.pathname === '/admin/viewvendor' ? props.Userregister.logId : userregistration.logId}
-                                    variant="outlined"
-                                    size="small"
-                                    onChange={(e) => {
-                                        handleChange(e);
-                                    }}
-                                />
-                            </div>
-                        </div>
-
-                        <div className="flex gap-6 flex-col md:flex-row  py-1 mb-1">
-                            <div>
-                                <TextField
-                                    name="password"
-                                    label={
-                                        <>
-                                            Password <span className="text-red-600">*</span>
-                                        </>
-                                    }
-                                    onFocus={isPasswordMview}
-                                    onBlur={isPasswordMview}
-                                    value={
-                                        location.pathname === '/admin/viewvendor' ? props.Userregister.password : userregistration.password
-                                    }
-                                    variant="outlined"
-                                    size="small"
-                                    type="password"
-                                    onChange={(e) => {
-                                        setPasswordValid(CheckvalidatePassword(e.target.value, passwordValid));
-                                        handleChange(e);
-                                    }}
-                                />
-                            </div>
-                            <div>
-                                <TextField
-                                    name="Confirm password"
-                                    label={
-                                        <>
-                                            Confirm Password <span className="text-red-600">*</span>
-                                        </>
-                                    }
-                                    value={cPassword}
-                                    variant="outlined"
-                                    size="small"
-                                    onChange={(e) => setCpassword(e.target.value)}
-                                    type="password"
-                                    onBlur={() => {
-                                        if (location.pathname === '/admin/viewvendor') {
-                                            if (props.Userregister.password !== cPassword) {
-                                                toast.error('Confirm password should be same as password');
-                                                setCpassword('');
-                                            }
-                                        } else {
-                                            if (userregistration.password !== cPassword) {
-                                                toast.error('Confirm password should be same as password');
-                                                setCpassword('');
-                                            }
-                                        }
-                                    }}
-                                />
-                            </div>
-                            <div>
-                                <FormGroup>
-                                    <FormControlLabel
-                                        control={
-                                            <Checkbox
-                                                name="allowTextMsg"
-                                                checked={
-                                                    location.pathname === '/admin/viewvendor'
-                                                        ? props.Userregister.allowTextMsg
-                                                        : userregistration.allowTextMsg
-                                                }
-                                                onChange={(e) => {
-                                                    if (location.pathname === '/admin/viewvendor') {
-                                                        props.setVendordata({
-                                                            ...(props.Vendordata ? props.Vendordata : ''),
-                                                            ['userregistration']: {
-                                                                ...props.Vendordata.userregistration,
-                                                                [e.target.name]: !props.Vendordata.userregistration.allowTextMsg
-                                                            }
-                                                        });
-                                                    } else {
-                                                        setUserRegistation({
-                                                            ...userregistration,
-                                                            [e.target.name]: !userregistration.allowTextMsg
-                                                        });
-                                                    }
-                                                }}
-                                            />
-                                        }
-                                        label="Allow Text"
-                                    />
-                                </FormGroup>
-                            </div>
-                            {location.pathname === '/admin/viewvendor' ? (
-                                <></>
-                            ) : (
-                                <div>
-                                    <Button variant="contained" color="success" onClick={() => handleAdduser()}>
-                                        Add
-                                    </Button>
-                                </div>
-                            )}
+            <SubCard title="User Details">
+                <div className="flex flex-col flex-wrap  ">
+                    <div className="flex gap-6 flex-col md:flex-row  py-1 mb-1">
+                        <div>
+                            <TextField
+                                name="firstName"
+                                label={
+                                    <>
+                                        First Name <span className="text-red-600">*</span>
+                                    </>
+                                }
+                                value={
+                                    location.pathname === '/admin/viewvendor' ? props.Userregister.firstName : userregistration.firstName
+                                }
+                                variant="outlined"
+                                size="small"
+                                onChange={(e) => {
+                                    handleChange(e);
+                                }}
+                            />
                         </div>
                         <div>
-                            <PasswordValidateMessage isView={ispasswordmessage} passwordValid={passwordValid} />
+                            <TextField
+                                name="lastName"
+                                label={
+                                    <>
+                                        Last Name <span className="text-red-600">*</span>
+                                    </>
+                                }
+                                value={location.pathname === '/admin/viewvendor' ? props.Userregister.lastName : userregistration.lastName}
+                                variant="outlined"
+                                size="small"
+                                onChange={(e) => {
+                                    handleChange(e);
+                                }}
+                            />
+                        </div>
+                        <div>
+                            <TextField
+                                name="emailId"
+                                label={
+                                    <>
+                                        Email id <span className="text-red-600">*</span>
+                                    </>
+                                }
+                                onBlur={(e) => {
+                                    if (!validateEmail(e.target.value)) {
+                                        toast.error('Please enter valid email id');
+                                        props.setVendordata({
+                                            ...(props.Vendordata ? props.Vendordata : ''),
+                                            ['userregistration']: {
+                                                ...props.Vendordata.userregistration,
+                                                [e.target.name]: ''
+                                            }
+                                        });
+                                    }
+                                }}
+                                value={location.pathname === '/admin/viewvendor' ? props.Userregister.emailId : userregistration.emailId}
+                                variant="outlined"
+                                size="small"
+                                onChange={(e) => {
+                                    handleChange(e);
+                                }}
+                            />
+                        </div>
+
+                        <div>
+                            <TextField
+                                name="logId"
+                                label={
+                                    <>
+                                        Login ID <span className="text-red-600">*</span>
+                                    </>
+                                }
+                                value={location.pathname === '/admin/viewvendor' ? props.Userregister.logId : userregistration.logId}
+                                variant="outlined"
+                                size="small"
+                                onChange={(e) => {
+                                    handleChange(e);
+                                }}
+                            />
                         </div>
                     </div>
+
+                    <div className="flex gap-6 flex-col md:flex-row  py-1 mb-1">
+                        <div>
+                            <TextField
+                                name="password"
+                                label={
+                                    <>
+                                        Password <span className="text-red-600">*</span>
+                                    </>
+                                }
+                                onFocus={isPasswordMview}
+                                onBlur={isPasswordMview}
+                                value={location.pathname === '/admin/viewvendor' ? props.Userregister.password : userregistration.password}
+                                variant="outlined"
+                                size="small"
+                                type="password"
+                                onChange={(e) => {
+                                    setPasswordValid(CheckvalidatePassword(e.target.value, passwordValid));
+                                    handleChange(e);
+                                }}
+                            />
+                        </div>
+                        <div>
+                            <TextField
+                                name="Confirm password"
+                                label={
+                                    <>
+                                        Confirm Password <span className="text-red-600">*</span>
+                                    </>
+                                }
+                                value={cPassword}
+                                variant="outlined"
+                                size="small"
+                                onChange={(e) => setCpassword(e.target.value)}
+                                type="password"
+                                onBlur={() => {
+                                    if (location.pathname === '/admin/viewvendor') {
+                                        if (props.Userregister.password !== cPassword) {
+                                            toast.error('Confirm password should be same as password');
+                                            setCpassword('');
+                                        }
+                                    } else {
+                                        if (userregistration.password !== cPassword) {
+                                            toast.error('Confirm password should be same as password');
+                                            setCpassword('');
+                                        }
+                                    }
+                                }}
+                            />
+                        </div>
+                        <div>
+                            <FormGroup>
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                            name="allowTextMsg"
+                                            checked={
+                                                location.pathname === '/admin/viewvendor'
+                                                    ? props.Userregister.allowTextMsg
+                                                    : userregistration.allowTextMsg
+                                            }
+                                            onChange={(e) => {
+                                                if (location.pathname === '/admin/viewvendor') {
+                                                    props.setVendordata({
+                                                        ...(props.Vendordata ? props.Vendordata : ''),
+                                                        ['userregistration']: {
+                                                            ...props.Vendordata.userregistration,
+                                                            [e.target.name]: !props.Vendordata.userregistration.allowTextMsg
+                                                        }
+                                                    });
+                                                } else {
+                                                    setUserRegistation({
+                                                        ...userregistration,
+                                                        [e.target.name]: !userregistration.allowTextMsg
+                                                    });
+                                                }
+                                            }}
+                                        />
+                                    }
+                                    label="Allow Text"
+                                />
+                            </FormGroup>
+                        </div>
+                        {location.pathname === '/admin/viewvendor' ? (
+                            <></>
+                        ) : (
+                            <div>
+                                <Button variant="contained" color="success" onClick={() => handleAdduser()}>
+                                    Add
+                                </Button>
+                            </div>
+                        )}
+                    </div>
+                    <div>
+                        <PasswordValidateMessage isView={ispasswordmessage} passwordValid={passwordValid} />
+                    </div>
                 </div>
-            </div>
+            </SubCard>
             <Box
                 sx={{
                     display: 'flex',

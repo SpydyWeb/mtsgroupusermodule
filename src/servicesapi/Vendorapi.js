@@ -65,6 +65,17 @@ export const AddCommunicationProduct = async (data) => {
         }
     }).then((data) => data);
 };
+export const AddCommunicationById = async (data, id) => {
+    return await fetch(`${Url}Addcommunication?vendorid=${id}`, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+            'Access-Control-Allow-Origin': '*'
+        }
+    }).then((data) => data);
+};
 
 //  GET CommunicationProductType
 export const GetCommunicationProductType = async () => {

@@ -38,7 +38,7 @@ const FileUpload = (props) => {
             let data = props.Vendordata.productFiles;
             data.map((ele) => {
                 console.log();
-                if (props.iseditdata === 0) {
+                if (props.iseditdata === 0 || ele.id === undefined) {
                     const data = new FormData();
                     data.append('expiryDate', ele.expiryDate);
                     data.append('issueDate', ele.issueDate);
@@ -97,7 +97,7 @@ const FileUpload = (props) => {
 
     return (
         <div>
-            <Grid container style={{ justifyContent: 'center', minHeight: '400px', overflow: 'hidden' }}>
+            <Grid container style={{ justifyContent: 'center', maxHeight: '300px', overflowx: 'auto' }}>
                 {/* Display the files to be uploaded */}
 
                 <MainCard sx={{ width: '100%' }}>
@@ -267,6 +267,7 @@ const FileUpload = (props) => {
                                                 <></>
                                             ) : (
                                                 <IconButton
+                                                    disabled={props.editData}
                                                     size="small"
                                                     sx={{ color: '#f31111' }}
                                                     onClick={() => {
@@ -278,30 +279,27 @@ const FileUpload = (props) => {
                                                     <FaTrash title="Delete" />
                                                 </IconButton>
                                             )}
-                                            {props.edit ? (
-                                                <></>
-                                            ) : (
-                                                <IconButton
-                                                    disabled={props.editData}
-                                                    sx={{ color: '#349164' }}
-                                                    onClick={() => {
-                                                        let data = props.Vendordata.productFiles;
-                                                        data.push({
-                                                            fileName: '',
-                                                            location: '',
-                                                            size: 0,
-                                                            file: '',
-                                                            type: '',
-                                                            remarks: '',
-                                                            issueDate: '',
-                                                            expiryDate: ''
-                                                        });
-                                                        props.setVendordata({ ...props.Vendordata, productFiles: data });
-                                                    }}
-                                                >
-                                                    <IoMdAddCircle size={30} />
-                                                </IconButton>
-                                            )}
+
+                                            <IconButton
+                                                disabled={props.editData}
+                                                sx={{ color: '#349164' }}
+                                                onClick={() => {
+                                                    let data = props.Vendordata.productFiles;
+                                                    data.push({
+                                                        fileName: '',
+                                                        location: '',
+                                                        size: 0,
+                                                        file: '',
+                                                        type: '',
+                                                        remarks: '',
+                                                        issueDate: '',
+                                                        expiryDate: ''
+                                                    });
+                                                    props.setVendordata({ ...props.Vendordata, productFiles: data });
+                                                }}
+                                            >
+                                                <IoMdAddCircle size={30} />
+                                            </IconButton>
                                         </Grid>
                                     </Grid>
                                 </li>
@@ -348,13 +346,7 @@ const FileUpload = (props) => {
                 ) : (
                     ''
                 )}
-                {!props.editData ? (
-                    <Button onClick={() => props.setEditData(!props.editData)} variant="contained" color="error" sx={{ m: 1 }}>
-                        Cancel
-                    </Button>
-                ) : (
-                    <></>
-                )}
+
                 <Button
                     onClick={() => {
                         if (props.editData) {
@@ -379,15 +371,9 @@ const FileUpload = (props) => {
                         } else handleEditSubmit();
                     }}
                     variant="contained"
-                    sx={{ m: 1 }}
+                    sx={{ m: 1, display: props.editData ? 'none' : 'block' }}
                 >
-                    {props.editData ? (
-                        <>
-                            <AiFillEdit /> Edit
-                        </>
-                    ) : (
-                        'Submit'
-                    )}
+                    Submit
                 </Button>
             </Box>
         </div>

@@ -24,8 +24,20 @@ const SubCard = forwardRef(({ children, content, contentClass, darkTitle, second
             {...others}
         >
             {/* card header and action */}
-            {!darkTitle && title && <CardHeader sx={{ p: 2.5 }} title={<Typography variant="h5">{title}</Typography>} action={secondary} />}
-            {darkTitle && title && <CardHeader sx={{ p: 2.5 }} title={<Typography variant="h4">{title}</Typography>} action={secondary} />}
+            {!darkTitle && title && (
+                <CardHeader
+                    sx={{ p: 1.5, background: 'gainsboro', color: '#212121a1' }}
+                    title={<Typography variant="h5">{title}</Typography>}
+                    action={secondary}
+                />
+            )}
+            {darkTitle && title && (
+                <CardHeader
+                    sx={{ p: 1.5, background: 'gainsboro', color: '#212121a1' }}
+                    title={<Typography variant="h4">{title}</Typography>}
+                    action={secondary}
+                />
+            )}
 
             {/* content & header divider */}
             {title && (
@@ -39,7 +51,7 @@ const SubCard = forwardRef(({ children, content, contentClass, darkTitle, second
 
             {/* card content */}
             {content && (
-                <CardContent sx={{ p: 2.5, ...contentSX }} className={contentClass || ''}>
+                <CardContent sx={{ p: 2, ...contentSX }} className={contentClass || ''}>
                     {children}
                 </CardContent>
             )}

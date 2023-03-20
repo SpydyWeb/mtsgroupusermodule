@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Dialog, DialogContent, DialogTitle, IconButton } from '@mui/material';
+import { Dialog, DialogContent, DialogTitle, IconButton, Box, Button } from '@mui/material';
 import VendorProduct from './VendorProduct';
 import VendorProfileForm from './VendorProfileForm';
 import VendorLicense from './VendorLicense';
@@ -24,8 +24,9 @@ import {
 } from '../../servicesapi/Customerapi';
 import Com_notification from './Com_notification';
 import FileUpload from './FileUpload';
-import { AiOutlineClose } from 'react-icons/ai';
+import { AiOutlineClose, AiFillEdit } from 'react-icons/ai';
 import Userregister from './Userregister';
+import SubCard from 'ui-component/cards/SubCard';
 const EditModal = (props) => {
     const { vendorDetail, setVendorDetail, formType } = props;
     const [activeStep, setActiveStep] = useState(0);
@@ -274,162 +275,188 @@ const EditModal = (props) => {
             });
         }
     }, [props.editView]);
-    return (
-        <div>
-            {props.editView === 0 ? (
-                productD.length > 0 ? (
-                    <VendorProduct
-                        Vendordata={Vendordata}
-                        setVendordata={setVendordata}
-                        product={Vendordata.product}
-                        setActiveStep={setActiveStep}
-                        activeStep={activeStep}
-                        productdata={productdata}
-                        productD={productD}
-                        setProductD={setProductD}
-                        setProductdata={setProductdata}
-                        setVendorDetail={setVendorDetail}
-                        vendorDetail={vendorDetail}
-                        edit={true}
-                        selecetedVedorId={props.selecetedVedorId}
-                        seteditModalOpen={props.seteditModalOpen}
-                        editData={props.editData}
-                        setEditData={props.setEditData}
-                        setOpenTableView={props.setOpenTableView}
-                        openTableView={props.openTableView}
-                    />
-                ) : (
-                    <div>Loading...</div>
-                )
-            ) : props.editView === 1 ? (
-                <Com_notification
+
+    const renderComp = () => {
+        return props.editView === 0 ? (
+            productD.length > 0 ? (
+                <VendorProduct
                     Vendordata={Vendordata}
                     setVendordata={setVendordata}
+                    product={Vendordata.product}
                     setActiveStep={setActiveStep}
                     activeStep={activeStep}
+                    productdata={productdata}
                     productD={productD}
-                    communicationType={communicationType}
-                    communication={communication}
-                    edit={true}
-                    setCommunicaion={setCommunicaion}
-                    editType="Communication"
-                    selecetedVedorId={props.selecetedVedorId}
-                    seteditModalOpen={props.seteditModalOpen}
+                    setProductD={setProductD}
+                    setProductdata={setProductdata}
                     setVendorDetail={setVendorDetail}
                     vendorDetail={vendorDetail}
-                    editData={props.editData}
-                    setEditData={props.setEditData}
-                    setOpenTableView={props.setOpenTableView}
-                    openTableView={props.openTableView}
-                />
-            ) : props.editView === 2 ? (
-                <VendorProfileForm
-                    Vendordata={Vendordata}
-                    setVendordata={setVendordata}
-                    allstate={allstate}
-                    setActiveStep={setActiveStep}
-                    activeStep={activeStep}
                     edit={true}
-                    editData={props.editData}
-                    setEditData={props.setEditData}
-                    setOpenTableView={props.setOpenTableView}
-                    openTableView={props.openTableView}
-                    editType="Address"
                     selecetedVedorId={props.selecetedVedorId}
-                    setVendorDetail={setVendorDetail}
-                    vendorDetail={vendorDetail}
                     seteditModalOpen={props.seteditModalOpen}
-                />
-            ) : props.editView === 3 ? (
-                <VendorProfileForm
-                    Vendordata={Vendordata}
-                    setVendordata={setVendordata}
-                    allstate={allstate}
-                    setActiveStep={setActiveStep}
-                    activeStep={activeStep}
-                    edit={true}
-                    editType="Contact"
-                    selecetedVedorId={props.selecetedVedorId}
-                    setVendorDetail={setVendorDetail}
-                    vendorDetail={vendorDetail}
-                    seteditModalOpen={props.seteditModalOpen}
-                    editData={props.editData}
-                    setEditData={props.setEditData}
-                    setOpenTableView={props.setOpenTableView}
-                    openTableView={props.openTableView}
-                />
-            ) : props.editView === 6 ? (
-                <FileUpload
-                    Vendordata={Vendordata}
-                    setVendordata={setVendordata}
-                    setActiveStep={setActiveStep}
-                    activeStep={activeStep}
-                    productD={productD}
-                    edit={true}
-                    editData={props.editData}
-                    setEditData={props.setEditData}
-                    setOpenTableView={props.setOpenTableView}
-                    openTableView={props.openTableView}
-                    selecetedVedorId={props.selecetedVedorId}
-                    errmsg={errmsg}
-                    iseditdata={iseditdata}
-                />
-            ) : props.editView === 4 ? (
-                <Com_notification
-                    Vendordata={Vendordata}
-                    setVendordata={setVendordata}
-                    setActiveStep={setActiveStep}
-                    activeStep={activeStep}
-                    edit={true}
-                    editType="Additional"
-                    setVendorDetail={setVendorDetail}
-                    vendorDetail={vendorDetail}
-                    seteditModalOpen={props.seteditModalOpen}
-                    editData={props.editData}
-                    setEditData={props.setEditData}
-                    setOpenTableView={props.setOpenTableView}
-                    openTableView={props.openTableView}
-                />
-            ) : formType === 'vendor' ? (
-                <VendorLicense
-                    Vendordata={Vendordata}
-                    setVendordata={setVendordata}
-                    activeStep={activeStep}
-                    licences={licences}
-                    setActiveStep={setActiveStep}
-                    licenceType={licenceType}
-                    edit={true}
-                    seteditModalOpen={props.seteditModalOpen}
-                    selecetedVedorId={props.selecetedVedorId}
-                    setVendorDetail={setVendorDetail}
-                    vendorDetail={vendorDetail}
-                    setLicence={setLicence}
                     editData={props.editData}
                     setEditData={props.setEditData}
                     setOpenTableView={props.setOpenTableView}
                     openTableView={props.openTableView}
                 />
             ) : (
-                <Com_notification
-                    Vendordata={vendorDetail}
-                    setVendordata={setVendorDetail}
-                    setActiveStep={setActiveStep}
-                    activeStep={activeStep}
-                    edit={true}
-                    editType="IntegrationDetail"
-                    selecetedVedorId={props.selecetedVedorId}
-                    seteditModalOpen={props.seteditModalOpen}
-                    setVendorDetail={setVendorDetail}
-                    vendorDetail={vendorDetail}
-                    editData={props.editData}
-                    setEditData={props.setEditData}
-                    setOpenTableView={props.setOpenTableView}
-                    openTableView={props.openTableView}
-                />
-            )}
-            {/* </DialogContent> */}
-            {/* </Dialog> */}
-        </div>
+                <div>Loading...</div>
+            )
+        ) : props.editView === 1 ? (
+            <Com_notification
+                Vendordata={Vendordata}
+                setVendordata={setVendordata}
+                setActiveStep={setActiveStep}
+                activeStep={activeStep}
+                productD={productD}
+                communicationType={communicationType}
+                communication={communication}
+                edit={true}
+                setCommunicaion={setCommunicaion}
+                editType="Communication"
+                selecetedVedorId={props.selecetedVedorId}
+                seteditModalOpen={props.seteditModalOpen}
+                setVendorDetail={setVendorDetail}
+                vendorDetail={vendorDetail}
+                editData={props.editData}
+                setEditData={props.setEditData}
+                setOpenTableView={props.setOpenTableView}
+                openTableView={props.openTableView}
+            />
+        ) : props.editView === 2 ? (
+            <VendorProfileForm
+                Vendordata={Vendordata}
+                setVendordata={setVendordata}
+                allstate={allstate}
+                setActiveStep={setActiveStep}
+                activeStep={activeStep}
+                edit={true}
+                editData={props.editData}
+                setEditData={props.setEditData}
+                setOpenTableView={props.setOpenTableView}
+                openTableView={props.openTableView}
+                editType="Address"
+                selecetedVedorId={props.selecetedVedorId}
+                setVendorDetail={setVendorDetail}
+                vendorDetail={vendorDetail}
+                seteditModalOpen={props.seteditModalOpen}
+            />
+        ) : props.editView === 3 ? (
+            <VendorProfileForm
+                Vendordata={Vendordata}
+                setVendordata={setVendordata}
+                allstate={allstate}
+                setActiveStep={setActiveStep}
+                activeStep={activeStep}
+                edit={true}
+                editType="Contact"
+                selecetedVedorId={props.selecetedVedorId}
+                setVendorDetail={setVendorDetail}
+                vendorDetail={vendorDetail}
+                seteditModalOpen={props.seteditModalOpen}
+                editData={props.editData}
+                setEditData={props.setEditData}
+                setOpenTableView={props.setOpenTableView}
+                openTableView={props.openTableView}
+            />
+        ) : props.editView === 6 ? (
+            <FileUpload
+                Vendordata={Vendordata}
+                setVendordata={setVendordata}
+                setActiveStep={setActiveStep}
+                activeStep={activeStep}
+                productD={productD}
+                edit={true}
+                editData={props.editData}
+                setEditData={props.setEditData}
+                setOpenTableView={props.setOpenTableView}
+                openTableView={props.openTableView}
+                selecetedVedorId={props.selecetedVedorId}
+                errmsg={errmsg}
+                iseditdata={iseditdata}
+            />
+        ) : props.editView === 4 ? (
+            <Com_notification
+                Vendordata={Vendordata}
+                setVendordata={setVendordata}
+                setActiveStep={setActiveStep}
+                activeStep={activeStep}
+                edit={true}
+                editType="Additional"
+                setVendorDetail={setVendorDetail}
+                vendorDetail={vendorDetail}
+                seteditModalOpen={props.seteditModalOpen}
+                editData={props.editData}
+                setEditData={props.setEditData}
+                setOpenTableView={props.setOpenTableView}
+                openTableView={props.openTableView}
+            />
+        ) : formType === 'vendor' ? (
+            <VendorLicense
+                Vendordata={Vendordata}
+                setVendordata={setVendordata}
+                activeStep={activeStep}
+                licences={licences}
+                setActiveStep={setActiveStep}
+                licenceType={licenceType}
+                edit={true}
+                seteditModalOpen={props.seteditModalOpen}
+                selecetedVedorId={props.selecetedVedorId}
+                setVendorDetail={setVendorDetail}
+                vendorDetail={vendorDetail}
+                setLicence={setLicence}
+                editData={props.editData}
+                setEditData={props.setEditData}
+                setOpenTableView={props.setOpenTableView}
+                openTableView={props.openTableView}
+            />
+        ) : (
+            <Com_notification
+                Vendordata={vendorDetail}
+                setVendordata={setVendorDetail}
+                setActiveStep={setActiveStep}
+                activeStep={activeStep}
+                edit={true}
+                editType="IntegrationDetail"
+                selecetedVedorId={props.selecetedVedorId}
+                seteditModalOpen={props.seteditModalOpen}
+                setVendorDetail={setVendorDetail}
+                vendorDetail={vendorDetail}
+                editData={props.editData}
+                setEditData={props.setEditData}
+                setOpenTableView={props.setOpenTableView}
+                openTableView={props.openTableView}
+            />
+        );
+    };
+    return (
+        <>
+            {' '}
+            <SubCard
+                title={
+                    <Box sx={{ display: 'flex', width: '100%', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <Box sx={{ fontSize: '21px' }}>{props.TabLabelName[props.TabValue]} Information</Box>
+                        {!props.editData ? (
+                            <Button
+                                size="small"
+                                onClick={() => props.setEditData(!props.editData)}
+                                variant="contained"
+                                color="error"
+                                sx={{ m: 1 }}
+                            >
+                                Cancel
+                            </Button>
+                        ) : (
+                            <Button size="small" onClick={() => props.setEditData(!props.editData)} variant="contained" sx={{ m: 1 }}>
+                                <AiFillEdit /> Edit {props.TabLabelName[props.TabValue]}
+                            </Button>
+                        )}
+                    </Box>
+                }
+            >
+                {renderComp()}
+            </SubCard>
+        </>
     );
 };
 

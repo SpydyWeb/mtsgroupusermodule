@@ -81,7 +81,6 @@ function* addaccessroledata(formdata) {
     }
 }
 function* deleteaccessroledata(formdata) {
-    console.log(formdata);
     const res = yield DeleteroleDefunation(formdata.data);
     if (res.status === 200) {
         yield toast.success('Access Control deleted Succsessfully');

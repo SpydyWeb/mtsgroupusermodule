@@ -2,15 +2,48 @@ import React, { useEffect, useState } from 'react';
 import { TextField, FormGroup, FormControlLabel, Box, Button, Grid } from '@mui/material';
 import { AiFillEdit } from 'react-icons/ai';
 import Android12Switch from './Android12Switch';
-import Accordion from '@mui/material/Accordion';
-import { AccordionSummary } from '@mui/material';
-import AccordionDetails from '@mui/material/AccordionDetails';
+// import Accordion from '@mui/material/Accordion';
+// import { AccordionSummary } from '@mui/material';
+// import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import toast from 'react-hot-toast';
 import { UpdateVendorproducts } from '../../servicesapi/Vendorapi';
 import { FcExpand } from 'react-icons/fc';
 import { useLocation } from 'react-router-dom';
 import { UpdateCustomerProduct } from '../../servicesapi/Customerapi';
+import { styled } from '@mui/material/styles';
+import MuiAccordion, { AccordionProps } from '@mui/material/Accordion';
+import MuiAccordionSummary, { AccordionSummaryProps } from '@mui/material/AccordionSummary';
+import MuiAccordionDetails from '@mui/material/AccordionDetails';
+
+const Accordion = styled((props) => <MuiAccordion disableGutters elevation={0} square {...props} />)(({ theme }) => ({
+    border: `1px solid ${theme.palette.divider}`,
+    '&:not(:last-child)': {
+        borderBottom: 0
+    },
+    '&:before': {
+        display: 'none'
+    }
+}));
+
+const AccordionSummary = styled((props) => <MuiAccordionSummary expandIcon={<FcExpand sx={{ fontSize: '0.9rem' }} />} {...props} />)(
+    ({ theme }) => ({
+        backgroundColor: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, .05)' : 'rgba(0, 0, 0, .03)',
+        flexDirection: 'row-reverse',
+        '& .MuiAccordionSummary-expandIconWrapper.Mui-expanded': {
+            transform: 'rotate(180deg)'
+        },
+        '& .MuiAccordionSummary-content': {
+            marginLeft: theme.spacing(1)
+        }
+    })
+);
+
+const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
+    padding: '10px',
+    borderTop: '1px solid rgba(0, 0, 0, .125)'
+}));
+
 const VendorProduct = (props) => {
     const location = useLocation();
     const [formType, setFormType] = useState(location.pathname === '/admin/viewvendor' ? 'vendor' : 'customer');
@@ -146,27 +179,23 @@ const VendorProduct = (props) => {
             ) : (
                 <></>
             )}
-            <Grid container spacing={5}>
+            <Grid>
                 {props.productdata.map((ele, indx) => {
                     if (ele.subCategory && ele.subCategory.length > 0) {
                         return (
-                            <Grid item xs={6}>
-                                <Accordion className="max-h-[250px] overflow-y-auto">
-                                    <AccordionSummary
-                                        expandIcon={<FcExpand />}
-                                        aria-controls="panel1a-content"
-                                        id="panel1a-header"
-                                        style={{ borderBottom: '1px solid lightgray' }}
-                                    >
-                                        <Typography style={{ fontWeight: '700' }}>{ele.name}</Typography>
-                                    </AccordionSummary>
-                                    {ele.subCategory.map((val, i) => {
-                                        return (
-                                            <AccordionDetails>
-                                                <Typography>
-                                                    <div style={{ display: 'flex' }}>
-                                                        <FormGroup key={i} className="flex flex-row gap-x-8">
-                                                            <div style={{ width: '30%' }}>
+                            <Accordion>
+                                <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
+                                    <Typography style={{ fontWeight: '700' }}>{ele.name}</Typography>
+                                </AccordionSummary>
+                                <AccordionDetails sx={{ maxHeight: '300px', overflowX: 'auto' }}>
+                                    <Typography>
+                                        {ele.subCategory.map((val, i) => {
+                                            return (
+                                                <AccordionDetails>
+                                                    <Typography>
+                                                        <Grid container>
+                                                            <Grid item md={5}>
+                                                                {' '}
                                                                 <FormControlLabel
                                                                     style={{ minWidth: '132px' }}
                                                                     control={<Android12Switch />}
@@ -176,10 +205,10 @@ const VendorProduct = (props) => {
                                                                     disabled={props.editData}
                                                                     onChange={(e) => handlechange(e, i, indx, val.id)}
                                                                 />
-                                                            </div>
-                                                            {formType === 'vendor' || props.edit === true ? (
-                                                                <div style={{ width: '60%', display: 'flex', gap: '2px' }}>
-                                                                    <div style={{ width: '30%' }}>
+                                                            </Grid>
+                                                            <Grid item md={7}>
+                                                                <Grid container spacing={3}>
+                                                                    <Grid item md={4}>
                                                                         <TextField
                                                                             inputProps={{
                                                                                 inputMode: 'numeric',
@@ -193,8 +222,8 @@ const VendorProduct = (props) => {
                                                                             name="price1"
                                                                             onChange={(e) => handlechange(e, i, indx, val.id)}
                                                                         />
-                                                                    </div>
-                                                                    <div style={{ width: '30%' }}>
+                                                                    </Grid>
+                                                                    <Grid item md={4}>
                                                                         <TextField
                                                                             label="Price"
                                                                             variant="outlined"
@@ -204,8 +233,9 @@ const VendorProduct = (props) => {
                                                                             name="price2"
                                                                             onChange={(e) => handlechange(e, i, indx, val.id)}
                                                                         />
-                                                                    </div>
-                                                                    <div style={{ width: '30%' }}>
+                                                                    </Grid>
+                                                                    <Grid item md={4}>
+                                                                        {' '}
                                                                         <TextField
                                                                             label="Price"
                                                                             variant="outlined"
@@ -215,19 +245,17 @@ const VendorProduct = (props) => {
                                                                             value={val.price3}
                                                                             onChange={(e) => handlechange(e, i, indx, val.id)}
                                                                         />
-                                                                    </div>
-                                                                </div>
-                                                            ) : (
-                                                                ''
-                                                            )}
-                                                        </FormGroup>
-                                                    </div>
-                                                </Typography>
-                                            </AccordionDetails>
-                                        );
-                                    })}
-                                </Accordion>
-                            </Grid>
+                                                                    </Grid>
+                                                                </Grid>
+                                                            </Grid>
+                                                        </Grid>
+                                                    </Typography>
+                                                </AccordionDetails>
+                                            );
+                                        })}
+                                    </Typography>
+                                </AccordionDetails>
+                            </Accordion>
                         );
                     } else return <></>;
                 })}
@@ -268,25 +296,9 @@ const VendorProduct = (props) => {
                 ) : (
                     ''
                 )}
-                {!props.editData ? (
-                    <Button onClick={() => props.setEditData(!props.editData)} variant="contained" color="error" sx={{ m: 1 }}>
-                        Cancel
-                    </Button>
-                ) : (
-                    <></>
-                )}
-                <Button
-                    onClick={() => (props.editData ? props.setEditData(!props.editData) : handleEditSubmit())}
-                    variant="contained"
-                    sx={{ m: 1 }}
-                >
-                    {props.editData ? (
-                        <>
-                            <AiFillEdit /> Edit
-                        </>
-                    ) : (
-                        'Submit'
-                    )}
+
+                <Button onClick={() => handleEditSubmit()} variant="contained" sx={{ m: 1, display: props.editData ? 'none' : 'block' }}>
+                    Submit
                 </Button>
             </Box>
         </>

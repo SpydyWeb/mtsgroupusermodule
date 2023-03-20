@@ -113,7 +113,6 @@ export const EditRole = async (data) => {
 // DELETE ROLE
 export const Deleterole = async (data) => {
     const token = localStorage.getItem('jwtTokenId');
-    console.log(JSON.stringify(data));
     return await fetch(`${Url}Deleterole`, {
         method: 'DELETE',
         body: JSON.stringify(data),

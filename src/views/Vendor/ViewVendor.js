@@ -23,7 +23,7 @@ import { CustomerSearch, GetCustomerDetaills, DownloadFile } from '../../service
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { GetallVendorBySearch, Getvendorbyid, GetStateList } from '../../servicesapi/Vendorapi';
 import { BsCheckCircleFill } from 'react-icons/bs';
-import { AiFillEye, AiOutlineSearch, AiFillCloseCircle, AiOutlinePlus, AiOutlineClose, AiFillEdit } from 'react-icons/ai';
+import { AiFillEye, AiOutlineSearch, AiFillCloseCircle, AiOutlinePlus, AiOutlineClose, AiFillEdit, AiOutlineMail } from 'react-icons/ai';
 import { MdArrowBack } from 'react-icons/md';
 import EditModal from './EditModal';
 import Accordion from '@mui/material/Accordion';
@@ -34,14 +34,13 @@ import { MdSimCardDownload } from 'react-icons/md';
 import toast from 'react-hot-toast';
 import TabPanel from '../Common/TabPanel';
 import { a11yProps } from '../Common/renderutil';
-
+import { IoMdCall } from 'react-icons/io';
+import { AiFillMail, AiFillHome } from 'react-icons/ai';
+import { FaUser } from 'react-icons/fa';
 function Row(props) {
     const { vendorDetail, setVendorDetail, formType } = props;
     const [value, setValue] = React.useState(0);
-    const [expanded, setExpanded] = React.useState(false);
-    // const handleChange = (panel) => (event, isExpanded) => {
-    //   setExpanded(isExpanded ? panel : false);
-    // };
+    console.log(props);
     const [editView, setEditView] = useState(0);
     const [editModalOpen, seteditModalOpen] = useState(false);
     const handleopenEditmodal = (event, view) => {
@@ -62,6 +61,45 @@ function Row(props) {
         <React.Fragment>
             <Box>
                 <div className={`flex ${formType === 'customer' ? 'justify-between' : 'justify-end'}  cursor-pointer gap-2`}></div>
+                <Grid container sx={{ padding: '12px 15px', borderRadius: '15px', background: 'gainsboro' }}>
+                    <Grid item md={1}>
+                        <Box>
+                            {vendorDetail.vendorId}-{vendorDetail.name}
+                        </Box>
+                    </Grid>
+                    <Grid item md={2}>
+                        {' '}
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                            <FaUser style={{ fontSize: '15px', color: 'cornflowerblue' }} />{' '}
+                            <Box component={'span'}>
+                                {vendorDetail.primery_Contact.firstName} {vendorDetail.primery_Contact.lastName}
+                            </Box>
+                        </Box>
+                    </Grid>
+                    <Grid item md={2}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                            <IoMdCall style={{ fontSize: '18px', color: 'cornflowerblue' }} />
+                            <Box component={'span'}> {vendorDetail.primery_Contact.phone}</Box>
+                        </Box>
+                    </Grid>
+
+                    <Grid item md={3}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                            <AiFillMail style={{ fontSize: '18px', color: 'cornflowerblue' }} />
+                            <Box component={'span'}> {vendorDetail.primery_Contact.email}</Box>
+                        </Box>
+                    </Grid>
+                    <Grid item md={4}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                            <AiFillHome style={{ fontSize: '18px', color: 'cornflowerblue' }} />
+                            <Box component={'span'}>
+                                {' '}
+                                {vendorDetail.primery_Address.address}, {vendorDetail.primery_Address.city},{' '}
+                                {vendorDetail.primery_Address.state}-{vendorDetail.primery_Address.pincode}
+                            </Box>
+                        </Box>
+                    </Grid>
+                </Grid>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                     <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                         {formType === 'customer'
@@ -85,6 +123,8 @@ function Row(props) {
                         setOpenTableView={props.setOpen}
                         openTableView={props.open}
                         setEditData={setEditData}
+                        TabValue={value}
+                        TabLabelName={formType === 'customer' ? tabsCutomerName : tabsVendorName}
                         selecetedVedorId={vendorDetail && vendorDetail.id ? vendorDetail.id : vendorDetail.customerId}
                     />
                 </TabPanel>
@@ -147,9 +187,9 @@ const ViewVendor = (props) => {
             field: 'status',
             renderCell: (params) => {
                 return params.row.status ? (
-                    <span className="border-2 border-green-400 p-[2px] rounded-sm text-green-400">Active</span>
+                    <span style={{ border: '2px solid green', padding: '3px 6px', borderRadius: '5px', color: 'green' }}>Active</span>
                 ) : (
-                    <span className="border-2 border-red-400 p-[2px] rounded-sm text-red-400">InActive</span>
+                    <span style={{ border: '2px solid red', padding: '3px 6px', borderRadius: '5px', color: 'red' }}>InActive</span>
                 );
             }
         },

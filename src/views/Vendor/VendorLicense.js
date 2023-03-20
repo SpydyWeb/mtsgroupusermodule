@@ -219,6 +219,9 @@ const VendorLicense = (props) => {
                                                 </Select>
                                             </FormControl>
                                         </div>
+                                    </div>
+
+                                    <div className="flex flex-col md:flex-row gap-6  py-2 mb-1 flex-wrap">
                                         <div>
                                             <TextField
                                                 name="status"
@@ -234,9 +237,6 @@ const VendorLicense = (props) => {
                                                 onChange={(e) => handlechangeLicense(e, i)}
                                             />
                                         </div>
-                                    </div>
-
-                                    <div className="flex flex-col md:flex-row gap-6  py-2 mb-1 flex-wrap">
                                         <div>
                                             <Autocomplete
                                                 disabled={props.editData}
@@ -429,25 +429,9 @@ const VendorLicense = (props) => {
                 ) : (
                     ''
                 )}
-                {!props.editData ? (
-                    <Button onClick={() => props.setEditData(!props.editData)} variant="contained" color="error" sx={{ m: 1 }}>
-                        Cancel
-                    </Button>
-                ) : (
-                    <></>
-                )}
-                <Button
-                    onClick={() => (props.editData ? props.setEditData(!props.editData) : handleEditSubmit())}
-                    variant="contained"
-                    sx={{ m: 1 }}
-                >
-                    {props.editData ? (
-                        <>
-                            <AiFillEdit /> Edit
-                        </>
-                    ) : (
-                        'Submit'
-                    )}
+
+                <Button onClick={() => handleEditSubmit()} variant="contained" sx={{ m: 1, display: props.editData ? 'none' : 'block' }}>
+                    Submit
                 </Button>
             </Box>
         </>
