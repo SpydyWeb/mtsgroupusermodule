@@ -214,7 +214,7 @@ const VendorProduct = (props) => {
                                                                                 inputMode: 'numeric',
                                                                                 pattern: '[0-9]*'
                                                                             }}
-                                                                            label="Price"
+                                                                            label="City"
                                                                             variant="outlined"
                                                                             disabled={props.editData}
                                                                             size="small"
@@ -225,7 +225,7 @@ const VendorProduct = (props) => {
                                                                     </Grid>
                                                                     <Grid item md={4}>
                                                                         <TextField
-                                                                            label="Price"
+                                                                            label="State"
                                                                             variant="outlined"
                                                                             size="small"
                                                                             disabled={props.editData}
@@ -237,7 +237,7 @@ const VendorProduct = (props) => {
                                                                     <Grid item md={4}>
                                                                         {' '}
                                                                         <TextField
-                                                                            label="Price"
+                                                                            label="Country"
                                                                             variant="outlined"
                                                                             size="small"
                                                                             disabled={props.editData}

@@ -64,7 +64,7 @@ function Row(props) {
                 <Grid container sx={{ padding: '12px 15px', borderRadius: '15px', background: 'gainsboro' }}>
                     <Grid item md={1}>
                         <Box>
-                            {vendorDetail.vendorId}-{vendorDetail.name}
+                            {props.formType === 'vendor' ? vendorDetail.vendorId : vendorDetail.customeruserId}-{vendorDetail.name}
                         </Box>
                     </Grid>
                     <Grid item md={2}>
