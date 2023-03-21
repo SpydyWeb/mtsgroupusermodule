@@ -11,7 +11,8 @@ import {
     UpdateCustomercommunications,
     UpdateCustomerIntegrationDetail,
     Updatecustomer,
-    DeleteCommuncationbycutomerid
+    DeleteCommuncationbycutomerid,
+    addCustomercommunications
 } from '../../servicesapi/Customerapi';
 import SubCard from 'ui-component/cards/SubCard';
 const Com_notification = (props) => {
@@ -172,7 +173,16 @@ const Com_notification = (props) => {
                         }
                     });
                 } else {
-                    UpdateCustomercommunications(props.communication, props.selecetedVedorId).then((res) => {
+                    let CreateComData = [];
+                    let UpdateComData = [];
+                    props.communication.map((ele) => {
+                        if (ele.id === undefined) CreateComData.push(ele);
+                        else UpdateComData.push(ele);
+                    });
+                    CreateComData.map((ele) => {
+                        addCustomercommunications(ele, props.selecetedVedorId);
+                    });
+                    UpdateCustomercommunications(UpdateComData, props.selecetedVedorId).then((res) => {
                         if (res.status === 200) {
                             toast.success('Data updated succsessfully');
                             props.setVendorDetail({
