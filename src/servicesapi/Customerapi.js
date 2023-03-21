@@ -85,3 +85,14 @@ export const DownloadFile = async (path) => {
         .then((response) => response)
         .catch((error) => error);
 };
+
+export const DeleteCommuncationbycutomerid = async (id) => {
+    return await fetch(`${Url}DeleteCommunication?id=${id}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+            'Access-Control-Allow-Origin': '*'
+        }
+    }).then((data) => data);
+};

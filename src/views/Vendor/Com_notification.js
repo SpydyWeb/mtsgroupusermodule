@@ -4,21 +4,40 @@ import { AiFillEdit } from 'react-icons/ai';
 import Android12Switch from './Android12Switch';
 import { IoMdAddCircle } from 'react-icons/io';
 import { MdDelete } from 'react-icons/md';
-import { UpdateVendor, UpdateVendorcommunications, AddCommunicationById } from '../../servicesapi/Vendorapi';
+import { UpdateVendor, UpdateVendorcommunications, AddCommunicationById, DeleteCommuncationbyVendorid } from '../../servicesapi/Vendorapi';
 import toast from 'react-hot-toast';
 import { useLocation } from 'react-router-dom';
-import { UpdateCustomercommunications, UpdateCustomerIntegrationDetail, Updatecustomer } from '../../servicesapi/Customerapi';
+import {
+    UpdateCustomercommunications,
+    UpdateCustomerIntegrationDetail,
+    Updatecustomer,
+    DeleteCommuncationbycutomerid
+} from '../../servicesapi/Customerapi';
 import SubCard from 'ui-component/cards/SubCard';
 const Com_notification = (props) => {
     const location = useLocation();
+    const [formType, setFormType] = useState(location.pathname === '/admin/viewvendor' ? 'vendor' : 'customer');
+
     const handleRemoveClick = (index) => {
+        if (formType === 'vendor')
+            DeleteCommuncationbyVendorid(props.selecetedVedorId).then((res) => {
+                if (res.status === 200) {
+                    toast.success('Data has been deleted successfully');
+                }
+            });
+        else
+            DeleteCommuncationbycutomerid(props.selecetedVedorId).then((res) => {
+                if (res.status === 200) {
+                    toast.success('Data has been deleted successfully');
+                }
+            });
         const list = [...props.communication];
         list.splice(index, 1);
         if (props.edit) {
             props.setCommunicaion(list);
         } else props.setVendordata({ ...props.Vendordata, ['communication']: list });
     };
-    const [formType, setFormType] = useState(location.pathname === '/admin/viewvendor' ? 'vendor' : 'customer');
+
     const handleSubmit = () => {
         let status = false;
         props.communication.map((ele, i) => {

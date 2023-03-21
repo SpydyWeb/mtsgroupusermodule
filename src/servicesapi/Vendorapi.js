@@ -162,6 +162,16 @@ export const DeleteCommuncationType = async (id) => {
         }
     }).then((data) => data);
 };
+export const DeleteCommuncationbyVendorid = async (id) => {
+    return await fetch(`${Url}DeleteCommunication?id=${id}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+            'Access-Control-Allow-Origin': '*'
+        }
+    }).then((data) => data);
+};
 
 //State
 
