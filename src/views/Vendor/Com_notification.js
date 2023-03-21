@@ -19,15 +19,15 @@ const Com_notification = (props) => {
     const location = useLocation();
     const [formType, setFormType] = useState(location.pathname === '/admin/viewvendor' ? 'vendor' : 'customer');
 
-    const handleRemoveClick = (index) => {
+    const handleRemoveClick = (index, id) => {
         if (formType === 'vendor')
-            DeleteCommuncationbyVendorid(props.selecetedVedorId).then((res) => {
+            DeleteCommuncationbyVendorid(id).then((res) => {
                 if (res.status === 200) {
                     toast.success('Data has been deleted successfully');
                 }
             });
         else
-            DeleteCommuncationbycutomerid(props.selecetedVedorId).then((res) => {
+            DeleteCommuncationbycutomerid(id).then((res) => {
                 if (res.status === 200) {
                     toast.success('Data has been deleted successfully');
                 }
@@ -297,7 +297,7 @@ const Com_notification = (props) => {
                                             props.communication.length !== 1 &&
                                             (i !== 0 ? (
                                                 <MdDelete
-                                                    onClick={() => (props.editData ? '' : handleRemoveClick(i))}
+                                                    onClick={() => (props.editData ? '' : handleRemoveClick(i, x?.id))}
                                                     color="red"
                                                     size={25}
                                                     style={{ cursor: props.editData ? 'not-allowed' : 'pointer' }}
