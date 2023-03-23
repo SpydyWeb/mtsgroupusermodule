@@ -887,7 +887,7 @@ const VendorProfileForm = (props) => {
             <SubCard
                 title={
                     <Box sx={{ display: 'flex', gap: '6px' }}>
-                        <Box>Additional Address</Box>{' '}
+                        <Box>Additional Contact</Box>{' '}
                         <Box>
                             (&nbsp;
                             <input

@@ -97,7 +97,7 @@ const FileUpload = (props) => {
 
     return (
         <div>
-            <Grid container style={{ justifyContent: 'center', maxHeight: '300px', overflowx: 'auto' }}>
+            <Grid container style={{ justifyContent: 'center', maxHeight: '300px', overflow: 'auto' }}>
                 {/* Display the files to be uploaded */}
 
                 <MainCard sx={{ width: '100%' }}>
@@ -285,17 +285,21 @@ const FileUpload = (props) => {
                                                 sx={{ color: '#349164' }}
                                                 onClick={() => {
                                                     let data = props.Vendordata.productFiles;
-                                                    data.push({
-                                                        fileName: '',
-                                                        location: '',
-                                                        size: 0,
-                                                        file: '',
-                                                        type: '',
-                                                        remarks: '',
-                                                        issueDate: '',
-                                                        expiryDate: ''
-                                                    });
-                                                    props.setVendordata({ ...props.Vendordata, productFiles: data });
+                                                    if (data.at(-1).type === '' || data.at(-1).fileName === '')
+                                                        toast.error('Please enter the mandatory fields');
+                                                    else {
+                                                        data.push({
+                                                            fileName: '',
+                                                            location: '',
+                                                            size: 0,
+                                                            file: '',
+                                                            type: '',
+                                                            remarks: '',
+                                                            issueDate: '',
+                                                            expiryDate: ''
+                                                        });
+                                                        props.setVendordata({ ...props.Vendordata, productFiles: data });
+                                                    }
                                                 }}
                                             >
                                                 <IoMdAddCircle size={30} />

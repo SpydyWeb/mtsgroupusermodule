@@ -277,7 +277,7 @@ const EditModal = (props) => {
     }, [props.editView]);
 
     const renderComp = () => {
-        return props.editView === 0 ? (
+        return props.editView === 2 ? (
             productD.length > 0 ? (
                 <VendorProduct
                     Vendordata={Vendordata}
@@ -323,7 +323,7 @@ const EditModal = (props) => {
                 setOpenTableView={props.setOpenTableView}
                 openTableView={props.openTableView}
             />
-        ) : props.editView === 2 ? (
+        ) : props.editView === 0 ? (
             <VendorProfileForm
                 Vendordata={Vendordata}
                 setVendordata={setVendordata}

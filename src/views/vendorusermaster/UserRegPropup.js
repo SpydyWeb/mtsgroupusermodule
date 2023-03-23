@@ -13,10 +13,10 @@ const UserRegPropup = (props) => {
     const dispatch = useDispatch();
 
     return (
-        <TransDialoague>
-            <MainCard>
+        <TransDialoague maxWidth={'md'} fullWidth={true}>
+            <>
                 <Registration />
-            </MainCard>
+            </>
         </TransDialoague>
     );
 };

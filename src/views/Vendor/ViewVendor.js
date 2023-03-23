@@ -38,9 +38,9 @@ import { IoMdCall } from 'react-icons/io';
 import { AiFillMail, AiFillHome } from 'react-icons/ai';
 import { FaUser } from 'react-icons/fa';
 function Row(props) {
-    const { vendorDetail, setVendorDetail, formType } = props;
+    const { vendorDetail, setVendorDetail, formType, open } = props;
     const [value, setValue] = React.useState(0);
-    console.log(props);
+    console.log();
     const [editView, setEditView] = useState(0);
     const [editModalOpen, seteditModalOpen] = useState(false);
     const handleopenEditmodal = (event, view) => {
@@ -54,16 +54,27 @@ function Row(props) {
         setEditView(newValue);
         setEditData(true);
     };
-    const tabsCutomerName = ['Product', 'Communication', 'Address', 'Contact', 'Additional', 'Customer Integration Details'];
+    const tabsCutomerName = ['Profile', 'Communication', 'Product', 'Contact', 'Additional', 'Customer Integration Details'];
 
-    const tabsVendorName = ['Product', 'Communication', 'Address', 'Contact', 'Additional', 'Licence', 'File Upload'];
+    const tabsVendorName = ['Profile', 'Communication', 'Product', 'Contact', 'Additional', 'Licence', 'File Upload'];
     return (
         <React.Fragment>
             <Box>
                 <div className={`flex ${formType === 'customer' ? 'justify-between' : 'justify-end'}  cursor-pointer gap-2`}></div>
-                <Grid container sx={{ padding: '12px 15px', borderRadius: '15px', background: 'gainsboro' }}>
-                    <Grid item md={1}>
-                        <Box>
+                <Grid container sx={{ borderRadius: '15px', background: 'gainsboro', pb: 1 }} spacing={2}>
+                    <Grid item md={3}>
+                        <Box sx={{ display: 'flex', gap: '2px' }}>
+                            {open ? (
+                                <div className="flex items-center gap-1">
+                                    {formType === 'customer' ? (
+                                        <MdSimCardDownload size={25} color="blue" onClick={() => dowloadFile()} />
+                                    ) : (
+                                        <></>
+                                    )}
+                                </div>
+                            ) : (
+                                <></>
+                            )}
                             {props.formType === 'vendor' ? vendorDetail.vendorId : vendorDetail.customeruserId}-{vendorDetail.name}
                         </Box>
                     </Grid>
@@ -83,13 +94,13 @@ function Row(props) {
                         </Box>
                     </Grid>
 
-                    <Grid item md={3}>
+                    <Grid item md={2}>
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
                             <AiFillMail style={{ fontSize: '18px', color: 'cornflowerblue' }} />
                             <Box component={'span'}> {vendorDetail.primery_Contact.email}</Box>
                         </Box>
                     </Grid>
-                    <Grid item md={4}>
+                    <Grid item md={3}>
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
                             <AiFillHome style={{ fontSize: '18px', color: 'cornflowerblue' }} />
                             <Box component={'span'}>
@@ -358,13 +369,6 @@ const ViewVendor = (props) => {
     };
     return (
         <>
-            {open ? (
-                <div className="flex items-center gap-1">
-                    {formType === 'customer' ? <MdSimCardDownload size={25} color="blue" onClick={() => dowloadFile()} /> : <></>}
-                </div>
-            ) : (
-                <></>
-            )}
             {open ? (
                 <></>
             ) : (

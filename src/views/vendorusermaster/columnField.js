@@ -149,7 +149,7 @@ export const HeadingName = [
         ]
     },
     {
-        label: 'All User',
+        label: 'All Users',
         id: 'user',
         formfield: [],
         initialValue: {},

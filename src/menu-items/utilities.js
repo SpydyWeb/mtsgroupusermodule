@@ -95,14 +95,14 @@ export const usermodule = {
         },
         {
             id: 'roledefinationmaster',
-            title: 'Role Defination',
+            title: 'Role Definition',
             type: 'item',
             url: '/admin/accessroledefinition',
             breadcrumbs: false
         },
         {
             id: 'userregistration',
-            title: 'User Registration',
+            title: 'Users',
             type: 'item',
             url: '/admin/user',
             breadcrumbs: false

@@ -160,7 +160,7 @@ const Registration = () => {
     };
     return (
         <>
-            <div className="gap-3">
+            <div style={{}}>
                 <div className="md:border-r-2 border-0">
                     <div className="flex gap-2 mb-3  md:flex-row flex-column">
                         <DropDownBox
@@ -249,7 +249,7 @@ const Registration = () => {
                             onChangeHandle={onChangeHandle}
                             isMandatory={true}
                         />
-                        <div className="w-full">
+                        <div style={{ width: '100%' }}>
                             <div className="text-sm font-semibold text-gray-500">
                                 Password
                                 <span className={`text-red-600 `}>*</span>
@@ -263,6 +263,7 @@ const Registration = () => {
                                     onFocus={isPasswordMview}
                                     onBlur={isPasswordMview}
                                     name="password"
+                                    style={{ width: '100%', paddingLeft: '5px' }}
                                     className="form-control px- py-2 transition duration-300 border border-gray-300 rounded focus:border-transparent focus:outline-none bg-sky-100 focus:ring-4 focus:ring-blue-200"
                                 />
 
@@ -280,7 +281,7 @@ const Registration = () => {
                                 </Box>
                             </div>
                         </div>
-                        <div className="w-full">
+                        <div style={{ width: '100%' }}>
                             <div className="text-sm font-semibold text-gray-500">
                                 Confirm Password
                                 <span className={`text-red-600 `}>*</span>
@@ -297,6 +298,7 @@ const Registration = () => {
                                             toast.error('Password and confirm passwrod should be the same');
                                         }
                                     }}
+                                    style={{ width: '100%', paddingLeft: '5px' }}
                                     className="form-control px- py-2 transition duration-300 border border-gray-300 rounded focus:border-transparent focus:outline-none bg-sky-100 focus:ring-4 focus:ring-blue-200"
                                 />
 

@@ -2,7 +2,22 @@ import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { AddVendor, Addvendorfile } from '../../servicesapi/Vendorapi';
 import { AddCustomer, DeleteCustomerUser, UpdateCustomerUser, AddCustomerUser, UploadProductFile } from '../../servicesapi/Customerapi';
-import { TextField, Button, Box, FormGroup, FormControlLabel, Checkbox } from '@mui/material';
+import {
+    TextField,
+    Button,
+    Box,
+    FormGroup,
+    FormControlLabel,
+    Checkbox,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Paper
+} from '@mui/material';
+
 import PasswordValidateMessage from '../Headers/PasswordValidateMessage';
 import { CheckvalidatePassword, CheckvalidEmail } from '../Headers/PasswordValid';
 import { MdDelete } from 'react-icons/md';
@@ -364,49 +379,7 @@ const Userregister = (props) => {
     };
     return (
         <>
-            {userlist.length > 0 ? (
-                <SubCard title="User Details">
-                    <div className="flex flex-col flex-wrap  border-2 border-slate-300 p-2 mb-1 rounded-xl">
-                        <table>
-                            <tr>
-                                <th>S. No.</th>
-                                <th>Name</th>
-                                <th>Email Id</th>
-                                <th>Log Id</th>
-                                <th>Status</th>
-                            </tr>
-                            {userlist.map((ele, i) => {
-                                return (
-                                    <tr>
-                                        <td>{i + 1}</td>
-                                        <td>{`${ele.firstName} ${ele.lastName}`}</td>
-                                        <td>{ele.emailId}</td>
-                                        <td>{ele.logId}</td>
-                                        <td>{ele.allowTextMsg ? 'True' : 'False'}</td>
-                                        <td className="flex gap-1">
-                                            <MdDelete
-                                                color="red"
-                                                size={20}
-                                                style={{ cursor: 'pointer' }}
-                                                onClick={() => handleDleteuser(ele.vendorid)}
-                                            />
-                                            <AiFillEdit
-                                                color="blue"
-                                                size={20}
-                                                style={{ cursor: 'pointer' }}
-                                                onClick={() => handleEdituser(ele.vendorid)}
-                                            />
-                                        </td>
-                                    </tr>
-                                );
-                            })}
-                        </table>
-                    </div>
-                </SubCard>
-            ) : (
-                <></>
-            )}
-            <SubCard title="User Details">
+            <SubCard title="User Details" sx={{ mb: 2 }}>
                 <div className="flex flex-col flex-wrap  ">
                     <div className="flex gap-6 flex-col md:flex-row  py-1 mb-1">
                         <div>
@@ -488,9 +461,6 @@ const Userregister = (props) => {
                                 }}
                             />
                         </div>
-                    </div>
-
-                    <div className="flex gap-6 flex-col md:flex-row  py-1 mb-1">
                         <div>
                             <TextField
                                 name="password"
@@ -511,6 +481,9 @@ const Userregister = (props) => {
                                 }}
                             />
                         </div>
+                    </div>
+
+                    <div className="flex gap-6 flex-col md:flex-row  py-1 mb-1">
                         <div>
                             <TextField
                                 name="Confirm password"
@@ -587,6 +560,55 @@ const Userregister = (props) => {
                     </div>
                 </div>
             </SubCard>
+            {userlist.length > 0 ? (
+                <SubCard title="User Details" sx={{ maxHeight: '400px', overflow: 'auto', mb: 2 }}>
+                    <TableContainer component={Paper}>
+                        <Table size="small" aria-label="a dense table">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>S. No.</TableCell>
+                                    <TableCell>Name</TableCell>
+                                    <TableCell>Email Id</TableCell>
+                                    <TableCell>Log Id</TableCell>
+                                    <TableCell>Status</TableCell>
+                                    <TableCell>Action</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {userlist.map((ele, i) => {
+                                    return (
+                                        <TableRow key={i + 1} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                            <TableCell component="th" scope="row">
+                                                {i + 1}
+                                            </TableCell>
+                                            <TableCell>{`${ele.firstName} ${ele.lastName}`}</TableCell>
+                                            <TableCell>{ele.emailId}</TableCell>
+                                            <TableCell>{ele.logId}</TableCell>
+                                            <TableCell>{ele.allowTextMsg ? 'True' : 'False'}</TableCell>
+                                            <TableCell sx={{ display: 'flex', gap: '10px' }}>
+                                                <MdDelete
+                                                    color="red"
+                                                    size={20}
+                                                    style={{ cursor: 'pointer' }}
+                                                    onClick={() => handleDleteuser(ele.vendorid)}
+                                                />
+                                                <AiFillEdit
+                                                    color="blue"
+                                                    size={20}
+                                                    style={{ cursor: 'pointer' }}
+                                                    onClick={() => handleEdituser(ele.vendorid)}
+                                                />
+                                            </TableCell>
+                                        </TableRow>
+                                    );
+                                })}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </SubCard>
+            ) : (
+                <></>
+            )}
             <Box
                 sx={{
                     display: 'flex',

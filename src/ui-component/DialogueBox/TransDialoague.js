@@ -22,6 +22,8 @@ export default function TransDialoague(props) {
                 open={customization.dialogueview === '' ? false : true}
                 TransitionComponent={Transition}
                 keepMounted
+                fullWidth={props.fullWidth === undefined ? false : true}
+                maxWidth={props.maxWidth === undefined ? false : props.maxWidth}
                 // onClose={() => dispatch(setDialogueview(''))}
                 aria-describedby="alert-dialog-slide-description"
             >
