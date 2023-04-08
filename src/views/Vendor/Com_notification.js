@@ -230,7 +230,6 @@ const Com_notification = (props) => {
                         return (
                             <>
                                 <div className={`flex flex-col md:flex-row gap-6 border-2 p-3  mb-1 rounded-xl items-center `}>
-                                    <div>{i === 0 ? 'Default' : 'Additional'}</div>
                                     <div>
                                         <FormControl sx={{ width: '180px' }} fullWidth={true} size="small">
                                             <InputLabel>
@@ -243,6 +242,27 @@ const Com_notification = (props) => {
                                                 name="type"
                                                 disabled={props.editData}
                                                 value={x.type}
+                                                onChange={(e) => handlechangeCommunication(e, i)}
+                                            >
+                                                {props.communicationType &&
+                                                    props.communicationType.map((ele) => {
+                                                        return <MenuItem value={ele.name}>{ele.name}</MenuItem>;
+                                                    })}
+                                            </Select>
+                                        </FormControl>
+                                    </div>
+                                    <div>
+                                        <FormControl sx={{ width: '180px' }} fullWidth={true} size="small">
+                                            <InputLabel>
+                                                Method <span className="text-red-600">*</span>
+                                            </InputLabel>
+                                            <Select
+                                                labelId="demo-simple-select-label"
+                                                id="demo-simple-select"
+                                                label="method"
+                                                name="method"
+                                                disabled={props.editData}
+                                                value={x.method}
                                                 onChange={(e) => handlechangeCommunication(e, i)}
                                             >
                                                 {props.communicationType &&
@@ -323,7 +343,7 @@ const Com_notification = (props) => {
 
             <SubCard
                 title="Additional Notification"
-                className={`${props.edit ? (props.editType && props.editType === 'Additional' ? 'block' : 'hidden') : 'block'}`}
+                className={`${props.edit ? (props.editType && props.editType === 'Additional' ? 'block' : 'hidden') : 'block'}  py-1 mb-3`}
             >
                 <div
                     className={`${
@@ -463,138 +483,135 @@ const Com_notification = (props) => {
             {location.pathname === '/admin/viewvendor' || props.editType === 'Additional' || props.editType === 'Communication' ? (
                 ''
             ) : (
-                <div>
-                    <span className="legend Btn_Gradient">Integration Detail</span>
-                    <div className="  border-2 p-3  my-3 rounded-xl bg-white relative border-sky-500">
-                        <div className={` border-2 p-3  mb-1 rounded-xl items-center `}>
-                            <div style={{ display: 'flex', gap: '10px', marginBottom: '15px' }}>
+                <SubCard title="Integration Detail" className={`py-1 mb-3`}>
+                    <div className={`flex-col md:flex-row gap-6`}>
+                        <div style={{ display: 'flex', gap: '10px', marginBottom: '15px' }}>
+                            <div>
+                                <TextField
+                                    label={
+                                        <>
+                                            Detail <span className="text-red-600">*</span>
+                                        </>
+                                    }
+                                    fullWidth={true}
+                                    variant="outlined"
+                                    disabled={props.editData}
+                                    size="small"
+                                    name="detail"
+                                    value={props.Vendordata.customer_Integration_details.detail}
+                                    onChange={(e) => {
+                                        props.setVendordata({
+                                            ...props.Vendordata,
+                                            ['customer_Integration_details']: {
+                                                ...props.Vendordata.customer_Integration_details,
+                                                ['detail']: e.target.value
+                                            }
+                                        });
+                                    }}
+                                />
+                            </div>
+
+                            <div>
+                                <TextField
+                                    disabled={props.editData}
+                                    label={
+                                        <>
+                                            Port <span className="text-red-600">*</span>
+                                        </>
+                                    }
+                                    variant="outlined"
+                                    size="small"
+                                    name="port"
+                                    fullWidth={true}
+                                    value={props.Vendordata.customer_Integration_details.port}
+                                    onChange={(e) =>
+                                        props.setVendordata({
+                                            ...props.Vendordata,
+                                            ['customer_Integration_details']: {
+                                                ...props.Vendordata.customer_Integration_details,
+                                                [e.target.name]: e.target.value
+                                            }
+                                        })
+                                    }
+                                />
+                            </div>
+
+                            <div>
+                                <TextField
+                                    label={
+                                        <>
+                                            Login <span className="text-red-600">*</span>
+                                        </>
+                                    }
+                                    variant="outlined"
+                                    size="small"
+                                    disabled={props.editData}
+                                    name="login"
+                                    fullWidth={true}
+                                    value={props.Vendordata.customer_Integration_details.login}
+                                    onChange={(e) =>
+                                        props.setVendordata({
+                                            ...props.Vendordata,
+                                            ['customer_Integration_details']: {
+                                                ...props.Vendordata.customer_Integration_details,
+                                                [e.target.name]: e.target.value
+                                            }
+                                        })
+                                    }
+                                />
+                            </div>
+
+                            <div>
+                                <TextField
+                                    label={
+                                        <>
+                                            Password <span className="text-red-600">*</span>
+                                        </>
+                                    }
+                                    disabled={props.editData}
+                                    variant="outlined"
+                                    size="small"
+                                    name="password"
+                                    type={'password'}
+                                    fullWidth={true}
+                                    value={props.Vendordata.customer_Integration_details.password}
+                                    onChange={(e) =>
+                                        props.setVendordata({
+                                            ...props.Vendordata,
+                                            ['customer_Integration_details']: {
+                                                ...props.Vendordata.customer_Integration_details,
+                                                [e.target.name]: e.target.value
+                                            }
+                                        })
+                                    }
+                                />
+                            </div>
+                        </div>
+                        {props.Vendordata.additionalDetail.map((el, i) => (
+                            <div style={{ display: 'flex', gap: '10px', marginBottom: '15px' }} key={i}>
                                 <div className="col-md-4">
                                     <TextField
-                                        label={
-                                            <>
-                                                Detail <span className="text-red-600">*</span>
-                                            </>
-                                        }
+                                        label={<>Additional Detail</>}
                                         fullWidth={true}
                                         variant="outlined"
-                                        disabled={props.editData}
                                         size="small"
                                         name="detail"
-                                        value={props.Vendordata.customer_Integration_details.detail}
+                                        value={el}
+                                        disabled={props.editData}
                                         onChange={(e) => {
+                                            let data = [...props.Vendordata.additionalDetail];
+                                            data[i] = e.target.value;
                                             props.setVendordata({
                                                 ...props.Vendordata,
-                                                ['customer_Integration_details']: {
-                                                    ...props.Vendordata.customer_Integration_details,
-                                                    ['detail']: e.target.value
-                                                }
+                                                ['additionalDetail']: data
                                             });
                                         }}
                                     />
                                 </div>
-
-                                <div className="col-md-2">
-                                    <TextField
-                                        disabled={props.editData}
-                                        label={
-                                            <>
-                                                Port <span className="text-red-600">*</span>
-                                            </>
-                                        }
-                                        variant="outlined"
-                                        size="small"
-                                        name="port"
-                                        fullWidth={true}
-                                        value={props.Vendordata.customer_Integration_details.port}
-                                        onChange={(e) =>
-                                            props.setVendordata({
-                                                ...props.Vendordata,
-                                                ['customer_Integration_details']: {
-                                                    ...props.Vendordata.customer_Integration_details,
-                                                    [e.target.name]: e.target.value
-                                                }
-                                            })
-                                        }
-                                    />
-                                </div>
-
-                                <div className="col-md-3">
-                                    <TextField
-                                        label={
-                                            <>
-                                                Login <span className="text-red-600">*</span>
-                                            </>
-                                        }
-                                        variant="outlined"
-                                        size="small"
-                                        disabled={props.editData}
-                                        name="login"
-                                        fullWidth={true}
-                                        value={props.Vendordata.customer_Integration_details.login}
-                                        onChange={(e) =>
-                                            props.setVendordata({
-                                                ...props.Vendordata,
-                                                ['customer_Integration_details']: {
-                                                    ...props.Vendordata.customer_Integration_details,
-                                                    [e.target.name]: e.target.value
-                                                }
-                                            })
-                                        }
-                                    />
-                                </div>
-
-                                <div className="col-md-3">
-                                    <TextField
-                                        label={
-                                            <>
-                                                Password <span className="text-red-600">*</span>
-                                            </>
-                                        }
-                                        disabled={props.editData}
-                                        variant="outlined"
-                                        size="small"
-                                        name="password"
-                                        type={'password'}
-                                        fullWidth={true}
-                                        value={props.Vendordata.customer_Integration_details.password}
-                                        onChange={(e) =>
-                                            props.setVendordata({
-                                                ...props.Vendordata,
-                                                ['customer_Integration_details']: {
-                                                    ...props.Vendordata.customer_Integration_details,
-                                                    [e.target.name]: e.target.value
-                                                }
-                                            })
-                                        }
-                                    />
-                                </div>
                             </div>
-                            {props.Vendordata.additionalDetail.map((el, i) => (
-                                <div style={{ display: 'flex', gap: '10px', marginBottom: '15px' }} key={i}>
-                                    <div className="col-md-4">
-                                        <TextField
-                                            label={<>Additional Detail</>}
-                                            fullWidth={true}
-                                            variant="outlined"
-                                            size="small"
-                                            name="detail"
-                                            value={el}
-                                            disabled={props.editData}
-                                            onChange={(e) => {
-                                                let data = [...props.Vendordata.additionalDetail];
-                                                data[i] = e.target.value;
-                                                props.setVendordata({
-                                                    ...props.Vendordata,
-                                                    ['additionalDetail']: data
-                                                });
-                                            }}
-                                        />
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
+                        ))}
                     </div>
-                </div>
+                </SubCard>
             )}
             <Box
                 sx={{

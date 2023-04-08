@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { AddVendor, Addvendorfile } from '../../servicesapi/Vendorapi';
-import { AddCustomer, DeleteCustomerUser, UpdateCustomerUser, AddCustomerUser, UploadProductFile } from '../../servicesapi/Customerapi';
+import {
+    AddCustomer,
+    DeleteCustomerUser,
+    UpdateCustomerUser,
+    AddCustomerUser,
+    UploadProductFile,
+    Addcustomerfile
+} from '../../servicesapi/Customerapi';
 import {
     TextField,
     Button,
@@ -130,7 +137,8 @@ const Userregister = (props) => {
                                         {
                                             type: '',
                                             detail: '',
-                                            product_id: 0
+                                            product_id: 0,
+                                            method: ''
                                         }
                                     ],
                                     product: [
@@ -173,88 +181,100 @@ const Userregister = (props) => {
             }
         } else {
             if (userlist.length > 0) {
-                AddCustomer(props.Vendordata).then((res) => {
-                    if (res.status === 200) {
-                        UploadProductFile(props.fileupload, res.data).then((res) => {
-                            console.log(res);
+                setLoading(true);
+                let vendordata = props.Vendordata;
+                vendordata.productFiles.map((ele) => {
+                    Addcustomerfile(ele.file).then((res) => {
+                        setLoading(false);
+                        ele.fileid = res.data[0];
+                        delete ele.file;
+                        AddCustomer(props.Vendordata).then((res) => {
+                            if (res.status === 200) {
+                                UploadProductFile(props.fileupload, res.data).then((res) => {
+                                    console.log(res);
+                                });
+                                toast.success('Customer has been create successfully');
+                                props.setActiveStep(0);
+                                props.setVendordata({
+                                    customerId: '',
+                                    name: '',
+                                    parent: '',
+                                    client_type: '',
+                                    timezone: '',
+                                    primery_Address: {
+                                        address: '',
+                                        city: '',
+                                        suite: '',
+                                        state: '',
+                                        pincode: ''
+                                    },
+                                    secondary_Address: {
+                                        address: '',
+                                        city: '',
+                                        suite: '',
+                                        state: '',
+                                        pincode: ''
+                                    },
+                                    primery_Contact: {
+                                        firstName: '',
+                                        middleName: '',
+                                        lastName: '',
+                                        phone: '',
+                                        email: '',
+                                        ext: '',
+                                        cellPhone: ''
+                                    },
+                                    secondary_contact: {
+                                        firstName: '',
+                                        middleName: '',
+                                        lastName: '',
+                                        phone: '',
+                                        email: '',
+                                        ext: '',
+                                        cellPhone: ''
+                                    },
+                                    order_Confirmation: false,
+                                    assignment: false,
+                                    inspection: false,
+                                    in_QC_Review: false,
+                                    uploadedfile: 'string',
+                                    communication: [
+                                        {
+                                            vendorId: 0,
+                                            type: '',
+                                            detail: '',
+                                            product_id: 0,
+                                            customerId: 0,
+                                            method: ''
+                                        }
+                                    ],
+                                    product: [
+                                        {
+                                            id: 0,
+                                            name: 'string',
+                                            price1: 0,
+                                            price2: 0,
+                                            price3: 0,
+                                            productId: 0,
+                                            selected: true,
+                                            subCategory: [null]
+                                        }
+                                    ],
+                                    additionalDetail: [''],
+                                    customer_Integration_details: {
+                                        detail: '',
+                                        port: '',
+                                        login: '',
+                                        password: '',
+                                        customerId: 0
+                                    },
+                                    registerId: [0]
+                                });
+                            } else {
+                                res.json().then((val) => toast.error(val));
+                            }
                         });
-                        toast.success('Customer has been create successfully');
-                        props.setActiveStep(0);
-                        props.setVendordata({
-                            customerId: '',
-                            name: '',
-                            parent: '',
-                            primery_Address: {
-                                address: '',
-                                city: '',
-                                suite: '',
-                                state: '',
-                                pincode: ''
-                            },
-                            secondary_Address: {
-                                address: '',
-                                city: '',
-                                suite: '',
-                                state: '',
-                                pincode: ''
-                            },
-                            primery_Contact: {
-                                firstName: '',
-                                middleName: '',
-                                lastName: '',
-                                phone: '',
-                                email: '',
-                                ext: '',
-                                cellPhone: ''
-                            },
-                            secondary_contact: {
-                                firstName: '',
-                                middleName: '',
-                                lastName: '',
-                                phone: '',
-                                email: '',
-                                ext: '',
-                                cellPhone: ''
-                            },
-                            order_Confirmation: false,
-                            assignment: false,
-                            inspection: false,
-                            in_QC_Review: false,
-                            uploadedfile: 'string',
-                            communication: [
-                                {
-                                    vendorId: 0,
-                                    type: '',
-                                    detail: '',
-                                    product_id: 0,
-                                    customerId: 0
-                                }
-                            ],
-                            product: [
-                                {
-                                    id: 0,
-                                    name: 'string',
-                                    price1: 0,
-                                    price2: 0,
-                                    price3: 0,
-                                    productId: 0,
-                                    selected: true,
-                                    subCategory: [null]
-                                }
-                            ],
-                            additionalDetail: [''],
-                            customer_Integration_details: {
-                                detail: '',
-                                port: '',
-                                login: '',
-                                password: '',
-                                customerId: 0
-                            },
-                            registerId: [0]
-                        });
-                    } else {
-                        res.json().then((val) => toast.error(val));
-                    }
+                    });
                 });
             } else {
                 toast.error('Please enter atleast one user details');

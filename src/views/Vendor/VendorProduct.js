@@ -15,6 +15,7 @@ import { styled } from '@mui/material/styles';
 import MuiAccordion, { AccordionProps } from '@mui/material/Accordion';
 import MuiAccordionSummary, { AccordionSummaryProps } from '@mui/material/AccordionSummary';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
+import { width } from '@mui/system';
 
 const Accordion = styled((props) => <MuiAccordion disableGutters elevation={0} square {...props} />)(({ theme }) => ({
     border: `1px solid ${theme.palette.divider}`,
@@ -47,6 +48,7 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 const VendorProduct = (props) => {
     const location = useLocation();
     const [formType, setFormType] = useState(location.pathname === '/admin/viewvendor' ? 'vendor' : 'customer');
+    const [expanded, setExpanded] = React.useState(false);
     const handleNext = () => {
         let status = false;
         let count = 0;
@@ -163,6 +165,9 @@ const VendorProduct = (props) => {
         }
         props.setfileuploadt(form);
     };
+    const handleaccordianChange = (panel) => (event, isExpanded) => {
+        setExpanded(panel);
+    };
     return (
         <>
             {formType === 'customer' ? (
@@ -179,11 +184,15 @@ const VendorProduct = (props) => {
             ) : (
                 <></>
             )}
-            <Grid>
+            <Grid container>
                 {props.productdata.map((ele, indx) => {
                     if (ele.subCategory && ele.subCategory.length > 0) {
                         return (
-                            <Accordion>
+                            <Accordion
+                                expanded={expanded === `panel${indx}`}
+                                onClick={handleaccordianChange(`panel${indx}`)}
+                                sx={{ width: formType === 'vendor' ? '100%' : '49%', marginLeft: formType === 'vendor' ? 0 : '5px' }}
+                            >
                                 <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
                                     <Typography style={{ fontWeight: '700' }}>{ele.name}</Typography>
                                 </AccordionSummary>
@@ -191,66 +200,70 @@ const VendorProduct = (props) => {
                                     <Typography>
                                         {ele.subCategory.map((val, i) => {
                                             return (
-                                                <AccordionDetails>
-                                                    <Typography>
-                                                        <Grid container>
-                                                            <Grid item md={5}>
-                                                                {' '}
-                                                                <FormControlLabel
-                                                                    style={{ minWidth: '132px' }}
-                                                                    control={<Android12Switch />}
-                                                                    label={val.name}
-                                                                    name="selected"
-                                                                    checked={val.selected}
-                                                                    disabled={props.editData}
-                                                                    onChange={(e) => handlechange(e, i, indx, val.id)}
-                                                                />
-                                                            </Grid>
-                                                            <Grid item md={7}>
-                                                                <Grid container spacing={3}>
-                                                                    <Grid item md={4}>
-                                                                        <TextField
-                                                                            inputProps={{
-                                                                                inputMode: 'numeric',
-                                                                                pattern: '[0-9]*'
-                                                                            }}
-                                                                            label="City"
-                                                                            variant="outlined"
-                                                                            disabled={props.editData}
-                                                                            size="small"
-                                                                            value={val.price1 || 0}
-                                                                            name="price1"
-                                                                            onChange={(e) => handlechange(e, i, indx, val.id)}
-                                                                        />
-                                                                    </Grid>
-                                                                    <Grid item md={4}>
-                                                                        <TextField
-                                                                            label="State"
-                                                                            variant="outlined"
-                                                                            size="small"
-                                                                            disabled={props.editData}
-                                                                            value={val.price2}
-                                                                            name="price2"
-                                                                            onChange={(e) => handlechange(e, i, indx, val.id)}
-                                                                        />
-                                                                    </Grid>
-                                                                    <Grid item md={4}>
-                                                                        {' '}
-                                                                        <TextField
-                                                                            label="Country"
-                                                                            variant="outlined"
-                                                                            size="small"
-                                                                            disabled={props.editData}
-                                                                            name="price3"
-                                                                            value={val.price3}
-                                                                            onChange={(e) => handlechange(e, i, indx, val.id)}
-                                                                        />
-                                                                    </Grid>
+                                                // <AccordionDetails>
+                                                //     <Typography>
+                                                <Grid container>
+                                                    <Grid item md={5}>
+                                                        {' '}
+                                                        <FormControlLabel
+                                                            style={{ minWidth: '132px' }}
+                                                            control={<Android12Switch />}
+                                                            label={val.name}
+                                                            name="selected"
+                                                            checked={val.selected}
+                                                            disabled={props.editData}
+                                                            onChange={(e) => handlechange(e, i, indx, val.id)}
+                                                        />
+                                                    </Grid>
+                                                    {formType === 'vendor' ? (
+                                                        <Grid item md={7}>
+                                                            <Grid container spacing={3}>
+                                                                <Grid item md={4}>
+                                                                    <TextField
+                                                                        inputProps={{
+                                                                            inputMode: 'numeric',
+                                                                            pattern: '[0-9]*'
+                                                                        }}
+                                                                        label="City"
+                                                                        variant="outlined"
+                                                                        disabled={props.editData}
+                                                                        size="small"
+                                                                        value={val.price1 || 0}
+                                                                        name="price1"
+                                                                        onChange={(e) => handlechange(e, i, indx, val.id)}
+                                                                    />
+                                                                </Grid>
+                                                                <Grid item md={4}>
+                                                                    <TextField
+                                                                        label="State"
+                                                                        variant="outlined"
+                                                                        size="small"
+                                                                        disabled={props.editData}
+                                                                        value={val.price2}
+                                                                        name="price2"
+                                                                        onChange={(e) => handlechange(e, i, indx, val.id)}
+                                                                    />
+                                                                </Grid>
+                                                                <Grid item md={4}>
+                                                                    {' '}
+                                                                    <TextField
+                                                                        label="Country"
+                                                                        variant="outlined"
+                                                                        size="small"
+                                                                        disabled={props.editData}
+                                                                        name="price3"
+                                                                        value={val.price3}
+                                                                        onChange={(e) => handlechange(e, i, indx, val.id)}
+                                                                    />
                                                                 </Grid>
                                                             </Grid>
                                                         </Grid>
-                                                    </Typography>
-                                                </AccordionDetails>
+                                                    ) : (
+                                                        <></>
+                                                    )}
+                                                </Grid>
+                                                //     </Typography>
+                                                // </AccordionDetails>
                                             );
                                         })}
                                     </Typography>

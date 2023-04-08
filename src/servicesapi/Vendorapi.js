@@ -269,15 +269,6 @@ export const Addexistingvendorfile = async (data, id) => {
         .post(`${Url}AddVendorFile?vendorId=${id}`, data)
         .then((res) => res)
         .catch((err) => console.log('File Upload Error'));
-    // return await fetch(`${Url}AddVendorFile?vendorId=${id}`, {
-    //     method: 'POST',
-    //     body: JSON.stringify(data),
-    //     headers: {
-    //         'Content-Type': 'application/json',
-    //         Accept: 'application/json',
-    //         'Access-Control-Allow-Origin': '*'
-    //     }
-    // }).then((data) => data);
 };
 export const UpdateVendorFile = async (data, id) => {
     return axios

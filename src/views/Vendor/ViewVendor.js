@@ -54,7 +54,7 @@ function Row(props) {
         setEditView(newValue);
         setEditData(true);
     };
-    const tabsCutomerName = ['Profile', 'Communication', 'Product', 'Contact', 'Additional', 'Customer Integration Details'];
+    const tabsCutomerName = ['Profile', 'Communication', 'Product', 'Contact', 'Additional', 'Customer Integration Details', 'File Upload'];
 
     const tabsVendorName = ['Profile', 'Communication', 'Product', 'Contact', 'Additional', 'Licence', 'File Upload'];
     return (

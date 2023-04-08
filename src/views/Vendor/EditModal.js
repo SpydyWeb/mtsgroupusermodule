@@ -20,7 +20,8 @@ import {
     GetCustomerCommunicationbyid,
     GetCustomerAddressbyid,
     GetCustomerContactbyid,
-    GetCustomerIntegrationDetailbyid
+    GetCustomerIntegrationDetailbyid,
+    GetCustomerFileById
 } from '../../servicesapi/Customerapi';
 import Com_notification from './Com_notification';
 import FileUpload from './FileUpload';
@@ -233,18 +234,6 @@ const EditModal = (props) => {
                 vendorDetail['additionalDetail'] = additional;
             }
         } else {
-            let data = [
-                {
-                    fileName: '',
-                    location: '',
-                    size: 0,
-                    file: '',
-                    type: '',
-                    remarks: '',
-                    issueDate: '',
-                    expiryDate: ''
-                }
-            ];
             GetVendorProduct().then((res) => {
                 let data = [];
                 res.map((ele) => {
@@ -260,19 +249,31 @@ const EditModal = (props) => {
                         });
                     });
                 });
-
                 setProductD(data);
             });
-            GetVendorFileById(props.selecetedVedorId).then((res) => {
-                setVendordata({ ...Vendordata, ['productFiles']: res });
-                if (res.length === 0) {
-                    setiseditdata(0);
-                    seterrmsg('Data not found');
-                } else {
-                    setiseditdata(res.length);
-                    seterrmsg('');
-                }
-            });
+            if (formType === 'vendor') {
+                GetVendorFileById(props.selecetedVedorId).then((res) => {
+                    setVendordata({ ...Vendordata, ['productFiles']: res });
+                    if (res.length === 0) {
+                        setiseditdata(0);
+                        seterrmsg('Data not found');
+                    } else {
+                        setiseditdata(res.length);
+                        seterrmsg('');
+                    }
+                });
+            } else {
+                GetCustomerFileById(props.selecetedVedorId).then((res) => {
+                    setVendordata({ ...Vendordata, ['productFiles']: res });
+                    if (res.length === 0) {
+                        setiseditdata(0);
+                        seterrmsg('Data not found');
+                    } else {
+                        setiseditdata(res.length);
+                        seterrmsg('');
+                    }
+                });
+            }
         }
     }, [props.editView]);
 
@@ -374,6 +375,7 @@ const EditModal = (props) => {
                 selecetedVedorId={props.selecetedVedorId}
                 errmsg={errmsg}
                 iseditdata={iseditdata}
+                formType={formType}
             />
         ) : props.editView === 4 ? (
             <Com_notification
@@ -447,7 +449,33 @@ const EditModal = (props) => {
                                 Cancel
                             </Button>
                         ) : (
-                            <Button size="small" onClick={() => props.setEditData(!props.editData)} variant="contained" sx={{ m: 1 }}>
+                            <Button
+                                size="small"
+                                onClick={() => {
+                                    console.log(props.TabValue);
+                                    if (props.TabValue === 6) {
+                                        if (Vendordata.productFiles.length === 0) {
+                                            let data = [
+                                                {
+                                                    fileName: '',
+                                                    location: '',
+                                                    size: 0,
+                                                    file: '',
+                                                    type: '',
+                                                    remarks: '',
+                                                    issueDate: '',
+                                                    expiryDate: '',
+                                                    fileid: 0
+                                                }
+                                            ];
+                                            setVendordata({ ...Vendordata, ['productFiles']: data });
+                                        }
+                                    }
+                                    props.setEditData(!props.editData);
+                                }}
+                                variant="contained"
+                                sx={{ m: 1 }}
+                            >
                                 <AiFillEdit /> Edit {props.TabLabelName[props.TabValue]}
                             </Button>
                         )}

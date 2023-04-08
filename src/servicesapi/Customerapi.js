@@ -69,7 +69,36 @@ export const UpdateCustomerAddress = async (data, id) => {
 export const UpdateCustomerContact = async (data, id) => {
     return await axios.put(`${Url}UpdateCustomerContact?Contactid=${id}`, data, config).then((data) => data);
 };
-
+export const Addcustomerfile = (data) => {
+    const formData = new FormData();
+    formData.append('Files', data);
+    return axios
+        .post(`${Url}Addfile`, formData)
+        .then((res) => res)
+        .catch((err) => console.log('File Upload Error'));
+};
+export const GetCustomerFileById = async (id) => {
+    return await fetch(`${Url}GetCustomerFileById?vendorid=${id}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+            'Access-Control-Allow-Origin': '*'
+        }
+    }).then((data) => data.json());
+};
+export const Addexistingcustomerfile = async (data, id) => {
+    return axios
+        .post(`${Url}AddcustomerFile?vendorId=${id}`, data)
+        .then((res) => res)
+        .catch((err) => console.log('File Upload Error'));
+};
+export const UpdatecustomerFile = async (data, id) => {
+    return axios
+        .post(`${Url}UpdatecustomerFile`, data)
+        .then((res) => res)
+        .catch((err) => console.log('File Upload Error'));
+};
 export const UploadProductFile = async (data, id) => {
     return await axios
         .post(`${Url}Uploadfiles?Customerid=${id}`, data, {

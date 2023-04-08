@@ -82,7 +82,8 @@ const StepperForm = () => {
             {
                 type: '',
                 detail: '',
-                product_id: 0
+                product_id: 0,
+                method: ''
             }
         ],
         userregistration: {

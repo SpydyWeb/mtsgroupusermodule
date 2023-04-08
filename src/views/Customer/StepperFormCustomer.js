@@ -5,7 +5,8 @@ import VendorProduct from '../Vendor/VendorProduct';
 import VendorProfileForm from '../Vendor/VendorProfileForm';
 import Com_notification from '../Vendor/Com_notification';
 import Userregister from '../Vendor/Userregister';
-const steps = ['Basic Customer Details', 'Product/ Service', 'Communication/ Notification', 'User Registration'];
+import FileUpload from 'views/Vendor/FileUpload';
+const steps = ['Basic Customer Details', 'Product/ Service', 'Communication/ Notification', 'Upload Documents', 'User Registration'];
 export const StepperFormCustomer = () => {
     const [activeStep, setActiveStep] = useState(0);
     const [allstate, setAllState] = useState([]);
@@ -17,6 +18,8 @@ export const StepperFormCustomer = () => {
         customerId: '',
         name: '',
         parent: '',
+        client_type: '',
+        timezone: '',
         primery_Address: {
             address: '',
             city: '',
@@ -60,7 +63,8 @@ export const StepperFormCustomer = () => {
                 type: '',
                 detail: '',
                 product_id: 0,
-                customerId: 0
+                customerId: 0,
+                method: ''
             }
         ],
         product: [
@@ -83,7 +87,28 @@ export const StepperFormCustomer = () => {
             password: '',
             customerId: 0
         },
-        registerId: []
+        registerId: [],
+        accountinfo: {
+            billing_Code: '',
+            billing_Name: '',
+            tax_Id: '',
+            custom_Field1: '',
+            custom_Field2: '',
+            profile_Note: ''
+        },
+        productFiles: [
+            {
+                fileName: '',
+                location: '',
+                size: 0,
+                file: '',
+                type: '',
+                remarks: '',
+                issueDate: '',
+                expiryDate: '',
+                fileid: 0
+            }
+        ]
     });
     useEffect(() => {
         GetStateList().then((res) => {
@@ -162,6 +187,15 @@ export const StepperFormCustomer = () => {
                             edit={false}
                         />
                     ) : activeStep === 3 ? (
+                        <FileUpload
+                            Vendordata={customerData}
+                            setVendordata={setCustomerData}
+                            setActiveStep={setActiveStep}
+                            activeStep={activeStep}
+                            productD={productD}
+                            edit={false}
+                        />
+                    ) : activeStep === 4 ? (
                         <Userregister
                             Vendordata={customerData}
                             setVendordata={setCustomerData}

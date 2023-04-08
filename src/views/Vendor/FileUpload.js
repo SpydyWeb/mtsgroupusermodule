@@ -8,6 +8,7 @@ import { toast } from 'react-hot-toast';
 import { AiFillEdit, AiOutlineDownload, AiFillCloseCircle } from 'react-icons/ai';
 import { Addexistingvendorfile, Addvendorfile, UpdateVendorFile } from 'servicesapi/Vendorapi';
 import { CurrentUrl } from 'servicesapi/UrlApi';
+import { Addcustomerfile, Addexistingcustomerfile, UpdatecustomerFile } from 'servicesapi/Customerapi';
 const FileUpload = (props) => {
     console.log();
     const handlechangedate = (e, i) => {
@@ -36,50 +37,96 @@ const FileUpload = (props) => {
         if (status) toast.error('Please fill all the mandatory fields');
         else {
             let data = props.Vendordata.productFiles;
-            data.map((ele) => {
-                console.log();
-                if (props.iseditdata === 0 || ele.id === undefined) {
-                    const data = new FormData();
-                    data.append('expiryDate', ele.expiryDate);
-                    data.append('issueDate', ele.issueDate);
-                    data.append('remarks', ele.remarks);
-                    data.append('size', ele.size);
-                    data.append('type', ele.type);
-                    data.append('fileName', ele.fileName);
-                    Addvendorfile(ele.file).then((resP) => {
-                        data.append('File_id', resP.data[0]);
-                        Addexistingvendorfile(data, props.selecetedVedorId).then((res) => {
-                            ele.File_id = ele.fileid;
-                            ele.new_File_id = res.data[0];
-                            delete ele.updateDate;
-                            // ele.File_id = ele.fileid;
-                            // ele.new_File_id = 0;
+            if (props.formType === 'vendor') {
+                data.map((ele) => {
+                    console.log();
+                    if (props.iseditdata === 0 || ele.id === undefined) {
+                        const data = new FormData();
+                        data.append('expiryDate', ele.expiryDate);
+                        data.append('issueDate', ele.issueDate);
+                        data.append('remarks', ele.remarks);
+                        data.append('size', ele.size);
+                        data.append('type', ele.type);
+                        data.append('fileName', ele.fileName);
+                        Addvendorfile(ele.file).then((resP) => {
+                            data.append('File_id', resP.data[0]);
+                            Addexistingvendorfile(data, props.selecetedVedorId).then((res) => {
+                                ele.File_id = ele.fileid;
+                                ele.new_File_id = res.data[0];
+                                delete ele.updateDate;
+                                // ele.File_id = ele.fileid;
+                                // ele.new_File_id = 0;
 
-                            if (res.status === 200) {
-                                toast.success('File updated succsessfully');
-                            } else {
-                                res.json().then((res) => toast.error(res));
-                            }
+                                if (res.status === 200) {
+                                    toast.success('File updated succsessfully');
+                                } else {
+                                    res.json().then((res) => toast.error(res));
+                                }
+                            });
                         });
-                    });
-                } else {
-                    console.log('else hit');
-                    Addvendorfile(ele.file).then((res) => {
-                        ele.File_id = ele.fileid;
-                        ele.size = ele.size === null ? 0 : ele.size;
-                        ele.new_File_id = res.data[0];
-                        // ele.id = props.selecetedVedorId;
-                        delete ele.updateDate;
-                        UpdateVendorFile(ele).then((res) => {
-                            if (res.status === 200) {
-                                toast.success('File updated succsessfully');
-                            } else {
-                                res.json().then((res) => toast.error(res));
-                            }
+                    } else {
+                        console.log('else hit');
+                        Addvendorfile(ele.file).then((res) => {
+                            ele.File_id = ele.fileid;
+                            ele.size = ele.size === null ? 0 : ele.size;
+                            ele.new_File_id = res.data[0];
+                            // ele.id = props.selecetedVedorId;
+                            delete ele.updateDate;
+                            UpdateVendorFile(ele).then((res) => {
+                                if (res.status === 200) {
+                                    toast.success('File updated succsessfully');
+                                } else {
+                                    res.json().then((res) => toast.error(res));
+                                }
+                            });
                         });
-                    });
-                }
-            });
+                    }
+                });
+            } else {
+                data.map((ele) => {
+                    console.log();
+                    if (props.iseditdata === 0 || ele.id === undefined) {
+                        const data = new FormData();
+                        data.append('expiryDate', ele.expiryDate);
+                        data.append('issueDate', ele.issueDate);
+                        data.append('remarks', ele.remarks);
+                        data.append('size', ele.size);
+                        data.append('type', ele.type);
+                        data.append('fileName', ele.fileName);
+                        Addcustomerfile(ele.file).then((resP) => {
+                            data.append('File_id', resP.data[0]);
+                            Addexistingcustomerfile(data, props.selecetedVedorId).then((res) => {
+                                ele.File_id = ele.fileid;
+                                ele.new_File_id = res.data[0];
+                                delete ele.updateDate;
+                                // ele.File_id = ele.fileid;
+                                // ele.new_File_id = 0;
+
+                                if (res.status === 200) {
+                                    toast.success('File updated succsessfully');
+                                } else {
+                                    res.json().then((res) => toast.error(res));
+                                }
+                            });
+                        });
+                    } else {
+                        Addcustomerfile(ele.file).then((res) => {
+                            ele.File_id = ele.fileid;
+                            ele.size = ele.size === null ? 0 : ele.size;
+                            ele.new_File_id = res.data[0];
+                            // ele.id = props.selecetedVedorId;
+                            delete ele.updateDate;
+                            UpdatecustomerFile(ele).then((res) => {
+                                if (res.status === 200) {
+                                    toast.success('File updated succsessfully');
+                                } else {
+                                    res.json().then((res) => toast.error(res));
+                                }
+                            });
+                        });
+                    }
+                });
+            }
             props.setVendorDetail({ ...props.vendorDetail, ['productFiles']: data });
             props.seteditModalOpen((prev) => !prev);
         }
