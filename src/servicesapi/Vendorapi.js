@@ -276,6 +276,12 @@ export const UpdateVendorFile = async (data, id) => {
         .then((res) => res)
         .catch((err) => console.log('File Upload Error'));
 };
+export const Addvendoreoc = async (data, id) => {
+    return axios
+        .post(`${Url}Addvendoreoc`, data)
+        .then((res) => res)
+        .catch((err) => console.log('File Upload Error'));
+};
 export const GetVendorFileById = async (id) => {
     return await fetch(`${Url}GetVendorFileById?vendorid=${id}`, {
         method: 'GET',
@@ -433,6 +439,32 @@ export const UpdateVendor = async (data) => {
 export const UpdateVendorLicences = async (data, id) => {
     const token = localStorage.getItem('jwtTokenId');
     return await fetch(`${Url}UpdateVendorLicences?vendorid=${id}`, {
+        method: 'PUT',
+        body: JSON.stringify(data),
+        headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+            'Access-Control-Allow-Origin': '*'
+        }
+    }).then((data) => data);
+};
+export const DeleteVendorLicences = async (id) => {
+    const token = localStorage.getItem('jwtTokenId');
+    return await fetch(`${Url}DeleteVendorLicence?LicenceId=${id}`, {
+        method: 'DELETE',
+        headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+            'Access-Control-Allow-Origin': '*'
+        }
+    }).then((data) => data);
+};
+
+export const AddVendorLicences = async (data, id) => {
+    const token = localStorage.getItem('jwtTokenId');
+    return await fetch(`${Url}AddVendorLicences?vendorid=${id}`, {
         method: 'PUT',
         body: JSON.stringify(data),
         headers: {

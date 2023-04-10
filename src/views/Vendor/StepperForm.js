@@ -7,6 +7,7 @@ import Com_notification from './Com_notification';
 import Userregister from './Userregister';
 import FileUpload from './FileUpload';
 import { GetVendorProduct, GetStateList, GetCommunicationTypeList, GetLicenceType } from '../../servicesapi/Vendorapi';
+import { GetcommunicationLists } from 'servicesapi/Customerapi';
 const steps = [
     'Basic Vendor Details',
     'Vendor License',
@@ -23,6 +24,7 @@ const StepperForm = () => {
     const [allstate, setAllState] = useState([]);
     const [communicationType, setCommunicaionType] = useState([]);
     const [licenceType, setLicenceType] = useState([]);
+    const [communicatioonMethod, setCommunicationMethod] = useState([]);
     const [Vendordata, setVendordata] = useState({
         id: 0,
         vendorId: '',
@@ -132,6 +134,10 @@ const StepperForm = () => {
         GetStateList().then((res) => {
             setAllState(res);
         });
+        GetcommunicationLists().then((res) => {
+            let data = res.data.communication_Method_Masters;
+            setCommunicationMethod(data);
+        });
         GetCommunicationTypeList().then((res) => {
             setCommunicaionType(res);
         });
@@ -227,6 +233,7 @@ const StepperForm = () => {
                                 communicationType={communicationType}
                                 communication={Vendordata.communication}
                                 edit={false}
+                                communicatioonMethod={communicatioonMethod}
                             />
                         ) : (
                             <></>

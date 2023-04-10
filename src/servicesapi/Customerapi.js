@@ -69,6 +69,9 @@ export const UpdateCustomerAddress = async (data, id) => {
 export const UpdateCustomerContact = async (data, id) => {
     return await axios.put(`${Url}UpdateCustomerContact?Contactid=${id}`, data, config).then((data) => data);
 };
+export const GetcommunicationLists = async () => {
+    return await axios.get(`${Url}GetcommunicationLists`, config).then((data) => data);
+};
 export const Addcustomerfile = (data) => {
     const formData = new FormData();
     formData.append('Files', data);
@@ -89,7 +92,7 @@ export const GetCustomerFileById = async (id) => {
 };
 export const Addexistingcustomerfile = async (data, id) => {
     return axios
-        .post(`${Url}AddcustomerFile?vendorId=${id}`, data)
+        .post(`${Url}AddcustomerFile?Customerid=${id}`, data)
         .then((res) => res)
         .catch((err) => console.log('File Upload Error'));
 };

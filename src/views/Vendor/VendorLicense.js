@@ -3,13 +3,14 @@ import { TextField, Autocomplete, Select, MenuItem, InputLabel, FormControl, Box
 import { AiFillEdit } from 'react-icons/ai';
 import { IoMdAddCircle } from 'react-icons/io';
 import { MdDelete } from 'react-icons/md';
-import { UpdateVendorLicences } from '../../servicesapi/Vendorapi';
+import { AddVendorLicences, UpdateVendorLicences, DeleteVendorLicences } from '../../servicesapi/Vendorapi';
 import toast from 'react-hot-toast';
 const VendorLicense = (props) => {
     const top100Films = [{ title: '', year: 1994 }];
     const handleRemoveClick = (index) => {
-        const list = [...props.licences];
-        list.splice(index, 1);
+        const list = props.licences;
+        console.log(index, list);
+        list.splice(index - 1, 1);
 
         props.setVendordata({ ...props.Vendordata, ['licences']: list });
     };
@@ -131,15 +132,34 @@ const VendorLicense = (props) => {
         });
         if (status) toast.error('Please fill all the mandatory fields');
         else {
-            UpdateVendorLicences(props.licences, props.selecetedVedorId).then((res) => {
-                if (res.status === 200) {
-                    toast.success('Licence updated succsessfully');
-                    props.setVendorDetail({ ...props.vendorDetail, ['licences']: props.licences });
-                    props.seteditModalOpen((prev) => !prev);
+            let apistatus = false;
+            props.licences.map((ele) => {
+                if (ele.id === undefined) {
+                    UpdateVendorLicences([ele], props.selecetedVedorId).then((res) => {
+                        if (res.status === 200) {
+                            apistatus = true;
+                        } else {
+                            res.json().then((res) => toast.error(res));
+                        }
+                    });
                 } else {
-                    res.json().then((res) => toast.error(res));
+                    delete ele.updateDate;
+                    delete ele.isDeleted;
+                    delete ele.createdDate;
+                    AddVendorLicences(ele, props.selecetedVedorId).then((res) => {
+                        if (res.status === 200) {
+                            apistatus = true;
+                        } else {
+                            res.json().then((res) => toast.error(res));
+                        }
+                    });
                 }
             });
+            if (apistatus) {
+                toast.success('Licence updated succsessfully');
+                props.setVendorDetail({ ...props.vendorDetail, ['licences']: props.licences });
+                props.seteditModalOpen((prev) => !prev);
+            }
         }
     };
     return (
@@ -375,17 +395,31 @@ const VendorLicense = (props) => {
                                             />
                                         </div>
                                     </div>
-                                    <div className={`${props.edit ? 'hidden' : 'flex'} flex-wrap`}>
+                                    <div className={`flex flex-wrap`}>
                                         {props.licences.length !== 1 && (
                                             <MdDelete
-                                                onClick={() => handleRemoveClick(i)}
+                                                disabled={props.editData}
+                                                onClick={() => {
+                                                    if (x.id !== undefined) {
+                                                        DeleteVendorLicences(x.id).then((res) => {
+                                                            if (res.status === 200) toast.success('Data has been deleted successfully');
+                                                        });
+                                                    }
+                                                    handleRemoveClick(i);
+                                                }}
                                                 color="red"
                                                 size={25}
                                                 style={{ cursor: 'pointer' }}
                                             />
                                         )}
                                         {props.licences.length - 1 === i && (
-                                            <IoMdAddCircle onClick={handleAddClick} color="green" size={25} style={{ cursor: 'pointer' }} />
+                                            <IoMdAddCircle
+                                                disabled={props.editData}
+                                                onClick={handleAddClick}
+                                                color="green"
+                                                size={25}
+                                                style={{ cursor: 'pointer' }}
+                                            />
                                         )}
                                     </div>
                                 </div>

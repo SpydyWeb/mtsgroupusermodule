@@ -54,9 +54,9 @@ function Row(props) {
         setEditView(newValue);
         setEditData(true);
     };
-    const tabsCutomerName = ['Profile', 'Communication', 'Product', 'Contact', 'Additional', 'Customer Integration Details', 'File Upload'];
+    const tabsCutomerName = ['Profile', 'Communication', 'Product', 'Additional', 'Customer Integration Details', 'File Upload'];
 
-    const tabsVendorName = ['Profile', 'Communication', 'Product', 'Contact', 'Additional', 'Licence', 'File Upload'];
+    const tabsVendorName = ['Profile', 'Communication', 'Product', 'Additional', 'Licence', 'File Upload', 'E&O'];
     return (
         <React.Fragment>
             <Box>
@@ -156,7 +156,7 @@ const ViewVendor = (props) => {
         Id: '',
         Email: '',
         Name: '',
-        Status: true,
+        Status: 1,
         Contact: '',
         Licence: '',
         State: '',
@@ -261,7 +261,7 @@ const ViewVendor = (props) => {
         setIsLoading(true);
         setOpen(false);
         if (props.formType === 'vendor') {
-            GetallVendorBySearch({ status: true }).then((res) => {
+            GetallVendorBySearch({ status: 1 }).then((res) => {
                 res.map((ele) =>
                     data.push({
                         id: ele.id,
@@ -441,8 +441,11 @@ const ViewVendor = (props) => {
                                 <FormControl className="w-52" size="small">
                                     <InputLabel>Status</InputLabel>
                                     <Select value={filterdata.Status} name="Status" onChange={(e) => handleFilterChange(e)}>
-                                        <MenuItem value={true}>Active</MenuItem>
-                                        <MenuItem value={false}>InActive</MenuItem>
+                                        <MenuItem value={1} defaultChecked={true}>
+                                            New
+                                        </MenuItem>
+                                        <MenuItem value={2}>Verified</MenuItem>
+                                        <MenuItem value={3}>Modified</MenuItem>
                                     </Select>
                                 </FormControl>
                             </Grid>

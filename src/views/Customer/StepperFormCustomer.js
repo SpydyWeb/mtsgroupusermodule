@@ -6,6 +6,7 @@ import VendorProfileForm from '../Vendor/VendorProfileForm';
 import Com_notification from '../Vendor/Com_notification';
 import Userregister from '../Vendor/Userregister';
 import FileUpload from 'views/Vendor/FileUpload';
+import { GetcommunicationLists } from 'servicesapi/Customerapi';
 const steps = ['Basic Customer Details', 'Product/ Service', 'Communication/ Notification', 'Upload Documents', 'User Registration'];
 export const StepperFormCustomer = () => {
     const [activeStep, setActiveStep] = useState(0);
@@ -14,6 +15,7 @@ export const StepperFormCustomer = () => {
     const [productD, setProductD] = useState([]);
     const [communicationType, setCommunicaionType] = useState([]);
     const [fileupload, setfileuploadt] = useState();
+    const [communicatioonMethod, setCommunicationMethod] = useState([]);
     const [customerData, setCustomerData] = useState({
         customerId: '',
         name: '',
@@ -114,6 +116,10 @@ export const StepperFormCustomer = () => {
         GetStateList().then((res) => {
             setAllState(res);
         });
+        GetcommunicationLists().then((res) => {
+            let data = res.data.communication_Method_Masters;
+            setCommunicationMethod(data);
+        });
         GetCommunicationTypeList().then((res) => {
             setCommunicaionType(res);
         });
@@ -185,6 +191,7 @@ export const StepperFormCustomer = () => {
                             communicationType={communicationType}
                             communication={customerData.communication}
                             edit={false}
+                            communicatioonMethod={communicatioonMethod}
                         />
                     ) : activeStep === 3 ? (
                         <FileUpload

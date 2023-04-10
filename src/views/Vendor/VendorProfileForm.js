@@ -79,51 +79,7 @@ const VendorProfileForm = (props) => {
                 props.Vendordata.secondary_Address.address === '' ||
                 props.Vendordata.secondary_Address.city === '' ||
                 props.Vendordata.secondary_Address.state === '' ||
-                props.Vendordata.secondary_Address.pincode === ''
-            )
-                toast.error('Please fill all the mandatory fields');
-            else {
-                let data = [];
-                data.push(props.Vendordata.primery_Address);
-                data.push(props.Vendordata.secondary_Address);
-                if (formType === 'vendor') {
-                    UpdateVendorAddress(data, props.selecetedVedorId).then((res) => {
-                        if (res.status === 200) {
-                            toast.success('Address Updated Succsessfully');
-                            props.setVendorDetail({
-                                ...props.vendorDetail,
-                                ['primery_Address']: props.Vendordata.primery_Address,
-                                ['secondary_Address']: props.Vendordata.secondary_Address
-                            });
-                            props.setEditData(!props.editData);
-                            props.seteditModalOpen((prev) => !prev);
-                        } else {
-                            res.json().then((res) => toast.error(res));
-                        }
-                    });
-                } else {
-                    delete data[0].updateDate;
-                    delete data[0].createdDate;
-                    delete data[1].updateDate;
-                    delete data[1].createdDate;
-                    UpdateCustomerAddress(data, props.selecetedVedorId).then((res) => {
-                        if (res.status === 200) {
-                            toast.success('Address Updated Succsessfully');
-                            props.setVendorDetail({
-                                ...props.vendorDetail,
-                                ['primery_Address']: props.Vendordata.primery_Address,
-                                ['secondary_Address']: props.Vendordata.secondary_Address
-                            });
-                            props.seteditModalOpen((prev) => !prev);
-                            props.setEditData(!props.editData);
-                        } else {
-                            res.json().then((res) => toast.error(res));
-                        }
-                    });
-                }
-            }
-        } else if (props.editType === 'Contact') {
-            if (
+                props.Vendordata.secondary_Address.pincode === '' ||
                 props.Vendordata.primery_Contact.firstName === '' ||
                 props.Vendordata.primery_Contact.lastName === '' ||
                 props.Vendordata.primery_Contact.phone === '' ||
@@ -132,22 +88,37 @@ const VendorProfileForm = (props) => {
             )
                 toast.error('Please fill all the mandatory fields');
             else {
-                let data = [];
-                data.push(props.Vendordata.primery_Contact);
-                data.push(props.Vendordata.secondary_contact);
-                let contactData = data;
-                if (contactData[1].firstName === '') {
-                    contactData = new Array(contactData[0]);
+                let dataaddress = [];
+                let datacontact = [];
+                dataaddress.push(props.Vendordata.primery_Address);
+                dataaddress.push(props.Vendordata.secondary_Address);
+                datacontact.push(props.Vendordata.primery_Contact);
+                datacontact.push(props.Vendordata.secondary_contact);
+                if (datacontact[1].firstName === '') {
+                    datacontact = new Array(datacontact[0]);
                 } else {
-                    delete contactData[1]['id'];
-                    delete contactData[1]['updateDate'];
-                    delete contactData[1]['createdDate'];
-                    delete contactData[1]['isDeleted'];
+                    delete datacontact[1]['id'];
+                    delete datacontact[1]['updateDate'];
+                    delete datacontact[1]['createdDate'];
+                    delete datacontact[1]['isDeleted'];
                 }
                 if (formType === 'vendor') {
-                    UpdateVendorContact(contactData, props.selecetedVedorId).then((res) => {
+                    UpdateVendorAddress(dataaddress, props.selecetedVedorId).then((res) => {
                         if (res.status === 200) {
-                            toast.success('Contact updated succsessfully');
+                            props.setVendorDetail({
+                                ...props.vendorDetail,
+                                ['primery_Address']: props.Vendordata.primery_Address,
+                                ['secondary_Address']: props.Vendordata.secondary_Address
+                            });
+                            props.setEditData(!props.editData);
+                            props.seteditModalOpen((prev) => !prev);
+                        } else {
+                            res.json().then((res) => toast.error(res));
+                        }
+                    });
+                    UpdateVendorContact(datacontact, props.selecetedVedorId).then((res) => {
+                        if (res.status === 200) {
+                            toast.success('Profile updated succsessfully');
                             props.setVendorDetail({
                                 ...props.vendorDetail,
                                 ['primery_Contact']: props.Vendordata.primery_Contact,
@@ -160,12 +131,25 @@ const VendorProfileForm = (props) => {
                         }
                     });
                 } else {
-                    // if(data[1].firstName===""){
-                    //   let temp=data;
-                    //   data=[]
-                    //   data.push(temp[0])
-                    //             }
-                    UpdateCustomerContact(contactData, props.selecetedVedorId).then((res) => {
+                    delete dataaddress[0].updateDate;
+                    delete dataaddress[0].createdDate;
+                    delete dataaddress[1].updateDate;
+                    delete dataaddress[1].createdDate;
+                    UpdateCustomerAddress(dataaddress, props.selecetedVedorId).then((res) => {
+                        if (res.status === 200) {
+                            toast.success('Address Updated Succsessfully');
+                            props.setVendorDetail({
+                                ...props.vendorDetail,
+                                ['primery_Address']: props.Vendordata.primery_Address,
+                                ['secondary_Address']: props.Vendordata.secondary_Address
+                            });
+                            props.seteditModalOpen((prev) => !prev);
+                            props.setEditData(!props.editData);
+                        } else {
+                            res.json().then((res) => toast.error(res));
+                        }
+                    });
+                    UpdateCustomerContact(datacontact, props.selecetedVedorId).then((res) => {
                         if (res.status === 200) {
                             toast.success('Contact updated succsessfully');
                             props.setVendorDetail({
@@ -202,7 +186,7 @@ const VendorProfileForm = (props) => {
                                     ID <span className="text-red-600">*</span>
                                 </>
                             }
-                            value={formType === 'vendor' ? props.Vendordata.vendorId : props.Vendordata.customerId}
+                            value={formType === 'vendor' ? props.Vendordata?.vendorId : props.Vendordata.customerId}
                             name={formType === 'vendor' ? 'vendorId' : 'customerId'}
                             onChange={(e) => {
                                 if (e.target.value.length > 3 && e.target.value.length != 11) {
@@ -223,7 +207,7 @@ const VendorProfileForm = (props) => {
                             variant="outlined"
                             size="small"
                         />
-                        {tooltip.isshow && props.Vendordata.vendorId !== '' ? (
+                        {tooltip.isshow && props.Vendordata?.vendorId !== '' ? (
                             <ToolTipValidation isValid={tooltip.valid} validMessage="Correct" invalidMessage={'Vendor ID already exist'} />
                         ) : (
                             <></>
@@ -711,7 +695,7 @@ const VendorProfileForm = (props) => {
             <SubCard
                 title="Primary Contact"
                 sx={{ mb: 2 }}
-                className={`${props.edit ? (props.editType && props.editType === 'Contact' ? 'block' : 'hidden') : 'block'}`}
+                className={`${props.edit ? (props.editType && props.editType === 'Address' ? 'block' : 'hidden') : 'block'}`}
             >
                 <div className={`flex flex-col md:flex-row gap-6`}>
                     <div>
@@ -979,7 +963,7 @@ const VendorProfileForm = (props) => {
                     </Box>
                 }
                 sx={{ mb: 2 }}
-                className={`${props.edit ? (props.editType && props.editType === 'Contact' ? 'block' : 'hidden') : 'block'}`}
+                className={`${props.edit ? (props.editType && props.editType === 'Address' ? 'block' : 'hidden') : 'block'}`}
             >
                 <div className={`flex flex-col md:flex-row gap-6`}>
                     <div>

@@ -265,8 +265,8 @@ const Com_notification = (props) => {
                                                 value={x.method}
                                                 onChange={(e) => handlechangeCommunication(e, i)}
                                             >
-                                                {props.communicationType &&
-                                                    props.communicationType.map((ele) => {
+                                                {props.communicatioonMethod &&
+                                                    props.communicatioonMethod.map((ele) => {
                                                         return <MenuItem value={ele.name}>{ele.name}</MenuItem>;
                                                     })}
                                             </Select>

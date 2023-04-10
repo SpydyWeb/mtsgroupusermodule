@@ -21,13 +21,15 @@ import {
     GetCustomerAddressbyid,
     GetCustomerContactbyid,
     GetCustomerIntegrationDetailbyid,
-    GetCustomerFileById
+    GetCustomerFileById,
+    GetcommunicationLists
 } from '../../servicesapi/Customerapi';
 import Com_notification from './Com_notification';
 import FileUpload from './FileUpload';
 import { AiOutlineClose, AiFillEdit } from 'react-icons/ai';
 import Userregister from './Userregister';
 import SubCard from 'ui-component/cards/SubCard';
+import EandO from './EandO';
 const EditModal = (props) => {
     const { vendorDetail, setVendorDetail, formType } = props;
     const [activeStep, setActiveStep] = useState(0);
@@ -40,6 +42,7 @@ const EditModal = (props) => {
     const [productdata, setProductdata] = useState([]);
     const [productD, setProductD] = useState([]);
     const [iseditdata, setiseditdata] = useState('');
+    const [communicatioonMethod, setCommunicationMethod] = useState([]);
     const [communication, setCommunicaion] = useState([
         {
             type: '',
@@ -51,7 +54,7 @@ const EditModal = (props) => {
         GetStateList().then((res) => {
             setAllState(res);
         });
-        if (props.editView === 0) {
+        if (props.editView === 2) {
             if (formType === 'vendor') {
                 GetvendorProductbyid(props.selecetedVedorId).then((res) => {
                     setProductdata(res);
@@ -65,6 +68,10 @@ const EditModal = (props) => {
             }
         } else if (props.editView === 1) {
             setProductD(vendorDetail.product);
+            GetcommunicationLists().then((res) => {
+                let data = res.data.communication_Method_Masters;
+                setCommunicationMethod(data);
+            });
             if (formType === 'vendor') {
                 GetVendorCommunicationbyid(props.selecetedVedorId).then((res) => {
                     setCommunicaion(res);
@@ -77,10 +84,11 @@ const EditModal = (props) => {
             GetCommunicationTypeList().then((res) => {
                 setCommunicaionType(res);
             });
-        } else if (props.editView === 2) {
+        } else if (props.editView === 0) {
             if (formType === 'vendor') {
+                let data;
                 GetVendorAddressbyid(props.selecetedVedorId).then((res) => {
-                    const data = {
+                    data = {
                         primery_Address: {
                             address: res[0].address,
                             city: res[0].city,
@@ -104,12 +112,42 @@ const EditModal = (props) => {
                             updateDate: res[1].updateDate
                         }
                     };
-                    setVendordata(data);
+                    GetVendorContactbyid(props.selecetedVedorId).then((res) => {
+                        (data['primery_Contact'] = {
+                            firstName: res[0].firstName,
+                            middleName: res[0].middleName,
+                            lastName: res[0].lastName,
+                            phone: res[0].phone,
+                            email: res[0].email,
+                            ext: res[0].ext,
+                            cellPhone: res[0].cellPhone,
+                            id: res[0].id,
+                            updateDate: res[0].updateDate,
+                            createdDate: res[0].createdDate,
+                            isDeleted: res[0].isDeleted
+                        }),
+                            (data['secondary_contact'] = {
+                                firstName: res[1] !== null ? res[1].firstName : '',
+                                middleName: res[1] !== null ? res[1].middleName : '',
+                                lastName: res[1] !== null ? res[1].lastName : '',
+                                phone: res[1] !== null ? res[1].phone : '',
+                                email: res[1] !== null ? res[1].email : '',
+                                ext: res[1] !== null ? res[1].ext : '',
+                                cellPhone: res[1] !== null ? res[1].cellPhone : '',
+                                id: res[1] !== null ? res[1].id : '',
+                                updateDate: res[1] !== null ? res[1].updateDate : '',
+                                createdDate: res[1] !== null ? res[1].createdDate : '',
+                                isDeleted: res[1] !== null ? res[1].isDeleted : ''
+                            });
+
+                        setVendordata(data);
+                    });
                 });
             } else {
+                let data;
                 GetCustomerAddressbyid(props.selecetedVedorId).then((res) => {
                     res = res.data;
-                    const data = {
+                    data = {
                         primery_Address: {
                             address: res[0].address,
                             city: res[0].city,
@@ -133,14 +171,9 @@ const EditModal = (props) => {
                             updateDate: res[1].updateDate
                         }
                     };
-                    setVendordata(data);
-                });
-            }
-        } else if (props.editView === 3) {
-            if (formType === 'vendor') {
-                GetVendorContactbyid(props.selecetedVedorId).then((res) => {
-                    const data = {
-                        primery_Contact: {
+                    GetCustomerContactbyid(props.selecetedVedorId).then((res) => {
+                        res = res.data;
+                        data['primery_Contact'] = {
                             firstName: res[0].firstName,
                             middleName: res[0].middleName,
                             lastName: res[0].lastName,
@@ -152,41 +185,8 @@ const EditModal = (props) => {
                             updateDate: res[0].updateDate,
                             createdDate: res[0].createdDate,
                             isDeleted: res[0].isDeleted
-                        },
-                        secondary_contact: {
-                            firstName: res[1] !== null ? res[1].firstName : '',
-                            middleName: res[1] !== null ? res[1].middleName : '',
-                            lastName: res[1] !== null ? res[1].lastName : '',
-                            phone: res[1] !== null ? res[1].phone : '',
-                            email: res[1] !== null ? res[1].email : '',
-                            ext: res[1] !== null ? res[1].ext : '',
-                            cellPhone: res[1] !== null ? res[1].cellPhone : '',
-                            id: res[1] !== null ? res[1].id : '',
-                            updateDate: res[1] !== null ? res[1].updateDate : '',
-                            createdDate: res[1] !== null ? res[1].createdDate : '',
-                            isDeleted: res[1] !== null ? res[1].isDeleted : ''
-                        }
-                    };
-                    setVendordata(data);
-                });
-            } else {
-                GetCustomerContactbyid(props.selecetedVedorId).then((res) => {
-                    res = res.data;
-                    const data = {
-                        primery_Contact: {
-                            firstName: res[0].firstName,
-                            middleName: res[0].middleName,
-                            lastName: res[0].lastName,
-                            phone: res[0].phone,
-                            email: res[0].email,
-                            ext: res[0].ext,
-                            cellPhone: res[0].cellPhone,
-                            id: res[0].id,
-                            updateDate: res[0].updateDate,
-                            createdDate: res[0].createdDate,
-                            isDeleted: res[0].isDeleted
-                        },
-                        secondary_contact: {
+                        };
+                        data['secondary_contact'] = {
                             firstName: res.length === 1 ? res[1].firstName : '',
                             middleName: res.length === 1 ? res[1].middleName : '',
                             lastName: res.length === 1 ? res[1].lastName : '',
@@ -198,12 +198,12 @@ const EditModal = (props) => {
                             updateDate: res.length === 1 ? res[1].updateDate : '',
                             createdDate: res.length === 1 ? res[1].createdDate : '',
                             isDeleted: res.length === 1 ? res[1].isDeleted : ''
-                        }
-                    };
-                    setVendordata(data);
+                        };
+                        setVendordata(data);
+                    });
                 });
             }
-        } else if (props.editView === 4) {
+        } else if (props.editView === 3) {
             if (formType === 'vendor') {
                 const data = {
                     id: props.selecetedVedorId,
@@ -224,7 +224,7 @@ const EditModal = (props) => {
                 };
                 setVendordata(data);
             }
-        } else if (props.editView === 5) {
+        } else if (props.editView === 4) {
             if (formType === 'vendor') {
                 GetLicenceType().then((res) => {
                     setLicenceType(res);
@@ -323,6 +323,7 @@ const EditModal = (props) => {
                 setEditData={props.setEditData}
                 setOpenTableView={props.setOpenTableView}
                 openTableView={props.openTableView}
+                communicatioonMethod={communicatioonMethod}
             />
         ) : props.editView === 0 ? (
             <VendorProfileForm
@@ -342,25 +343,7 @@ const EditModal = (props) => {
                 vendorDetail={vendorDetail}
                 seteditModalOpen={props.seteditModalOpen}
             />
-        ) : props.editView === 3 ? (
-            <VendorProfileForm
-                Vendordata={Vendordata}
-                setVendordata={setVendordata}
-                allstate={allstate}
-                setActiveStep={setActiveStep}
-                activeStep={activeStep}
-                edit={true}
-                editType="Contact"
-                selecetedVedorId={props.selecetedVedorId}
-                setVendorDetail={setVendorDetail}
-                vendorDetail={vendorDetail}
-                seteditModalOpen={props.seteditModalOpen}
-                editData={props.editData}
-                setEditData={props.setEditData}
-                setOpenTableView={props.setOpenTableView}
-                openTableView={props.openTableView}
-            />
-        ) : props.editView === 6 ? (
+        ) : props.editView === 5 ? (
             <FileUpload
                 Vendordata={Vendordata}
                 setVendordata={setVendordata}
@@ -377,7 +360,16 @@ const EditModal = (props) => {
                 iseditdata={iseditdata}
                 formType={formType}
             />
-        ) : props.editView === 4 ? (
+        ) : props.editView === 6 ? (
+            <EandO
+                selecetedVedorId={props.selecetedVedorId}
+                setOpenTableView={props.setOpenTableView}
+                openTableView={props.openTableView}
+                editData={props.editData}
+                setEditData={props.setEditData}
+                edit={true}
+            />
+        ) : props.editView === 3 ? (
             <Com_notification
                 Vendordata={Vendordata}
                 setVendordata={setVendordata}
