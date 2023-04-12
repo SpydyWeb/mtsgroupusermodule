@@ -156,7 +156,7 @@ const ViewVendor = (props) => {
         Id: '',
         Email: '',
         Name: '',
-        Status: 1,
+        Status: 0,
         Contact: '',
         Licence: '',
         State: '',
@@ -197,8 +197,12 @@ const ViewVendor = (props) => {
             headerName: 'Status',
             field: 'status',
             renderCell: (params) => {
-                return params.row.status ? (
-                    <span style={{ border: '2px solid green', padding: '3px 6px', borderRadius: '5px', color: 'green' }}>Active</span>
+                return params.row.status === 0 ? (
+                    <span style={{ border: '2px solid black', padding: '3px 6px', borderRadius: '5px', color: 'black' }}>New</span>
+                ) : params.row.status === 1 ? (
+                    <span style={{ border: '2px solid orange', padding: '3px 6px', borderRadius: '5px', color: 'orange' }}>Updated</span>
+                ) : params.row.status === 2 ? (
+                    <span style={{ border: '2px solid green', padding: '3px 6px', borderRadius: '5px', color: 'green' }}>Verified</span>
                 ) : (
                     <span style={{ border: '2px solid red', padding: '3px 6px', borderRadius: '5px', color: 'red' }}>InActive</span>
                 );
@@ -441,11 +445,12 @@ const ViewVendor = (props) => {
                                 <FormControl className="w-52" size="small">
                                     <InputLabel>Status</InputLabel>
                                     <Select value={filterdata.Status} name="Status" onChange={(e) => handleFilterChange(e)}>
-                                        <MenuItem value={1} defaultChecked={true}>
+                                        <MenuItem value={0} defaultChecked={true}>
                                             New
                                         </MenuItem>
+                                        <MenuItem value={1}>Updated</MenuItem>
                                         <MenuItem value={2}>Verified</MenuItem>
-                                        <MenuItem value={3}>Modified</MenuItem>
+                                        <MenuItem value={3}>InActive</MenuItem>
                                     </Select>
                                 </FormControl>
                             </Grid>

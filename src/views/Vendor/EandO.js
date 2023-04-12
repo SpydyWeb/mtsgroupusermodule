@@ -1,7 +1,7 @@
 import { Button, TextField, Box } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SubCard from 'ui-component/cards/SubCard';
-import { Addvendoreoc } from 'servicesapi/Vendorapi';
+import { Addvendoreoc, GetVendorEandOById, UpdateVendorEandO } from 'servicesapi/Vendorapi';
 const EandO = (props) => {
     const [formValue, setFormValue] = useState({
         per_claim_amount: '',
@@ -11,19 +11,39 @@ const EandO = (props) => {
         policynumber: '',
         providerName: ''
     });
+    useEffect(() => {
+        GetVendorEandOById(props.selecetedVedorId).then((res) => {
+            if (res !== '' && res !== null) setFormValue(res);
+        });
+    }, []);
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormValue({ ...formValue, [name]: value });
     };
     const handleEditSubmit = () => {
-        Addvendoreoc(formValue).then((res) => {
-            if (res.status === 200) {
-                toast.success('E&O coverage policy added succsessfully');
-                props.seteditModalOpen((prev) => !prev);
-            } else {
-                res.json().then((res) => toast.error(res));
-            }
-        });
+        formValue['vendor_id'] = props.selecetedVedorId;
+        if (formValue.id === undefined) {
+            Addvendoreoc(formValue).then((res) => {
+                if (res.status === 200) {
+                    toast.success('E&O coverage policy added succsessfully');
+                    props.seteditModalOpen((prev) => !prev);
+                } else {
+                    res.json().then((res) => toast.error(res));
+                }
+            });
+        } else {
+            delete formValue.updateDate;
+            delete formValue.createdDate;
+            delete formValue.isDeleted;
+            UpdateVendorEandO(formValue, formValue.id).then((res) => {
+                if (res.status === 200) {
+                    toast.success('E&O coverage policy Updated succsessfully');
+                    props.seteditModalOpen((prev) => !prev);
+                } else {
+                    res.json().then((res) => toast.error(res));
+                }
+            });
+        }
     };
 
     return (
@@ -77,7 +97,7 @@ const EandO = (props) => {
                             </>
                         }
                         type="date"
-                        value={formValue.effectivedate}
+                        value={formValue.effectivedate.split('T')[0]}
                         name="effectivedate"
                         onChange={(e) => {
                             handleChange(e);
@@ -97,7 +117,7 @@ const EandO = (props) => {
                             </>
                         }
                         type="date"
-                        value={formValue.expirydate}
+                        value={formValue.expirydate.split('T')[0]}
                         name="expirydate"
                         onChange={(e) => {
                             handleChange(e);
