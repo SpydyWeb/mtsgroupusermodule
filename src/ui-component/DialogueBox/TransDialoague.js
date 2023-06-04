@@ -28,12 +28,12 @@ export default function TransDialoague(props) {
                 aria-describedby="alert-dialog-slide-description"
             >
                 <DialogTitle display={'flex'} justifyContent={'space-between'} alignItems={'center'} gap={'10px'}>
-                    <Box component={'h3'} sx={{ fontSize: '30px', fontWeight: 'bolder' }}>
-                        {
-                            HeadingName.filter((id) => {
-                                if (id.value === customization.dialogueview) return id.label;
-                            })[0]?.label
-                        }
+                    <Box component={'h3'} sx={{ fontSize: '30px', fontWeight: 'bolder', width: '100%' }}>
+                        {props?.dialogTitle
+                            ? props.dialogTitle
+                            : HeadingName.filter((id) => {
+                                  if (id.value === customization.dialogueview) return id.label;
+                              })[0]?.label}
                     </Box>
                     <button
                         type="button"

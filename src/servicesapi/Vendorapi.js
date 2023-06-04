@@ -1,7 +1,15 @@
 import { CurrentUrl } from './UrlApi';
 import axios from 'axios';
 let Url = `${CurrentUrl}api/Vendor/`;
-
+const token = localStorage.getItem('jwtTokenId');
+let config = {
+    headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        'Access-Control-Allow-Origin': '*'
+    }
+};
 // AddLicenceType
 export const AddLicenceType = async (userData) => {
     return await fetch(`${Url}AddLicenceType`, {
@@ -189,7 +197,7 @@ export const AddState = async (data) => {
 
 // GET StateList;
 export const GetStateList = async () => {
-    return await fetch(`${Url}StateList`, {
+    return await fetch(`${Url}allStateList`, {
         method: 'GET',
         header: {
             'content-Type': 'application/json',
@@ -197,6 +205,47 @@ export const GetStateList = async () => {
             'Acces-Control-Allow-Origin': '*'
         }
     }).then((data) => data.json());
+};
+
+export const GetCountyList = async (data) => {
+    return await axios.post(`${Url}CountyList`, data, config).then((data) => data);
+};
+
+export const GetStateListBynation = async (data) => {
+    return await axios.post(`${Url}StateList`, data, config).then((data) => data);
+};
+
+export const GetNationList = async (data) => {
+    return await axios.get(`${Url}NationList`, config).then((data) => data);
+};
+
+export const GetVendorProductsPriceList = async (vendorid, productid, type) => {
+    return await axios
+        .get(`${Url}GetVendorProductsPriceList?vendorid=${vendorid}&productid=${productid}&type=${type}`, config)
+        .then((data) => data);
+};
+
+export const AddVendorProductPrice = async (data, vendorid, productid) => {
+    return await axios.post(`${Url}AddVendorProduct?vendorid=${vendorid}&productid=${productid}`, data, config).then((data) => data);
+};
+
+export const AddVendorNationProduct = async (data, vendorid, productid) => {
+    return await axios.post(`${Url}AddVendorNationProduct?vendorid=${vendorid}&productid=${productid}`, data, config).then((data) => data);
+};
+export const AddVendorStateProduct = async (data, vendorid, productid) => {
+    return await axios.post(`${Url}AddVendorStateProduct?vendorid=${vendorid}&productid=${productid}`, data, config).then((data) => data);
+};
+export const AddVendorCountyProduct = async (data, vendorid, productid) => {
+    return await axios.post(`${Url}AddVendorCountyProduct?vendorid=${vendorid}&productid=${productid}`, data, config).then((data) => data);
+};
+
+export const UpdateVendorStateProduct = async (data, vendorid, productid) => {
+    return await axios.put(`${Url}UpdateVendorStateProduct?vendorid=${vendorid}&productid=${productid}`, data, config).then((data) => data);
+};
+export const UpdateVendorCountyProduct = async (data, vendorid, productid) => {
+    return await axios
+        .put(`${Url}UpdateVendorCountyProduct?vendorid=${vendorid}&productid=${productid}`, data, config)
+        .then((data) => data);
 };
 
 export const UpdateState = async (userData, id) => {

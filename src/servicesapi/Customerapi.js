@@ -81,7 +81,7 @@ export const Addcustomerfile = (data) => {
         .catch((err) => console.log('File Upload Error'));
 };
 export const GetCustomerFileById = async (id) => {
-    return await fetch(`${Url}GetCustomerFileById?vendorid=${id}`, {
+    return await fetch(`${Url}GetCustomerFileById?customerid=${id}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -130,4 +130,40 @@ export const DeleteCommuncationbycutomerid = async (id) => {
             'Access-Control-Allow-Origin': '*'
         }
     }).then((data) => data);
+};
+export const GetcustomerProductsPriceList = async (customerid, productid, type) => {
+    return await axios
+        .get(`${Url}CustomerProductsPriceList?customerid=${customerid}&productid=${productid}&type=${type}`, config)
+        .then((data) => data);
+};
+
+export const AddcustomerProductPrice = async (data, customerid, productid) => {
+    return await axios.post(`${Url}AddcustomerProduct?customerid=${customerid}&productid=${productid}`, data, config).then((data) => data);
+};
+
+export const AddcustomerNationProduct = async (data, customerid, productid) => {
+    return await axios
+        .post(`${Url}AddcustomerNationProduct?customerid=${customerid}&productid=${productid}`, data, config)
+        .then((data) => data);
+};
+export const AddcustomerStateProduct = async (data, customerid, productid) => {
+    return await axios
+        .post(`${Url}AddcustomerStateProduct?customerid=${customerid}&productid=${productid}`, data, config)
+        .then((data) => data);
+};
+export const AddcustomerCountyProduct = async (data, customerid, productid) => {
+    return await axios
+        .post(`${Url}AddcustomerCountyProduct?customerid=${customerid}&productid=${productid}`, data, config)
+        .then((data) => data);
+};
+
+export const UpdatecustomerStateProduct = async (data, customerid, productid) => {
+    return await axios
+        .put(`${Url}UpdatecustomerStateProduct?customerid=${customerid}&productid=${productid}`, data, config)
+        .then((data) => data);
+};
+export const UpdatecustomerCountyProduct = async (data, customerid, productid) => {
+    return await axios
+        .put(`${Url}UpdatecustomerCountyProduct?customerid=${customerid}&productid=${productid}`, data, config)
+        .then((data) => data);
 };

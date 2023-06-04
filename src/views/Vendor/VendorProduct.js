@@ -1,21 +1,37 @@
 import React, { useEffect, useState } from 'react';
-import { TextField, FormGroup, FormControlLabel, Box, Button, Grid } from '@mui/material';
+import {
+    TextField,
+    FormGroup,
+    FormControlLabel,
+    Box,
+    Button,
+    Grid,
+    IconButton,
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogContentText,
+    Divider
+} from '@mui/material';
 import { AiFillEdit } from 'react-icons/ai';
 import Android12Switch from './Android12Switch';
-// import Accordion from '@mui/material/Accordion';
-// import { AccordionSummary } from '@mui/material';
-// import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import toast from 'react-hot-toast';
-import { UpdateVendorproducts } from '../../servicesapi/Vendorapi';
+import { GetVendorProductsPriceList, UpdateVendorproducts } from '../../servicesapi/Vendorapi';
 import { FcExpand } from 'react-icons/fc';
 import { useLocation } from 'react-router-dom';
-import { UpdateCustomerProduct } from '../../servicesapi/Customerapi';
+import { GetcustomerProductsPriceList, UpdateCustomerProduct } from '../../servicesapi/Customerapi';
 import { styled } from '@mui/material/styles';
 import MuiAccordion, { AccordionProps } from '@mui/material/Accordion';
 import MuiAccordionSummary, { AccordionSummaryProps } from '@mui/material/AccordionSummary';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
-import { width } from '@mui/system';
+import ProductPricePopup from './ProductPricePopup';
+import { useDispatch, useSelector } from 'react-redux';
+import { setDialogueview } from 'store/action/actions';
+import { AiFillEye } from 'react-icons/ai';
+import { FaSalesforce } from 'react-icons/fa';
+import MainCard from 'ui-component/cards/MainCard';
+import SubCard from 'ui-component/cards/SubCard';
 
 const Accordion = styled((props) => <MuiAccordion disableGutters elevation={0} square {...props} />)(({ theme }) => ({
     border: `1px solid ${theme.palette.divider}`,
@@ -46,19 +62,25 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 }));
 
 const VendorProduct = (props) => {
+    const { customization } = useSelector((state) => state);
+    const dispatch = useDispatch();
     const location = useLocation();
     const [formType, setFormType] = useState(location.pathname === '/admin/viewvendor' ? 'vendor' : 'customer');
     const [expanded, setExpanded] = React.useState(false);
+    const [productid, setProductid] = useState();
+    const [open, setopen] = useState(false);
+    const [viewData, setViewData] = useState({ nation: [], state: [], county: [] });
+    const [Productseletected, setProductseletected] = useState('');
     const handleNext = () => {
         let status = false;
         let count = 0;
         props.productD.map((ele) => {
-            console.log(ele);
+            console.log();
             if (ele.selected === true) {
                 count = 1;
-                if (ele.price1 === 0 && formType === 'vendor') status = true;
-                if (ele.price2 === 0 && formType === 'vendor') status = true;
-                if (ele.price3 === 0 && formType === 'vendor') status = true;
+                // if (ele.price1 === 0 && formType === 'vendor') status = true;
+                // if (ele.price2 === 0 && formType === 'vendor') status = true;
+                // if (ele.price3 === 0 && formType === 'vendor') status = true;
             }
         });
         if (status || count === 0) toast.error('Please fill all the mandatory fields');
@@ -67,7 +89,9 @@ const VendorProduct = (props) => {
             props.setActiveStep((prev) => prev + 1);
         }
     };
-
+    const handleClose = () => {
+        setopen(false);
+    };
     const handlechange = (e, indx, mainIndx, productid) => {
         const { name, value } = e.target;
         console.log();
@@ -168,8 +192,79 @@ const VendorProduct = (props) => {
     const handleaccordianChange = (panel) => (event, isExpanded) => {
         setExpanded(panel);
     };
+    const handleopen = (productid) => {
+        let data = {};
+        if (props.selecetedVedorId !== undefined) {
+            if (formType === 'vendor') {
+                GetVendorProductsPriceList(props.selecetedVedorId, productid, 0).then((res) => {
+                    data.nation = res.data;
+                    GetVendorProductsPriceList(props.selecetedVedorId, productid, 1).then((res) => {
+                        let tempdata = [];
+                        res.data.map((ele) => {
+                            if (ele.selected) tempdata.push(ele);
+                        });
+                        data.state = tempdata;
+                        GetVendorProductsPriceList(props.selecetedVedorId, productid, 2).then((res) => {
+                            let tempdata = [];
+                            res.data.map((ele) => {
+                                if (ele.selected) tempdata.push(ele);
+                            });
+                            data.county = tempdata;
+                            console.log(res);
+                            setViewData(data);
+                            setopen(true);
+                        });
+                    });
+                });
+            } else {
+                GetcustomerProductsPriceList(props.selecetedVedorId, productid, 0).then((res) => {
+                    data.nation = res.data;
+                    GetcustomerProductsPriceList(props.selecetedVedorId, productid, 1).then((res) => {
+                        let tempdata = [];
+                        res.data.map((ele) => {
+                            if (ele.selected) tempdata.push(ele);
+                        });
+                        data.state = tempdata;
+                        GetcustomerProductsPriceList(props.selecetedVedorId, productid, 2).then((res) => {
+                            let tempdata = [];
+                            res.data.map((ele) => {
+                                if (ele.selected) tempdata.push(ele);
+                            });
+                            data.county = tempdata;
+                            console.log(res);
+                            setViewData(data);
+                            setopen(true);
+                        });
+                    });
+                });
+            }
+        } else {
+            setopen(true);
+            console.log(props.productD, productid);
+            let data;
+            let tempdata;
+            for (let i = 0; i < props.productD.length; i++) {
+                if (props.productD[i].id === productid) {
+                    data = props.productD[i];
+                    break;
+                }
+            }
+        }
+    };
     return (
         <>
+            {customization.dialogueview !== '' ? (
+                <ProductPricePopup
+                    selecetedVedorId={props.selecetedVedorId}
+                    setProductD={props.setProductD}
+                    productid={productid}
+                    productD={props.productD}
+                    formType={formType}
+                    Productseletected={Productseletected}
+                />
+            ) : (
+                ''
+            )}
             {formType === 'customer' ? (
                 <div
                     className={`${
@@ -191,7 +286,7 @@ const VendorProduct = (props) => {
                             <Accordion
                                 expanded={expanded === `panel${indx}`}
                                 onClick={handleaccordianChange(`panel${indx}`)}
-                                sx={{ width: formType === 'vendor' ? '100%' : '49%', marginLeft: formType === 'vendor' ? 0 : '5px' }}
+                                sx={{ width: '49%', marginLeft: '5px' }}
                             >
                                 <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
                                     <Typography style={{ fontWeight: '700' }}>{ele.name}</Typography>
@@ -217,7 +312,28 @@ const VendorProduct = (props) => {
                                                     </Grid>
                                                     {formType === 'vendor' ? (
                                                         <Grid item md={7}>
-                                                            <Grid container spacing={3}>
+                                                            <Button
+                                                                size="small"
+                                                                variant="contained"
+                                                                disabled={props.editData}
+                                                                onClick={() => {
+                                                                    if (val.selected) {
+                                                                        setProductid(val.id);
+                                                                        setProductseletected(ele);
+                                                                        dispatch(setDialogueview('addproductprice'));
+                                                                    } else toast.error('Please select the product');
+                                                                }}
+                                                            >
+                                                                Add Product Price
+                                                            </Button>
+                                                            {/* {props.selecetedVedorId !== undefined ? (
+                                                                <IconButton onClick={() => handleopen(val.id)}>
+                                                                    <AiFillEye style={{ color: '#1e88e5' }} />
+                                                                </IconButton>
+                                                            ) : (
+                                                                <></>
+                                                            )} */}
+                                                            {/* <Grid container spacing={3}>
                                                                 <Grid item md={4}>
                                                                     <TextField
                                                                         inputProps={{
@@ -234,6 +350,7 @@ const VendorProduct = (props) => {
                                                                     />
                                                                 </Grid>
                                                                 <Grid item md={4}>
+                                                                   
                                                                     <TextField
                                                                         label="State"
                                                                         variant="outlined"
@@ -256,7 +373,7 @@ const VendorProduct = (props) => {
                                                                         onChange={(e) => handlechange(e, i, indx, val.id)}
                                                                     />
                                                                 </Grid>
-                                                            </Grid>
+                                                            </Grid> */}
                                                         </Grid>
                                                     ) : (
                                                         <></>
@@ -314,6 +431,89 @@ const VendorProduct = (props) => {
                     Submit
                 </Button>
             </Box>
+            <Dialog open={open} fullWidth={true} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
+                <DialogTitle id="alert-dialog-title" sx={{ display: 'flex', justifyContent: 'end' }}>
+                    {' '}
+                    <button
+                        type="button"
+                        className="btn-close focus:shadow-none"
+                        data-bs-dismiss="modal"
+                        id="closePopup"
+                        onClick={() => {
+                            handleClose();
+                        }}
+                    >
+                        <i class="fas fa-times-circle"></i>
+                    </button>
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        <MainCard>
+                            {viewData?.nation.length > 0 || viewData?.state.length > 0 || viewData?.county.length > 0 ? (
+                                <Grid container>
+                                    {viewData?.nation.length > 0 ? (
+                                        <Grid md={12} sx={{ pb: 1 }}>
+                                            <h2 style={{ fontSize: '25px', fontWeight: 700 }}>Nation-wise</h2>
+                                            <Divider />
+                                        </Grid>
+                                    ) : (
+                                        <></>
+                                    )}
+                                    {viewData?.nation.map((val, i) => {
+                                        return (
+                                            <Grid item key={i}>
+                                                {val.name} ({val.price})
+                                            </Grid>
+                                        );
+                                    })}
+                                    {viewData?.state.length > 0 ? (
+                                        <Grid md={12} sx={{ my: 2 }}>
+                                            <h2 style={{ fontSize: '25px', fontWeight: 700 }}>State-wise</h2>
+                                            <Divider />
+                                        </Grid>
+                                    ) : (
+                                        <></>
+                                    )}
+                                    {viewData?.state.map((val, i) => {
+                                        return (
+                                            <Grid item key={i}>
+                                                {val.name} ({val.price})
+                                            </Grid>
+                                        );
+                                    })}
+                                    {viewData?.county.length > 0 ? (
+                                        <Grid md={12} sx={{ my: 2 }}>
+                                            <h2 style={{ fontSize: '25px', fontWeight: 700 }}>County-wise</h2>
+                                            <Divider />
+                                        </Grid>
+                                    ) : (
+                                        <></>
+                                    )}
+                                    <Grid md={12} sx={{ my: 2 }}>
+                                        {viewData?.county.map((val, i) => {
+                                            return val.countylist.length > 0 ? (
+                                                <SubCard title={val.name}>
+                                                    {val.countylist.map((ele, i) => {
+                                                        return (
+                                                            <span>
+                                                                {val.name} ({val.price})
+                                                            </span>
+                                                        );
+                                                    })}
+                                                </SubCard>
+                                            ) : (
+                                                <></>
+                                            );
+                                        })}
+                                    </Grid>
+                                </Grid>
+                            ) : (
+                                'No Date Found'
+                            )}
+                        </MainCard>
+                    </DialogContentText>
+                </DialogContent>
+            </Dialog>
         </>
     );
 };

@@ -96,7 +96,7 @@ const StepperForm = () => {
             password: '',
             allowTextMsg: true
         },
-        product: [{ id: '', name: 'string', price1: 0, price2: 0, price3: 0, productId: 0, selected: false }],
+        product: [{ id: '', name: 'string', price1: 0, price2: 0, price3: 0, productId: 0, selected: false, productPriceList: [] }],
         productFiles: [
             {
                 fileName: '',
