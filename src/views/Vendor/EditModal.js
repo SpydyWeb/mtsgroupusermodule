@@ -78,6 +78,7 @@ const EditModal = (props) => {
                 });
             } else {
                 GetCustomerCommunicationbyid(props.selecetedVedorId).then((res) => {
+                    console.log(res);
                     setCommunicaion(res.data);
                 });
             }
@@ -199,6 +200,7 @@ const EditModal = (props) => {
                             createdDate: res.length === 1 ? res[1].createdDate : '',
                             isDeleted: res.length === 1 ? res[1].isDeleted : ''
                         };
+                        data['accountinfo'] = vendorDetail.customer_Account_Information;
                         setVendordata(data);
                     });
                 });

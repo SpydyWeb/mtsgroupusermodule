@@ -6,7 +6,7 @@ import ToolTipValidation from '../Validation/ToolTipValidation';
 import { PhonenoMask, validateEmail } from '../Common/renderutil';
 import { useLocation } from 'react-router-dom';
 import { AiFillEdit } from 'react-icons/ai';
-import { UpdateCustomerAddress, UpdateCustomerContact } from '../../servicesapi/Customerapi';
+import { UpdateCustomerAddress, UpdateCustomerContact, Updatecustomeraccountinfo } from '../../servicesapi/Customerapi';
 import SubCard from 'ui-component/cards/SubCard';
 const clientTypeDDl = [
     { name: 'Lender', value: 'Lender' },
@@ -84,7 +84,13 @@ const VendorProfileForm = (props) => {
                 props.Vendordata.primery_Contact.lastName === '' ||
                 props.Vendordata.primery_Contact.phone === '' ||
                 props.Vendordata.primery_Contact.email === '' ||
-                props.Vendordata.primery_Contact.cellPhone === ''
+                props.Vendordata.primery_Contact.cellPhone === '' ||
+                props.Vendordata.billing_Code === '' ||
+                props.Vendordata.billing_Name === '' ||
+                props.Vendordata.tax_Id === '' ||
+                props.Vendordata.custom_Field1 === '' ||
+                props.Vendordata.custom_Field2 === '' ||
+                props.Vendordata.profile_Note === ''
             )
                 toast.error('Please fill all the mandatory fields');
             else {
@@ -156,6 +162,21 @@ const VendorProfileForm = (props) => {
                                 ...props.vendorDetail,
                                 ['primery_Contact']: props.Vendordata.primery_Contact,
                                 ['secondary_contact']: props.Vendordata.secondary_contact
+                            });
+                            props.setEditData(!props.editData);
+                            props.seteditModalOpen((prev) => !prev);
+                        } else {
+                            res.json().then((res) => toast.error(res));
+                        }
+                    });
+                    let accoutninfodata = props.Vendordata.accountinfo;
+                    console.log(accoutninfodata);
+                    Updatecustomeraccountinfo(accoutninfodata, props.selecetedVedorId).then((res) => {
+                        if (res.status === 200) {
+                            toast.success('Accouting information updated succsessfully');
+                            props.setVendorDetail({
+                                ...props.vendorDetail,
+                                ['accoutninfodata']: accoutninfodata
                             });
                             props.setEditData(!props.editData);
                             props.seteditModalOpen((prev) => !prev);
@@ -415,14 +436,7 @@ const VendorProfileForm = (props) => {
                             </InputLabel>
                             <Select
                                 disabled={props.editData}
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                label="Age"
-                                value={
-                                    props.Vendordata && props.Vendordata.primery_Address && props.Vendordata.primery_Address.state
-                                        ? props.Vendordata.primery_Address.state
-                                        : ''
-                                }
+                                value={props?.Vendordata?.primery_Address?.state ? props.Vendordata.primery_Address.state : ''}
                                 name="state"
                                 onChange={(e) => {
                                     props.setVendordata({
@@ -1211,7 +1225,7 @@ const VendorProfileForm = (props) => {
                 <SubCard
                     title="Accounting Information"
                     sx={{ mb: 2 }}
-                    className={`${props.edit ? (props.editType && props.editType === 'Profile' ? 'block' : 'hidden') : 'block'}`}
+                    className={`${props.edit ? (props.editType && props.editType === 'Address' ? 'block' : 'hidden') : 'block'}`}
                 >
                     <div className={`flex flex-col md:flex-row gap-6`}>
                         <div>

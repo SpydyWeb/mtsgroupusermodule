@@ -162,6 +162,9 @@ export const UpdatecustomerStateProduct = async (data, customerid, productid) =>
         .put(`${Url}UpdatecustomerStateProduct?customerid=${customerid}&productid=${productid}`, data, config)
         .then((data) => data);
 };
+export const Updatecustomeraccountinfo = async (data, customerid) => {
+    return await axios.put(`${Url}updateAccountinfo?id=${customerid}`, data, config).then((data) => data);
+};
 export const UpdatecustomerCountyProduct = async (data, customerid, productid) => {
     return await axios
         .put(`${Url}UpdatecustomerCountyProduct?customerid=${customerid}&productid=${productid}`, data, config)
