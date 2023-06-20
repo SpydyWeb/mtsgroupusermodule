@@ -156,7 +156,11 @@ export const AddcustomerCountyProduct = async (data, customerid, productid) => {
         .post(`${Url}AddcustomerCountyProduct?customerid=${customerid}&productid=${productid}`, data, config)
         .then((data) => data);
 };
-
+export const UpdateCustomerNationProduct = async (data, customerid, productid) => {
+    return await axios
+        .put(`${Url}UpdateCustomerNationProduct?customerid=${customerid}&productid=${productid}`, data, config)
+        .then((data) => data);
+};
 export const UpdatecustomerStateProduct = async (data, customerid, productid) => {
     return await axios
         .put(`${Url}UpdatecustomerStateProduct?customerid=${customerid}&productid=${productid}`, data, config)

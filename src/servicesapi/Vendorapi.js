@@ -239,6 +239,11 @@ export const AddVendorCountyProduct = async (data, vendorid, productid) => {
     return await axios.post(`${Url}AddVendorCountyProduct?vendorid=${vendorid}&productid=${productid}`, data, config).then((data) => data);
 };
 
+export const UpdateVendorNationProduct = async (data, vendorid, productid) => {
+    return await axios
+        .put(`${Url}UpdateVendorNationProduct?vendorid=${vendorid}&productid=${productid}`, data, config)
+        .then((data) => data);
+};
 export const UpdateVendorStateProduct = async (data, vendorid, productid) => {
     return await axios.put(`${Url}UpdateVendorStateProduct?vendorid=${vendorid}&productid=${productid}`, data, config).then((data) => data);
 };

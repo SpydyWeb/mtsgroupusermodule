@@ -15,12 +15,18 @@ import {
     AddVendorCountyProduct,
     UpdateVendorStateProduct,
     UpdateVendorCountyProduct,
-    GetVendorProductsPriceList
+    GetVendorProductsPriceList,
+    UpdateVendorNationProduct
 } from 'servicesapi/Vendorapi';
 import { styled } from '@mui/material/styles';
 import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector';
 import { toast } from 'react-hot-toast';
-import { AddcustomerNationProduct, UpdatecustomerCountyProduct, UpdatecustomerStateProduct } from 'servicesapi/Customerapi';
+import {
+    AddcustomerNationProduct,
+    UpdatecustomerCountyProduct,
+    UpdatecustomerStateProduct,
+    UpdateCustomerNationProduct
+} from 'servicesapi/Customerapi';
 
 // const steps = ['State List', 'County List', 'Zipcode List'];
 const steps = ['Nation-wise', 'State-wise', 'County-wise'];
@@ -50,6 +56,7 @@ const ProductPricePopup = (props) => {
                 break;
             }
         }
+        console.log(selected, data);
         if (selected === 0) {
             GetNationListData();
             setViewState(0);
@@ -60,7 +67,6 @@ const ProductPricePopup = (props) => {
             GetStateListData(1);
             setViewState(2);
         }
-        console.log(props);
     }, []);
     const GetNationListData = () => {
         GetNationList().then((res) => {
@@ -265,13 +271,13 @@ const ProductPricePopup = (props) => {
             });
             if (props.selecetedVedorId !== undefined) {
                 if (props.formType === 'vendor') {
-                    AddVendorNationProduct(data, props.selecetedVedorId, props.productid).then((res) => {
+                    UpdateVendorNationProduct(data, props.selecetedVedorId, props.productid).then((res) => {
                         if (res.status === 200) {
                             toast.success('Nation wise price saved successfully');
                         }
                     });
                 } else {
-                    AddcustomerNationProduct(data, props.selecetedVedorId, props.productid).then((res) => {
+                    UpdateCustomerNationProduct(data, props.selecetedVedorId, props.productid).then((res) => {
                         if (res.status === 200) {
                             toast.success('Nation wise price saved successfully');
                         }
