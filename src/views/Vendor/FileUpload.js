@@ -282,18 +282,21 @@ const FileUpload = (props) => {
                                                 onChange={(e) => handlechangedate(e, i)}
                                                 onBlur={(e) => {
                                                     const data = [...props.Vendordata.productFiles];
-                                                    if (new Date(e.target.value) < new Date('01-01-3000')) {
+                                                    if (
+                                                        new Date(e.target.value) > new Date(data[i].issueDate) &&
+                                                        new Date(e.target.value) < new Date('01-01-3000')
+                                                    ) {
                                                         data[i][e.target.name] = e.target.value;
                                                     } else {
-                                                        toast.error('Enter valid date');
+                                                        toast.error('Expiry date should be greater than issue date');
                                                         data[i][e.target.name] = '';
                                                     }
-                                                    if (props.edit) props.setLicence(data);
-                                                    else
-                                                        props.setVendordata({
-                                                            ...props.Vendordata,
-                                                            ['productFiles']: data
-                                                        });
+                                                    // if (props.edit) props.setLicence(data);
+                                                    // else
+                                                    props.setVendordata({
+                                                        ...props.Vendordata,
+                                                        ['productFiles']: data
+                                                    });
                                                 }}
                                                 focused
                                             />

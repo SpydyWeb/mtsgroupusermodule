@@ -64,8 +64,9 @@ const ProductPricePopup = (props) => {
             GetStateListData(1);
             setViewState(1);
         } else {
-            GetStateListData(1);
+            GetStateListData(2);
             setViewState(2);
+            setViewstatecounty(1);
         }
     }, []);
     const GetNationListData = () => {
@@ -172,15 +173,43 @@ const ProductPricePopup = (props) => {
         GetStateListBynation([1]).then((res) => {
             if (props?.selecetedVedorId) {
                 GetVendorProductsPriceList(props.selecetedVedorId, props.productid, type).then((res1) => {
+                    let data = [];
                     res1.data.map((ele) => {
-                        if (ele.selected && ele.price > 0) {
-                            ele['price'] = ele.price;
-                            ele['isChecked'] = true;
+                        if (type === 1) {
+                            if (ele.selected && ele.price > 0) {
+                                ele['price'] = ele.price;
+                                ele['isChecked'] = true;
+                            } else {
+                                ele['price'] = '';
+                                ele['isChecked'] = false;
+                            }
                         } else {
-                            ele['price'] = '';
-                            ele['isChecked'] = false;
+                            if (ele.selected) {
+                                data.push(ele.id);
+                                ele['isChecked'] = true;
+                            } else {
+                                ele['isChecked'] = false;
+                            }
                         }
                     });
+                    if (type === 2) {
+                        setCheckboxData({ ...checkboxData, state: data });
+                        let countyData = [];
+                        for (let i = 0; i < res1.data.length; i++) {
+                            if (res1.data[i].isChecked) countyData = [...countyData, ...res1.data[i].countylist];
+                        }
+
+                        for (let i = 0; i < countyData.length; i++) {
+                            if (countyData[i].price > 0) {
+                                countyData[i].isChecked = true;
+                            } else {
+                                countyData[i].price = '';
+                                countyData[i].isChecked = false;
+                            }
+                        }
+
+                        setCountyList(countyData);
+                    }
                     setStateList(res1.data);
                 });
             } else {

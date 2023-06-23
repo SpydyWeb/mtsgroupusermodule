@@ -97,6 +97,7 @@ function* deletestatedata(formdata) {
 }
 function* addstatedata(formdata) {
     let res = '';
+    formdata.data.formData.nationId = 1;
     if (formdata.data.editid === undefined) res = yield AddState(formdata.data.formData);
     else res = yield UpdateState(formdata.data.formData, formdata.data.editid);
     if (res.status === 200) {
