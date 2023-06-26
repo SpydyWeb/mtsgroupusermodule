@@ -2,6 +2,7 @@ import { Button, TextField, Box } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import SubCard from 'ui-component/cards/SubCard';
 import { Addvendoreoc, GetVendorEandOById, UpdateVendorEandO } from 'servicesapi/Vendorapi';
+import { toast } from 'react-hot-toast';
 const EandO = (props) => {
     const [formValue, setFormValue] = useState({
         per_claim_amount: '',
@@ -125,6 +126,23 @@ const EandO = (props) => {
                         focused
                         variant="outlined"
                         size="small"
+                        onBlur={(e) => {
+                            let data = formValue.expirydate;
+                            if (
+                                new Date(e.target.value) > new Date(formValue.effectivedate) &&
+                                new Date(e.target.value) < new Date('01-01-3000')
+                            ) {
+                                data = e.target.value;
+                            } else {
+                                toast.error('Expiry date should be greater than issue date');
+                                data = '';
+                            }
+
+                            setFormValue({
+                                ...formValue,
+                                ['expirydate']: data
+                            });
+                        }}
                     />
                 </div>
                 <div>

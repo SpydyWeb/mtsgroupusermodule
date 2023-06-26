@@ -286,9 +286,9 @@ const VendorProduct = (props) => {
                             <Accordion
                                 expanded={expanded === `panel${indx}`}
                                 onClick={handleaccordianChange(`panel${indx}`)}
-                                sx={{ width: '49%', marginLeft: '5px' }}
+                                sx={{ width: '100%', marginLeft: '5px' }}
                             >
-                                <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
+                                <AccordionSummary aria-controls={`panel${indx}d-content`} id={`panel${indx}d-header`}>
                                     <Typography style={{ fontWeight: '700' }}>{ele.name}</Typography>
                                 </AccordionSummary>
                                 <AccordionDetails sx={{ maxHeight: '300px', overflowX: 'auto' }}>

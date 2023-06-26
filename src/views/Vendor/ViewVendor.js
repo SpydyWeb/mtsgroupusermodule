@@ -265,7 +265,7 @@ const ViewVendor = (props) => {
         setIsLoading(true);
         setOpen(false);
         if (props.formType === 'vendor') {
-            GetallVendorBySearch({ status: 1 }).then((res) => {
+            GetallVendorBySearch({ status: 0 }).then((res) => {
                 res.map((ele) =>
                     data.push({
                         id: ele.id,
@@ -312,7 +312,8 @@ const ViewVendor = (props) => {
     const handleFilterChange = (e) => {
         const name = e.target.name;
         const value = e.target.value;
-        setFilterdata({ ...filterdata, [name]: value });
+        if (value === 'clear') setFilterdata({ ...filterdata, [name]: '' });
+        else setFilterdata({ ...filterdata, [name]: value });
     };
     const handleSearch = () => {
         setIsLoading(true);
@@ -371,6 +372,7 @@ const ViewVendor = (props) => {
             });
         }
     };
+
     return (
         <>
             {open ? (
@@ -412,6 +414,7 @@ const ViewVendor = (props) => {
                         <FormControl sx={{ width: '180px' }} fullWidth={true} size="small">
                             <InputLabel>State</InputLabel>
                             <Select value={filterdata.State} name="State" onChange={(e) => handleFilterChange(e)}>
+                                <MenuItem value={'clear'}>Clear Selection</MenuItem>
                                 {allstate.map((ele, indx) => {
                                     return <MenuItem value={ele.name}>{ele.name}</MenuItem>;
                                 })}
