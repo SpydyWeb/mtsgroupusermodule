@@ -261,6 +261,7 @@ const VendorProduct = (props) => {
                     productD={props.productD}
                     formType={formType}
                     Productseletected={Productseletected}
+                    setProductseletected={setProductseletected}
                 />
             ) : (
                 ''
@@ -315,7 +316,7 @@ const VendorProduct = (props) => {
                                                             <Button
                                                                 size="small"
                                                                 variant="contained"
-                                                                disabled={props.editData}
+                                                                disabled={props.editData || !val.selected}
                                                                 onClick={() => {
                                                                     if (val.selected) {
                                                                         setProductid(val.id);

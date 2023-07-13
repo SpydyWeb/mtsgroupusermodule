@@ -56,7 +56,6 @@ const ProductPricePopup = (props) => {
                 break;
             }
         }
-        console.log(selected, data);
         if (selected === 0) {
             GetNationListData();
             setViewState(0);
@@ -303,12 +302,26 @@ const ProductPricePopup = (props) => {
                     UpdateVendorNationProduct(data, props.selecetedVedorId, props.productid).then((res) => {
                         if (res.status === 200) {
                             toast.success('Nation wise price saved successfully');
+                            let selectedData = props.Productseletected.subCategory;
+                            for (let i = 0; i < selectedData.length; i++) {
+                                if (props.productid === selectedData[i].id) {
+                                    selectedData[i].productPriceList = data;
+                                }
+                            }
+                            props.setProductseletected(selectedData);
                         }
                     });
                 } else {
                     UpdateCustomerNationProduct(data, props.selecetedVedorId, props.productid).then((res) => {
                         if (res.status === 200) {
                             toast.success('Nation wise price saved successfully');
+                            let selectedData = props.Productseletected.subCategory;
+                            for (let i = 0; i < selectedData.length; i++) {
+                                if (props.productid === selectedData[i].id) {
+                                    selectedData[i].productPriceList = data;
+                                }
+                            }
+                            props.setProductseletected(selectedData);
                         }
                     });
                 }
@@ -334,7 +347,11 @@ const ProductPricePopup = (props) => {
                     }
                 }
                 product[index]['productPriceList'] = data;
+                // let selectedData = props.Productseletected;
+                // selectedData.subCategory = data;
+
                 props.setProductD(product);
+                // props.setProductseletected(selectedData);
                 toast.success('Nation wise price saved successfully');
             }
         } else if (viewState === 1) {
@@ -347,12 +364,26 @@ const ProductPricePopup = (props) => {
                     UpdateVendorStateProduct(data, props.selecetedVedorId, props.productid).then((res) => {
                         if (res.status === 200) {
                             toast.success('State wise price saved successfully');
+                            let selectedData = props.Productseletected.subCategory;
+                            for (let i = 0; i < selectedData.length; i++) {
+                                if (props.productid === selectedData[i].id) {
+                                    selectedData[i].productPriceList = data;
+                                }
+                            }
+                            props.setProductseletected(selectedData);
                         }
                     });
                 } else {
                     UpdatecustomerStateProduct(data, props.selecetedVedorId, props.productid).then((res) => {
                         if (res.status === 200) {
                             toast.success('State wise price saved successfully');
+                            let selectedData = props.Productseletected.subCategory;
+                            for (let i = 0; i < selectedData.length; i++) {
+                                if (props.productid === selectedData[i].id) {
+                                    selectedData[i].productPriceList = data;
+                                }
+                            }
+                            props.setProductseletected(selectedData);
                         }
                     });
                 }
@@ -378,8 +409,9 @@ const ProductPricePopup = (props) => {
                     }
                 }
                 product[index]['productPriceList'] = data;
-                console.log();
+
                 props.setProductD(product);
+
                 toast.success('State wise price saved successfully');
             }
         } else {
@@ -391,12 +423,26 @@ const ProductPricePopup = (props) => {
                     UpdateVendorCountyProduct(data, props.selecetedVedorId, props.productid).then((res) => {
                         if (res.status === 200) {
                             toast.success('County wise price saved successfully');
+                            let selectedData = props.Productseletected.subCategory;
+                            for (let i = 0; i < selectedData.length; i++) {
+                                if (props.productid === selectedData[i].id) {
+                                    selectedData[i].productPriceList = data;
+                                }
+                            }
+                            props.setProductseletected(selectedData);
                         }
                     });
                 } else {
                     UpdatecustomerCountyProduct(data, props.selecetedVedorId, props.productid).then((res) => {
                         if (res.status === 200) {
                             toast.success('County wise price saved successfully');
+                            let selectedData = props.Productseletected.subCategory;
+                            for (let i = 0; i < selectedData.length; i++) {
+                                if (props.productid === selectedData[i].id) {
+                                    selectedData[i].productPriceList = data;
+                                }
+                            }
+                            props.setProductseletected(selectedData);
                         }
                     });
                 }
@@ -422,7 +468,9 @@ const ProductPricePopup = (props) => {
                     }
                 }
                 product[index]['productPriceList'] = data;
+
                 props.setProductD(product);
+                // props.setProductseletected(selectedData);
                 toast.success('County wise price saved successfully');
             }
         }
