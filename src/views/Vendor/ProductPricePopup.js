@@ -35,6 +35,7 @@ const ProductPricePopup = (props) => {
     const dispatch = useDispatch();
     const [stateList, setStateList] = useState([]);
     const [countyList, setCountyList] = useState([]);
+    const [countyerrmsg, setCountyerrmsg] = useState('');
     const [nationList, setnationList] = useState([]);
     const [checkboxData, setCheckboxData] = useState({
         state: [],
@@ -52,7 +53,7 @@ const ProductPricePopup = (props) => {
                     selected = 0;
                     break;
                 }
-                selected = data[i].productPriceList[0].cityStateType;
+                selected = data[i].productPriceList[0]?.cityStateType;
                 break;
             }
         }
@@ -116,7 +117,7 @@ const ProductPricePopup = (props) => {
         let data = [...props.Productseletected?.subCategory];
         let selected = '';
         for (let i = 0; i < data.length; i++) {
-            if (data[i].id === props.productid && data[i].productPriceList !== null) {
+            if (data[i].id === props.productid && data[i].productPriceList !== null && data[i].productPriceList[0].price !== 0) {
                 selected = data[i].productPriceList[0].cityStateType;
                 break;
             }
@@ -141,6 +142,7 @@ const ProductPricePopup = (props) => {
             }
         }
         GetCountyList(checkboxData.state).then((res) => {
+            let msg = '';
             res.data.map((ele) => {
                 if (data?.productPriceList === undefined || data === undefined) {
                     ele['price'] = '';
@@ -159,6 +161,10 @@ const ProductPricePopup = (props) => {
                 }
             });
             setCountyList(res.data);
+
+            if (res.data.length === 0) msg = 'Selected state has no county. Please select other states';
+            else msg = '';
+            setCountyerrmsg(msg);
         });
     };
     const GetStateListData = (type = 1) => {
@@ -495,77 +501,79 @@ const ProductPricePopup = (props) => {
             <MainCard>
                 {viewState === 2 && viewstatecounty === 0 ? 'Please select state' : ''}
                 <Grid container>
-                    {viewState === 0
-                        ? nationList.map((ele) => {
-                              return (
-                                  <Grid container md={6} sx={{ mb: 1 }}>
-                                      <Grid item md={1}>
-                                          <Checkbox
-                                              inputProps={{ 'aria-label': 'controlled' }}
-                                              defaultChecked={ele.isChecked}
-                                              checked={ele.isChecked}
-                                              onClick={(e) => handleChange(ele.id)}
-                                              value={ele.id}
-                                          />
-                                      </Grid>
-                                      <Grid item md={5} sx={{ display: 'flex', alignItems: 'center' }}>
-                                          {ele.name}
-                                      </Grid>
-                                      <Grid item md={6}>
-                                          <TextField
-                                              label="Price"
-                                              size="small"
-                                              value={ele.price}
-                                              onChange={(e) => handleChange(ele.id, 'price', e.target.value)}
-                                          />
-                                      </Grid>
-                                  </Grid>
-                              );
-                          })
-                        : viewState === 1
-                        ? stateList.map((ele) => {
-                              return (
-                                  <Grid container md={6} sx={{ mb: 1 }}>
-                                      <Grid item md={1}>
-                                          <Checkbox
-                                              inputProps={{ 'aria-label': 'controlled' }}
-                                              defaultChecked={ele.isChecked}
-                                              checked={ele.isChecked}
-                                              onClick={(e) => handleChange(ele.id)}
-                                              value={ele.id}
-                                          />
-                                      </Grid>
-                                      <Grid item md={5} sx={{ display: 'flex', alignItems: 'center' }}>
-                                          {ele.name}
-                                      </Grid>
-                                      <Grid item md={6}>
-                                          <TextField
-                                              label="Price"
-                                              size="small"
-                                              value={ele.price}
-                                              onChange={(e) => handleChange(ele.id, 'price', e.target.value)}
-                                          />
-                                      </Grid>
-                                  </Grid>
-                              );
-                          })
-                        : viewstatecounty === 0
-                        ? stateList.map((ele) => {
-                              return (
-                                  <Grid container md={4}>
-                                      <Grid item md={2}>
-                                          <Checkbox
-                                              inputProps={{ 'aria-label': 'controlled' }}
-                                              defaultChecked={ele.isChecked}
-                                              checked={ele.isChecked}
-                                              onClick={(e) => handleChange(ele.id, 'check')}
-                                              value={ele.id}
-                                          />
-                                      </Grid>
-                                      <Grid item md={10} sx={{ display: 'flex', alignItems: 'center' }}>
-                                          {ele.name}
-                                      </Grid>
-                                      {/* <Grid item md={6}>
+                    {viewState === 0 ? (
+                        nationList.map((ele) => {
+                            return (
+                                <Grid container md={6} sx={{ mb: 1 }}>
+                                    <Grid item md={1}>
+                                        <Checkbox
+                                            inputProps={{ 'aria-label': 'controlled' }}
+                                            defaultChecked={ele.isChecked}
+                                            checked={ele.isChecked}
+                                            onClick={(e) => handleChange(ele.id)}
+                                            value={ele.id}
+                                        />
+                                    </Grid>
+                                    <Grid item md={5} sx={{ display: 'flex', alignItems: 'center' }}>
+                                        {ele.name}
+                                    </Grid>
+                                    <Grid item md={6}>
+                                        <TextField
+                                            disabled={!ele.isChecked}
+                                            label="Price"
+                                            size="small"
+                                            value={ele.price}
+                                            onChange={(e) => handleChange(ele.id, 'price', e.target.value)}
+                                        />
+                                    </Grid>
+                                </Grid>
+                            );
+                        })
+                    ) : viewState === 1 ? (
+                        stateList.map((ele) => {
+                            return (
+                                <Grid container md={6} sx={{ mb: 1 }}>
+                                    <Grid item md={1}>
+                                        <Checkbox
+                                            inputProps={{ 'aria-label': 'controlled' }}
+                                            defaultChecked={ele.isChecked}
+                                            checked={ele.isChecked}
+                                            onClick={(e) => handleChange(ele.id)}
+                                            value={ele.id}
+                                        />
+                                    </Grid>
+                                    <Grid item md={5} sx={{ display: 'flex', alignItems: 'center' }}>
+                                        {ele.name}
+                                    </Grid>
+                                    <Grid item md={6}>
+                                        <TextField
+                                            disabled={!ele.isChecked}
+                                            label="Price"
+                                            size="small"
+                                            value={ele.price}
+                                            onChange={(e) => handleChange(ele.id, 'price', e.target.value)}
+                                        />
+                                    </Grid>
+                                </Grid>
+                            );
+                        })
+                    ) : viewstatecounty === 0 ? (
+                        stateList.map((ele) => {
+                            return (
+                                <Grid container md={4}>
+                                    <Grid item md={2}>
+                                        <Checkbox
+                                            inputProps={{ 'aria-label': 'controlled' }}
+                                            defaultChecked={ele.isChecked}
+                                            checked={ele.isChecked}
+                                            onClick={(e) => handleChange(ele.id, 'check')}
+                                            value={ele.id}
+                                        />
+                                    </Grid>
+                                    <Grid item md={10} sx={{ display: 'flex', alignItems: 'center' }}>
+                                        {ele.name}
+                                    </Grid>
+                                    {/* <Grid item md={6}>
                                           <TextField
                                               label="Price"
                                               size="small"
@@ -573,35 +581,40 @@ const ProductPricePopup = (props) => {
                                               onChange={(e) => handleChange(ele.id, 'price', e.target.value)}
                                           />
                                       </Grid> */}
-                                  </Grid>
-                              );
-                          })
-                        : countyList.map((ele) => {
-                              return (
-                                  <Grid container md={6} sx={{ mb: 1 }}>
-                                      <Grid item md={1}>
-                                          <Checkbox
-                                              inputProps={{ 'aria-label': 'controlled' }}
-                                              defaultChecked={ele.isChecked}
-                                              checked={ele.isChecked}
-                                              onClick={(e) => handleChange(ele.id, 'check')}
-                                              value={ele.id}
-                                          />
-                                      </Grid>
-                                      <Grid item md={5} sx={{ display: 'flex', alignItems: 'center' }}>
-                                          {ele.city}
-                                      </Grid>
-                                      <Grid item md={6}>
-                                          <TextField
-                                              label="Price"
-                                              size="small"
-                                              value={ele.price}
-                                              onChange={(e) => handleChange(ele.id, 'price', e.target.value)}
-                                          />
-                                      </Grid>
-                                  </Grid>
-                              );
-                          })}
+                                </Grid>
+                            );
+                        })
+                    ) : countyList.length > 0 ? (
+                        countyList.map((ele) => {
+                            return (
+                                <Grid container md={6} sx={{ mb: 1 }}>
+                                    <Grid item md={1}>
+                                        <Checkbox
+                                            inputProps={{ 'aria-label': 'controlled' }}
+                                            defaultChecked={ele.isChecked}
+                                            checked={ele.isChecked}
+                                            onClick={(e) => handleChange(ele.id, 'check')}
+                                            value={ele.id}
+                                        />
+                                    </Grid>
+                                    <Grid item md={5} sx={{ display: 'flex', alignItems: 'center' }}>
+                                        {ele.city}
+                                    </Grid>
+                                    <Grid item md={6}>
+                                        <TextField
+                                            disabled={!ele.isChecked}
+                                            label="Price"
+                                            size="small"
+                                            value={ele.price}
+                                            onChange={(e) => handleChange(ele.id, 'price', e.target.value)}
+                                        />
+                                    </Grid>
+                                </Grid>
+                            );
+                        })
+                    ) : (
+                        <p style={{ fontSize: '1rem' }}>{countyerrmsg}</p>
+                    )}
                 </Grid>
                 <Box sx={{ display: 'flex', justifyContent: 'end', gap: '5px' }}>
                     {viewState === 2 && viewstatecounty !== 0 ? (
