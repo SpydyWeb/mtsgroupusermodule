@@ -396,6 +396,7 @@ const EditModal = (props) => {
                 setActiveStep={setActiveStep}
                 licenceType={licenceType}
                 edit={true}
+                allstate={allstate}
                 seteditModalOpen={props.seteditModalOpen}
                 selecetedVedorId={props.selecetedVedorId}
                 setVendorDetail={setVendorDetail}

@@ -295,6 +295,11 @@ const VendorProduct = (props) => {
                                 <AccordionDetails sx={{ maxHeight: '300px', overflowX: 'auto' }}>
                                     <Typography>
                                         {ele.subCategory.map((val, i) => {
+                                            let selected;
+                                            if (val.productPriceList === null) {
+                                                selected = null;
+                                            } else selected = val.productPriceList[0]?.cityStateType;
+
                                             return (
                                                 // <AccordionDetails>
                                                 //     <Typography>
@@ -325,56 +330,16 @@ const VendorProduct = (props) => {
                                                                     } else toast.error('Please select the product');
                                                                 }}
                                                             >
-                                                                Add Product Price
+                                                                {selected === null
+                                                                    ? 'Add Product Price'
+                                                                    : `Update ${
+                                                                          selected === 0
+                                                                              ? 'Nation-wise'
+                                                                              : selected === 1
+                                                                              ? 'State-wise'
+                                                                              : 'County-wise'
+                                                                      }`}
                                                             </Button>
-                                                            {/* {props.selecetedVedorId !== undefined ? (
-                                                                <IconButton onClick={() => handleopen(val.id)}>
-                                                                    <AiFillEye style={{ color: '#1e88e5' }} />
-                                                                </IconButton>
-                                                            ) : (
-                                                                <></>
-                                                            )} */}
-                                                            {/* <Grid container spacing={3}>
-                                                                <Grid item md={4}>
-                                                                    <TextField
-                                                                        inputProps={{
-                                                                            inputMode: 'numeric',
-                                                                            pattern: '[0-9]*'
-                                                                        }}
-                                                                        label="City"
-                                                                        variant="outlined"
-                                                                        disabled={props.editData}
-                                                                        size="small"
-                                                                        value={val.price1 || 0}
-                                                                        name="price1"
-                                                                        onChange={(e) => handlechange(e, i, indx, val.id)}
-                                                                    />
-                                                                </Grid>
-                                                                <Grid item md={4}>
-                                                                   
-                                                                    <TextField
-                                                                        label="State"
-                                                                        variant="outlined"
-                                                                        size="small"
-                                                                        disabled={props.editData}
-                                                                        value={val.price2}
-                                                                        name="price2"
-                                                                        onChange={(e) => handlechange(e, i, indx, val.id)}
-                                                                    />
-                                                                </Grid>
-                                                                <Grid item md={4}>
-                                                                    {' '}
-                                                                    <TextField
-                                                                        label="Country"
-                                                                        variant="outlined"
-                                                                        size="small"
-                                                                        disabled={props.editData}
-                                                                        name="price3"
-                                                                        value={val.price3}
-                                                                        onChange={(e) => handlechange(e, i, indx, val.id)}
-                                                                    />
-                                                                </Grid>
-                                                            </Grid> */}
                                                         </Grid>
                                                     ) : (
                                                         <></>

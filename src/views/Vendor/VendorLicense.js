@@ -9,7 +9,6 @@ const VendorLicense = (props) => {
     const top100Films = [{ title: '', year: 1994 }];
     const handleRemoveClick = (index) => {
         const list = props.licences;
-        console.log(index, list);
         list.splice(index - 1, 1);
 
         props.setVendordata({ ...props.Vendordata, ['licences']: list });
@@ -202,6 +201,35 @@ const VendorLicense = (props) => {
                                             />
                                         </div>
                                         <div>
+                                            <FormControl sx={{ width: '150px' }} fullWidth={true} size="small">
+                                                <InputLabel>
+                                                    State <span className="text-red-600">*</span>
+                                                </InputLabel>
+                                                <Select
+                                                    disabled={props.editData}
+                                                    // value={
+                                                    //     props?.Vendordata?.primery_Address?.state
+                                                    //         ? props.Vendordata.primery_Address.state
+                                                    //         : ''
+                                                    // }
+                                                    name="state"
+                                                    // onChange={(e) => {
+                                                    //     props.setVendordata({
+                                                    //         ...(props.Vendordata ? props.Vendordata : ''),
+                                                    //         ['primery_Address']: {
+                                                    //             ...props.Vendordata.primery_Address,
+                                                    //             [e.target.name]: e.target.value
+                                                    //         }
+                                                    //     });
+                                                    // }}
+                                                >
+                                                    {props.allstate.map((ele, indx) => {
+                                                        return <MenuItem value={ele.name}>{ele.name}</MenuItem>;
+                                                    })}
+                                                </Select>
+                                            </FormControl>
+                                        </div>
+                                        <div>
                                             <TextField
                                                 name="licenceNo"
                                                 disabled={props.editData}
@@ -243,7 +271,23 @@ const VendorLicense = (props) => {
 
                                     <div className="flex flex-col md:flex-row gap-6  py-2 mb-1 flex-wrap">
                                         <div>
-                                            <TextField
+                                            <FormControl sx={{ width: '150px' }} fullWidth={true} size="small">
+                                                <InputLabel>
+                                                    Status <span className="text-red-600">*</span>
+                                                </InputLabel>
+                                                <Select
+                                                    disabled={props.edit}
+                                                    labelId="License_Type"
+                                                    name="licenceType"
+                                                    label="License Type"
+                                                    value={x.status}
+                                                    onChange={(e) => handlechangeLicense(e, i)}
+                                                >
+                                                    <MenuItem value={'Active'}>{'Active'}</MenuItem>
+                                                    <MenuItem value={'Inactive'}>{'Inactive'}</MenuItem>
+                                                </Select>
+                                            </FormControl>
+                                            {/* <TextField
                                                 name="status"
                                                 disabled={props.editData}
                                                 label={
@@ -255,7 +299,7 @@ const VendorLicense = (props) => {
                                                 size="small"
                                                 value={x.status}
                                                 onChange={(e) => handlechangeLicense(e, i)}
-                                            />
+                                            /> */}
                                         </div>
                                         <div>
                                             <Autocomplete

@@ -193,6 +193,7 @@ const StepperForm = () => {
                                 setActiveStep={setActiveStep}
                                 licenceType={licenceType}
                                 edit={false}
+                                allstate={allstate}
                             />
                         ) : activeStep === 2 ? (
                             <VendorProduct

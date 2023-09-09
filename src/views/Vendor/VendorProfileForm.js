@@ -38,7 +38,6 @@ const VendorProfileForm = (props) => {
             props.Vendordata.primery_Contact.phone === '' ||
             props.Vendordata.primery_Contact.email === '' ||
             props.Vendordata.primery_Contact.cellPhone === '' ||
-            (props.Vendordata.assignmentNote && props.Vendordata.assignmentNote === '' && formType === 'vendor') ||
             (props.Vendordata.parent &&
                 props.Vendordata.parent === '' &&
                 formType === 'customer' &&
@@ -1188,7 +1187,7 @@ const VendorProfileForm = (props) => {
                     </div>
                 </div>
             </SubCard>
-            {formType === 'vendor' ? (
+            {/* {formType === 'vendor' ? (
                 <SubCard
                     sx={{ mb: 2 }}
                     className={`${props.edit ? (props.editType && props.editType === 'Profile' ? 'block' : 'hidden') : 'block'}`}
@@ -1222,164 +1221,165 @@ const VendorProfileForm = (props) => {
                     </div>
                 </SubCard>
             ) : (
-                <SubCard
-                    title="Accounting Information"
-                    sx={{ mb: 2 }}
-                    className={`${props.edit ? (props.editType && props.editType === 'Address' ? 'block' : 'hidden') : 'block'}`}
-                >
-                    <div className={`flex flex-col md:flex-row gap-6`}>
-                        <div>
-                            <TextField
-                                id="Billing Code"
-                                label={
-                                    <>
-                                        Billing Code <span className="text-red-600">*</span>
-                                    </>
-                                }
-                                disabled={props.editData}
-                                variant="outlined"
-                                size="small"
-                                value={props.Vendordata?.accountinfo?.billing_Code ? props.Vendordata.accountinfo.billing_Code : ''}
-                                name="billing_Code"
-                                onChange={(e) => {
-                                    props.setVendordata({
-                                        ...(props.Vendordata ? props.Vendordata : ''),
-                                        ['accountinfo']: {
-                                            ...props.Vendordata.accountinfo,
-                                            [e.target.name]: e.target.value
-                                        }
-                                    });
-                                }}
-                            />
-                        </div>
-                        <div>
-                            <TextField
-                                id="Billing Name"
-                                label={
-                                    <>
-                                        Billing Name <span className="text-red-600">*</span>
-                                    </>
-                                }
-                                disabled={props.editData}
-                                variant="outlined"
-                                size="small"
-                                value={props.Vendordata?.accountinfo?.billing_Name ? props.Vendordata.accountinfo.billing_Name : ''}
-                                name="billing_Name"
-                                onChange={(e) => {
-                                    props.setVendordata({
-                                        ...(props.Vendordata ? props.Vendordata : ''),
-                                        ['accountinfo']: {
-                                            ...props.Vendordata.accountinfo,
-                                            [e.target.name]: e.target.value
-                                        }
-                                    });
-                                }}
-                            />
-                        </div>
-                        <div>
-                            <TextField
-                                id="Tax Id"
-                                disabled={props.editData}
-                                label={
-                                    <>
-                                        Tax Id <span className="text-red-600">*</span>
-                                    </>
-                                }
-                                variant="outlined"
-                                size="small"
-                                value={props.Vendordata?.accountinfo?.tax_Id ? props.Vendordata.accountinfo.tax_Id : ''}
-                                name="tax_Id"
-                                onChange={(e) => {
-                                    props.setVendordata({
-                                        ...(props.Vendordata ? props.Vendordata : ''),
-                                        ['accountinfo']: {
-                                            ...props.Vendordata.accountinfo,
-                                            [e.target.name]: e.target.value
-                                        }
-                                    });
-                                }}
-                            />
-                        </div>
-                        <div>
-                            <TextField
-                                id="custom_Field1"
-                                disabled={props.editData}
-                                label={
-                                    <>
-                                        Custom Field1 <span className="text-red-600">*</span>
-                                    </>
-                                }
-                                variant="outlined"
-                                size="small"
-                                value={props.Vendordata?.accountinfo?.custom_Field1 ? props.Vendordata.accountinfo.custom_Field1 : ''}
-                                name="custom_Field1"
-                                onChange={(e) => {
-                                    props.setVendordata({
-                                        ...(props.Vendordata ? props.Vendordata : ''),
-                                        ['accountinfo']: {
-                                            ...props.Vendordata.accountinfo,
-                                            [e.target.name]: e.target.value
-                                        }
-                                    });
-                                }}
-                            />
-                        </div>
-                        <div>
-                            <TextField
-                                id="custom_Field1"
-                                disabled={props.editData}
-                                label={
-                                    <>
-                                        Custom Field2 <span className="text-red-600">*</span>
-                                    </>
-                                }
-                                variant="outlined"
-                                size="small"
-                                value={props.Vendordata?.accountinfo?.custom_Field2 ? props.Vendordata.accountinfo.custom_Field2 : ''}
-                                name="custom_Field2"
-                                onChange={(e) => {
-                                    props.setVendordata({
-                                        ...(props.Vendordata ? props.Vendordata : ''),
-                                        ['accountinfo']: {
-                                            ...props.Vendordata.accountinfo,
-                                            [e.target.name]: e.target.value
-                                        }
-                                    });
-                                }}
-                            />
-                        </div>
+                ''
+            )} */}
+            <SubCard
+                title="Accounting Information"
+                sx={{ mb: 2 }}
+                className={`${props.edit ? (props.editType && props.editType === 'Address' ? 'block' : 'hidden') : 'block'}`}
+            >
+                <div className={`flex flex-col md:flex-row gap-6`}>
+                    <div>
+                        <TextField
+                            id="Billing Code"
+                            label={
+                                <>
+                                    Billing Code <span className="text-red-600">*</span>
+                                </>
+                            }
+                            disabled={props.editData}
+                            variant="outlined"
+                            size="small"
+                            value={props.Vendordata?.accountinfo?.billing_Code ? props.Vendordata.accountinfo.billing_Code : ''}
+                            name="billing_Code"
+                            onChange={(e) => {
+                                props.setVendordata({
+                                    ...(props.Vendordata ? props.Vendordata : ''),
+                                    ['accountinfo']: {
+                                        ...props.Vendordata.accountinfo,
+                                        [e.target.name]: e.target.value
+                                    }
+                                });
+                            }}
+                        />
                     </div>
-                    <div className={`flex flex-col md:flex-row gap-6 mt-3`}>
-                        <div className=" w-full">
-                            <TextField
-                                id="profile_Note"
-                                disabled={props.editData}
-                                label={
-                                    <>
-                                        Profile Note <span className="text-red-600">*</span>
-                                    </>
-                                }
-                                variant="outlined"
-                                size="small"
-                                multiline
-                                rows={2}
-                                fullWidth
-                                value={props.Vendordata?.accountinfo?.profile_Note ? props.Vendordata.accountinfo.profile_Note : ''}
-                                name="profile_Note"
-                                onChange={(e) => {
-                                    props.setVendordata({
-                                        ...(props.Vendordata ? props.Vendordata : ''),
-                                        ['accountinfo']: {
-                                            ...props.Vendordata.accountinfo,
-                                            [e.target.name]: e.target.value
-                                        }
-                                    });
-                                }}
-                            />
-                        </div>
+                    <div>
+                        <TextField
+                            id="Billing Name"
+                            label={
+                                <>
+                                    Billing Name <span className="text-red-600">*</span>
+                                </>
+                            }
+                            disabled={props.editData}
+                            variant="outlined"
+                            size="small"
+                            value={props.Vendordata?.accountinfo?.billing_Name ? props.Vendordata.accountinfo.billing_Name : ''}
+                            name="billing_Name"
+                            onChange={(e) => {
+                                props.setVendordata({
+                                    ...(props.Vendordata ? props.Vendordata : ''),
+                                    ['accountinfo']: {
+                                        ...props.Vendordata.accountinfo,
+                                        [e.target.name]: e.target.value
+                                    }
+                                });
+                            }}
+                        />
                     </div>
-                </SubCard>
-            )}
+                    <div>
+                        <TextField
+                            id="Tax Id"
+                            disabled={props.editData}
+                            label={
+                                <>
+                                    Tax Id <span className="text-red-600">*</span>
+                                </>
+                            }
+                            variant="outlined"
+                            size="small"
+                            value={props.Vendordata?.accountinfo?.tax_Id ? props.Vendordata.accountinfo.tax_Id : ''}
+                            name="tax_Id"
+                            onChange={(e) => {
+                                props.setVendordata({
+                                    ...(props.Vendordata ? props.Vendordata : ''),
+                                    ['accountinfo']: {
+                                        ...props.Vendordata.accountinfo,
+                                        [e.target.name]: e.target.value
+                                    }
+                                });
+                            }}
+                        />
+                    </div>
+                    <div>
+                        <TextField
+                            id="custom_Field1"
+                            disabled={props.editData}
+                            label={
+                                <>
+                                    Custom Field1 <span className="text-red-600">*</span>
+                                </>
+                            }
+                            variant="outlined"
+                            size="small"
+                            value={props.Vendordata?.accountinfo?.custom_Field1 ? props.Vendordata.accountinfo.custom_Field1 : ''}
+                            name="custom_Field1"
+                            onChange={(e) => {
+                                props.setVendordata({
+                                    ...(props.Vendordata ? props.Vendordata : ''),
+                                    ['accountinfo']: {
+                                        ...props.Vendordata.accountinfo,
+                                        [e.target.name]: e.target.value
+                                    }
+                                });
+                            }}
+                        />
+                    </div>
+                    <div>
+                        <TextField
+                            id="custom_Field1"
+                            disabled={props.editData}
+                            label={
+                                <>
+                                    Custom Field2 <span className="text-red-600">*</span>
+                                </>
+                            }
+                            variant="outlined"
+                            size="small"
+                            value={props.Vendordata?.accountinfo?.custom_Field2 ? props.Vendordata.accountinfo.custom_Field2 : ''}
+                            name="custom_Field2"
+                            onChange={(e) => {
+                                props.setVendordata({
+                                    ...(props.Vendordata ? props.Vendordata : ''),
+                                    ['accountinfo']: {
+                                        ...props.Vendordata.accountinfo,
+                                        [e.target.name]: e.target.value
+                                    }
+                                });
+                            }}
+                        />
+                    </div>
+                </div>
+                <div className={`flex flex-col md:flex-row gap-6 mt-3`}>
+                    <div className=" w-full">
+                        <TextField
+                            id="profile_Note"
+                            disabled={props.editData}
+                            label={
+                                <>
+                                    Profile Note <span className="text-red-600">*</span>
+                                </>
+                            }
+                            variant="outlined"
+                            size="small"
+                            multiline
+                            rows={2}
+                            fullWidth
+                            value={props.Vendordata?.accountinfo?.profile_Note ? props.Vendordata.accountinfo.profile_Note : ''}
+                            name="profile_Note"
+                            onChange={(e) => {
+                                props.setVendordata({
+                                    ...(props.Vendordata ? props.Vendordata : ''),
+                                    ['accountinfo']: {
+                                        ...props.Vendordata.accountinfo,
+                                        [e.target.name]: e.target.value
+                                    }
+                                });
+                            }}
+                        />
+                    </div>
+                </div>
+            </SubCard>
             <Box
                 sx={{
                     display: props.edit ? 'none' : 'flex',

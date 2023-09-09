@@ -46,7 +46,7 @@ const ProductPricePopup = (props) => {
     const [viewState, setViewState] = useState(0);
     useEffect(() => {
         let data = [...props.Productseletected?.subCategory];
-        let selected;
+        let selected = 0;
         for (let i = 0; i < data.length; i++) {
             if (data[i].id === props.productid) {
                 if (data[i].productPriceList === null) {
@@ -57,7 +57,7 @@ const ProductPricePopup = (props) => {
                 break;
             }
         }
-        if (selected === 0) {
+        if (selected === 0 || selected === undefined) {
             GetNationListData();
             setViewState(0);
         } else if (selected === 1) {
@@ -116,8 +116,16 @@ const ProductPricePopup = (props) => {
     const handleNext = (event, newValue) => {
         let data = [...props.Productseletected?.subCategory];
         let selected = '';
+        console.log('====================================');
+        console.log(data, props.productid);
+        console.log('====================================');
         for (let i = 0; i < data.length; i++) {
-            if (data[i].id === props.productid && data[i].productPriceList !== null && data[i].productPriceList[0].price !== 0) {
+            if (
+                data[i].id === props.productid &&
+                data[i].productPriceList !== null &&
+                data[i].productPriceList[0]?.price !== 0 &&
+                data[i].productPriceList.length > 0
+            ) {
                 selected = data[i].productPriceList[0].cityStateType;
                 break;
             }
@@ -296,13 +304,14 @@ const ProductPricePopup = (props) => {
             }
         }
     };
-    const handleSubmit = () => {
+    const handleSubmit = (type = '') => {
         let data = [];
 
         if (viewState === 0) {
-            nationList.map((ele) => {
-                if (ele.isChecked) data.push({ price: +ele.price, cityStateType: 0, cityStateId: ele.id });
-            });
+            if (type === '')
+                nationList.map((ele) => {
+                    if (ele.isChecked) data.push({ price: +ele.price, cityStateType: 0, cityStateId: ele.id });
+                });
             if (props.selecetedVedorId !== undefined) {
                 if (props.formType === 'vendor') {
                     UpdateVendorNationProduct(data, props.selecetedVedorId, props.productid).then((res) => {
@@ -312,8 +321,12 @@ const ProductPricePopup = (props) => {
                             for (let i = 0; i < selectedData.length; i++) {
                                 if (props.productid === selectedData[i].id) {
                                     selectedData[i].productPriceList = data;
+                                    if (type === 'remove') selectedData[i].selected = false;
+
+                                    if (type === 'remove') selectedData[i].selected = false;
                                 }
                             }
+
                             props.setProductseletected(selectedData);
                         }
                     });
@@ -325,6 +338,7 @@ const ProductPricePopup = (props) => {
                             for (let i = 0; i < selectedData.length; i++) {
                                 if (props.productid === selectedData[i].id) {
                                     selectedData[i].productPriceList = data;
+                                    if (type === 'remove') selectedData[i].selected = false;
                                 }
                             }
                             props.setProductseletected(selectedData);
@@ -361,10 +375,10 @@ const ProductPricePopup = (props) => {
                 toast.success('Nation wise price saved successfully');
             }
         } else if (viewState === 1) {
-            console.log('hitt');
-            stateList.map((ele) => {
-                if (ele.isChecked) data.push({ price: +ele.price, cityStateType: 1, cityStateId: ele.id });
-            });
+            if (type === '')
+                stateList.map((ele) => {
+                    if (ele.isChecked) data.push({ price: +ele.price, cityStateType: 1, cityStateId: ele.id });
+                });
             if (props.selecetedVedorId !== undefined) {
                 if (props.formType === 'vendor') {
                     UpdateVendorStateProduct(data, props.selecetedVedorId, props.productid).then((res) => {
@@ -374,6 +388,7 @@ const ProductPricePopup = (props) => {
                             for (let i = 0; i < selectedData.length; i++) {
                                 if (props.productid === selectedData[i].id) {
                                     selectedData[i].productPriceList = data;
+                                    if (type === 'remove') selectedData[i].selected = false;
                                 }
                             }
                             props.setProductseletected(selectedData);
@@ -387,6 +402,7 @@ const ProductPricePopup = (props) => {
                             for (let i = 0; i < selectedData.length; i++) {
                                 if (props.productid === selectedData[i].id) {
                                     selectedData[i].productPriceList = data;
+                                    if (type === 'remove') selectedData[i].selected = false;
                                 }
                             }
                             props.setProductseletected(selectedData);
@@ -421,9 +437,10 @@ const ProductPricePopup = (props) => {
                 toast.success('State wise price saved successfully');
             }
         } else {
-            countyList.map((ele) => {
-                if (ele.isChecked) data.push({ price: +ele.price, cityStateType: 2, cityStateId: ele.id });
-            });
+            if (type === '')
+                countyList.map((ele) => {
+                    if (ele.isChecked) data.push({ price: +ele.price, cityStateType: 2, cityStateId: ele.id });
+                });
             if (props.selecetedVedorId !== undefined) {
                 if (props.formType === 'vendor') {
                     UpdateVendorCountyProduct(data, props.selecetedVedorId, props.productid).then((res) => {
@@ -433,6 +450,7 @@ const ProductPricePopup = (props) => {
                             for (let i = 0; i < selectedData.length; i++) {
                                 if (props.productid === selectedData[i].id) {
                                     selectedData[i].productPriceList = data;
+                                    if (type === 'remove') selectedData[i].selected = false;
                                 }
                             }
                             props.setProductseletected(selectedData);
@@ -446,6 +464,7 @@ const ProductPricePopup = (props) => {
                             for (let i = 0; i < selectedData.length; i++) {
                                 if (props.productid === selectedData[i].id) {
                                     selectedData[i].productPriceList = data;
+                                    if (type === 'remove') selectedData[i].selected = false;
                                 }
                             }
                             props.setProductseletected(selectedData);
@@ -617,6 +636,9 @@ const ProductPricePopup = (props) => {
                     )}
                 </Grid>
                 <Box sx={{ display: 'flex', justifyContent: 'end', gap: '5px' }}>
+                    <Button variant="outlined" color="error" size="small" onClick={() => handleSubmit('remove')}>
+                        Delete Price
+                    </Button>
                     {viewState === 2 && viewstatecounty !== 0 ? (
                         <Button variant="outlined" color="primary" size="small" onClick={() => handlePrevious()}>
                             Previous
