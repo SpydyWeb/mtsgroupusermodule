@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextField, Select, MenuItem, InputLabel, FormControl, FormGroup, FormControlLabel, Box, Button } from '@mui/material';
+import { TextField, Select, MenuItem, InputLabel, FormControl, FormGroup, FormControlLabel, Box, Button, Grid } from '@mui/material';
 import { AiFillEdit } from 'react-icons/ai';
 import Android12Switch from './Android12Switch';
 import { IoMdAddCircle } from 'react-icons/io';
@@ -15,10 +15,13 @@ import {
     addCustomercommunications
 } from '../../servicesapi/Customerapi';
 import SubCard from 'ui-component/cards/SubCard';
+import { NotificationFormValues } from './utils';
 const Com_notification = (props) => {
     const location = useLocation();
     const [formType, setFormType] = useState(location.pathname === '/admin/viewvendor' ? 'vendor' : 'customer');
-
+    const [NotificationFormValue, setNotificationFormValue] = useState(
+        location.pathname === '/admin/viewvendor' ? NotificationFormValues.vendor : NotificationFormValues.customer
+    );
     const handleRemoveClick = (index, id) => {
         if (formType === 'vendor')
             DeleteCommuncationbyVendorid(id).then((res) => {
@@ -216,7 +219,11 @@ const Com_notification = (props) => {
             });
         }
     };
-
+    const handleChangeNotification = (e) => {
+        const { name, value } = e?.target ? e.target : e;
+        console.log(name, value);
+        props.setVendordata({ ...props.Vendordata, [name]: value });
+    };
     return (
         <>
             <SubCard
@@ -351,132 +358,43 @@ const Com_notification = (props) => {
                     }  flex-col md:flex-row gap-6`}
                 >
                     <div>
-                        <FormGroup>
-                            <FormControlLabel
-                                disabled={props.editData}
-                                control={<Android12Switch />}
-                                label={location.pathname === '/admin/viewvendor' ? 'New Assignment' : 'Order Confirmation'}
-                                name={location.pathname === '/admin/viewvendor' ? 'new_Assignment' : 'order_Confirmation'}
-                                checked={
-                                    location.pathname === '/admin/viewvendor'
-                                        ? props.Vendordata.new_Assignment
-                                        : props.Vendordata.order_Confirmation
-                                }
-                                onChange={(e) => {
-                                    location.pathname === '/admin/viewvendor'
-                                        ? props.setVendordata({
-                                              ...props.Vendordata,
-                                              ['new_Assignment']: !props.Vendordata.new_Assignment
-                                          })
-                                        : props.setVendordata({
-                                              ...props.Vendordata,
-                                              ['order_Confirmation']: !props.Vendordata.order_Confirmation
-                                          });
-                                }}
-                            />
-                        </FormGroup>
-                        <FormGroup>
-                            <FormControlLabel
-                                disabled={props.editData}
-                                control={<Android12Switch />}
-                                label={location.pathname === '/admin/viewvendor' ? 'QC Rejection' : 'Assignment'}
-                                name="qcRejection"
-                                checked={
-                                    location.pathname === '/admin/viewvendor' ? props.Vendordata.qcRejection : props.Vendordata.assignment
-                                }
-                                onChange={(e) => {
-                                    location.pathname === '/admin/viewvendor'
-                                        ? props.setVendordata({
-                                              ...props.Vendordata,
-                                              ['qcRejection']: !props.Vendordata.qcRejection
-                                          })
-                                        : props.setVendordata({
-                                              ...props.Vendordata,
-                                              ['assignment']: !props.Vendordata.assignment
-                                          });
-                                }}
-                            />
-                        </FormGroup>
-                        <FormGroup>
-                            <FormControlLabel
-                                disabled={props.editData}
-                                control={<Android12Switch />}
-                                label={location.pathname === '/admin/viewvendor' ? 'Daily Reminder' : 'Inspection'}
-                                name="dailyReminder"
-                                checked={
-                                    location.pathname === '/admin/viewvendor' ? props.Vendordata.dailyReminder : props.Vendordata.inspection
-                                }
-                                onChange={(e) => {
-                                    location.pathname === '/admin/viewvendor'
-                                        ? props.setVendordata({
-                                              ...props.Vendordata,
-                                              ['dailyReminder']: !props.Vendordata.dailyReminder
-                                          })
-                                        : props.setVendordata({
-                                              ...props.Vendordata,
-                                              ['inspection']: !props.Vendordata.inspection
-                                          });
-                                }}
-                            />
-                        </FormGroup>
-                        <FormGroup>
-                            <FormControlLabel
-                                control={<Android12Switch />}
-                                disabled={props.editData}
-                                label={location.pathname === '/admin/viewvendor' ? 'Profile Reminder' : 'In QC Review'}
-                                name="profileReminder"
-                                checked={
-                                    location.pathname === '/admin/viewvendor'
-                                        ? props.Vendordata.profileReminder
-                                        : props.Vendordata.in_QC_Review
-                                }
-                                onChange={(e) => {
-                                    location.pathname === '/admin/viewvendor'
-                                        ? props.setVendordata({
-                                              ...props.Vendordata,
-                                              ['profileReminder']: !props.Vendordata.profileReminder
-                                          })
-                                        : props.setVendordata({
-                                              ...props.Vendordata,
-                                              ['in_QC_Review']: !props.Vendordata.in_QC_Review
-                                          });
-                                }}
-                            />
-                        </FormGroup>
-                        <div
-                            className={`${
-                                props.edit
-                                    ? props.editType && props.editType === 'Additional' && formType === 'vendor'
-                                        ? 'flex'
-                                        : 'hidden'
-                                    : 'hidden'
-                            } gap-6 border-2 p-3  mb-2 rounded-xl bg-white relative border-sky-500`}
-                        >
-                            <div className=" w-full">
-                                <TextField
-                                    disabled={props.editData}
-                                    id="assignment"
-                                    label={
-                                        <>
-                                            Assignment Note <span className="text-red-600">*</span>
-                                        </>
-                                    }
-                                    variant="outlined"
-                                    size="small"
-                                    multiline
-                                    rows={2}
-                                    fullWidth
-                                    value={props.Vendordata && props.Vendordata.assignmentNote ? props.Vendordata.assignmentNote : ''}
-                                    name="assignmentNote"
-                                    onChange={(e) => {
-                                        props.setVendordata({
-                                            ...(props.Vendordata ? props.Vendordata : ''),
-                                            [e.target.name]: e.target.value
-                                        });
-                                    }}
-                                />
-                            </div>
-                        </div>
+                        {NotificationFormValue.map((val, i) => {
+                            return (
+                                <Grid container className="mb-3" key={i}>
+                                    <Grid item md={4}>
+                                        <FormGroup>
+                                            <FormControlLabel
+                                                disabled={props.editData}
+                                                control={<Android12Switch />}
+                                                label={val.Checkedlabel}
+                                                name={val.Checkname}
+                                                checked={props.Vendordata[val.Checkname]}
+                                                onChange={(e) => {
+                                                    let data = {
+                                                        name: e.target.name,
+                                                        value: !props.Vendordata[val.Checkname]
+                                                    };
+                                                    handleChangeNotification(data);
+                                                }}
+                                            />
+                                        </FormGroup>
+                                    </Grid>
+                                    <Grid item md={4}>
+                                        <TextField
+                                            label={<>{val.Textlabel}</>}
+                                            variant="outlined"
+                                            size="small"
+                                            name={val.Textname}
+                                            value={props.Vendordata[val.Textname]}
+                                            disabled={props.editData}
+                                            onChange={(e) => {
+                                                handleChangeNotification(e);
+                                            }}
+                                        />
+                                    </Grid>
+                                </Grid>
+                            );
+                        })}
                     </div>
                 </div>
             </SubCard>

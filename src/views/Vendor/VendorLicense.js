@@ -124,7 +124,8 @@ const VendorLicense = (props) => {
                 ele.licenceType === '' ||
                 ele.address === '' ||
                 ele.expiry_Date === '' ||
-                ele.issueDate === ''
+                ele.issueDate === '' ||
+                ele.state === ''
             ) {
                 status = true;
             }
@@ -132,10 +133,12 @@ const VendorLicense = (props) => {
         if (status) toast.error('Please fill all the mandatory fields');
         else {
             let apistatus = false;
+
             props.licences.map((ele) => {
-                if (ele.id === undefined) {
+                if (ele.id !== undefined) {
                     UpdateVendorLicences([ele], props.selecetedVedorId).then((res) => {
                         if (res.status === 200) {
+                            toast.success('Licence updated succsessfully');
                             apistatus = true;
                         } else {
                             res.json().then((res) => toast.error(res));
@@ -147,6 +150,7 @@ const VendorLicense = (props) => {
                     delete ele.createdDate;
                     AddVendorLicences(ele, props.selecetedVedorId).then((res) => {
                         if (res.status === 200) {
+                            toast.success('Licence updated succsessfully');
                             apistatus = true;
                         } else {
                             res.json().then((res) => toast.error(res));
@@ -154,6 +158,7 @@ const VendorLicense = (props) => {
                     });
                 }
             });
+
             if (apistatus) {
                 toast.success('Licence updated succsessfully');
                 props.setVendorDetail({ ...props.vendorDetail, ['licences']: props.licences });
@@ -207,21 +212,9 @@ const VendorLicense = (props) => {
                                                 </InputLabel>
                                                 <Select
                                                     disabled={props.editData}
-                                                    // value={
-                                                    //     props?.Vendordata?.primery_Address?.state
-                                                    //         ? props.Vendordata.primery_Address.state
-                                                    //         : ''
-                                                    // }
+                                                    value={x.state}
                                                     name="state"
-                                                    // onChange={(e) => {
-                                                    //     props.setVendordata({
-                                                    //         ...(props.Vendordata ? props.Vendordata : ''),
-                                                    //         ['primery_Address']: {
-                                                    //             ...props.Vendordata.primery_Address,
-                                                    //             [e.target.name]: e.target.value
-                                                    //         }
-                                                    //     });
-                                                    // }}
+                                                    onChange={(e) => handlechangeLicense(e, i)}
                                                 >
                                                     {props.allstate.map((ele, indx) => {
                                                         return <MenuItem value={ele.name}>{ele.name}</MenuItem>;
@@ -277,8 +270,8 @@ const VendorLicense = (props) => {
                                                 </InputLabel>
                                                 <Select
                                                     disabled={props.edit}
-                                                    labelId="License_Type"
-                                                    name="licenceType"
+                                                    labelId="status"
+                                                    name="status"
                                                     label="License Type"
                                                     value={x.status}
                                                     onChange={(e) => handlechangeLicense(e, i)}

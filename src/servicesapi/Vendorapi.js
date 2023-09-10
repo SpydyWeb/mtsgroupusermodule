@@ -348,7 +348,7 @@ export const GetVendorFileById = async (id) => {
 };
 export const UpdateVendorEandO = async (data, id) => {
     return axios
-        .post(`${Url}Updatevendoreoc?id=${id}`, data)
+        .put(`${Url}Updatevendoreoc?id=${id}`, data)
         .then((res) => res)
         .catch((err) => console.log('File Upload Error'));
 };
@@ -563,6 +563,20 @@ export const UpdateVendorcommunications = async (data, id) => {
 export const UpdateVendorproducts = async (data, id) => {
     const token = localStorage.getItem('jwtTokenId');
     return await fetch(`${Url}UpdateVendorproducts?vendorid=${id}`, {
+        method: 'PUT',
+        body: JSON.stringify(data),
+        headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+            'Access-Control-Allow-Origin': '*'
+        }
+    }).then((data) => data);
+};
+
+export const updateAccountinfo = async (data, id) => {
+    const token = localStorage.getItem('jwtTokenId');
+    return await fetch(`${Url}updateAccountinfo?id=${id}`, {
         method: 'PUT',
         body: JSON.stringify(data),
         headers: {

@@ -64,8 +64,12 @@ const StepperForm = () => {
         assignmentNote: '',
         new_Assignment: true,
         qcRejection: true,
+        qcRejectionNotes: '',
         dailyReminder: true,
+        dailyReminderNotes: '',
         profileReminder: true,
+        profileReminderNotes: '',
+
         licences: [
             {
                 firstName: '',
@@ -77,7 +81,8 @@ const StepperForm = () => {
                 expiry_Date: '',
                 issueDate: '',
                 disciplinaryAction: '',
-                note: ''
+                note: '',
+                state: ''
             }
         ],
         communication: [
@@ -109,7 +114,15 @@ const StepperForm = () => {
                 expiryDate: '',
                 fileid: 0
             }
-        ]
+        ],
+        accountinfo: {
+            billing_Code: '',
+            billing_Name: '',
+            tax_Id: '',
+            custom_Field1: '',
+            custom_Field2: '',
+            profile_Note: ''
+        }
     });
     useEffect(() => {
         GetVendorProduct().then((res) => {

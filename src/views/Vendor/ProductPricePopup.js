@@ -27,6 +27,7 @@ import {
     UpdatecustomerStateProduct,
     UpdateCustomerNationProduct
 } from 'servicesapi/Customerapi';
+import SubCard from 'ui-component/cards/SubCard';
 
 // const steps = ['State List', 'County List', 'Zipcode List'];
 const steps = ['Nation-wise', 'State-wise', 'County-wise'];
@@ -42,6 +43,7 @@ const ProductPricePopup = (props) => {
         county: [],
         nation: []
     });
+    const [selectedStates, setSelectedStates] = useState([]);
     const [viewstatecounty, setViewstatecounty] = useState(0);
     const [viewState, setViewState] = useState(0);
     useEffect(() => {
@@ -151,6 +153,7 @@ const ProductPricePopup = (props) => {
         }
         GetCountyList(checkboxData.state).then((res) => {
             let msg = '';
+            let tempdata = selectedStates;
             res.data.map((ele) => {
                 if (data?.productPriceList === undefined || data === undefined) {
                     ele['price'] = '';
@@ -167,8 +170,15 @@ const ProductPricePopup = (props) => {
                         }
                     }
                 }
+                for (let i = 0; i < selectedStates.length; i++) {
+                    if (selectedStates[i].id === ele.stateId) {
+                        if (tempdata[i].countyList === undefined) tempdata[i]['countyList'] = [ele];
+                        else tempdata[i]['countyList'].push(ele);
+                    }
+                }
             });
-            setCountyList(res.data);
+            console.log(tempdata);
+            setCountyList(tempdata);
 
             if (res.data.length === 0) msg = 'Selected state has no county. Please select other states';
             else msg = '';
@@ -271,22 +281,28 @@ const ProductPricePopup = (props) => {
         } else if (viewState === 1 || (viewState === 2 && viewstatecounty === 0)) {
             let selectedstate = checkboxData.state;
             let data = [...stateList];
+            let states = selectedStates;
             for (let i = 0; i < data.length; i++) {
                 if (data[i].id === id) {
                     if (type === 'price') data[i].price = value;
                     else data[i].isChecked = !data[i].isChecked;
                     if (data[i].isChecked) {
                         selectedstate.push(id);
+                        states.push({ id: id, ['name']: data[i].name });
                     } else {
                         selectedstate.splice(selectedstate.indexOf(id), 1);
+                        states.splice(states.indexOf(id), 1);
                     }
                     setCheckboxData({ ...checkboxData, state: selectedstate });
                     setStateList(data);
+                    console.log(states);
+                    setSelectedStates(states);
                     break;
                 }
             }
         } else {
             let selectedstate = checkboxData.county;
+
             let data = [...countyList];
             for (let i = 0; i < data.length; i++) {
                 if (data[i].id === id) {
@@ -297,6 +313,7 @@ const ProductPricePopup = (props) => {
                     } else {
                         selectedstate.splice(selectedstate.indexOf(id), 1);
                     }
+
                     setCheckboxData({ ...checkboxData, county: selectedstate });
                     setCountyList(data);
                     break;
@@ -604,31 +621,41 @@ const ProductPricePopup = (props) => {
                             );
                         })
                     ) : countyList.length > 0 ? (
-                        countyList.map((ele) => {
+                        countyList?.map((val) => {
                             return (
-                                <Grid container md={6} sx={{ mb: 1 }}>
-                                    <Grid item md={1}>
-                                        <Checkbox
-                                            inputProps={{ 'aria-label': 'controlled' }}
-                                            defaultChecked={ele.isChecked}
-                                            checked={ele.isChecked}
-                                            onClick={(e) => handleChange(ele.id, 'check')}
-                                            value={ele.id}
-                                        />
-                                    </Grid>
-                                    <Grid item md={5} sx={{ display: 'flex', alignItems: 'center' }}>
-                                        {ele.city}
-                                    </Grid>
-                                    <Grid item md={6}>
-                                        <TextField
-                                            disabled={!ele.isChecked}
-                                            label="Price"
-                                            size="small"
-                                            value={ele.price}
-                                            onChange={(e) => handleChange(ele.id, 'price', e.target.value)}
-                                        />
-                                    </Grid>
-                                </Grid>
+                                <div style={{ width: '100%' }}>
+                                    <SubCard title={val.name}>
+                                        <div style={{ display: 'flex', flexWrap: 'wrap', marginBottom: '3px' }}>
+                                            {val.countyList?.map((ele, ind) => {
+                                                return (
+                                                    <Grid container md={6} sx={{ mb: 1 }} key={ind}>
+                                                        <Grid item md={1}>
+                                                            <Checkbox
+                                                                inputProps={{ 'aria-label': 'controlled' }}
+                                                                defaultChecked={ele.isChecked}
+                                                                checked={ele.isChecked}
+                                                                onClick={(e) => handleChange(ele.id, 'check')}
+                                                                value={ele.id}
+                                                            />
+                                                        </Grid>
+                                                        <Grid item md={5} sx={{ display: 'flex', alignItems: 'center' }}>
+                                                            {ele.city}
+                                                        </Grid>
+                                                        <Grid item md={6}>
+                                                            <TextField
+                                                                disabled={!ele.isChecked}
+                                                                label="Price"
+                                                                size="small"
+                                                                value={ele.price}
+                                                                onChange={(e) => handleChange(ele.id, 'price', e.target.value)}
+                                                            />
+                                                        </Grid>
+                                                    </Grid>
+                                                );
+                                            })}
+                                        </div>
+                                    </SubCard>
+                                </div>
                             );
                         })
                     ) : (

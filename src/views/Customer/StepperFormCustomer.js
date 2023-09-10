@@ -58,6 +58,10 @@ export const StepperFormCustomer = () => {
         assignment: false,
         inspection: false,
         in_QC_Review: false,
+        order_ConfirmationNotes: '',
+        assignmentNotes: '',
+        inspectionNotes: '',
+        in_QC_ReviewNotes: '',
         uploadedfile: 'string',
         communication: [
             {

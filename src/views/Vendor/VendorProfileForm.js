@@ -1,13 +1,21 @@
 import React, { useState } from 'react';
 import { TextField, Autocomplete, Select, MenuItem, InputLabel, FormControl, Checkbox, Box, Button } from '@mui/material';
 import toast from 'react-hot-toast';
-import { Checkexistingid, UpdateVendorAddress, UpdateVendorContact } from '../../servicesapi/Vendorapi';
+import {
+    Addvendoreoc,
+    Checkexistingid,
+    UpdateVendorAddress,
+    UpdateVendorContact,
+    UpdateVendorEandO,
+    updateAccountinfo
+} from '../../servicesapi/Vendorapi';
 import ToolTipValidation from '../Validation/ToolTipValidation';
 import { PhonenoMask, validateEmail } from '../Common/renderutil';
 import { useLocation } from 'react-router-dom';
 import { AiFillEdit } from 'react-icons/ai';
 import { UpdateCustomerAddress, UpdateCustomerContact, Updatecustomeraccountinfo } from '../../servicesapi/Customerapi';
 import SubCard from 'ui-component/cards/SubCard';
+import EandO from './EandO';
 const clientTypeDDl = [
     { name: 'Lender', value: 'Lender' },
     { name: 'Broker', value: 'Broker' },
@@ -22,6 +30,7 @@ const VendorProfileForm = (props) => {
     const [tooltip, setTooltip] = useState({ isshow: false, valid: false });
     const [sameAs, setSameas] = useState({ address: false, contact: false });
     const handleNext = () => {
+        console.log(props.Vendordata);
         if (
             props.Vendordata.vendorId === '' ||
             props.Vendordata.name === '' ||
@@ -38,15 +47,13 @@ const VendorProfileForm = (props) => {
             props.Vendordata.primery_Contact.phone === '' ||
             props.Vendordata.primery_Contact.email === '' ||
             props.Vendordata.primery_Contact.cellPhone === '' ||
-            (props.Vendordata.parent &&
-                props.Vendordata.parent === '' &&
-                formType === 'customer' &&
-                props.Vendordata.billing_Code === '' &&
-                props.Vendordata.billing_Name === '' &&
-                props.Vendordata.tax_Id === '' &&
-                props.Vendordata.custom_Field1 === '' &&
-                props.Vendordata.custom_Field2 === '' &&
-                props.Vendordata.profile_Note === '')
+            props.Vendordata.accountinfo.billing_Code === '' ||
+            props.Vendordata.accountinfo.billing_Name === '' ||
+            props.Vendordata.accountinfo.tax_Id === '' ||
+            props.Vendordata.accountinfo.custom_Field1 === '' ||
+            props.Vendordata.accountinfo.custom_Field2 === '' ||
+            props.Vendordata.accountinfo.profile_Note === '' ||
+            (props.Vendordata.parent && props.Vendordata.parent === '' && formType === 'customer')
         )
             toast.error('Please fill all the mandatory fields');
         else props.setActiveStep((prev) => prev + 1);
@@ -95,10 +102,12 @@ const VendorProfileForm = (props) => {
             else {
                 let dataaddress = [];
                 let datacontact = [];
+                let dataaccountinginfo = [];
                 dataaddress.push(props.Vendordata.primery_Address);
                 dataaddress.push(props.Vendordata.secondary_Address);
                 datacontact.push(props.Vendordata.primery_Contact);
                 datacontact.push(props.Vendordata.secondary_contact);
+                dataaccountinginfo = props.Vendordata.accountinfo;
                 if (datacontact[1].firstName === '') {
                     datacontact = new Array(datacontact[0]);
                 } else {
@@ -128,6 +137,47 @@ const VendorProfileForm = (props) => {
                                 ...props.vendorDetail,
                                 ['primery_Contact']: props.Vendordata.primery_Contact,
                                 ['secondary_contact']: props.Vendordata.secondary_contact
+                            });
+                            props.setEditData(!props.editData);
+                            props.seteditModalOpen((prev) => !prev);
+                        } else {
+                            res.json().then((res) => toast.error(res));
+                        }
+                    });
+                    console.log('hitt');
+                    if (props.EOformValue.providerName !== '') {
+                        props.EOformValue['vendor_id'] = props.selecetedVedorId;
+                        if (props.EOformValue.id === undefined) {
+                            Addvendoreoc(props.EOformValue).then((res) => {
+                                if (res.status === 200) {
+                                    toast.success('E&O coverage policy added succsessfully');
+                                    props.setEditData(!props.editData);
+                                    props.seteditModalOpen((prev) => !prev);
+                                } else {
+                                    res.json().then((res) => toast.error(res));
+                                }
+                            });
+                        } else {
+                            delete props.EOformValue.updateDate;
+                            delete props.EOformValue.createdDate;
+                            delete props.EOformValue.isDeleted;
+                            UpdateVendorEandO(props.EOformValue, props.EOformValue.id).then((res) => {
+                                if (res.status === 200) {
+                                    toast.success('E&O coverage policy Updated succsessfully');
+                                    props.setEditData(!props.editData);
+                                    props.seteditModalOpen((prev) => !prev);
+                                } else {
+                                    res.json().then((res) => toast.error(res));
+                                }
+                            });
+                        }
+                    }
+                    updateAccountinfo(dataaccountinginfo, props.selecetedVedorId).then((res) => {
+                        if (res.status === 200) {
+                            toast.success('Profile updated succsessfully');
+                            props.setVendorDetail({
+                                ...props.vendorDetail,
+                                ['accountinfo']: props.Vendordata.accountinfo
                             });
                             props.setEditData(!props.editData);
                             props.seteditModalOpen((prev) => !prev);
@@ -169,13 +219,12 @@ const VendorProfileForm = (props) => {
                         }
                     });
                     let accoutninfodata = props.Vendordata.accountinfo;
-                    console.log(accoutninfodata);
                     Updatecustomeraccountinfo(accoutninfodata, props.selecetedVedorId).then((res) => {
                         if (res.status === 200) {
                             toast.success('Accouting information updated succsessfully');
                             props.setVendorDetail({
                                 ...props.vendorDetail,
-                                ['accoutninfodata']: accoutninfodata
+                                ['accountinfo']: accoutninfodata
                             });
                             props.setEditData(!props.editData);
                             props.seteditModalOpen((prev) => !prev);
@@ -186,6 +235,10 @@ const VendorProfileForm = (props) => {
                 }
             }
         }
+    };
+    const handleEOChange = (e) => {
+        const { name, value } = e.target;
+        props.setEOFormValue({ ...props.EOformValue, [name]: value });
     };
     return (
         <div className="mt-3">
@@ -1187,42 +1240,7 @@ const VendorProfileForm = (props) => {
                     </div>
                 </div>
             </SubCard>
-            {/* {formType === 'vendor' ? (
-                <SubCard
-                    sx={{ mb: 2 }}
-                    className={`${props.edit ? (props.editType && props.editType === 'Profile' ? 'block' : 'hidden') : 'block'}`}
-                >
-                    <div className={`flex flex-col md:flex-row gap-6`}>
-                        <div className=" w-full">
-                            <TextField
-                                id="assignment"
-                                disabled={props.editData}
-                                label={
-                                    <>
-                                        Assignment Note <span className="text-red-600">*</span>
-                                    </>
-                                }
-                                variant="outlined"
-                                size="small"
-                                multiline
-                                rows={2}
-                                fullWidth
-                                value={props.Vendordata && props.Vendordata.assignmentNote ? props.Vendordata.assignmentNote : ''}
-                                name="assignmentNote"
-                                onChange={(e) => {
-                                    console.log(e.target.name);
-                                    props.setVendordata({
-                                        ...(props.Vendordata ? props.Vendordata : ''),
-                                        [e.target.name]: e.target.value
-                                    });
-                                }}
-                            />
-                        </div>
-                    </div>
-                </SubCard>
-            ) : (
-                ''
-            )} */}
+
             <SubCard
                 title="Accounting Information"
                 sx={{ mb: 2 }}
@@ -1380,6 +1398,9 @@ const VendorProfileForm = (props) => {
                     </div>
                 </div>
             </SubCard>
+            {props.edit && location.pathname === '/admin/viewvendor' && (
+                <EandO editData={props.editData} formValue={props.EOformValue} handleChange={(e) => handleEOChange(e)} />
+            )}
             <Box
                 sx={{
                     display: props.edit ? 'none' : 'flex',

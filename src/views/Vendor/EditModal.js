@@ -13,7 +13,8 @@ import {
     GetLicenceType,
     GetCommunicationTypeList,
     GetVendorFileById,
-    GetVendorProduct
+    GetVendorProduct,
+    GetVendorEandOById
 } from '../../servicesapi/Vendorapi';
 import {
     GetCustomerProductDetaills,
@@ -50,6 +51,14 @@ const EditModal = (props) => {
             product_id: 0
         }
     ]);
+    const [EOformValue, setEOFormValue] = useState({
+        per_claim_amount: '',
+        policy_aggrigate: '',
+        effectivedate: '',
+        expirydate: '',
+        policynumber: '',
+        providerName: ''
+    });
     useEffect(() => {
         GetStateList().then((res) => {
             setAllState(res);
@@ -140,8 +149,12 @@ const EditModal = (props) => {
                                 createdDate: res[1] !== null ? res[1].createdDate : '',
                                 isDeleted: res[1] !== null ? res[1].isDeleted : ''
                             });
+                        data['accountinfo'] = vendorDetail.accountinfo;
 
                         setVendordata(data);
+                        GetVendorEandOById(props.selecetedVedorId).then((res) => {
+                            if (res !== '' && res !== null) setEOFormValue(res);
+                        });
                     });
                 });
             } else {
@@ -200,7 +213,7 @@ const EditModal = (props) => {
                             createdDate: res.length === 1 ? res[1].createdDate : '',
                             isDeleted: res.length === 1 ? res[1].isDeleted : ''
                         };
-                        data['accountinfo'] = vendorDetail.customer_Account_Information;
+                        data['accountinfo'] = vendorDetail.accountinfo;
                         setVendordata(data);
                     });
                 });
@@ -209,20 +222,13 @@ const EditModal = (props) => {
             if (formType === 'vendor') {
                 const data = {
                     id: props.selecetedVedorId,
-                    profileReminder: vendorDetail.profileReminder,
-                    dailyReminder: vendorDetail.dailyReminder,
-                    qcRejection: vendorDetail.qcRejection,
-                    new_Assignment: vendorDetail.new_Assignment,
-                    assignmentNote: vendorDetail.assignmentNote
+                    ...vendorDetail
                 };
                 setVendordata(data);
             } else {
                 const data = {
                     id: props.selecetedVedorId,
-                    in_QC_Review: vendorDetail.in_QC_Review,
-                    inspection: vendorDetail.inspection,
-                    order_Confirmation: vendorDetail.order_Confirmation,
-                    assignment: vendorDetail.assignment
+                    ...vendorDetail
                 };
                 setVendordata(data);
             }
@@ -232,8 +238,8 @@ const EditModal = (props) => {
                     setLicenceType(res);
                 });
             } else {
-                let additional = vendorDetail.additionalDetail.length > 0 ? vendorDetail.additionalDetail : [''];
-                vendorDetail['additionalDetail'] = additional;
+                let additional = vendorDetail.additionalDetail.length > 0 ? vendorDetail.additionalDetail[0].details : '';
+                vendorDetail['additionalDetail'] = [additional];
             }
         } else {
             GetVendorProduct().then((res) => {
@@ -344,6 +350,8 @@ const EditModal = (props) => {
                 setVendorDetail={setVendorDetail}
                 vendorDetail={vendorDetail}
                 seteditModalOpen={props.seteditModalOpen}
+                EOformValue={EOformValue}
+                setEOFormValue={setEOFormValue}
             />
         ) : props.editView === 5 ? (
             <FileUpload
@@ -361,15 +369,6 @@ const EditModal = (props) => {
                 errmsg={errmsg}
                 iseditdata={iseditdata}
                 formType={formType}
-            />
-        ) : props.editView === 6 ? (
-            <EandO
-                selecetedVedorId={props.selecetedVedorId}
-                setOpenTableView={props.setOpenTableView}
-                openTableView={props.openTableView}
-                editData={props.editData}
-                setEditData={props.setEditData}
-                edit={true}
             />
         ) : props.editView === 3 ? (
             <Com_notification

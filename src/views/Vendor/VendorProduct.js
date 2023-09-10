@@ -316,7 +316,7 @@ const VendorProduct = (props) => {
                                                             onChange={(e) => handlechange(e, i, indx, val.id)}
                                                         />
                                                     </Grid>
-                                                    {formType === 'vendor' ? (
+                                                    {formType === 'vendor' || props.selecetedVedorId !== undefined ? (
                                                         <Grid item md={7}>
                                                             <Button
                                                                 size="small"
