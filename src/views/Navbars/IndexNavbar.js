@@ -27,7 +27,7 @@ export default function Navbar(props) {
                         <a href="/">
                             <a
                                 className="text-blueGray-700 text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase"
-                                href="#pablo"
+                                href="/"
                             >
                                 <img src="https://www.mtsgrp.net/img/logo/logoorgv2.png" alt="Logo" style={{ width: '145px' }} />
                             </a>

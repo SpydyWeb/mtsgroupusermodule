@@ -378,7 +378,6 @@ const Userregister = (props) => {
         }
     };
     const handleDleteuser = (id) => {
-        console.log('hitt', id);
         DeleteCustomerUser(id).then((res) => {
             if (res.status === 200) {
                 toast.success('User deleted successfully');
@@ -462,6 +461,7 @@ const Userregister = (props) => {
                                 onChange={(e) => {
                                     handleChange(e);
                                 }}
+                                disabled={userregistration.vendorid !== 0}
                             />
                         </div>
 
