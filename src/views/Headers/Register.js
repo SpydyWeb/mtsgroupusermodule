@@ -364,7 +364,7 @@ const Registration = () => {
                                 />
                                 <DropDownBox
                                     ddldata={data.TimeType}
-                                    placeHolder={'Am/Pm'}
+                                    placeHolder={'AM/PM'}
                                     onChangeHandle={onChangeStartTime}
                                     name={'type'}
                                     value={WorkSt.type}
@@ -392,7 +392,7 @@ const Registration = () => {
                                 />
                                 <DropDownBox
                                     ddldata={data.TimeType}
-                                    placeHolder={'Am/Pm'}
+                                    placeHolder={'AM/PM'}
                                     onChangeHandle={onChangeEndTime}
                                     name={'type'}
                                     value={WorkEt.type}

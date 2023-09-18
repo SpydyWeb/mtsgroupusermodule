@@ -118,9 +118,6 @@ const ProductPricePopup = (props) => {
     const handleNext = (event, newValue) => {
         let data = [...props.Productseletected?.subCategory];
         let selected = '';
-        console.log('====================================');
-        console.log(data, props.productid);
-        console.log('====================================');
         for (let i = 0; i < data.length; i++) {
             if (
                 data[i].id === props.productid &&
@@ -172,8 +169,8 @@ const ProductPricePopup = (props) => {
                 }
                 for (let i = 0; i < selectedStates.length; i++) {
                     if (selectedStates[i].id === ele.stateId) {
-                        if (tempdata[i].countyList === undefined) tempdata[i]['countyList'] = [ele];
-                        else tempdata[i]['countyList'].push(ele);
+                        if (tempdata[i].countylist === undefined) tempdata[i]['countylist'] = [ele];
+                        else tempdata[i]['countylist'].push(ele);
                     }
                 }
             });
@@ -216,18 +213,24 @@ const ProductPricePopup = (props) => {
                         }
                     });
                     if (type === 2) {
+                        let tempdata = [];
                         setCheckboxData({ ...checkboxData, state: data });
                         let countyData = [];
+                        console.log(countyData, res1, tempdata);
                         for (let i = 0; i < res1.data.length; i++) {
-                            if (res1.data[i].isChecked) countyData = [...countyData, ...res1.data[i].countylist];
+                            if (res1.data[i].isChecked) {
+                                countyData = [...countyData, res1.data[i]];
+                            }
                         }
-
+                        console.log(countyData);
                         for (let i = 0; i < countyData.length; i++) {
-                            if (countyData[i].price > 0) {
-                                countyData[i].isChecked = true;
-                            } else {
-                                countyData[i].price = '';
-                                countyData[i].isChecked = false;
+                            for (let j = 0; j < countyData[i].countylist.length; j++) {
+                                if (countyData[i].countylist[j].price > 0) {
+                                    countyData[i].countylist[j].isChecked = true;
+                                } else {
+                                    countyData[i].countylist[j].price = '';
+                                    countyData[i].countylist[j].isChecked = false;
+                                }
                             }
                         }
 
@@ -260,7 +263,7 @@ const ProductPricePopup = (props) => {
     const handlePrevious = () => {
         setViewstatecounty(viewstatecounty - 1);
     };
-    const handleChange = (id, type = '', value = '') => {
+    const handleChange = (id, type = '', value = '', indx = '') => {
         if (viewState === 0) {
             let selectedstate = checkboxData.nation;
             let data = [...nationList];
@@ -279,6 +282,7 @@ const ProductPricePopup = (props) => {
                 }
             }
         } else if (viewState === 1 || (viewState === 2 && viewstatecounty === 0)) {
+            console.log('else if');
             let selectedstate = checkboxData.state;
             let data = [...stateList];
             let states = selectedStates;
@@ -302,18 +306,16 @@ const ProductPricePopup = (props) => {
             }
         } else {
             let selectedstate = checkboxData.county;
-
             let data = [...countyList];
-            for (let i = 0; i < data.length; i++) {
-                if (data[i].id === id) {
-                    if (type === 'price') data[i].price = value;
-                    else data[i].isChecked = !data[i].isChecked;
-                    if (data[i].isChecked) {
+            for (let i = 0; i < data[indx]?.countylist.length; i++) {
+                if (data[indx]?.countylist[i].id === id) {
+                    if (type === 'price') data[indx].countylist[i].price = value;
+                    else data[indx].countylist[i].isChecked = !data[indx]?.countylist[i].isChecked;
+                    if (data[indx]?.countylist[i].isChecked) {
                         selectedstate.push(id);
                     } else {
                         selectedstate.splice(selectedstate.indexOf(id), 1);
                     }
-
                     setCheckboxData({ ...checkboxData, county: selectedstate });
                     setCountyList(data);
                     break;
@@ -338,9 +340,10 @@ const ProductPricePopup = (props) => {
                             for (let i = 0; i < selectedData.length; i++) {
                                 if (props.productid === selectedData[i].id) {
                                     selectedData[i].productPriceList = data;
-                                    if (type === 'remove') selectedData[i].selected = false;
-
-                                    if (type === 'remove') selectedData[i].selected = false;
+                                    if (type === 'remove') {
+                                        selectedData[i].selected = false;
+                                        selectedData[i].productPriceList = null;
+                                    }
                                 }
                             }
 
@@ -355,7 +358,10 @@ const ProductPricePopup = (props) => {
                             for (let i = 0; i < selectedData.length; i++) {
                                 if (props.productid === selectedData[i].id) {
                                     selectedData[i].productPriceList = data;
-                                    if (type === 'remove') selectedData[i].selected = false;
+                                    if (type === 'remove') {
+                                        selectedData[i].selected = false;
+                                        selectedData[i].productPriceList = null;
+                                    }
                                 }
                             }
                             props.setProductseletected(selectedData);
@@ -405,7 +411,10 @@ const ProductPricePopup = (props) => {
                             for (let i = 0; i < selectedData.length; i++) {
                                 if (props.productid === selectedData[i].id) {
                                     selectedData[i].productPriceList = data;
-                                    if (type === 'remove') selectedData[i].selected = false;
+                                    if (type === 'remove') {
+                                        selectedData[i].selected = false;
+                                        selectedData[i].productPriceList = null;
+                                    }
                                 }
                             }
                             props.setProductseletected(selectedData);
@@ -419,7 +428,10 @@ const ProductPricePopup = (props) => {
                             for (let i = 0; i < selectedData.length; i++) {
                                 if (props.productid === selectedData[i].id) {
                                     selectedData[i].productPriceList = data;
-                                    if (type === 'remove') selectedData[i].selected = false;
+                                    if (type === 'remove') {
+                                        selectedData[i].selected = false;
+                                        selectedData[i].productPriceList = null;
+                                    }
                                 }
                             }
                             props.setProductseletected(selectedData);
@@ -455,8 +467,10 @@ const ProductPricePopup = (props) => {
             }
         } else {
             if (type === '')
-                countyList.map((ele) => {
-                    if (ele.isChecked) data.push({ price: +ele.price, cityStateType: 2, cityStateId: ele.id });
+                countyList.map((val) => {
+                    val.countylist.map((ele) => {
+                        if (ele.isChecked) data.push({ price: +ele.price, cityStateType: 2, cityStateId: ele.id });
+                    });
                 });
             if (props.selecetedVedorId !== undefined) {
                 if (props.formType === 'vendor') {
@@ -467,7 +481,10 @@ const ProductPricePopup = (props) => {
                             for (let i = 0; i < selectedData.length; i++) {
                                 if (props.productid === selectedData[i].id) {
                                     selectedData[i].productPriceList = data;
-                                    if (type === 'remove') selectedData[i].selected = false;
+                                    if (type === 'remove') {
+                                        selectedData[i].selected = false;
+                                        selectedData[i].productPriceList = null;
+                                    }
                                 }
                             }
                             props.setProductseletected(selectedData);
@@ -481,7 +498,10 @@ const ProductPricePopup = (props) => {
                             for (let i = 0; i < selectedData.length; i++) {
                                 if (props.productid === selectedData[i].id) {
                                     selectedData[i].productPriceList = data;
-                                    if (type === 'remove') selectedData[i].selected = false;
+                                    if (type === 'remove') {
+                                        selectedData[i].selected = false;
+                                        selectedData[i].productPriceList = null;
+                                    }
                                 }
                             }
                             props.setProductseletected(selectedData);
@@ -516,6 +536,7 @@ const ProductPricePopup = (props) => {
                 toast.success('County wise price saved successfully');
             }
         }
+        setViewState(0);
         dispatch(setDialogueview(''));
     };
     const handlecountynext = () => {
@@ -621,12 +642,12 @@ const ProductPricePopup = (props) => {
                             );
                         })
                     ) : countyList.length > 0 ? (
-                        countyList?.map((val) => {
+                        countyList?.map((val, i) => {
                             return (
                                 <div style={{ width: '100%' }}>
                                     <SubCard title={val.name}>
                                         <div style={{ display: 'flex', flexWrap: 'wrap', marginBottom: '3px' }}>
-                                            {val.countyList?.map((ele, ind) => {
+                                            {val.countylist?.map((ele, ind) => {
                                                 return (
                                                     <Grid container md={6} sx={{ mb: 1 }} key={ind}>
                                                         <Grid item md={1}>
@@ -634,7 +655,7 @@ const ProductPricePopup = (props) => {
                                                                 inputProps={{ 'aria-label': 'controlled' }}
                                                                 defaultChecked={ele.isChecked}
                                                                 checked={ele.isChecked}
-                                                                onClick={(e) => handleChange(ele.id, 'check')}
+                                                                onClick={(e) => handleChange(ele.id, 'check', '', i)}
                                                                 value={ele.id}
                                                             />
                                                         </Grid>
@@ -647,7 +668,7 @@ const ProductPricePopup = (props) => {
                                                                 label="Price"
                                                                 size="small"
                                                                 value={ele.price}
-                                                                onChange={(e) => handleChange(ele.id, 'price', e.target.value)}
+                                                                onChange={(e) => handleChange(ele.id, 'price', e.target.value, i)}
                                                             />
                                                         </Grid>
                                                     </Grid>
