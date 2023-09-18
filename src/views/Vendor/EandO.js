@@ -50,7 +50,7 @@ const EandO = (props) => {
                         onChange={(e) => {
                             handleChange(e);
                         }}
-                        focused
+                        focused={true}
                         variant="outlined"
                         size="small"
                     />
@@ -66,7 +66,7 @@ const EandO = (props) => {
                         onChange={(e) => {
                             handleChange(e);
                         }}
-                        focused
+                        focused={true}
                         variant="outlined"
                         size="small"
                         onBlur={(e) => {

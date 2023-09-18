@@ -25,7 +25,8 @@ import {
     AddcustomerNationProduct,
     UpdatecustomerCountyProduct,
     UpdatecustomerStateProduct,
-    UpdateCustomerNationProduct
+    UpdateCustomerNationProduct,
+    GetcustomerProductsPriceList
 } from 'servicesapi/Customerapi';
 import SubCard from 'ui-component/cards/SubCard';
 
@@ -192,52 +193,101 @@ const ProductPricePopup = (props) => {
         }
         GetStateListBynation([1]).then((res) => {
             if (props?.selecetedVedorId) {
-                GetVendorProductsPriceList(props.selecetedVedorId, props.productid, type).then((res1) => {
-                    let data = [];
-                    res1.data.map((ele) => {
-                        if (type === 1) {
-                            if (ele.selected && ele.price > 0) {
-                                ele['price'] = ele.price;
-                                ele['isChecked'] = true;
-                            } else {
-                                ele['price'] = '';
-                                ele['isChecked'] = false;
-                            }
-                        } else {
-                            if (ele.selected) {
-                                data.push(ele.id);
-                                ele['isChecked'] = true;
-                            } else {
-                                ele['isChecked'] = false;
-                            }
-                        }
-                    });
-                    if (type === 2) {
-                        let tempdata = [];
-                        setCheckboxData({ ...checkboxData, state: data });
-                        let countyData = [];
-                        console.log(countyData, res1, tempdata);
-                        for (let i = 0; i < res1.data.length; i++) {
-                            if (res1.data[i].isChecked) {
-                                countyData = [...countyData, res1.data[i]];
-                            }
-                        }
-                        console.log(countyData);
-                        for (let i = 0; i < countyData.length; i++) {
-                            for (let j = 0; j < countyData[i].countylist.length; j++) {
-                                if (countyData[i].countylist[j].price > 0) {
-                                    countyData[i].countylist[j].isChecked = true;
+                if (props.formType === 'vendor') {
+                    GetVendorProductsPriceList(props.selecetedVedorId, props.productid, type).then((res1) => {
+                        let data = [];
+                        res1.data.map((ele) => {
+                            if (type === 1) {
+                                if (ele.selected && ele.price > 0) {
+                                    ele['price'] = ele.price;
+                                    ele['isChecked'] = true;
                                 } else {
-                                    countyData[i].countylist[j].price = '';
-                                    countyData[i].countylist[j].isChecked = false;
+                                    ele['price'] = '';
+                                    ele['isChecked'] = false;
+                                }
+                            } else {
+                                if (ele.selected) {
+                                    data.push(ele.id);
+                                    ele['isChecked'] = true;
+                                } else {
+                                    ele['isChecked'] = false;
                                 }
                             }
-                        }
+                        });
+                        if (type === 2) {
+                            let tempdata = [];
+                            setCheckboxData({ ...checkboxData, state: data });
+                            let countyData = [];
+                            console.log(countyData, res1, tempdata);
+                            for (let i = 0; i < res1.data.length; i++) {
+                                if (res1.data[i].isChecked) {
+                                    countyData = [...countyData, res1.data[i]];
+                                }
+                            }
+                            console.log(countyData);
+                            for (let i = 0; i < countyData.length; i++) {
+                                for (let j = 0; j < countyData[i].countylist.length; j++) {
+                                    if (countyData[i].countylist[j].price > 0) {
+                                        countyData[i].countylist[j].isChecked = true;
+                                    } else {
+                                        countyData[i].countylist[j].price = '';
+                                        countyData[i].countylist[j].isChecked = false;
+                                    }
+                                }
+                            }
 
-                        setCountyList(countyData);
-                    }
-                    setStateList(res1.data);
-                });
+                            setCountyList(countyData);
+                        }
+                        setStateList(res1.data);
+                    });
+                } else {
+                    GetcustomerProductsPriceList(props.selecetedVedorId, props.productid, type).then((res1) => {
+                        let data = [];
+                        res1.data.map((ele) => {
+                            if (type === 1) {
+                                if (ele.selected && ele.price > 0) {
+                                    ele['price'] = ele.price;
+                                    ele['isChecked'] = true;
+                                } else {
+                                    ele['price'] = '';
+                                    ele['isChecked'] = false;
+                                }
+                            } else {
+                                if (ele.selected) {
+                                    data.push(ele.id);
+                                    ele['isChecked'] = true;
+                                } else {
+                                    ele['isChecked'] = false;
+                                }
+                            }
+                        });
+                        if (type === 2) {
+                            let tempdata = [];
+                            setCheckboxData({ ...checkboxData, state: data });
+                            let countyData = [];
+                            console.log(countyData, res1, tempdata);
+                            for (let i = 0; i < res1.data.length; i++) {
+                                if (res1.data[i].isChecked) {
+                                    countyData = [...countyData, res1.data[i]];
+                                }
+                            }
+                            console.log(countyData);
+                            for (let i = 0; i < countyData.length; i++) {
+                                for (let j = 0; j < countyData[i].countylist.length; j++) {
+                                    if (countyData[i].countylist[j].price > 0) {
+                                        countyData[i].countylist[j].isChecked = true;
+                                    } else {
+                                        countyData[i].countylist[j].price = '';
+                                        countyData[i].countylist[j].isChecked = false;
+                                    }
+                                }
+                            }
+
+                            setCountyList(countyData);
+                        }
+                        setStateList(res1.data);
+                    });
+                }
             } else {
                 res.data.map((ele) => {
                     if (data?.productPriceList === undefined || data === undefined) {

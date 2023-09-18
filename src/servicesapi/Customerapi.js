@@ -133,7 +133,7 @@ export const DeleteCommuncationbycutomerid = async (id) => {
 };
 export const GetcustomerProductsPriceList = async (customerid, productid, type) => {
     return await axios
-        .get(`${Url}CustomerProductsPriceList?customerid=${customerid}&productid=${productid}&type=${type}`, config)
+        .get(`${Url}CustomerProductPriceList?customerid=${customerid}&productid=${productid}&type=${type}`, config)
         .then((data) => data);
 };
 
