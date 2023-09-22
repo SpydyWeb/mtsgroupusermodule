@@ -37,15 +37,21 @@ export const HeadingName = [
         id: 'communicationtype',
         formfield: [
             {
+                label: 'Code',
+                name: 'uniquename',
+                required: true
+            },
+            {
                 label: 'Communication Type',
                 name: 'name',
                 required: true
             }
         ],
-        initialValue: { name: '' },
+        initialValue: { name: '', uniquename: '' },
         schema: CommunicationTypeSchema,
         TableColumn: [
             { id: 'id', label: 'S. No.', minWidth: 100, flex: 1, renderCell: false },
+            { id: 'uniquename', label: 'Code', minWidth: 100, flex: 1, renderCell: false },
             { id: 'name', label: 'Name', minWidth: 100, flex: 1, renderCell: false },
             {
                 id: 'createdDate',

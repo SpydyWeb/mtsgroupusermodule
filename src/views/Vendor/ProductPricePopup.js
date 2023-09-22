@@ -149,7 +149,9 @@ const ProductPricePopup = (props) => {
                 break;
             }
         }
-        GetCountyList(checkboxData.state).then((res) => {
+        let formvalue = [...new Set(checkboxData.state)];
+        setCheckboxData({ ...checkboxData, state: formvalue });
+        GetCountyList(formvalue).then((res) => {
             let msg = '';
             let tempdata = selectedStates;
             res.data.map((ele) => {
@@ -170,12 +172,27 @@ const ProductPricePopup = (props) => {
                 }
                 for (let i = 0; i < selectedStates.length; i++) {
                     if (selectedStates[i].id === ele.stateId) {
-                        if (tempdata[i].countylist === undefined) tempdata[i]['countylist'] = [ele];
-                        else tempdata[i]['countylist'].push(ele);
+                        let status = false;
+                        for (let j = 0; j < tempdata.length; j++) {
+                            if (tempdata[i].countylist === undefined) break;
+                            else {
+                                for (let k = 0; k < tempdata[i].countylist.length; k++) {
+                                    if (tempdata[i].countylist[k].id === ele.id) {
+                                        status = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        if (status === false) {
+                            if (tempdata[i].countylist === undefined) tempdata[i]['countylist'] = [ele];
+                            else tempdata[i]['countylist'].push(ele);
+                        }
                     }
                 }
             });
-            console.log(tempdata);
+            console.log(tempdata, selectedStates);
+
             setCountyList(tempdata);
 
             if (res.data.length === 0) msg = 'Selected state has no county. Please select other states';

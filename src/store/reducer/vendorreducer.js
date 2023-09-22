@@ -95,6 +95,7 @@ export const VendorData = (state = initialState, action) => {
                     id: indx + 1,
                     com_id: ele.id,
                     name: ele.name,
+                    uniquename: ele.uniquename,
                     createdDate: ele.createdDate.substring(0, 10),
                     updateDate: ele.updateDate === null ? 'Not updated' : ele.updateDate.substring(0, 10)
                 });
