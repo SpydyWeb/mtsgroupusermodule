@@ -47,6 +47,7 @@ const ProductPricePopup = (props) => {
     const [selectedStates, setSelectedStates] = useState([]);
     const [viewstatecounty, setViewstatecounty] = useState(0);
     const [viewState, setViewState] = useState(0);
+    const [loading, setLoading] = useState(false);
     useEffect(() => {
         let data = [...props.Productseletected?.subCategory];
         let selected = 0;
@@ -150,7 +151,9 @@ const ProductPricePopup = (props) => {
             }
         }
         let formvalue = [...new Set(checkboxData.state)];
+        setLoading(true);
         setCheckboxData({ ...checkboxData, state: formvalue });
+        setCountyList([]);
         GetCountyList(formvalue).then((res) => {
             let msg = '';
             let tempdata = selectedStates;
@@ -198,10 +201,12 @@ const ProductPricePopup = (props) => {
             if (res.data.length === 0) msg = 'Selected state has no county. Please select other states';
             else msg = '';
             setCountyerrmsg(msg);
+            setLoading(false);
         });
     };
     const GetStateListData = (type = 1) => {
         let data;
+        setLoading(true);
         for (let i = 0; i < props.productD.length; i++) {
             if (props.productD[i].id === props.productid) {
                 data = props.productD[i];
@@ -325,6 +330,7 @@ const ProductPricePopup = (props) => {
                 });
                 setStateList(res.data);
             }
+            setLoading(false);
         });
     };
     const handlePrevious = () => {
@@ -625,7 +631,9 @@ const ProductPricePopup = (props) => {
             <MainCard>
                 {viewState === 2 && viewstatecounty === 0 ? 'Please select state' : ''}
                 <Grid container>
-                    {viewState === 0 ? (
+                    {loading ? (
+                        <div className="text-lg text-center">Loading...</div>
+                    ) : viewState === 0 ? (
                         nationList.map((ele) => {
                             return (
                                 <Grid container md={6} sx={{ mb: 1 }}>
