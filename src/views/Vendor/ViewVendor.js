@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import {
-    Tabs,
-    Tab,
     Box,
     Table,
     TableBody,
@@ -16,7 +14,8 @@ import {
     InputLabel,
     Select,
     MenuItem,
-    Grid
+    Grid,
+    SpeedDial
 } from '@mui/material';
 import MainCard from 'ui-component/cards/MainCard';
 import { CustomerSearch, GetCustomerDetaills, DownloadFile } from '../../servicesapi/Customerapi';
@@ -37,6 +36,11 @@ import { a11yProps } from '../Common/renderutil';
 import { IoMdCall } from 'react-icons/io';
 import { AiFillMail, AiFillHome } from 'react-icons/ai';
 import { FaUser } from 'react-icons/fa';
+import { MdKeyboardArrowUp, MdKeyboardArrowDown } from 'react-icons/md';
+import { FiPlus } from 'react-icons/fi';
+import { FaEdit } from 'react-icons/fa';
+import EnhancedTable from './EnhancedTable';
+import { TabLink, TabLinkContent, TabLinkList, Tabs } from './Style component/StepperStyledComponents';
 function Row(props) {
     const { vendorDetail, setVendorDetail, formType, open } = props;
     const [value, setValue] = React.useState(0);
@@ -49,7 +53,7 @@ function Row(props) {
         seteditModalOpen(!editModalOpen);
     };
     const [editData, setEditData] = useState(true);
-    const handleChange = (event, newValue) => {
+    const handleChange = (newValue) => {
         setValue(newValue);
         setEditView(newValue);
         setEditData(true);
@@ -61,7 +65,7 @@ function Row(props) {
         <React.Fragment>
             <Box>
                 <div className={`flex ${formType === 'customer' ? 'justify-between' : 'justify-end'}  cursor-pointer gap-2`}></div>
-                <Grid container sx={{ borderRadius: '15px', background: 'gainsboro', pb: 1 }} spacing={2}>
+                {/* <Grid container sx={{ borderRadius: '15px', background: 'gainsboro', pb: 1 }} spacing={2}>
                     <Grid item md={3}>
                         <Box sx={{ display: 'flex', gap: '2px' }}>
                             {open ? (
@@ -110,16 +114,57 @@ function Row(props) {
                             </Box>
                         </Box>
                     </Grid>
-                </Grid>
+                </Grid> */}
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                    <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+                    {/* <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                         {formType === 'customer'
                             ? tabsCutomerName.map((ele, i) => {
                                   return <Tab label={ele} {...a11yProps(i)} />;
                               })
                             : tabsVendorName.map((ele, i) => {
-                                  return <Tab label={ele} {...a11yProps(i)} />;
+                                  return <Tab label={ele} className="custom-tabs" {...a11yProps(i)} />;
                               })}
+                    </Tabs> */}
+
+                    <Tabs>
+                        <TabLinkList>
+                            {formType === 'customer'
+                                ? tabsCutomerName.map((ele, i) => {
+                                      return (
+                                          <TabLink active={value === i} key={i} onClick={() => handleChange(i)}>
+                                              <TabLinkContent>{ele}</TabLinkContent>
+                                          </TabLink>
+                                      );
+                                  })
+                                : tabsVendorName.map((ele, i) => {
+                                      return (
+                                          <TabLink active={value === i} key={i} onClick={() => handleChange(i)}>
+                                              <TabLinkContent>{ele}</TabLinkContent>
+                                          </TabLink>
+                                      );
+                                  })}
+                            {/* <TabLink active={value === 0} onClick={() => handleChange(0)}>
+                                <TabLinkContent>&nbsp;Basic</TabLinkContent>
+                            </TabLink>
+                            <TabLink active={value === 1} onClick={() => handleChange(1)}>
+                                <TabLinkContent>&nbsp;Deeds</TabLinkContent>
+                            </TabLink>
+                            <TabLink active={value === 2} onClick={() => handleChange(2)}>
+                                <TabLinkContent>&nbsp;Mortgage</TabLinkContent>
+                            </TabLink>
+                            <TabLink active={value === 3} onClick={() => handleChange(3)}>
+                                <TabLinkContent>&nbsp;Liens</TabLinkContent>
+                            </TabLink>
+                            <TabLink active={value === 4} onClick={() => handleChange(4)}>
+                                <TabLinkContent>
+                                    <i className="bi bi-cash-coin"></i>&nbsp;Taxes
+                                </TabLinkContent>
+                            </TabLink>
+                            <TabLink active={value === 5} onClick={() => handleChange(5)}>
+                                <TabLinkContent>&nbsp;Miscellaneous</TabLinkContent>
+                            </TabLink> */}
+                            {/* <DownloadReportButton /> */}
+                        </TabLinkList>
                     </Tabs>
                 </Box>
                 <TabPanel value={value} index={value}>
@@ -147,6 +192,7 @@ function Row(props) {
 const ViewVendor = (props) => {
     const location = useLocation();
     const [open, setOpen] = React.useState(false);
+    const [openfilter, setOpenfilter] = React.useState(false);
     const [vendorDetail, setVendorDetail] = useState();
     const [isLoading, setIsLoading] = useState(false);
     const [allstate, setAllState] = useState([]);
@@ -194,6 +240,25 @@ const ViewVendor = (props) => {
     };
     const columns = [
         {
+            field: 'Action',
+            headerName: 'Action',
+            renderCell: (params) => {
+                return (
+                    <div className="justify-content-center d-flex">
+                        <FaEdit
+                            className="hover:cursor-pointer"
+                            size={15}
+                            style={{ color: '#03a5e7' }}
+                            onClick={() => {
+                                GetmoreData(params.id);
+                            }}
+                            role="button"
+                        />
+                    </div>
+                );
+            }
+        },
+        {
             headerName: 'Status',
             field: 'status',
             renderCell: (params) => {
@@ -211,19 +276,22 @@ const ViewVendor = (props) => {
         { headerName: 'ID', field: 'vendorid', minWidth: 150, flex: 1 },
         { headerName: 'Name', field: 'name', minWidth: 150, flex: 1 },
         { headerName: 'Email', field: 'email', minWidth: 300, flex: 1 },
-        { headerName: 'State', field: 'state', minWidth: 150, flex: 1 },
-        { headerName: 'Contact', field: 'contact', minWidth: 300, flex: 1 },
-        { headerName: 'Licence', field: 'licenceType', minWidth: 150, flex: 1 },
-        { headerName: 'Product', field: 'product', minWidth: 150, flex: 1 },
+        // { headerName: 'State', field: 'state', minWidth: 150, flex: 1 },
+        { headerName: 'Contact', field: 'contact', minWidth: 300, flex: 1 }
+        // { headerName: 'Licence', field: 'licenceType', minWidth: 150, flex: 1 },
+        // { headerName: 'Product', field: 'product', minWidth: 150, flex: 1 }
+    ];
+    const Customercolumns = [
         {
             field: 'Action',
             headerName: 'Action',
             renderCell: (params) => {
                 return (
-                    <div className="gap-3 d-flex">
-                        <AiFillEye
+                    <div className="justify-content-center d-flex">
+                        <FaEdit
+                            role="button"
                             className="hover:cursor-pointer"
-                            size={20}
+                            size={15}
                             style={{ color: '#03a5e7' }}
                             onClick={() => {
                                 GetmoreData(params.id);
@@ -232,33 +300,13 @@ const ViewVendor = (props) => {
                     </div>
                 );
             }
-        }
-    ];
-    const Customercolumns = [
+        },
         { headerName: 'ID', field: 'vendorid', minWidth: 150, flex: 1 },
         { headerName: 'Name', field: 'name', minWidth: 150, flex: 1 },
         { headerName: 'Email', field: 'email', minWidth: 300, flex: 1 },
-        { headerName: 'State', field: 'state', minWidth: 150, flex: 1 },
-        { headerName: 'Contact', field: 'contact', minWidth: 300, flex: 1 },
-        { headerName: 'Product', field: 'product', minWidth: 150, flex: 1 },
-        {
-            field: 'Action',
-            headerName: 'Action',
-            renderCell: (params) => {
-                return (
-                    <div className="gap-3 d-flex">
-                        <AiFillEye
-                            className="hover:cursor-pointer"
-                            size={20}
-                            style={{ color: '#03a5e7' }}
-                            onClick={() => {
-                                GetmoreData(params.id);
-                            }}
-                        />
-                    </div>
-                );
-            }
-        }
+        // { headerName: 'State', field: 'state', minWidth: 150, flex: 1 },
+        { headerName: 'Contact', field: 'contact', minWidth: 300, flex: 1 }
+        // { headerName: 'Product', field: 'product', minWidth: 150, flex: 1 }
     ];
     useEffect(() => {
         let data = [];
@@ -375,108 +423,151 @@ const ViewVendor = (props) => {
 
     return (
         <>
-            {open ? (
-                <></>
-            ) : (
-                <Grid container spacing={2}>
-                    <Grid item>
-                        <TextField
-                            id="Id"
-                            label={<>ID</>}
-                            name="Id"
-                            value={filterdata.Id}
-                            variant="outlined"
-                            size="small"
-                            onChange={(e) => handleFilterChange(e)}
-                        />
-                    </Grid>
-                    <Grid item>
-                        <TextField
-                            label={<>Email</>}
-                            name="Email"
-                            value={filterdata.Email}
-                            variant="outlined"
-                            size="small"
-                            onChange={(e) => handleFilterChange(e)}
-                        />
-                    </Grid>
-                    <Grid item>
-                        <TextField
-                            label={<>Name</>}
-                            name="Name"
-                            variant="outlined"
-                            size="small"
-                            onChange={(e) => handleFilterChange(e)}
-                            value={filterdata.Name}
-                        />
-                    </Grid>
-                    <Grid item>
-                        <FormControl sx={{ width: '180px' }} fullWidth={true} size="small">
-                            <InputLabel>State</InputLabel>
-                            <Select value={filterdata.State} name="State" onChange={(e) => handleFilterChange(e)}>
-                                <MenuItem value={'clear'}>Clear Selection</MenuItem>
-                                {allstate.map((ele, indx) => {
-                                    return <MenuItem value={ele.name}>{ele.name}</MenuItem>;
-                                })}
-                            </Select>
-                        </FormControl>
-                    </Grid>
-                    <Grid item>
-                        <TextField
-                            label={<>Contact</>}
-                            name="Contact"
-                            variant="outlined"
-                            size="small"
-                            onChange={(e) => handleFilterChange(e)}
-                            value={filterdata.Contact}
-                        />
-                    </Grid>
-                    {props.formType === 'vendor' ? (
-                        <>
-                            {' '}
+            {!open ? (
+                <div className="">
+                    <div className="row justify-content-between items-center py-3 mb-2" style={{ background: '#266293' }}>
+                        <div className="col-sm-5">
+                            <div class="input-group">
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    name="Name"
+                                    placeholder="Search"
+                                    aria-label="Search"
+                                    aria-describedby="button-addon2"
+                                    onChange={(e) => handleFilterChange(e)}
+                                    value={filterdata.Name}
+                                />
+                                <span
+                                    role="button"
+                                    className="w-12 flex justify-center items-center"
+                                    style={{ background: '#fff' }}
+                                    onClick={() => handleSearch()}
+                                    onKeyPress={() => {}}
+                                    tabIndex={0}
+                                >
+                                    <AiOutlineSearch size={18} />
+                                </span>
+                            </div>
+                        </div>
+                        <div className="col-sm-2">
+                            <div
+                                onClick={() => setOpenfilter(!openfilter)}
+                                className="text-center h-8 items-center flex justify-center"
+                                style={{ background: '#fff', color: '#266293', fontWeight: 'bold' }}
+                                role="button"
+                                onKeyPress={() => {}}
+                                tabIndex={0}
+                            >
+                                Advanced filter {openfilter ? <MdKeyboardArrowUp size={18} /> : <MdKeyboardArrowDown size={18} />}
+                            </div>
+                        </div>
+                    </div>
+
+                    {openfilter && (
+                        <Grid container className="p-3" spacing={2}>
                             <Grid item>
                                 <TextField
-                                    label={<>Licence</>}
-                                    name="Licence"
+                                    id="Id"
+                                    label={<>ID</>}
+                                    name="Id"
+                                    value={filterdata.Id}
                                     variant="outlined"
                                     size="small"
                                     onChange={(e) => handleFilterChange(e)}
-                                    value={filterdata.Licence}
                                 />
                             </Grid>
                             <Grid item>
-                                <FormControl className="w-52" size="small">
-                                    <InputLabel>Status</InputLabel>
-                                    <Select value={filterdata.Status} name="Status" onChange={(e) => handleFilterChange(e)}>
-                                        <MenuItem value={0} defaultChecked={true}>
-                                            New
-                                        </MenuItem>
-                                        <MenuItem value={1}>Updated</MenuItem>
-                                        <MenuItem value={2}>Verified</MenuItem>
-                                        <MenuItem value={3}>InActive</MenuItem>
+                                <TextField
+                                    label={<>Email</>}
+                                    name="Email"
+                                    value={filterdata.Email}
+                                    variant="outlined"
+                                    size="small"
+                                    onChange={(e) => handleFilterChange(e)}
+                                />
+                            </Grid>
+                            <Grid item>
+                                <TextField
+                                    label={<>Name</>}
+                                    name="Name"
+                                    variant="outlined"
+                                    size="small"
+                                    onChange={(e) => handleFilterChange(e)}
+                                    value={filterdata.Name}
+                                />
+                            </Grid>
+                            <Grid item>
+                                <FormControl sx={{ width: '180px' }} fullWidth={true} size="small">
+                                    <InputLabel>State</InputLabel>
+                                    <Select value={filterdata.State} name="State" onChange={(e) => handleFilterChange(e)}>
+                                        <MenuItem value={'clear'}>Clear Selection</MenuItem>
+                                        {allstate.map((ele, indx) => {
+                                            return <MenuItem value={ele.name}>{ele.name}</MenuItem>;
+                                        })}
                                     </Select>
                                 </FormControl>
                             </Grid>
-                        </>
-                    ) : (
-                        <></>
+                            <Grid item>
+                                <TextField
+                                    label={<>Contact</>}
+                                    name="Contact"
+                                    variant="outlined"
+                                    size="small"
+                                    onChange={(e) => handleFilterChange(e)}
+                                    value={filterdata.Contact}
+                                />
+                            </Grid>
+                            {props.formType === 'vendor' ? (
+                                <>
+                                    {' '}
+                                    <Grid item>
+                                        <TextField
+                                            label={<>Licence</>}
+                                            name="Licence"
+                                            variant="outlined"
+                                            size="small"
+                                            onChange={(e) => handleFilterChange(e)}
+                                            value={filterdata.Licence}
+                                        />
+                                    </Grid>
+                                    <Grid item>
+                                        <FormControl className="w-52" size="small">
+                                            <InputLabel>Status</InputLabel>
+                                            <Select value={filterdata.Status} name="Status" onChange={(e) => handleFilterChange(e)}>
+                                                <MenuItem value={0} defaultChecked={true}>
+                                                    New
+                                                </MenuItem>
+                                                <MenuItem value={1}>Updated</MenuItem>
+                                                <MenuItem value={2}>Verified</MenuItem>
+                                                <MenuItem value={3}>InActive</MenuItem>
+                                            </Select>
+                                        </FormControl>
+                                    </Grid>
+                                </>
+                            ) : (
+                                <></>
+                            )}
+                            <Grid item>
+                                <TextField
+                                    label={<>Product</>}
+                                    name="Product"
+                                    variant="outlined"
+                                    size="small"
+                                    onChange={(e) => handleFilterChange(e)}
+                                    value={filterdata.Product}
+                                />
+                            </Grid>
+                            <Grid item>
+                                <Button variant="contained" onClick={() => handleSearch()} style={{ background: '#266293' }}>
+                                    <AiOutlineSearch size={18} /> &nbsp; Search
+                                </Button>
+                            </Grid>
+                        </Grid>
                     )}
-                    <Grid item>
-                        <TextField
-                            label={<>Product</>}
-                            name="Product"
-                            variant="outlined"
-                            size="small"
-                            onChange={(e) => handleFilterChange(e)}
-                            value={filterdata.Product}
-                        />
-                    </Grid>
-                    <Grid item>
-                        <Button variant="contained" onClick={() => handleSearch()}>
-                            <AiOutlineSearch size={18} /> &nbsp; Search
-                        </Button>
-                    </Grid>
-                </Grid>
+                </div>
+            ) : (
+                <></>
             )}
             {!open ? (
                 <>
@@ -485,6 +576,7 @@ const ViewVendor = (props) => {
                             <div style={{ display: 'flex', height: '100%' }}>
                                 <div style={{ flexGrow: 1 }}>
                                     <DataGrid
+                                        rowHeight={40}
                                         rows={allstatedata}
                                         columns={formType === 'vendor' ? columns : Customercolumns}
                                         disableColumnFilter
@@ -518,6 +610,17 @@ const ViewVendor = (props) => {
                     setVendorDetail={setVendorDetail}
                     formType={props.formType}
                 />
+            )}
+            {/* <EnhancedTable /> */}
+            {!open ? (
+                <SpeedDial
+                    onClick={() => props.setValue(1)}
+                    ariaLabel="SpeedDial basic example"
+                    sx={{ position: 'absolute', bottom: 16, right: 50 }}
+                    icon={<FiPlus size={25} />}
+                ></SpeedDial>
+            ) : (
+                <></>
             )}
         </>
     );

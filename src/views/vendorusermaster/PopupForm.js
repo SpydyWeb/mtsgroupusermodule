@@ -7,6 +7,7 @@ import { setDialogueview } from 'store/action/actions';
 import { useFormik } from 'formik';
 import { addLicencedata, addCommunicationdata, addStatedata } from 'store/action/vendorAction';
 import { addroledata, addaccessroledata } from 'store/action/userAction';
+import { ControlledTextField } from 'views/Common/renderutil';
 const PopupForm = (props) => {
     const [headingData, setHeadingdata] = useState(props.headingData);
     const dispatch = useDispatch();
@@ -30,6 +31,19 @@ const PopupForm = (props) => {
                     {headingData?.formfield?.map((ele) => {
                         return (
                             <>
+                                {/* <div className="px-1 w-[18%]">
+                                    <ControlledTextField
+                                        id={ele.name}
+                                        type="text"
+                                        label={ele.label}
+                                        value={values[ele.name]}
+                                        maxLength={50}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        name={ele.name}
+                                    />
+                                    <div sx={{ color: 'red' }}>{errors[ele.name] && touched[ele.name] ? errors[ele.name] : ''}</div>
+                                </div> */}
                                 <TextField
                                     id={ele.name}
                                     label={

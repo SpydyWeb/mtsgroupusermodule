@@ -16,18 +16,22 @@ const ViewTabs = () => {
     }, [location]);
     const handleChange = (event, newValue) => {
         setValue(newValue);
+        newValue;
     };
     return (
         <MainCard>
-            <div className="content-wrapper px-4 pt-2">
-                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+            <div className="content-wrapper">
+                {/* <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                     <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                         <Tab label="View" {...a11yProps(0)} />
                         <Tab label="New" {...a11yProps(1)} />
                     </Tabs>
-                </Box>
+                </Box> */}
                 <TabPanel value={value} index={0}>
-                    <ViewVendor formType={location.pathname === '/admin/viewvendor' ? 'vendor' : 'customer'} />
+                    <ViewVendor
+                        setValue={(newValue) => setValue(newValue)}
+                        formType={location.pathname === '/admin/viewvendor' ? 'vendor' : 'customer'}
+                    />
                 </TabPanel>
                 <TabPanel value={value} index={1}>
                     {location.pathname === '/admin/viewvendor' ? (
