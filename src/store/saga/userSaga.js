@@ -49,7 +49,7 @@ function* deleteroledata(formdata) {
         yield toast.success('Role deleted Succsessfully');
         yield getroledata();
     } else {
-        yield res.json().then((res) => toast.error(res));
+        yield res.json().then((res) => toast.error('You can not delete this role because it is mapped with ' + res));
     }
 }
 function* getaccessroledata() {

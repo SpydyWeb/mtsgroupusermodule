@@ -21,10 +21,13 @@ const ViewAccessRole = () => {
         subroles: []
     });
     const Navigate = useNavigate();
-    useEffect(() => {
+    const fetchData = () => {
         GetMappingsubRole().then((res) => {
             setAccessData(res);
         });
+    };
+    useEffect(() => {
+        fetchData();
     }, []);
     const onDeletehandler = (rolname, subrole) => {
         if (window.confirm('Do you want to delete the access control?')) {
@@ -34,9 +37,10 @@ const ViewAccessRole = () => {
             }).then((res) => {
                 if (res.status === 200) {
                     toast.success('role deleted successfully');
-                    setInterval(() => {
-                        window.location.reload();
-                    }, 1000);
+                    fetchData();
+                    // setInterval(() => {
+                    //     window.location.reload();
+                    // }, 1000);
                 }
             });
         }
@@ -96,10 +100,10 @@ const ViewAccessRole = () => {
                                           <AccordionDetails>
                                               <Typography>
                                                   <div
-                                                      id={`collapse${val.id}`}
-                                                      className="accordion-collapse collapse"
-                                                      aria-labelledby={`heading${val.id}`}
-                                                      data-bs-parent="#accordionExample"
+                                                  //   id={`collapse${val.id}`}
+                                                  //   className="accordion-collapse collapse"
+                                                  //   aria-labelledby={`heading${val.id}`}
+                                                  //   data-bs-parent="#accordionExample"
                                                   >
                                                       <div className="accordion-body p-4">
                                                           {val.subroles.length > 0
@@ -110,6 +114,7 @@ const ViewAccessRole = () => {
                                                                                 label={subVal.name}
                                                                                 variant="outlined"
                                                                                 onDelete={() => onDeletehandler(val.name, subVal.name)}
+                                                                                className="mr-1"
                                                                             />
                                                                         </>
                                                                     );

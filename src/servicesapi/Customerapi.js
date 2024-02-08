@@ -81,7 +81,7 @@ export const Addcustomerfile = (data) => {
         .catch((err) => console.log('File Upload Error'));
 };
 export const GetCustomerFileById = async (id) => {
-    return await fetch(`${Url}GetCustomerFileById?customerid=${id}`, {
+    return await fetch(`${Url}GetCustomerFileById?vendorid=${id}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
